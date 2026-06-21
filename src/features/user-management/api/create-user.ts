@@ -3,7 +3,7 @@ import { prisma } from '@/shared/lib/prisma'
 
 import { z } from 'zod'
 import { createClient } from '@/shared/api/supabase/server'
-import { supabaseAdmin } from '@/shared/lib/supabase-admin'
+import { supabaseAdmin } from '@/shared/api/supabase/admin'
 import { ActionState } from '@/shared/lib/action-state'
 import { revalidatePath } from 'next/cache'
 import { UserRole } from '@prisma/client'

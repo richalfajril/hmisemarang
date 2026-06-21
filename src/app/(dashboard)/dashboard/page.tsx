@@ -1,10 +1,10 @@
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
-import { getCabangDashboardStats, getCommissariatDashboardStats, getTopCommissariatsLeaderboard, getRecentActivityLogs } from '@/features/dashboard/api/queries'
-import { StatCard } from '@/features/dashboard/ui/StatCard'
-import { LeaderboardWidget } from '@/features/dashboard/ui/LeaderboardWidget'
-import { RecentActivityWidget } from '@/features/dashboard/ui/RecentActivityWidget'
-import { PendingQueueWidget } from '@/features/dashboard/ui/PendingQueueWidget'
+import { getCabangDashboardStats, getCommissariatDashboardStats, getTopCommissariatsLeaderboard, getRecentActivityLogs } from '@/widgets/dashboard/api/queries'
+import { StatCard } from '@/widgets/dashboard/ui/StatCard'
+import { LeaderboardWidget } from '@/widgets/dashboard/ui/LeaderboardWidget'
+import { RecentActivityWidget } from '@/widgets/dashboard/ui/RecentActivityWidget'
+import { PendingQueueWidget } from '@/widgets/dashboard/ui/PendingQueueWidget'
 import { FileText, CalendarRange, Building2, BookOpen } from 'lucide-react'
 
 export default async function DashboardOverview() {
@@ -105,7 +105,7 @@ async function CommissariatDashboard({ commissariatId }: { commissariatId: strin
           description="Aktivitas yang tayang ke publik."
         />
       </div>
-      
+
       {stats.articles.rejected > 0 && (
         <div className="p-4 bg-red-50 dark:bg-red-950/20 text-red-800 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg">
           <p className="font-medium">Ada {stats.articles.rejected} artikel Anda yang ditolak.</p>

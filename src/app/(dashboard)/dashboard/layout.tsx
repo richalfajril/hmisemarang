@@ -1,7 +1,7 @@
 import { createClient } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
-import { AppSidebar } from '@/shared/ui/app-sidebar'
-import { SiteHeader } from '@/shared/ui/site-header'
+import { AppSidebar } from '@/widgets/layout/AppSidebar'
+import { SiteHeader } from '@/widgets/layout/SiteHeader'
 import {
   SidebarInset,
   SidebarProvider,

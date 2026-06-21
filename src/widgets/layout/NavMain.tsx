@@ -34,7 +34,6 @@ export function NavMain({
               item.url === "/dashboard"
                 ? pathname === "/dashboard"
                 : pathname?.startsWith(item.url) ?? false
-
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild tooltip={item.title} isActive={isActive}>

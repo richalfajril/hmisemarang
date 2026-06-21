@@ -12,7 +12,7 @@ import { useTransition } from 'react'
 import { softDeleteAlbumAction } from '../api/actions'
 import { toast } from 'sonner'
 import Image from 'next/image'
-import { getOptimizedUrl } from '@/shared/lib/cloudinary-client'
+import { getOptimizedUrl } from '@/shared/lib/cloudinary-upload'
 
 type AlbumEntry = {
   id: string

@@ -11,7 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from '@/shared/ui/command'
-import { useDebounce } from '@/shared/lib/hooks'
+import { useDebounce } from '@/shared/hooks/useDebounce'
 import { globalSearchAction, SearchResult } from '../api/actions'
 
 export function GlobalSearch() {
