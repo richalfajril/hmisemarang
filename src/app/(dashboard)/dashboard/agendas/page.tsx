@@ -10,6 +10,9 @@ import { Prisma } from '@prisma/client'
 
 
 
+import { PageHeader } from '@/shared/ui/page-header'
+import { CalendarRange } from 'lucide-react'
+
 export default async function AgendasPage() {
   const session = await getUserSession()
   
@@ -29,21 +32,19 @@ export default async function AgendasPage() {
   })
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Manajemen Agenda</h1>
-          <p className="text-muted-foreground mt-2">
-            Kelola jadwal kegiatan dan aktivitas acara.
-          </p>
-        </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader 
+        title="Manajemen Agenda" 
+        description="Kelola jadwal kegiatan dan aktivitas acara."
+        icon={CalendarRange}
+      >
         <Link href="/dashboard/agendas/create">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Buat Agenda
           </Button>
         </Link>
-      </div>
+      </PageHeader>
 
       <AgendaList agendas={agendas} />
     </div>

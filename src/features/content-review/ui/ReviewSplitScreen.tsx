@@ -14,6 +14,8 @@ import Link from 'next/link'
 import { ReviewEntityType, ReviewActionEnum } from '../api/schema'
 import Image from 'next/image'
 
+import { BackButton } from '@/shared/ui/back-button'
+
 interface ReviewSplitScreenProps {
   entityType: ReviewEntityType
   entityId: string
@@ -52,11 +54,7 @@ export function ReviewSplitScreen({ entityType, entityId, previewData }: ReviewS
       {/* Left Panel: Preview (Read-Only) */}
       <div className="flex-1 overflow-y-auto border rounded-xl bg-card">
         <div className="p-6 border-b sticky top-0 bg-card/95 backdrop-blur z-10 flex items-center gap-4">
-          <Link href="/dashboard/review-center">
-            <Button variant="outline" size="icon" className="shrink-0">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
+          <BackButton href="/dashboard/review-center" className="shrink-0" />
           <div>
             <h2 className="text-xl font-bold">Pratinjau {entityType === 'ARTICLE' ? 'Artikel' : 'Agenda'}</h2>
             <p className="text-sm text-muted-foreground">Tampilan ini bersifat Read-Only.</p>

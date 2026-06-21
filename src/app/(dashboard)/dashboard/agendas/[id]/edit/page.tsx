@@ -29,7 +29,7 @@ export default async function EditAgendaPage({ params }: { params: Promise<{ id:
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
       <Suspense fallback={<div>Memuat Catatan...</div>}>
         <RevisionNotes entityId={id} entityType="AGENDA" />
       </Suspense>

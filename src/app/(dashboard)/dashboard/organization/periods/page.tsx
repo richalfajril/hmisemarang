@@ -4,6 +4,7 @@ import { createClient } from '@/shared/api/supabase/server'
 import { PeriodList } from '@/features/organization/ui/PeriodList'
 import { CreatePeriodModal } from '@/features/organization/ui/CreatePeriodModal'
 import { Users2Icon } from 'lucide-react'
+import { PageHeader } from '@/shared/ui/page-header'
 
 export const metadata = {
   title: 'Riwayat Kepengurusan - HMI Cabang Semarang',
@@ -28,20 +29,14 @@ export default async function PeriodsPage() {
   })
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-8">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-            <Users2Icon className="h-8 w-8 text-muted-foreground" />
-            Riwayat Kepengurusan
-          </h1>
-          <p className="text-muted-foreground mt-2 max-w-2xl">
-            Manajemen hierarki periode struktur organisasi HMI Cabang Semarang.
-            Hanya ada satu periode yang tampil (Aktif) di Publik pada satu waktu.
-          </p>
-        </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Riwayat Kepengurusan"
+        description="Manajemen hierarki periode struktur organisasi HMI Cabang Semarang. Hanya ada satu periode yang tampil (Aktif) di Publik pada satu waktu."
+        icon={Users2Icon}
+      >
         <CreatePeriodModal />
-      </div>
+      </PageHeader>
 
       <PeriodList items={periods} />
     </div>

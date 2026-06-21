@@ -14,6 +14,7 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { ActivityIcon, ServerCrash } from 'lucide-react'
+import { PageHeader } from '@/shared/ui/page-header'
 
 export const metadata = {
   title: 'Audit Logs - HMI Cabang Semarang',
@@ -47,16 +48,12 @@ export default async function AuditLogsPage(props: { searchParams: Promise<{ pag
   const totalPages = Math.ceil(total / pageSize)
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-          <ActivityIcon className="h-8 w-8 text-muted-foreground" />
-          Log Audit Sistem
-        </h1>
-        <p className="text-muted-foreground mt-2 max-w-2xl">
-          Pusat pengawasan operasional. Merekam seluruh jejak perubahan entitas secara persisten (*Append-Only*).
-        </p>
-      </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Log Audit Sistem"
+        description="Pusat pengawasan operasional. Merekam seluruh jejak perubahan entitas secara persisten (Append-Only)."
+        icon={ActivityIcon}
+      />
 
       <div className="rounded-md border bg-card overflow-x-auto">
         <Table>

@@ -5,6 +5,8 @@ import { UserTable } from '@/features/user-management/ui/UserTable'
 import { CreateUserModal } from '@/features/user-management/ui/CreateUserModal'
 import { UsersIcon } from 'lucide-react'
 
+import { PageHeader } from '@/shared/ui/page-header'
+
 export const metadata = {
   title: 'Manajemen Pengguna - HMI Cabang Semarang',
 }
@@ -46,19 +48,14 @@ export default async function UsersPage() {
   }))
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto py-8 px-4 sm:px-8">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-            <UsersIcon className="h-8 w-8 text-muted-foreground" />
-            Manajemen Pengguna
-          </h1>
-          <p className="text-muted-foreground mt-2 max-w-2xl">
-            Pusat kendali otoritas dan akses. Anda dapat menambahkan pengurus cabang baru atau membuka paksa kunci sandi akun komisariat.
-          </p>
-        </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Manajemen Pengguna"
+        description="Pusat kendali otoritas dan akses. Anda dapat menambahkan pengurus cabang baru atau membuka paksa kunci sandi akun komisariat."
+        icon={UsersIcon}
+      >
         <CreateUserModal commissariats={commissariats} />
-      </div>
+      </PageHeader>
 
       <UserTable users={formattedUsers} currentUserId={currentUser.id} />
     </div>

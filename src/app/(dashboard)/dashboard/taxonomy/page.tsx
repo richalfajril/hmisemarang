@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
 import { TaxonomyTabs } from '@/features/taxonomy/ui/TaxonomyTabs'
 import { FolderTree } from 'lucide-react'
+import { PageHeader } from '@/shared/ui/page-header'
 
 export const metadata = {
   title: 'Manajemen Taksonomi - HMI Cabang Semarang',
@@ -38,17 +39,12 @@ export default async function TaxonomyPage() {
   ])
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-          <FolderTree className="h-8 w-8 text-muted-foreground" />
-          Manajemen Taksonomi
-        </h1>
-        <p className="text-muted-foreground mt-2 max-w-2xl">
-          Klasifikasikan seluruh data publikasi organisasi untuk mempermudah pencarian. 
-          Kategori yang diarsipkan (Nonaktif) akan dihilangkan dari form penulisan baru, namun tidak merusak artikel lama.
-        </p>
-      </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Manajemen Taksonomi"
+        description="Klasifikasikan seluruh data publikasi organisasi untuk mempermudah pencarian. Kategori yang diarsipkan (Nonaktif) akan dihilangkan dari form penulisan baru, namun tidak merusak artikel lama."
+        icon={FolderTree}
+      />
 
       <TaxonomyTabs 
         articleCategories={articleCategories}

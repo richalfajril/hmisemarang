@@ -19,7 +19,7 @@ export default async function NewDocumentPage() {
   })
 
   return (
-    <div className="p-6 max-w-4xl">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
       <DocumentForm categories={categories} />
     </div>
   )

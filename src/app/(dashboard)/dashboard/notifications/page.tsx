@@ -9,6 +9,8 @@ import { Button } from '@/shared/ui/button'
 import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/shared/ui/pagination'
 import { markAllAsReadAction } from '@/features/notifications/api/actions'
 
+import { PageHeader } from '@/shared/ui/page-header'
+
 export const metadata = {
   title: 'Semua Notifikasi - HMI Cabang Semarang',
 }
@@ -41,18 +43,12 @@ export default async function NotificationsPage(props: { searchParams: Promise<{
   const hasUnread = notifications.some(n => !n.is_read)
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4 sm:px-8">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-            <BellIcon className="h-8 w-8 text-muted-foreground" />
-            Pusat Notifikasi
-          </h1>
-          <p className="text-muted-foreground mt-2">
-            Riwayat lengkap pemberitahuan sistem dan pembaruan alur persetujuan konten Anda.
-          </p>
-        </div>
-
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Pusat Notifikasi"
+        description="Riwayat lengkap pemberitahuan sistem dan pembaruan alur persetujuan konten Anda."
+        icon={BellIcon}
+      >
         {hasUnread && (
           <form action={async () => { await markAllAsReadAction(); }}>
             <Button type="submit" variant="outline">
@@ -61,9 +57,9 @@ export default async function NotificationsPage(props: { searchParams: Promise<{
             </Button>
           </form>
         )}
-      </div>
+      </PageHeader>
 
-      <div className="bg-card rounded-md border shadow-sm divide-y">
+      <div className="bg-card rounded-xl border shadow-sm divide-y overflow-hidden">
         {notifications.length === 0 ? (
           <div className="p-12 text-center flex flex-col items-center">
             <MailOpen className="h-12 w-12 mb-4 text-muted-foreground opacity-20" />

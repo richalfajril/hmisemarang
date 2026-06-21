@@ -7,9 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/sha
 import { Badge } from '@/shared/ui/badge'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
-import { FileSpreadsheet } from 'lucide-react'
-
-
+import { FileSpreadsheet, FileCheck } from 'lucide-react'
+import { PageHeader } from '@/shared/ui/page-header'
 
 export default async function CadreVerificationPage() {
   const session = await getUserSession()
@@ -48,13 +47,12 @@ export default async function CadreVerificationPage() {
   const latestVerified = history.find(h => h.status === 'VERIFIED')
 
   return (
-    <div className="p-6 space-y-8 max-w-4xl">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Verifikasi Kader</h1>
-        <p className="text-muted-foreground mt-2">
-          Unggah pangkalan data anggota terbaru dalam format Excel untuk diproses oleh Cabang. Angka kader tervalidasi akan ditampilkan di profil publik Anda.
-        </p>
-      </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Verifikasi Kader"
+        description="Unggah pangkalan data anggota terbaru dalam format Excel untuk diproses oleh Cabang. Angka kader tervalidasi akan ditampilkan di profil publik Anda."
+        icon={FileCheck}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2 space-y-6">

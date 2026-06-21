@@ -8,6 +8,9 @@ import { Suspense } from 'react'
 
 
 
+import { PageHeader } from '@/shared/ui/page-header'
+import { Building2 } from 'lucide-react'
+
 export default async function ProfilePage() {
   const session = await getUserSession()
   
@@ -41,13 +44,12 @@ export default async function ProfilePage() {
   const submissionId = latestSubmission?.id
 
   return (
-    <div className="p-6 space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Profil Komisariat</h1>
-        <p className="text-muted-foreground mt-2">
-          Kelola informasi dan detail kepengurusan. Perubahan memerlukan persetujuan Cabang.
-        </p>
-      </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Profil Komisariat"
+        description="Kelola informasi dan detail kepengurusan. Perubahan memerlukan persetujuan Cabang."
+        icon={Building2}
+      />
 
       {latestSubmission?.id && (
         <Suspense fallback={<div>Memuat Catatan...</div>}>

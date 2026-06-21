@@ -6,6 +6,9 @@ import { ReviewQueue } from '@/features/content-review/ui/ReviewQueue'
 
 
 
+import { PageHeader } from '@/shared/ui/page-header'
+import { ClipboardCheck } from 'lucide-react'
+
 export default async function ReviewCenterPage() {
   const session = await getUserSession()
   
@@ -46,13 +49,12 @@ export default async function ReviewCenterPage() {
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Review Center</h1>
-        <p className="text-muted-foreground mt-2">
-          Pusat antrean persetujuan konten dari seluruh Komisariat.
-        </p>
-      </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Review Center"
+        description="Pusat antrean persetujuan konten dari seluruh Komisariat."
+        icon={ClipboardCheck}
+      />
 
       <ReviewQueue 
         articles={articles} 

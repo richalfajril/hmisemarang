@@ -6,6 +6,8 @@ import { Button } from '@/shared/ui/button'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
+import { PageHeader } from '@/shared/ui/page-header'
+
 export const metadata = {
   title: 'Susunan Pengurus - HMI Cabang Semarang',
 }
@@ -32,21 +34,13 @@ export default async function PeriodDetailPage(props: { params: Promise<{ id: st
   if (!period) redirect('/dashboard/organization/periods')
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-8">
-      <div className="mb-8">
-        <Button variant="ghost" className="-ml-4 mb-4">
-          <Link href="/dashboard/organization/periods" className="flex items-center">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Kembali ke Daftar Periode
-          </Link>
-        </Button>
-        <h1 className="text-3xl font-bold tracking-tight">
-          Susunan Kepengurusan {period.start_year}-{period.end_year}
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          Tambahkan nama jabatan struktural lalu isi dengan anggota pengurus yang bersangkutan.
-        </p>
-      </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title={`Susunan Kepengurusan ${period.start_year}-${period.end_year}`}
+        description="Tambahkan nama jabatan struktural lalu isi dengan anggota pengurus yang bersangkutan."
+        backHref="/dashboard/organization/periods"
+        backLabel="Daftar Periode"
+      />
 
       <PositionList periodId={period.id} positions={period.positions} />
     </div>

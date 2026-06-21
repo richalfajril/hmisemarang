@@ -21,7 +21,7 @@ export default async function EditAlbumPage({ params }: { params: Promise<{ id: 
   if (!album) notFound()
 
   return (
-    <div className="p-6 max-w-4xl">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
       <AlbumForm initialData={album} />
     </div>
   )

@@ -10,6 +10,9 @@ import { Prisma } from '@prisma/client'
 
 
 
+import { PageHeader } from '@/shared/ui/page-header'
+import { FileText } from 'lucide-react'
+
 export default async function ArticlesPage() {
   const session = await getUserSession()
   
@@ -35,21 +38,19 @@ export default async function ArticlesPage() {
   })
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Manajemen Artikel</h1>
-          <p className="text-muted-foreground mt-2">
-            Kelola publikasi artikel berita, opini, dan kajian.
-          </p>
-        </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Manajemen Artikel"
+        description="Kelola publikasi artikel berita, opini, dan kajian."
+        icon={FileText}
+      >
         <Link href="/dashboard/articles/create">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Tulis Artikel
           </Button>
         </Link>
-      </div>
+      </PageHeader>
 
       <ArticleList articles={articles} />
     </div>

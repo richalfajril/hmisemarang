@@ -12,6 +12,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/sha
 import { FileText, Loader2, UploadCloud, AlertCircle } from 'lucide-react'
 import { DocumentCategory } from '@prisma/client'
 import Link from 'next/link'
+import { PageHeader } from '@/shared/ui/page-header'
 
 interface DocumentFormProps {
   initialData?: {
@@ -30,26 +31,35 @@ export function DocumentForm({ initialData, categories }: DocumentFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <Card className="max-w-3xl">
-      <CardHeader>
-        <CardTitle>{initialData ? 'Edit Dokumen' : 'Unggah Dokumen Baru'}</CardTitle>
-        <CardDescription>Format wajib PDF. Maksimal ukuran file 20MB.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {!state?.success && state?.message && (
-          <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 mb-6 text-sm text-destructive">
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            <p>{state.message}</p>
-          </div>
-        )}
-        {state?.success && (
-          <div className="flex items-center gap-2 rounded-md bg-green-500/15 p-4 mb-6 text-sm text-green-600">
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            <p>{state.message}</p>
-          </div>
-        )}
+    <form action={formAction} className="space-y-6 max-w-4xl">
+      <PageHeader
+        title={initialData ? 'Edit Dokumen' : 'Unggah Dokumen Baru'}
+        description="Pilih berkas format PDF dengan ukuran maksimal 20MB untuk dipublikasikan."
+        backHref="/dashboard/documents"
+      >
+        <Link href="/dashboard/documents">
+          <Button type="button" variant="outline" disabled={isPending}>Batal</Button>
+        </Link>
+        <Button type="submit" disabled={isPending}>
+          {isPending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Menyimpan...</> : <><UploadCloud className="mr-2 h-4 w-4" /> Simpan Dokumen</>}
+        </Button>
+      </PageHeader>
 
-        <form action={formAction} className="space-y-6">
+      <Card className="max-w-4xl">
+        <CardContent className="pt-6">
+          {!state?.success && state?.message && (
+            <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 mb-6 text-sm text-destructive">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <p>{state.message}</p>
+            </div>
+          )}
+          {state?.success && (
+            <div className="flex items-center gap-2 rounded-md bg-green-500/15 p-4 mb-6 text-sm text-green-600">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <p>{state.message}</p>
+            </div>
+          )}
+
           {initialData?.id && <input type="hidden" name="id" value={initialData.id} />}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -145,16 +155,8 @@ export function DocumentForm({ initialData, categories }: DocumentFormProps) {
             </div>
           </div>
 
-          <div className="flex gap-2 justify-end border-t pt-4">
-            <Link href="/dashboard/documents">
-              <Button type="button" variant="outline" disabled={isPending}>Batal</Button>
-            </Link>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Menyimpan...</> : <><UploadCloud className="mr-2 h-4 w-4" /> Simpan Dokumen</>}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </form>
   )
 }

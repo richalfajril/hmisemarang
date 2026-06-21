@@ -257,6 +257,7 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * `[x]` **Database Tasks:** Operasi komputasi agregasi untuk menduduki *Top 5 Commissariats* (Terbanyak Publikasi).
 * `[x]` **API Tasks:** Telusur cerdas *debounced* mencakup artikel, agenda, dokumen, komisariat, dan struktur organisasi berdasarkan relevansi.
 * `[x]` **UI Tasks:** *Command Palette (Dialog)* pintasan kibor `Ctrl+K`.
+* `[x]` **UI Tasks:** Standarisasi padding, margin, tombol back, serta implementasi RSC streaming dan skeleton di dasbor.
 
 ### Deliverables
 * Indikator *Metrics Dashboard* elegan dan pencarian omnibox super cepat (*Search everything*).

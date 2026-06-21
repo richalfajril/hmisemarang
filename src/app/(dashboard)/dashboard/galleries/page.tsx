@@ -9,6 +9,9 @@ import Link from 'next/link'
 
 
 
+import { PageHeader } from '@/shared/ui/page-header'
+import { Images } from 'lucide-react'
+
 export default async function GalleriesPage() {
   const session = await getUserSession()
   
@@ -27,21 +30,19 @@ export default async function GalleriesPage() {
   })
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Manajemen Galeri</h1>
-          <p className="text-muted-foreground mt-2">
-            Pusat arsip dokumentasi visual kegiatan HMI Cabang Semarang.
-          </p>
-        </div>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title="Manajemen Galeri"
+        description="Pusat arsip dokumentasi visual kegiatan HMI Cabang Semarang."
+        icon={Images}
+      >
         <Link href="/dashboard/galleries/new">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Buat Album Baru
           </Button>
         </Link>
-      </div>
+      </PageHeader>
 
       <AlbumList albums={albums} />
     </div>

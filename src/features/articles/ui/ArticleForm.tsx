@@ -12,8 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { TiptapEditor } from '@/shared/ui/editor/TiptapEditor'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
 import { Article, ArticleCategory } from '@prisma/client'
-import { Loader2, Save, AlertCircle, ArrowLeft } from 'lucide-react'
+import { Loader2, Save, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
+import { PageHeader } from '@/shared/ui/page-header'
 
 interface ArticleFormProps {
   initialData?: Article
@@ -28,25 +29,19 @@ export function ArticleForm({ initialData, categories }: ArticleFormProps) {
 
   return (
     <form action={formAction} className="space-y-8 max-w-4xl">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link href="/dashboard/articles">
-            <Button variant="outline" size="icon" type="button">
-              <ArrowLeft className="h-4 w-4" />
-            </Button>
-          </Link>
-          <h2 className="text-2xl font-bold">{initialData ? 'Edit Draf Artikel' : 'Tulis Artikel Baru'}</h2>
-        </div>
-        <div className="flex gap-2">
-          <Link href="/dashboard/articles">
-            <Button variant="outline" type="button">Batal</Button>
-          </Link>
-          <Button type="submit" disabled={isPending}>
-            {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-            Simpan Draf
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title={initialData ? 'Edit Draf Artikel' : 'Tulis Artikel Baru'}
+        description={initialData ? 'Perbarui informasi draf artikel Anda.' : 'Tulis draf artikel baru untuk dipublikasikan setelah disetujui.'}
+        backHref="/dashboard/articles"
+      >
+        <Link href="/dashboard/articles">
+          <Button variant="outline" type="button" disabled={isPending}>Batal</Button>
+        </Link>
+        <Button type="submit" disabled={isPending}>
+          {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
+          Simpan Draf
+        </Button>
+      </PageHeader>
 
       {!state?.success && state?.message && (
         <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive animate-in slide-in-from-top-2">

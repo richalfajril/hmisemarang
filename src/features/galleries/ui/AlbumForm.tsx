@@ -13,6 +13,7 @@ import { Loader2, Save, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
+import { PageHeader } from '@/shared/ui/page-header'
 
 interface AlbumFormProps {
   initialData?: {
@@ -34,29 +35,38 @@ export function AlbumForm({ initialData }: AlbumFormProps) {
     }
   }, [state?.success, initialData, router])
 
-  return (
-    <Card className="max-w-2xl">
-      <CardHeader>
-        <CardTitle>{initialData ? 'Edit Informasi Album' : 'Buat Album Baru'}</CardTitle>
-        <CardDescription>
-          {initialData ? 'Perbarui metadata album.' : 'Setelah album dibuat, Anda akan dapat mengunggah foto ke dalamnya.'}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        {!state?.success && state?.message && (
-          <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 mb-6 text-sm text-destructive">
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            <p>{state.message}</p>
-          </div>
-        )}
-        {state?.success && initialData && (
-          <div className="flex items-center gap-2 rounded-md bg-green-500/15 p-4 mb-6 text-sm text-green-600">
-            <AlertCircle className="h-4 w-4 shrink-0" />
-            <p>{state.message}</p>
-          </div>
-        )}
+  const cancelHref = initialData ? `/dashboard/galleries/${initialData.id}` : '/dashboard/galleries'
 
-        <form action={formAction} className="space-y-6">
+  return (
+    <form action={formAction} className="space-y-6 max-w-4xl">
+      <PageHeader
+        title={initialData ? 'Edit Informasi Album' : 'Buat Album Baru'}
+        description={initialData ? 'Perbarui metadata album.' : 'Setelah album dibuat, Anda akan dapat mengunggah foto ke dalamnya.'}
+        backHref={cancelHref}
+      >
+        <Link href={cancelHref}>
+          <Button type="button" variant="outline" disabled={isPending}>Batal</Button>
+        </Link>
+        <Button type="submit" disabled={isPending}>
+          {isPending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Menyimpan...</> : <><Save className="mr-2 h-4 w-4" /> {initialData ? 'Simpan Perubahan' : 'Buat Album'}</>}
+        </Button>
+      </PageHeader>
+
+      <Card className="max-w-4xl">
+        <CardContent className="pt-6">
+          {!state?.success && state?.message && (
+            <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 mb-6 text-sm text-destructive">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <p>{state.message}</p>
+            </div>
+          )}
+          {state?.success && initialData && (
+            <div className="flex items-center gap-2 rounded-md bg-green-500/15 p-4 mb-6 text-sm text-green-600">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <p>{state.message}</p>
+            </div>
+          )}
+
           {initialData?.id && <input type="hidden" name="id" value={initialData.id} />}
 
           <div className="space-y-2">
@@ -100,16 +110,8 @@ export function AlbumForm({ initialData }: AlbumFormProps) {
             {state?.fieldErrors?.status && <p className="text-xs text-destructive">{state.fieldErrors.status[0]}</p>}
           </div>
 
-          <div className="flex gap-2 justify-end border-t pt-4">
-            <Link href={initialData ? `/dashboard/galleries/${initialData.id}` : '/dashboard/galleries'}>
-              <Button type="button" variant="outline" disabled={isPending}>Batal</Button>
-            </Link>
-            <Button type="submit" disabled={isPending}>
-              {isPending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Menyimpan...</> : <><Save className="mr-2 h-4 w-4" /> {initialData ? 'Simpan Perubahan' : 'Buat Album'}</>}
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </form>
   )
 }

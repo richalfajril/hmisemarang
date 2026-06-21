@@ -10,7 +10,7 @@ export default async function NewAlbumPage() {
   }
 
   return (
-    <div className="p-6 max-w-4xl">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
       <AlbumForm />
     </div>
   )

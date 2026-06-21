@@ -5,10 +5,9 @@ import { redirect, notFound } from 'next/navigation'
 import { PhotoGrid } from '@/features/galleries/ui/PhotoGrid'
 import { Badge } from '@/shared/ui/badge'
 import { Button } from '@/shared/ui/button'
-import { ArrowLeft, Edit } from 'lucide-react'
+import { Edit } from 'lucide-react'
 import Link from 'next/link'
-
-
+import { PageHeader } from '@/shared/ui/page-header'
 
 export default async function AlbumDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getUserSession()
@@ -30,34 +29,29 @@ export default async function AlbumDetailsPage({ params }: { params: Promise<{ i
   if (!album) notFound()
 
   return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center gap-4 mb-2">
-        <Link href="/dashboard/galleries">
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-        </Link>
-        <div className="flex-1">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+      <PageHeader
+        title={
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight">{album.title}</h1>
+            <span>{album.title}</span>
             <Badge 
               variant={album.status === 'PUBLISHED' ? 'default' : album.status === 'DRAFT' ? 'secondary' : 'outline'}
-              className={album.status === 'PUBLISHED' ? 'bg-green-500' : ''}
+              className={album.status === 'PUBLISHED' ? 'bg-green-500 hover:bg-green-500 text-white border-transparent' : ''}
             >
               {album.status}
             </Badge>
           </div>
-          {album.description && (
-            <p className="text-muted-foreground mt-2 max-w-3xl">{album.description}</p>
-          )}
-        </div>
+        }
+        description={album.description || undefined}
+        backHref="/dashboard/galleries"
+      >
         <Link href={`/dashboard/galleries/${album.id}/edit`}>
           <Button variant="outline">
             <Edit className="mr-2 h-4 w-4" />
             Edit Info
           </Button>
         </Link>
-      </div>
+      </PageHeader>
 
       <div className="border-t pt-6 mt-6">
         <PhotoGrid 

@@ -11,7 +11,7 @@ export default async function CreateAgendaPage() {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
       <Suspense fallback={<div className="h-[500px] flex items-center justify-center">Memuat...</div>}>
         <AgendaForm />
       </Suspense>
