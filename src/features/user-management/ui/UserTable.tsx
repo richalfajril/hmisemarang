@@ -11,7 +11,7 @@ import {
 } from '@/shared/ui/table'
 import { Badge } from '@/shared/ui/badge'
 import { Button } from '@/shared/ui/button'
-import { forceResetPasswordAction } from '../api/force-reset'
+import { forceResetPasswordAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Loader2, KeyRound, AlertCircle } from 'lucide-react'
 

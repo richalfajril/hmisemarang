@@ -1,14 +1,9 @@
 'use server'
 
-import { z } from 'zod'
 import { createClient } from '@/shared/api/supabase/server'
 import { ActionState } from '@/shared/lib/action-state'
 import { redirect } from 'next/navigation'
-
-const loginSchema = z.object({
-  email: z.string().email('Format email tidak valid'),
-  password: z.string().min(1, 'Kata sandi wajib diisi'),
-})
+import { loginSchema } from './schema'
 
 export async function loginAction(
   prevState: ActionState | null,
@@ -43,4 +38,10 @@ export async function loginAction(
 
   // Pengalihan hanya dilakukan jika sukses. Next.js mewajibkan ini tidak ditangkap oleh blok try-catch.
   redirect('/dashboard')
+}
+
+export async function logoutAction() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/login')
 }

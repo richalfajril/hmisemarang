@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
-import { updateSettingsAction } from '../api/update-settings'
+import { updateSettingsAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'

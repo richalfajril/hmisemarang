@@ -328,7 +328,8 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ## Adjustments (Unplanned Features)
 *(Area ini difungsikan murni untuk mencatat secara historis semua tugas ad-hoc atau perombakan darurat yang memaksa masuk di tengah-tengah rentang masa iterasi. Kosong secara baku).*
-- Tidak ada penyesuaian (*adjustment*) hingga titik ini.
+- **Dashboard Layout & Performance Refactoring (2026-06-22):** Refaktorisasi padding, margin, back button terpadu, dan rendering non-blocking dengan Suspense & skeletons.
+- **FSD Safe Refactoring & Codebase Cleanup (2026-06-22):** Penyelarasan arsitektur kode FSD (pemindahan widget & layout, penyelarasan nama file/folder actions.ts & schema.ts, pembersihan file usang).
 
 ## Backlog
 *(Area persemayaman seluruh antrean harapan dan daftar cita-cita (wishlist) pengembangan masa depan yang dikaji bernilai namun ditendang dari gerbong utama MVP untuk mempertahankan rentang fokus waktu tim).*

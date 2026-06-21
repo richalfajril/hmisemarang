@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState, useState, useEffect } from 'react'
-import { createUserAction } from '../api/create-user'
+import { createUserAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import {
   Dialog,

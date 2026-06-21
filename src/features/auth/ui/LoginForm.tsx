@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
-import { loginAction } from '../api/login'
+import { loginAction } from '../api/actions'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
