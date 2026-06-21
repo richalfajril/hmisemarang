@@ -119,9 +119,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Bel *Notifications* (Penerima).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Fungsi injeksi pasif *Append-Only* ke `audit_logs`.
-* `[ ]` **UI Tasks:** Tabel jejak aktivitas (*Audit Table*) dengan *IP Tracker* sederhana.
-* `[ ]` **API Tasks:** Konfigurasi pemanggilan berkala Lonceng *header* melalui TanStack Query.
+* `[x]` **Database Tasks:** Fungsi injeksi pasif *Append-Only* ke `audit_logs`.
+* `[x]` **UI Tasks:** Tabel jejak aktivitas (*Audit Table*) dengan *IP Tracker* sederhana.
+* `[x]` **API Tasks:** Konfigurasi pemanggilan berkala Lonceng *header* melalui TanStack Query.
 
 ### Deliverables
 * Mata-mata log aktivitas bekerja tanpa terlihat dari pengguna (`background trace`).
@@ -200,8 +200,8 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ### Checklist
 * `[ ]` **Database Tasks:** Modifikasi *record* duplikasi data dari draf ditarik menimpa tabel tayang profil.
-* `[ ]` **Storage Tasks:** Penampungan fail verifikasi kader Excel ke Supabase **Secure/Private Bucket**.
-* `[ ]` **Permission Tasks:** Cabang berhak membaca Excel rahasia via skema *Signed URLs*.
+* `[ ]` **Storage Tasks:** Penampungan fail verifikasi kader Excel ke Cloudinary menggunakan skema akses terotentikasi (*Secure Signed URLs*).
+* `[ ]` **Permission Tasks:** Cabang berhak membaca Excel rahasia via skema *Signed URLs* Cloudinary.
 
 ### Deliverables
 * Form mutasi identitas sosial organisasi tingkat bawah dan alat kepatuhan administrasi tertutup.
@@ -216,8 +216,8 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 <summary><h2>v1.7.0 Media & Files</h2></summary>
 
 **Focus:** Deposito gambar, rak buku dokumen organisasi publik, dan galeri kolektif.
-**Target:** Penyediaan memori awan tak terbatas untuk media CMS via *Public Buckets*.
-**Dependencies:** Kapasitas Supabase Storage (diinisialisasi pada `v1.0.0`).
+**Target:** Penyediaan memori awan tak terbatas untuk media CMS via Cloudinary.
+**Dependencies:** Konfigurasi *Environment* Cloudinary (`CLOUDINARY_URL`).
 
 ### Features
 **CMS Cabang**
@@ -226,15 +226,15 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ### Checklist
 * `[ ]` **Storage Tasks:** Operasi batas ukuran maksimal 5MB per media untuk memproteksi kelebihan tagihan peladen.
-* `[ ]` **Storage Tasks:** Penanganan siklus hidup media (*Replace file* saat *update*, *Delete file* fisik awan saat *record* dihapus).
-* `[ ]` **API Tasks:** Kueri *Supabase uploader* (*Upload/Remove asset*).
+* `[ ]` **Storage Tasks:** Penanganan siklus hidup media (*Replace file* saat *update*, *Delete file* fisik awan via *Destroy API* Cloudinary saat *record* dihapus).
+* `[ ]` **API Tasks:** Kueri *Cloudinary Node.js SDK* (*Upload/Remove asset*).
 * `[ ]` **UI Tasks:** Papan jatuhkan berkas (*Drag and drop zone*) masal.
 
 ### Deliverables
 * Ruang penyimpanan berkas interaktif dan terkelompok (*Folder-like albums*) yang dikelola sepihak oleh Cabang tanpa perlu masuk *Review Center*.
 
 ### Success Criteria
-* Gambar yang disuntik dari `Tiptap` atau `Gallery` merender ekstensi modern `webp` otomatis di web secara optis. Kegagalan penghapusan arsip media tak menyisakan fail yatim piatu yang membengkak di Supabase *Bucket*.
+* Gambar yang disuntik dari `Tiptap` atau `Gallery` diotomatisasi kompresinya (ekstensi modern `webp`/`avif`) lewat URL Cloudinary secara optis. Kegagalan penghapusan arsip media tak menyisakan fail yatim piatu yang membengkak di *Cloudinary*.
 </details>
 
 ---

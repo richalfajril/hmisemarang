@@ -46,7 +46,7 @@ Log aktivitas untuk aksi:
 
 ## Edge Cases
 * Nama dokumen sangat panjang melampaui lebar tabel. Harus dipotong dengan elipsis (`...`) pada UI.
-* Mencoba mengunggah format Microsoft Word. Zod Validation atau Supabase *client* akan menolak sebelum data dilempar ke *bucket*.
+* Mencoba mengunggah format Microsoft Word. Zod Validation akan menolak sebelum data dilempar ke *Cloudinary*.
 
 ## UI Behavior
 * Tampilan mirip dengan File Explorer. Tabel data berisi kolom Ukuran Berkas, Tanggal Publikasi, dan Ekstensi.

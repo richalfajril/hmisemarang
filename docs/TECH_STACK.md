@@ -254,16 +254,24 @@ docs/ROLE_PERMISSION_MATRIX.md
 
 # Storage
 
-## Supabase Storage
+## Cloudinary
 
 Purpose:
 
+* Media Optimization Pipeline
 * Article images
 * Agenda flyers
 * Gallery photos
 * Logos
 * Favicon
-* PDF Documents
+* PDF Documents / Secure Verifications
+
+Reason:
+
+* Dedicated media CDN
+* Built-in on-the-fly image transformations (resize, webp/avif)
+* Avoids Next.js image proxy bottlenecks
+* Reduces Vercel/Supabase bandwidth usage
 
 ---
 

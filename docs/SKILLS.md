@@ -116,8 +116,8 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 ## 9. Supabase Conventions
 
 * **Auth:** Verifikasi sesi *server-side* selalu merujuk pada *helper* `@supabase/ssr` `createServerClient`.
-* **Storage & File Uploads:** Validasi ukuran (misal maksimal 5MB) dan ekstensi MIME *file* (WebP, JPG, PDF) SEBELUM dilempar ke Supabase Storage.
-* **Bucket Usage:** `public-media` untuk foto logo/galeri (bisa dibaca dunia), `secure-documents` dan `secure-verifications` diakses khusus.
+* **Storage Interaction:** Agent harus memisahkan unggahan file ke layanan eksternal (Cloudinary). Server Action mengurus *buffer* ke API Cloudinary.
+* **Bucket Usage:** Folder `public-media` untuk foto logo/galeri (bisa dibaca dunia), `secure-documents` dan `secure-verifications` di Cloudinary diakses khusus.
 * **Service Role Key:** Kunci *Service Role* (`SUPABASE_SERVICE_ROLE_KEY`) TIDAK BOLEH sekalipun dibocorkan ke *Client Component*.
 
 ---

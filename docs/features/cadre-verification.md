@@ -17,9 +17,9 @@ Modul ini digunakan oleh komisariat untuk melaporkan jumlah data kader terbaru m
 6. Jika disetujui, kolom `row_count` divalidasi dan jumlah profil kader komisariat diperbarui.
 
 ## Requirements
-* Setiap entitas `cadre_verifications` wajib merekam rekam jejak `commissariat_id`, lokasi berkas di *bucket*, dan status peninjauan.
-* Hanya satu berkas per komisariat yang bisa memiliki status `PENDING` pada satu waktu.
-* URL berkas disimpan di keranjang tertutup (*secure-verifications bucket*), BUKAN di keranjang publik.
+* Setiap entitas `cadre_verifications` wajib merekam rekam jejak `commissariat_id`, lokasi berkas di *Cloudinary*, dan status peninjauan.
+* Hanya satu berkas verifikasi aktif (status `PENDING` atau `APPROVED`) yang diizinkan per periode.
+* URL berkas disimpan di keranjang tertutup (*secure-verifications* di Cloudinary menggunakan tipe *private*/*authenticated*), BUKAN di folder publik.
 
 ## Validation Rules
 * **Upload:** Format hanya menerima ekstensi Microsoft Excel (`.xlsx` atau `.xls`).

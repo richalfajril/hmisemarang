@@ -38,31 +38,7 @@ Karena skema data kita memiliki relasi yang erat dengan tabel `users` (seperti `
 
 ---
 
-## 4. Storage Bucket Strategy
-
-Manajemen file menggunakan Supabase Storage. File dikelompokkan ke dalam 3 *bucket* berdasarkan visibilitas dan keamanannya:
-
-### 1. `public-media`
-* **Visibility:** Public
-* **Purpose:** Menyimpan media visual publik seperti logo komisariat, flyer agenda, foto galeri, dan foto pengurus.
-* **Upload Permissions:** Hanya Authenticated Users (via Application Layer).
-* **Access Permissions:** Public (Siapa saja dapat melihat/mengunduh gambar).
-
-### 2. `secure-documents`
-* **Visibility:** Private
-* **Purpose:** Menyimpan file PDF Modul Dokumen (Publik). Meskipun dokumen ini ditujukan untuk publik, pengunduhan akan dilayani melalui Application Layer untuk keperluan *tracking* atau pembatasan tertentu.
-* **Upload Permissions:** Authenticated Users (ADMIN_CABANG via Application Layer).
-* **Access Permissions:** Private (Hanya dapat diakses melalui Application Layer menggunakan Supabase Admin Client atau Signed URL).
-
-### 3. `secure-verifications`
-* **Visibility:** Private
-* **Purpose:** Menyimpan file Excel verifikasi kader. Ini adalah dokumen sangat rahasia.
-* **Upload Permissions:** Authenticated Users (ADMIN_KOMISARIAT via Application Layer).
-* **Access Permissions:** Private (Hanya dapat diakses oleh SYSTEM_ADMIN dan ADMIN_CABANG, atau uploader-nya sendiri via Application Layer).
-
----
-
-## 5. Prisma Integration Strategy
+## 4. Prisma Integration Strategy
 
 * **Connection Mode:** Prisma terhubung menggunakan **Connection Pooler** dari Supabase (Transaction mode).
 * **Direct URL:** Digunakan secara spesifik untuk menjalankan migrasi skema (`prisma migrate`).
@@ -70,7 +46,7 @@ Manajemen file menggunakan Supabase Storage. File dikelompokkan ke dalam 3 *buck
 
 ---
 
-## 6. Migration Workflow
+## 5. Migration Workflow
 
 Manajemen perubahan skema database sepenuhnya diatur oleh **Prisma**. Kita tidak menggunakan Supabase Migrations agar ORM dan Database selalu sinkron.
 
@@ -81,7 +57,7 @@ Manajemen perubahan skema database sepenuhnya diatur oleh **Prisma**. Kita tidak
 
 ---
 
-## 7. Local Development Setup
+## 6. Local Development Setup
 
 Untuk menjalankan environment secara lokal:
 1. Jalankan `supabase start` (menggunakan Supabase CLI) untuk membuat kontainer Postgres, Auth, dan Storage lokal.
@@ -91,12 +67,13 @@ Untuk menjalankan environment secara lokal:
 
 ---
 
-## 8. Production Setup
+## 7. Production Setup
 
 Untuk deployment ke lingkungan Production / Staging:
 1. Buat proyek baru di dashboard Supabase.
 2. Dapatkan *Transaction Connection String* (untuk `DATABASE_URL`) dan *Session Connection String* (untuk `DIRECT_URL`).
-3. Buat *Storage Buckets* sesuai spesifikasi di atas dan atur konfigurasinya menjadi Public/Private.
-4. Terapkan skrip SQL untuk *User Synchronization Trigger*.
-5. Masukkan *environment variables* ke dalam Vercel Project.
-6. Trigger proses deployment Vercel.
+3. Jalankan `npx prisma db push` untuk mencocokkan skema dan memicu *Trigger* sinkronisasi di atas.
+4. Siapkan *Environment Variables* Cloudinary untuk manajemen media, karena Supabase Storage tidak digunakan lagi.
+5. Terapkan skrip SQL untuk *User Synchronization Trigger*.
+6. Masukkan *environment variables* ke dalam Vercel Project.
+7. Trigger proses deployment Vercel.

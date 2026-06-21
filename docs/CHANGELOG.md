@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### v1.3.0 Observability
+* Implemented `logAuditAction` passive injection for recording persistent (Append-Only) activity logs.
+* Added `/dashboard/audit-logs` viewer page with standard server-side pagination.
+* Created Notification System utility (`createNotification`) for generating system updates.
+* Implemented `NotificationBell` in the global dashboard layout using TanStack Query for 30s polling.
+* Added `/dashboard/notifications` page for managing all historical notifications.
+* Integrated `logAuditAction` into `Taxonomy` features (Article Category, Document Category, Tag).
+
 #### Documentation
 
 * Created `PRD.md`
@@ -21,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Created `decisions/001-authentication.md`
 * Created `decisions/002-document-module.md`
 * Created `decisions/003-database-readiness.md`
+* Created `decisions/004-cloudinary-migration.md`
 * Created `ROADMAP.md`
 
 #### Product Modules
@@ -66,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Product Decisions
 
+* **ADR 004: Migrated Media Storage from Supabase Storage to Cloudinary.**
 * Dashboard leaderboard restricted to Top 5 Commissariats.
 * Global Search priority defined: Relevance first, then Published Date DESC.
 * Content Review concurrency handled via Prisma Transactions (no version column/optimistic locking).

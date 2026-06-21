@@ -27,3 +27,32 @@ export async function createClient() {
     }
   )
 }
+
+import { prisma } from '@/shared/lib/prisma'
+
+export async function getUserSession() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user || !user.email) return null
+
+  const dbUser = await prisma.user.findUnique({
+    where: { email: user.email },
+  })
+
+  if (!dbUser) return null
+
+  return {
+    user: {
+      ...user,
+      id: dbUser.id,
+      role: dbUser.role,
+      commissariatId: dbUser.commissariat_id,
+    },
+    // Mocking request IP for now since we can't easily get it here
+    request: {
+      ip: '127.0.0.1',
+      userAgent: 'Next.js Server',
+    }
+  }
+}

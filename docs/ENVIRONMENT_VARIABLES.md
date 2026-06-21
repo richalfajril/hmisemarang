@@ -57,24 +57,22 @@ Karena manajemen sesi pengguna diserahkan kepada klien dan server secara bersama
 
 ---
 
-## 4. Storage
+## 4. Storage / Media
 
-Meskipun secara teknis URL *storage* dapat ditarik menggunakan Supabase Client, menyimpan nama *bucket* di konfigurasi global memudahkan fleksibilitas dan keamanan.
+* **Name:** `CLOUDINARY_CLOUD_NAME`
+  * **Required:** Yes
+  * **Location:** `.env` & `.env.production`
+  * **Purpose:** Nama akun Cloudinary untuk penyimpanan berkas.
 
-* **Name:** `NEXT_PUBLIC_MEDIA_BUCKET`
-* **Required:** Yes
-* **Example:** `public-media`
-* **Purpose:** Nama bucket untuk gambar, logo, dan flyer.
+* **Name:** `CLOUDINARY_API_KEY`
+  * **Required:** Yes
+  * **Location:** `.env` & `.env.production`
+  * **Purpose:** Kunci publik API Cloudinary.
 
-* **Name:** `SECURE_DOCUMENTS_BUCKET`
-* **Required:** Yes
-* **Example:** `secure-documents`
-* **Purpose:** Nama bucket untuk file dokumen yang dilayani melalui jalur aplikasi (bersifat rahasia bagi klien).
-
-* **Name:** `SECURE_VERIFICATIONS_BUCKET`
-* **Required:** Yes
-* **Example:** `secure-verifications`
-* **Purpose:** Nama bucket khusus verifikasi kader, murni diakses melalui jalur *service role*.
+* **Name:** `CLOUDINARY_API_SECRET`
+  * **Required:** Yes
+  * **Location:** `.env.local` & Vercel Dashboard
+  * **Purpose:** Kunci rahasia API Cloudinary. Digunakan secara eksklusif di Server Actions untuk manipulasi dan pengunggahan berkas secara aman. **JANGAN PERNAH MENGEKSPOS INI KE KLIEN.**
 
 ---
 
