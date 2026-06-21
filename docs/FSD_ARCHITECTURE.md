@@ -160,7 +160,7 @@ Dengan arsitektur Next.js App Router, mutasi data dilakukan menggunakan **Server
 ## 9. Supabase Integration
 
 * **Instansiasi Client:** Disimpan di `shared/api/supabase/server.ts` dan `client.ts` menggunakan `@supabase/ssr`.
-* **Auth:** Fitur login (Server Actions) diletakkan di `features/auth/api/actions.ts`. Middleware Next.js (`middleware.ts` di *root* proyek) memvalidasi token dari *cookies* untuk memproteksi rute CMS `/dashboard`.
+* **Auth:** Fitur login (Server Actions) diletakkan di `features/auth/api/actions.ts`. Middleware Next.js (`proxy.ts` di *root* proyek) memvalidasi token dari *cookies* untuk memproteksi rute CMS `/dashboard`.
 * **Storage:** Logika unggah/unduh file diletakkan di `shared/lib/storage.ts`. Server Actions akan menggunakan `SUPABASE_SERVICE_ROLE_KEY` untuk menghasilkan *Signed URLs* untuk *bucket* privat seperti `secure-verifications`.
 
 ---

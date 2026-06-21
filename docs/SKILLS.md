@@ -41,13 +41,18 @@ export async function getUserProfile(userId: string): Promise<ActionState<User>>
 
 ## 3. Naming Conventions
 
-* **Files & Folders:** *kebab-case* penuh (huruf kecil dengan tanda hubung). Contoh: `article-card.tsx`, `use-article-query.ts`, `create-article-form.tsx`.
-* **Components:** *PascalCase*. Contoh: `ArticleCard`, `CreateArticleForm`.
-* **Hooks:** *camelCase* dengan awalan `use`. Contoh: `useArticleQuery`.
-* **Types / Interfaces:** *PascalCase*. Contoh: `ArticleStatus`, `CommissariatProfile`.
+Pemberian nama file dan struktur diwajibkan mematuhi standar repositori tunggal berikut:
+
+* **Folders:** Seluruh map wajib menggunakan `kebab-case`. Contoh: `article-management`, `review-center`.
+* **Next.js Routes:** Seluruh direktori rute *App Router* dan file spesifiknya wajib mematuhi aturan kerangka kerja (semua huruf kecil). Contoh: `app/dashboard/page.tsx`.
+* **React Components:** File antarmuka (*UI*, *Widget*, *Feature*) wajib menggunakan `PascalCase.tsx`. Contoh: `ArticleCard.tsx`, `Button.tsx`.
+* **Hooks:** File fungsi reaktif wajib menggunakan struktur `useSomething.ts`. Contoh: `useAuth.ts`.
+* **Server Actions:** Seluruh titik akhir mutasi wajib menggunakan file statis bernama `actions.ts`.
+* **Validation:** File validasi tipe Zod wajib dinamai `schema.ts`.
+* **Types / Interfaces:** Deklarasi *TypeScript* wajib diletakkan di `types.ts` dengan penamaan variabel tipe *PascalCase*.
+* **Constants & Configs:** File penyimpan statis dinamai `constants.ts` dan `config.ts`.
+* **Utilities:** File fungsi murni pembantu (*Helpers*) wajib menggunakan `kebab-case.ts`. Contoh: `format-date.ts`.
 * **Enums:** *PascalCase* untuk nama *enum*, dan *UPPER_SNAKE_CASE* untuk nilainya. Contoh: `UserRole.SYSTEM_ADMIN`.
-* **Constants:** *UPPER_SNAKE_CASE*. Contoh: `MAX_UPLOAD_SIZE_MB`.
-* **Server Actions:** *camelCase* diakhiri dengan sufiks `Action`. Contoh: `createArticleAction`, `approveAgendaAction`.
 
 ---
 

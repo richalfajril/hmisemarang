@@ -3,6 +3,8 @@
 ## Purpose
 Dokumen ini mendefinisikan arsitektur backend, autentikasi, storage, dan strategi integrasi antara Supabase dan Prisma untuk proyek CMS HMI Cabang Semarang.
 
+
+
 ---
 
 ## 1. Project Architecture
