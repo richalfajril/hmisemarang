@@ -8,9 +8,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/ui/ui/Table'
-import { Badge } from '@/shared/ui/ui/Badge'
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/shared/ui/ui/Pagination'
+} from '@/shared/ui/table'
+import { Badge } from '@/shared/ui/badge'
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/shared/ui/pagination'
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { ActivityIcon, ServerCrash } from 'lucide-react'

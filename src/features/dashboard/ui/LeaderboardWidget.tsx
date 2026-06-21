@@ -1,7 +1,7 @@
 'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/ui/Card'
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
+import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shared/ui/chart'
 
 interface LeaderboardWidgetProps {
@@ -20,7 +20,6 @@ export function LeaderboardWidget({ data }: LeaderboardWidgetProps) {
     },
   }
 
-  // Formatting for short names on XAxis
   const chartData = data.map(d => ({
     name: d.name.replace('Komisariat ', '').substring(0, 15) + (d.name.length > 15 ? '...' : ''),
     fullName: d.name,
@@ -63,7 +62,7 @@ export function LeaderboardWidget({ data }: LeaderboardWidgetProps) {
                   axisLine={false}
                   fontSize={12}
                 />
-                <YAxis 
+                <YAxis
                   tickLine={false}
                   axisLine={false}
                   tickMargin={10}
@@ -73,10 +72,10 @@ export function LeaderboardWidget({ data }: LeaderboardWidgetProps) {
                   cursor={{ fill: 'hsl(var(--muted))' }}
                   content={<ChartTooltipContent indicator="dashed" />}
                 />
-                <Bar 
-                  dataKey="publishedCount" 
-                  fill="var(--color-publishedCount)" 
-                  radius={[4, 4, 0, 0]} 
+                <Bar
+                  dataKey="publishedCount"
+                  fill="var(--color-publishedCount)"
+                  radius={[4, 4, 0, 0]}
                   barSize={40}
                 />
               </BarChart>

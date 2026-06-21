@@ -10,17 +10,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/shared/ui/ui/Dialog'
-import { Button } from '@/shared/ui/ui/Button'
-import { Input } from '@/shared/ui/ui/Input'
-import { Label } from '@/shared/ui/ui/Label'
+} from '@/shared/ui/dialog'
+import { Button } from '@/shared/ui/button'
+import { Input } from '@/shared/ui/input'
+import { Label } from '@/shared/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/shared/ui/ui/Select'
+} from '@/shared/ui/select'
 import { PlusCircle, Loader2, Copy, Check } from 'lucide-react'
 
 export function CreateUserModal({

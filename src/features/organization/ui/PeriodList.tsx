@@ -8,9 +8,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/ui/ui/Table'
-import { Badge } from '@/shared/ui/ui/Badge'
-import { Button } from '@/shared/ui/ui/Button'
+} from '@/shared/ui/table'
+import { Badge } from '@/shared/ui/badge'
+import { Button } from '@/shared/ui/button'
 import { activatePeriodAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Loader2, Power, Eye } from 'lucide-react'

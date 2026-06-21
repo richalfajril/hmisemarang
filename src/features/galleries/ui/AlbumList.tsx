@@ -1,8 +1,8 @@
 'use client'
 
-import { Card, CardContent } from '@/shared/ui/ui/Card'
-import { Badge } from '@/shared/ui/ui/Badge'
-import { Button } from '@/shared/ui/ui/Button'
+import { Card, CardContent } from '@/shared/ui/card'
+import { Badge } from '@/shared/ui/badge'
+import { Button } from '@/shared/ui/button'
 import { Image as ImageIcon, MoreHorizontal, Edit, Trash2, Images } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'

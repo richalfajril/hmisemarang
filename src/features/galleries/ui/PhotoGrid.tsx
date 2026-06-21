@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Card, CardContent } from '@/shared/ui/ui/Card'
-import { Button } from '@/shared/ui/ui/Button'
+import { Card, CardContent } from '@/shared/ui/card'
+import { Button } from '@/shared/ui/button'
 import { PlusCircle, Trash2, Star, Image as ImageIcon, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { getOptimizedUrl } from '@/shared/lib/cloudinary-client'

@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { AlbumList } from '@/features/galleries/ui/AlbumList'
-import { Button } from '@/shared/ui/ui/Button'
+import { Button } from '@/shared/ui/button'
 import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 

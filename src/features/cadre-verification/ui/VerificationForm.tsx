@@ -3,9 +3,9 @@
 import { useActionState, useRef } from 'react'
 import { uploadCadreFileAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Button } from '@/shared/ui/ui/Button'
-import { Label } from '@/shared/ui/ui/Label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/ui/Card'
+import { Button } from '@/shared/ui/button'
+import { Label } from '@/shared/ui/label'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
 import { UploadCloud, FileSpreadsheet, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react'
 import { useTransition } from 'react'
 

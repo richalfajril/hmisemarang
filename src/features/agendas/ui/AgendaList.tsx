@@ -1,8 +1,8 @@
 'use client'
 
 import { Agenda } from '@prisma/client'
-import { Button } from '@/shared/ui/ui/Button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/ui/Table'
+import { Button } from '@/shared/ui/button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { Edit, MoreHorizontal, Trash, Send } from 'lucide-react'
@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/shared/ui/dropdown-menu'
 import Link from 'next/link'
-import { Badge } from '@/shared/ui/ui/Badge'
+import { Badge } from '@/shared/ui/badge'
 import { useTransition } from 'react'
 import { softDeleteAgendaAction, submitAgendaAction } from '../api/actions'
 import { toast } from 'sonner'

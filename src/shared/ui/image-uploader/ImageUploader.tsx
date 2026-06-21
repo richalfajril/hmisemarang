@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from 'react'
 import { uploadMediaAction } from '@/shared/api/cloudinary-action'
-import { Button } from '@/shared/ui/ui/Button'
+import { Button } from '@/shared/ui/button'
 import { Loader2, Image as ImageIcon, UploadCloud, X } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
 

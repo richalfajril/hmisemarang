@@ -1,8 +1,8 @@
 'use client'
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/ui/Table'
-import { Badge } from '@/shared/ui/ui/Badge'
-import { Button } from '@/shared/ui/ui/Button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table'
+import { Badge } from '@/shared/ui/badge'
+import { Button } from '@/shared/ui/button'
 import { FileText, MoreHorizontal, Edit, Trash2, Download } from 'lucide-react'
 import Link from 'next/link'
 import { format } from 'date-fns'

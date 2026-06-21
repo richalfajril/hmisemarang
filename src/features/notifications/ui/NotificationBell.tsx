@@ -4,13 +4,13 @@ import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getUnreadNotificationsAction, markAsReadAction, markAllAsReadAction } from '../api/actions'
 import { Bell, CheckCheck } from 'lucide-react'
-import { Button } from '@/shared/ui/ui/Button'
+import { Button } from '@/shared/ui/button'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/shared/ui/ui/Popover'
-import { ScrollArea } from '@/shared/ui/ui/ScrollArea'
+} from '@/shared/ui/popover'
+import { ScrollArea } from '@/shared/ui/scroll-area'
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
 import Link from 'next/link'

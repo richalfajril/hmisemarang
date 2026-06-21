@@ -11,7 +11,7 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Mencapai standar kecepatan *Core Web Vitals* optimal dengan merender elemen secara pasif ke DOM dan mengandalkan pendelegasian komponen statis.
 
 ## Current Version
-**v0.0.0** (Project Bootstrap Phase)
+**v1.9.0-dev** (Dashboard UI Upgrade — Sidebar Navigation)
 
 ---
 
@@ -29,7 +29,7 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ### Checklist
 * `[x]` **UI Tasks:** Instalasi *shadcn/ui* & Tailwind v4. Pengaturan map FSD.
-* `[ ]` **UI Tasks:** Konstruksi tata letak halaman `error.tsx`, `not-found.tsx`, *Forbidden*, dan *Empty State* UI dasar.
+* `[x]` **UI Tasks:** Upgrade tata letak Dashboard menggunakan `dashboard-01` shadcn — `AppSidebar`, `SidebarProvider`, `SiteHeader` dengan navigasi HMI lengkap, active state, dan `NavUser` dengan logout.
 * `[ ]` **Database Tasks:** `npx prisma db push` skema primer dan ciptakan berkas *Seeder* untuk entri akun `SYSTEM_ADMIN`.
 * `[ ]` **Permission Tasks:** Inisiasi peladen Supabase (Klien, SSR, Middleware) untuk memagari rute dasar `/dashboard`.
 

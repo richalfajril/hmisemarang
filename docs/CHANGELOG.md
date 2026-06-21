@@ -11,6 +11,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### UI/UX Upgrade — Dashboard Sidebar Navigation (2026-06-22)
+* Installed `dashboard-01` shadcn block with full component suite: `Sidebar`, `AppSidebar`, `SiteHeader`, `NavMain`, `NavSecondary`, `NavUser`, `Card`, `Badge`, `Table`, `Avatar`, `Drawer`, `Sheet`, `Tooltip`, `Skeleton`, `Breadcrumb`, `Label`, `Select`, `Separator`, `Toggle`, `Checkbox`, `ToggleGroup`, `Sonner`, `ScrollArea`, `Popover`, `Pagination`.
+* Replaced flat top header layout (`layout.tsx`) with full `SidebarProvider` + `SidebarInset` layout.
+* Rebuilt `AppSidebar` dengan navigasi lengkap HMI: Konten (Dasbor, Artikel, Agenda, Galeri, Dokumen, Review Center) dan Manajemen (Pengguna, Kader, Organisasi, Taksonomi).
+* Rebuilt `NavMain` with active state detection via `usePathname()` and `SidebarMenuButton isActive`.
+* Rebuilt `NavUser` with real HMI logout action (Supabase `signOut`) and navigation links to Profile and Notifications.
+* Rebuilt `SiteHeader` integrating `GlobalSearch` and `NotificationBell` into the header bar.
+* Fixed all 42 files using legacy import path `@/shared/ui/ui/*` → migrated to correct flat paths `@/shared/ui/*`.
+* Installed missing shadcn components: `scroll-area`, `popover`, `pagination`.
+* Created `src/shared/ui/empty-state.tsx` migrated from legacy custom component.
+* Removed redundant `scratch/` debug files.
+* Fixed `chart-area-interactive.tsx` `setState` in `useEffect` ESLint error.
+* Fixed `nav-main.tsx` TypeScript `pathname possibly null` type error.
+* All 24 routes compile and `npm run build` passes ✅.
+
 #### v1.3.0 Observability
 * Implemented `logAuditAction` passive injection for recording persistent (Append-Only) activity logs.
 * Added `/dashboard/audit-logs` viewer page with standard server-side pagination.

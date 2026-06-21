@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/ui/Card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import { Activity } from 'lucide-react'

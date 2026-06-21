@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/ui/Card'
-import { Button } from '@/shared/ui/ui/Button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/card'
+import { Button } from '@/shared/ui/button'
 import { Inbox, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 

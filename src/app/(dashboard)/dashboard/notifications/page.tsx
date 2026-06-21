@@ -5,8 +5,8 @@ import { BellIcon, MailOpen, CheckCheck } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import Link from 'next/link'
-import { Button } from '@/shared/ui/ui/Button'
-import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/shared/ui/ui/Pagination'
+import { Button } from '@/shared/ui/button'
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/shared/ui/pagination'
 import { markAllAsReadAction } from '@/features/notifications/api/actions'
 
 export const metadata = {

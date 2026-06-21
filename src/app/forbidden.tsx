@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ShieldAlert } from 'lucide-react'
-import { EmptyState } from '@/shared/ui/ui/EmptyState'
-import { buttonVariants } from '@/shared/ui/ui/Button'
+import { EmptyState } from '@/shared/ui/empty-state'
+import { buttonVariants } from '@/shared/ui/button'
 
 export default function ForbiddenPage() {
   return (
