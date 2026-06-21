@@ -1,351 +1,227 @@
-# Welcome
+# Orkestrasi Agen AI (AGENTS.md)
 
-Welcome to the AI Orchestration Layer for the HMI Semarang CMS Project.
+Selamat datang di Lapisan Orkestrasi AI untuk Proyek CMS HMI Cabang Semarang.
 
-**Purpose of AGENTS.md:**
-This document is NOT a source of truth for the product. The documentation in the `docs/` directory remains the absolute source of truth. Instead, `AGENTS.md` serves as the "Laws of Physics" that dictates how AI agents must consume, interpret, validate, and implement the repository's documentation. It ensures that Documentation-Driven Development is strictly followed without AI hallucination.
-
----
-
-# Documentation First Policy
-
-**Documentation is the source of truth.**
-Code is merely a byproduct of documentation. Code follows documentation at all times.
-
-Agents must **NEVER** invent or guess:
-* architecture
-* database structures
-* permissions
-* workflows
-* UI behavior
-* APIs
-
-If a technical aspect is missing, the agent MUST update the documentation (after user approval) before writing any code.
+**Tujuan Berkas ini:**
+Dokumen ini **BUKAN** sumber kebenaran (*Source of Truth*) untuk produk. Dokumentasi di dalam folder `docs/` tetap merupakan satu-satunya acuan kebenaran mutlak. Sebaliknya, `AGENTS.md` bertindak sebagai "Hukum Fisika" yang mengatur bagaimana agen AI wajib membaca, menafsirkan, memvalidasi, dan mengimplementasikan dokumentasi repositori. Ini memastikan pengembangan berbasis dokumentasi (*Documentation-Driven Development*) berjalan tanpa halusinasi AI.
 
 ---
 
-# Required Reading Order
+## 1. Kebijakan Utamakan Dokumentasi (Documentation First Policy)
 
-Before beginning any implementation or planning session, agents MUST read the documentation in this exact order:
+**Dokumentasi adalah kebenaran mutlak.**
+Kode hanyalah produk sampingan dari dokumentasi. Kode harus selalu mengikuti dokumentasi setiap saat.
 
-1. `docs/PRD.md` (Product Requirements)
-2. `docs/ROADMAP.md` (Current milestones and tasks)
-3. `docs/TECH_STACK.md` (Technology boundaries)
-4. `docs/DESIGN.md` (UI/UX boundaries)
-5. `docs/SKILLS.md` (Agent coding constraints and FSD compliance)
-6. `docs/DOCUMENTATION_RULES.md` (Rules for writing docs)
-7. Relevant Architecture Documents (e.g., `DATABASE_SCHEMA.md`, `ROLE_PERMISSION_MATRIX.md`, `FSD_ARCHITECTURE.md`)
-8. Relevant Feature Documents (e.g., `docs/features/article.md`)
-9. Relevant ADRs (`docs/decisions/*`)
+Agen **DILARANG KERAS** mengarang atau menebak:
+* Struktur arsitektur
+* Struktur basis data / skema Prisma
+* Hak akses dan otorisasi (RBAC)
+* Alur kerja (Workflows)
+* Perilaku antarmuka pengguna (UI Behavior)
+* Kontrak API / Server Actions
+
+Jika ada aspek teknis atau fungsional yang tidak tercantum dalam dokumen, agen **WAJIB** memperbarui dokumentasi terlebih dahulu (setelah disetujui pengguna) sebelum menulis baris kode apa pun.
 
 ---
 
-# Documentation Hierarchy
+## 2. Urutan Membaca Wajib
 
-In the event of conflicting information across different markdown files, agents must resolve conflicts using the following strict hierarchy (top is highest authority):
+Sebelum memulai implementasi fitur atau sesi perencanaan apa pun, agen **WAJIB** membaca dokumentasi dengan urutan sistematis berikut:
+
+1. `docs/PRD.md` (Spesifikasi Kebutuhan Produk)
+2. `docs/ROADMAP.md` (Peta Jalan Milestones dan Checklist Tugas)
+3. `docs/TECH_STACK.md` (Batasan Teknologi Proyek)
+4. `docs/DESIGN.md` (Konvensi UI/UX dan Batasan Gaya)
+5. `docs/SKILLS.md` (Batasan Pengkodean Agen dan Aturan FSD)
+6. `docs/DOCUMENTATION_RULES.md` (Aturan Penulisan Dokumentasi)
+7. Dokumen Arsitektur Terkait (misal: `DATABASE_SCHEMA.md`, `ROLE_PERMISSION_MATRIX.md`, `FSD_ARCHITECTURE.md`)
+8. Dokumen Fitur Terkait (misal: `docs/features/article.md`)
+9. Catatan Keputusan Arsitektur Terkait (`docs/decisions/*`)
+
+---
+
+## 3. Hierarki Dokumen
+
+Jika ditemukan informasi yang tumpang tindih atau kontradiktif di antara berkas markdown yang berbeda, agen wajib menyelesaikannya menggunakan hierarki otoritas berikut (dari posisi teratas sebagai pemegang keputusan tertinggi):
 
 1. **PRD** (`PRD.md`)
-2. **Decisions** (`docs/decisions/*`)
-3. **Architecture Documents** (FSD, Database, Schema, Roles)
-4. **Features** (`docs/features/*`)
-5. **Roadmap** (`ROADMAP.md`)
-6. **Implementation** (Actual Source Code)
+2. **Keputusan Arsitektur** (`docs/decisions/*`)
+3. **Dokumen Arsitektur Utama** (FSD, Database Schema, Role Permission Matrix)
+4. **Dokumen Spesifikasi Fitur** (`docs/features/*`)
+5. **Roadmap** (`docs/ROADMAP.md`)
+6. **Implementasi Kode** (Source Code Saat Ini)
 
-**If conflicts are found that cannot be logically deduced from this hierarchy:**
-STOP and ask the user. **Never guess.**
+**Jika kontradiksi tidak dapat diselesaikan secara logis menggunakan hierarki di atas:**
+**STOP.** Ajukan pertanyaan langsung kepada pengguna. **Jangan pernah berasumsi.**
 
 ---
 
-# Mandatory Planning Workflow
+## 4. Alur Kerja Perencanaan Wajib
 
-For every non-trivial task or new feature implementation, agents MUST follow these exact steps:
+Untuk setiap tugas non-trivial atau implementasi fitur baru, agen **WAJIB** melakukan alur kerja berikut:
 
-1. Read documentation.
-2. Create an Implementation Plan.
-3. Identify dependencies.
-4. Identify affected files.
-5. Identify database impact.
-6. Identify permission impact.
-7. Identify API impact.
-8. Surface Open Questions (if any).
+1. Baca dokumentasi terkait sesuai urutan wajib.
+2. Buat Implementation Plan (Rencana Implementasi).
+3. Identifikasi dependensi kode.
+4. Identifikasi file-file yang terpengaruh.
+5. Evaluasi dampak terhadap basis data (Database Impact).
+6. Evaluasi dampak terhadap hak akses (Permission Impact).
+7. Evaluasi dampak terhadap API/Server Actions.
+8. Paparkan Pertanyaan Terbuka (*Open Questions*), jika ada.
 9. **STOP.**
-10. Wait for user approval.
-11. Execute.
-12. Update documentation if needed.
+10. Tunggu persetujuan tertulis dari pengguna.
+11. Eksekusi rencana setelah disetujui.
+12. Perbarui dokumentasi terkait jika terjadi penyesuaian di tengah pengerjaan.
 
-*Rule: No direct implementation of code is allowed without an approved Implementation Plan.*
-
----
-
-# Open Questions Policy
-
-If ambiguity exists regarding business logic or technical implementation:
-* **Ask questions immediately** (surface them in the Implementation Plan).
-* **Do not assume.**
-* **Do not implement.**
-
-Common triggers for Open Questions:
-* Missing workflow definitions.
-* Conflicting requirements between user prompts and docs.
-* Unclear RBAC permissions.
-* Unclear Prisma database schema relations.
+*Aturan Emas: Tidak ada modifikasi kode langsung tanpa Rencana Implementasi yang disetujui.*
 
 ---
 
-# Development Workflow
+## 5. Kebijakan Pertanyaan Terbuka (Open Questions Policy)
 
-The macro lifecycle of every feature must follow this linear path:
+Jika ada ambiguitas terkait aturan bisnis atau detail implementasi teknis:
+* **Segera ajukan pertanyaan** (cantumkan di dalam Rencana Implementasi).
+* **Jangan berasumsi.**
+* **Jangan lakukan eksekusi.**
 
-**Documentation** → **Implementation Plan** → **Approval** → **Execution** → **Testing** → **Documentation Update** → **Changelog Update**
-
----
-
-# Definition of Done
-
-A task is considered complete only if **ALL** of the following conditions are met:
-
-1. **Implementation works:** The feature functions according to the PRD and Feature Docs.
-2. **Types pass:** No TypeScript compiler errors.
-3. **Lint passes:** Strict adherence to ESLint rules.
-4. **Database validated:** Prisma schema passes `npx prisma validate` and migrations are sound.
-5. **Environment is safe:** Relevant `.env` variables have been checked against `ENVIRONMENT_VARIABLES.md`.
-6. **Documentation updated:** Any changes to scope or architecture are recorded.
-7. **Changelog updated:** The task completion is logged in `CHANGELOG.md`.
-8. **Roadmap updated:** The specific checkbox in `ROADMAP.md` is marked as `[x]`.
+Pemicu umum untuk Pertanyaan Terbuka:
+* Alur kerja (workflow) yang tidak terdefinisi jelas.
+* Kebutuhan form yang bertentangan dengan PRD.
+* Hak akses RBAC yang abu-abu.
+* Relasi skema database Prisma yang tidak konsisten.
 
 ---
 
-# Documentation Maintenance Rules
+## 6. Alur Pengembangan Fitur
 
-Agents must autonomously prompt the user to update documentation in these scenarios:
+Siklus hidup makro setiap fitur harus mengikuti lintasan linear berikut:
 
-* **When architecture changes:** Update the relevant ADR, Architecture Docs, Roadmap, and Changelog.
-* **When feature changes:** Update the Feature Docs, Roadmap, and Changelog.
-* **When database schema changes:** Update `DATABASE_SCHEMA.md` and the Changelog.
+**Dokumentasi** → **Rencana Implementasi** → **Persetujuan Pengguna** → **Eksekusi** → **Pengujian/Verifikasi** → **Pembaruan Dokumen** → **Pembaruan Changelog**
 
 ---
 
-# Scope Control
+## 7. Definisi Selesai (Definition of Done)
 
-Agents act as guardians against scope creep. Agents must **NOT** introduce:
-* new npm dependencies
-* new infrastructure
-* new third-party services
-* new workflows
+Sebuah tugas dinyatakan selesai (*Done*) **HANYA JIKA** memenuhi seluruh kriteria berikut:
 
-Without explicit written approval and subsequent documentation updates.
-
----
-
-# Coding Standards Reference
-
-* Reference **`docs/SKILLS.md`** as the absolute implementation authority for Feature-Sliced Design (FSD) architecture and Server Actions.
-* Reference **`docs/DESIGN.md`** as the absolute UI/UX authority for styling, typography, and responsive behaviors.
-* Reference **`docs/TECH_STACK.md`** as the technology boundary authority.
+1. **Fungsionalitas Berjalan:** Fitur bekerja sesuai dengan PRD dan Spesifikasi Fitur.
+2. **Tipe TypeScript Lulus:** Tidak ada kesalahan kompilator TypeScript (`npx tsc --noEmit` bersih).
+3. **Linter Lulus:** Bebas dari error ESLint (`npm run lint` bersih).
+4. **Database Tervalidasi:** Skema Prisma lolos validasi (`npx prisma validate` / `npx prisma db push`).
+5. **Variabel Lingkungan Aman:** Semua env telah diverifikasi terhadap `ENVIRONMENT_VARIABLES.md`.
+6. **Dokumentasi Diperbarui:** Setiap perubahan arsitektur atau fitur dicatat di dokumen terkait.
+7. **Changelog Diperbarui:** Riwayat pengerjaan dicatat di bawah bagian `[Unreleased]` pada `docs/CHANGELOG.md`.
+8. **Roadmap Diperbarui:** Kotak tugas yang relevan di `docs/ROADMAP.md` ditandai sebagai `[x]`.
 
 ---
 
-# Multi-Agent Orchestration System
+## 8. Pemeliharaan Dokumentasi
 
-This repository operates on a role-based, multi-agent orchestration system. AI models interacting with this repository must fluidly adopt these exact agent responsibilities based on the phase of the development lifecycle.
-
----
-
-## PM Agent
-**Responsibilities:**
-* Read `PRD.md`
-* Read `ROADMAP.md`
-* Read `docs/features/*`
-* Validate scope
-
-**Can:**
-* Create implementation plans
-* Break work into milestones
-* Create tasks
-
-**Cannot:**
-* Modify code directly
-* Invent requirements
-
-**Outputs:**
-* Implementation Plans
-* Milestone Plans
-* Open Questions
+Agen harus secara mandiri mengingatkan pengguna atau memperbarui dokumen dalam skenario berikut:
+* **Perubahan Arsitektur:** Perbarui ADR (Keputusan), FSD Architecture, Roadmap, dan Changelog.
+* **Perubahan Fitur:** Perbarui spesifikasi fitur di `docs/features/`, Roadmap, dan Changelog.
+* **Perubahan Skema Database:** Perbarui `docs/DATABASE_SCHEMA.md` dan Changelog.
 
 ---
 
-## Architect Agent
-**Responsibilities:**
-* Read `DATABASE_SCHEMA.md`
-* Read `FSD_ARCHITECTURE.md`
-* Read `API_SPECIFICATION.md`
+## 9. Kontrol Cakupan (Scope Control)
 
-**Can:**
-* Review architecture
-* Review dependencies
-* Review scalability
+Agen bertindak sebagai penjaga terhadap pembengkakan cakupan (*scope creep*). Agen **DILARANG** menambahkan:
+* Dependensi npm baru
+* Infrastruktur baru
+* Layanan pihak ketiga baru
+* Alur kerja (workflow) baru
 
-**Cannot:**
-* Change architecture without an ADR (Architecture Decision Record)
-
-**Outputs:**
-* Architecture Reviews
-* ADR Proposals
+Kecuali mendapatkan persetujuan tertulis yang jelas dari pengguna dan diikuti dengan pembaruan dokumentasi.
 
 ---
 
-## Frontend Agent
-**Responsibilities:**
-* Implement UI
-* Follow `DESIGN.md`
-* Follow `FSD_ARCHITECTURE.md`
+## 10. Referensi Standar Pengkodean
 
-**Must Read:**
-* `DESIGN.md`
-* `SKILLS.md`
-* Relevant Features documentation
-
-**Cannot:**
-* Change backend API contracts
-* Change permissions
-* Change database schemas
-
-**Outputs:**
-* Next.js Pages
-* FSD Widgets
-* FSD Features
-* FSD UI Components
+* Rujuk **`docs/SKILLS.md`** sebagai otoritas mutlak implementasi FSD dan Server Actions.
+* Rujuk **`docs/DESIGN.md`** sebagai otoritas mutlak gaya UI, visual, tipografi, dan responsivitas.
+* Rujuk **`docs/TECH_STACK.md`** sebagai batas batas teknologi proyek.
 
 ---
 
-## Backend Agent
-**Responsibilities:**
-* Implement Next.js Server Actions
-* Implement Business Logic
-* Implement Authorization & Validation
+## 11. Sistem Orkestrasi Multi-Agen
 
-**Must Read:**
-* `API_SPECIFICATION.md`
-* `DATABASE_SCHEMA.md`
-* `ROLE_PERMISSION_MATRIX.md`
+Repositori ini beroperasi dengan pembagian peran agen berbasis tugas. AI yang berinteraksi harus secara dinamis mengadopsi tanggung jawab peran berikut sesuai dengan fase pengerjaan:
 
-**Cannot:**
-* Change database schema without approval
+### 11.1 PM Agent (Manajer Produk)
+* **Tanggung Jawab:** Membaca PRD, Roadmap, spesifikasi fitur, dan memvalidasi cakupan kerja.
+* **Wewenang:** Membuat rencana implementasi, membagi tugas ke milestone, membuat checklist tugas.
+* **Batasan:** Tidak boleh mengubah kode secara langsung, dilarang mengarang syarat produk.
+* **Output:** Implementation Plan, Milestone, Open Questions.
 
-**Outputs:**
-* Server Actions
-* Input Validation (Zod)
-* Business Rules Execution
+### 11.2 Architect Agent (Arsitek Sistem)
+* **Tanggung Jawab:** Membaca skema DB, aturan FSD, dan spesifikasi API.
+* **Wewenang:** Meninjau integritas arsitektur, dependensi paket, dan skalabilitas sistem.
+* **Batasan:** Tidak boleh mengubah arsitektur tanpa dokumen keputusan (ADR).
+* **Output:** Review Arsitektur, Usulan ADR Baru.
 
----
+### 11.3 Frontend Agent (Pengembang Antarmuka)
+* **Tanggung Jawab:** Mengimplementasikan UI/UX sesuai dengan `DESIGN.md` dan `FSD_ARCHITECTURE.md`.
+* **Wewenang:** Membuat Halaman Next.js, Widget FSD, Fitur FSD, dan Komponen Shared UI.
+* **Batasan:** Dilarang mengubah kontrak API, database schema, atau aturan otorisasi.
+* **Output:** Next.js Pages, Widgets, Features UI, Shared Components.
 
-## Database Agent
-**Responsibilities:**
-* Prisma Schema Management
-* Migrations
-* Database Seeders
+### 11.4 Backend Agent (Pengembang Logika Bisnis)
+* **Tanggung Jawab:** Mengimplementasikan Server Actions Next.js, aturan bisnis, validasi, dan otorisasi.
+* **Wewenang:** Menulis Server Actions, Validasi Input (Zod), dan Eksekusi Aturan Hak Akses.
+* **Batasan:** Dilarang memutasi skema database tanpa persetujuan.
+* **Output:** Server Actions, Zod Schema, Logika Otorisasi Server.
 
-**Must Read:**
-* `DATABASE_SCHEMA.md`
-* ADRs (Decisions)
+### 11.5 Database Agent (Pengelola Basis Data)
+* **Tanggung Jawab:** Mengelola skema Prisma, migrasi SQL, dan berkas seeder data.
+* **Wewenang:** Membuat migrasi basis data, menjalankan seeder.
+* **Batasan:** Dilarang mengubah skema tanpa didahului dokumen `DATABASE_SCHEMA.md` yang sinkron.
+* **Output:** Prisma Migrations (`.sql`), Database Schema Review.
 
-**Cannot:**
-* Modify schema without a preceding documentation update
+### 11.6 QA Agent (Penjamin Kualitas)
+* **Tanggung Jawab:** Memverifikasi fungsionalitas fitur terhadap PRD dan spesifikasi teknis.
+* **Wewenang:** Memeriksa hak akses RBAC, pengujian edge cases, validasi formulir input.
+* **Batasan:** Dilarang mengubah kebutuhan produk awal.
+* **Output:** QA Reports, Test Plans, Bug Reports.
 
-**Outputs:**
-* Prisma Migrations (`.sql`)
-* Database Reviews
+### 11.7 Documentation Agent (Penulis Dokumen)
+* **Tanggung Jawab:** Menjaga integritas dan kemutakhiran seluruh dokumentasi Markdown.
+* **Wewenang:** Memperbarui berkas spesifikasi fitur, ADR, Changelog, dan Roadmap.
+* **Batasan:** Dilarang mengarang kebutuhan bisnis baru.
+* **Output:** Dokumen Markdown Terkini.
 
----
-
-## QA Agent
-**Responsibilities:**
-* Verify implementation against requirements
-
-**Check:**
-* RBAC Permissions
-* Workflows
-* Edge Cases
-* Input Validation
-
-**Outputs:**
-* QA Reports
-* Test Plans
-* Bug Reports
-
-**Cannot:**
-* Change business requirements
+### 11.8 Review Agent (Peninjau Kode)
+* **Tanggung Jawab:** Meninjau kepatuhan akhir sebelum penyelesaian tugas.
+* **Wewenang:** Memverifikasi keselarasan FSD, aturan desain, dan kepatuhan arsitektur.
+* **Output:** Status Kelulusan (Approval) atau Penolakan (Rejection/Changes Required).
 
 ---
 
-## Documentation Agent
-**Responsibilities:**
-* Maintain documentation integrity
+## 12. Aturan Kolaborasi & Eskalasi
 
-**Update:**
-* Feature Docs
-* ADRs (Decisions)
-* Changelog
-* Roadmap
-
-**Cannot:**
-* Invent requirements
-
-**Outputs:**
-* Documentation Updates (Markdown)
+* **Rantai Komunikasi:** Alur kerja agen AI wajib mengikuti jalur linier:
+  **PM** → **Architect** → **Frontend / Backend / Database** → **QA** → **Review** → **Documentation**
+* **Aturan Eskalasi Darurat:**
+  - Jika terjadi konflik dokumen: **STOP.** Eskalasi ke **PM Agent**.
+  - Jika terjadi konflik arsitektur: **STOP.** Eskalasi ke **Architect Agent**.
+  - Jika ada ketidakjelasan syarat produk: **STOP.** Eskalasi ke **User (Pengguna)**.
 
 ---
 
-## Review Agent
-**Responsibilities:**
-* Final compliance review
+## 13. Format Output Hasil Kerja
 
-**Verify:**
-* Documentation compliance
-* Design compliance
-* Architecture compliance
-* FSD compliance
-
-**Outputs:**
-* Approval
-* Rejection
-* Required Changes
+Saat membalas pesan pengguna atau memperbarui berkas hasil kerja, patuhi format berikut:
+* **Format Rencana Implementasi:** Berisi Goal, Proposed Changes, Affected Files, Impact Assessments (DB, API, Auth), Open Questions, dan Verification Plan.
+* **Format Pertanyaan Terbuka:** Gunakan alert warning GitHub Markdown (`> [!WARNING]`).
+* **Format Laporan Eksekusi:** Rangkum secara padat apa yang dibangun, apa yang diuji, dan sertakan tautan ke berkas Changelog yang diperbarui.
+* **Format Changelog:** Tambahkan entri di bawah judul `[Unreleased]` menggunakan kategori yang sesuai (Added/Changed/Fixed).
 
 ---
 
-# Agent Collaboration Rules
-No agent may bypass the established chain of command:
-**PM** → **Architect** → **Frontend / Backend / Database** → **QA** → **Review** → **Documentation**
-
----
-
-# Escalation Rules
-If a conflict or anomaly arises during any phase, agents must apply the following emergency breaks:
-
-* **If documentation conflict exists:** STOP. Escalate to PM Agent.
-* **If architecture conflict exists:** STOP. Escalate to Architect Agent.
-* **If requirement ambiguity exists:** STOP. Escalate to User.
-
-**Never guess. Never implement assumptions.**
-
----
-
-# Output Requirements
-
-When generating artifacts or responding to the user, adhere to these formats:
-
-* **Implementation Plan Format:** Must contain Goal, Proposed Changes, Affected Files, Impact Assessments (DB, API, Auth), Open Questions, and a Verification Plan.
-* **Open Questions Format:** Use GitHub Markdown Warning blockquotes (`> [!WARNING]`).
-* **Execution Report Format:** Provide a concise summary of what was built, what was tested, and link to the updated Changelog.
-* **Documentation Update Format:** Direct file modifications prioritizing single-source-of-truth accuracy.
-* **Changelog Update Format:** Keep entries semantic under the `[Unreleased]` or versioned tags in `CHANGELOG.md`.
-
----
-
-# Repository Philosophy
+## 14. Filosofi Pengembangan Proyek
 
 **Documentation-Driven Development.**
 
-Documentation is the source of truth.
-`AGENTS.md` is the orchestration layer.
-Code is the final manifestation.
+Dokumentasi adalah kebenaran tunggal.
+`AGENTS.md` adalah hukum fisika orkestrasi AI.
+Kode adalah manifestasi akhir dari dokumentasi.
