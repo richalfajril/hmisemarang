@@ -6,6 +6,7 @@ import {
   SidebarInset,
   SidebarProvider,
 } from '@/shared/ui/Sidebar'
+import { prisma } from '@/shared/api/prisma/client'
 
 export default async function DashboardLayout({
   children,
@@ -19,6 +20,13 @@ export default async function DashboardLayout({
     redirect('/login')
   }
 
+  // Fetch role securely from database
+  const dbUser = await prisma.user.findUnique({
+    where: { id: user.id },
+    select: { role: true }
+  })
+  
+  const role = dbUser?.role || 'ADMIN_KOMISARIAT'
   const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Admin'
   const email = user.email ?? ''
 
@@ -30,6 +38,7 @@ export default async function DashboardLayout({
           email,
           avatar: user.user_metadata?.avatar_url ?? '',
         }}
+        role={role}
       />
       <SidebarInset>
         <SiteHeader />

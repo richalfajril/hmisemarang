@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Role-Based Sidebar Navigation (2026-06-22)
+* Implemented Role-Based Access Control (RBAC) filtering for the dashboard sidebar based on `ROLE_PERMISSION_MATRIX.md`.
+* `layout.tsx` now directly queries Prisma (`User` table) to securely retrieve the user's role without relying on potentially stale Supabase JWT metadata.
+* `AppSidebar.tsx` intelligently filters its navigation menus so that `ADMIN_KOMISARIAT` only sees relevant features (Articles, Agendas, Notifications, Cadre Verification, Dashboard), hiding administrative tools reserved for `ADMIN_CABANG` and `SYSTEM_ADMIN`.
+
 #### Next.js App Shell & Performance Refactoring (2026-06-22)
 * Implemented the App Shell pattern across the CMS dashboard to resolve sluggish navigation and blocking route transitions.
 * Created `TableSkeleton` and `GridSkeleton` components in `src/shared/ui/` for premium loading states.
