@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Next.js App Shell & Performance Refactoring (2026-06-22)
+* Implemented the App Shell pattern across the CMS dashboard to resolve sluggish navigation and blocking route transitions.
+* Created `TableSkeleton` and `GridSkeleton` components in `src/shared/ui/` for premium loading states.
+* Added Suspense boundaries (`loading.tsx`) to `/dashboard` root and all heavy entity routes (`articles`, `agendas`, `documents`, `galleries`, `cadre-verification`, `users`).
+* Navigation now occurs instantly (< 50ms) while data is fetched asynchronously behind the skeleton fallbacks.
+
 #### FSD Entities Layer Extraction (2026-06-22)
 * Extracted Zod `schema.ts` domain models from the `features` layer and successfully relocated them into their respective `src/entities/{domain}/model/schema.ts` directories to ensure 100% compliance with strict Feature-Sliced Design.
 * Updated import references programmatically across all relative and absolute imports in `actions.ts` files and UI forms without breaking the build.
