@@ -1,4 +1,4 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
 import {
@@ -8,13 +8,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/ui/table'
-import { Badge } from '@/shared/ui/badge'
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/shared/ui/pagination'
+} from '@/shared/ui/Table'
+import { Badge } from '@/shared/ui/Badge'
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/shared/ui/Pagination'
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { ActivityIcon, ServerCrash } from 'lucide-react'
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export const metadata = {
   title: 'Audit Logs - HMI Cabang Semarang',

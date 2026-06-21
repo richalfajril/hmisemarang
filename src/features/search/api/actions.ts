@@ -1,5 +1,5 @@
 'use server'
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'

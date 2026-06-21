@@ -1,8 +1,8 @@
 'use client'
 
 import { Article, ArticleCategory, Commissariat } from '@prisma/client'
-import { Button } from '@/shared/ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/table'
+import { Button } from '@/shared/ui/Button'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/Table'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { Edit, Eye, MoreHorizontal, Trash, Send } from 'lucide-react'
@@ -12,9 +12,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/shared/ui/dropdown-menu'
+} from '@/shared/ui/DropdownMenu'
 import Link from 'next/link'
-import { Badge } from '@/shared/ui/badge'
+import { Badge } from '@/shared/ui/Badge'
 import { useTransition } from 'react'
 import { softDeleteArticleAction, submitArticleAction } from '../api/actions'
 import { toast } from 'sonner'

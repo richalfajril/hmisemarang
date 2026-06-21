@@ -3,7 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { Toaster } from 'sonner';
-import { Providers } from '@/shared/lib/query-provider';
+import { Providers } from '@/shared/lib/QueryProvider';
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 

@@ -1,14 +1,14 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { VerificationForm } from '@/features/cadre-verification/ui/VerificationForm'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
-import { Badge } from '@/shared/ui/badge'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { Badge } from '@/shared/ui/Badge'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import { FileSpreadsheet, FileCheck } from 'lucide-react'
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export default async function CadreVerificationPage() {
   const session = await getUserSession()

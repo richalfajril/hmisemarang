@@ -1,12 +1,12 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
 import { PositionList } from '@/features/organization/ui/PositionList'
-import { Button } from '@/shared/ui/button'
+import { Button } from '@/shared/ui/Button'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export const metadata = {
   title: 'Susunan Pengurus - HMI Cabang Semarang',

@@ -1,5 +1,5 @@
-import { Separator } from "@/shared/ui/separator"
-import { SidebarTrigger } from "@/shared/ui/sidebar"
+import { Separator } from "@/shared/ui/Separator"
+import { SidebarTrigger } from "@/shared/ui/Sidebar"
 import { GlobalSearch } from "@/features/search/ui/GlobalSearch"
 import { NotificationBell } from "@/features/notifications/ui/NotificationBell"
 

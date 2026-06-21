@@ -5,7 +5,7 @@ import { SiteHeader } from '@/widgets/layout/SiteHeader'
 import {
   SidebarInset,
   SidebarProvider,
-} from '@/shared/ui/sidebar'
+} from '@/shared/ui/Sidebar'
 
 export default async function DashboardLayout({
   children,

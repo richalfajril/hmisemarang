@@ -1,6 +1,6 @@
 'use client'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 import { TaxonomyTable } from './TaxonomyTable'
 import { CreateTaxonomyModal } from './CreateTaxonomyModal'
 

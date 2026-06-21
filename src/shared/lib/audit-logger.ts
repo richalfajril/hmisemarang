@@ -1,4 +1,4 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { Prisma } from '@prisma/client'
 import { headers } from 'next/headers'
 

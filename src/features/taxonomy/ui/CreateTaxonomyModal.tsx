@@ -9,10 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/shared/ui/dialog'
-import { Button } from '@/shared/ui/button'
-import { Input } from '@/shared/ui/input'
-import { Label } from '@/shared/ui/label'
+} from '@/shared/ui/Dialog'
+import { Button } from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input'
+import { Label } from '@/shared/ui/Label'
 import { Loader2, PlusCircle } from 'lucide-react'
 
 export function CreateTaxonomyModal({ type, label }: { type: 'ARTICLE_CATEGORY' | 'DOCUMENT_CATEGORY' | 'TAG', label: string }) {

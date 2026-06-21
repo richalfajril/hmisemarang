@@ -1,8 +1,8 @@
 'use client'
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { BarChart, Bar, CartesianGrid, XAxis, YAxis } from 'recharts'
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shared/ui/chart'
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/shared/ui/Chart'
 
 interface LeaderboardWidgetProps {
   data: Array<{

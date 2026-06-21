@@ -3,16 +3,16 @@
 import { useActionState, useRef } from 'react'
 import { saveDocumentAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Button } from '@/shared/ui/button'
-import { Input } from '@/shared/ui/input'
-import { Label } from '@/shared/ui/label'
-import { Textarea } from '@/shared/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/select'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/card'
+import { Button } from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input'
+import { Label } from '@/shared/ui/Label'
+import { Textarea } from '@/shared/ui/Textarea'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/Card'
 import { FileText, Loader2, UploadCloud, AlertCircle } from 'lucide-react'
 import { DocumentCategory } from '@prisma/client'
 import Link from 'next/link'
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 interface DocumentFormProps {
   initialData?: {

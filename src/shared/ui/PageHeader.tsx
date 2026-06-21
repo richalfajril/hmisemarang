@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { BackButton } from './back-button'
+import { BackButton } from './BackButton'
 import { LucideIcon } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
 

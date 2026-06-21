@@ -10,11 +10,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/shared/ui/dialog"
+} from "@/shared/ui/Dialog"
 import {
   InputGroup,
   InputGroupAddon,
-} from "@/shared/ui/input-group"
+} from "@/shared/ui/InputGroup"
 import { SearchIcon, CheckIcon } from "lucide-react"
 
 function Command({

@@ -1,14 +1,14 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Card, CardContent } from '@/shared/ui/card'
-import { Button } from '@/shared/ui/button'
+import { Card, CardContent } from '@/shared/ui/Card'
+import { Button } from '@/shared/ui/Button'
 import { PlusCircle, Trash2, Star, Image as ImageIcon, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { getOptimizedUrl } from '@/shared/lib/cloudinary-upload'
 import { uploadSinglePhotoAction, deletePhotoAction, setAlbumCoverAction } from '../api/actions'
 import { toast } from 'sonner'
-import { Progress } from '@/shared/ui/progress'
+import { Progress } from '@/shared/ui/Progress'
 
 type PhotoEntry = {
   id: string

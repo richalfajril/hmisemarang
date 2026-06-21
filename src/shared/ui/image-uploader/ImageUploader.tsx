@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useCallback, useRef } from 'react'
-import { uploadMediaAction } from '@/shared/api/cloudinary-action'
-import { Button } from '@/shared/ui/button'
+import { uploadMediaAction } from '@/shared/api/media/actions'
+import { Button } from '@/shared/ui/Button'
 import { Loader2, Image as ImageIcon, UploadCloud, X } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
 

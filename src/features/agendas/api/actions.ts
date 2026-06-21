@@ -1,5 +1,5 @@
 'use server'
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 
 import { revalidatePath } from 'next/cache'
 import { PrismaClient, AgendaStatus } from '@prisma/client'

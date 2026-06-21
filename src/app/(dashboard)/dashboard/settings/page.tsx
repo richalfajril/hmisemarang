@@ -1,9 +1,9 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
 import { SettingsForm } from '@/features/website-settings/ui/SettingsForm'
 import { Settings2Icon } from 'lucide-react'
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export const metadata = {
   title: 'Pengaturan Situs - HMI Cabang Semarang',

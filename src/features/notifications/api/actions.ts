@@ -1,5 +1,5 @@
 'use server'
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 
 import { createClient } from '@/shared/api/supabase/server'
 import { revalidatePath } from 'next/cache'

@@ -1,6 +1,6 @@
 'use server'
 
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { createClient } from '@/shared/api/supabase/server'
 import { supabaseAdmin } from '@/shared/api/supabase/admin'
 import { ActionState } from '@/shared/lib/action-state'

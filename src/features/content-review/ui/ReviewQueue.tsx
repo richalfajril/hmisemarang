@@ -1,9 +1,9 @@
 'use client'
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
-import { Button } from '@/shared/ui/button'
-import { Badge } from '@/shared/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
+import { Button } from '@/shared/ui/Button'
+import { Badge } from '@/shared/ui/Badge'
 import { Article, Agenda, Commissariat } from '@prisma/client'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'

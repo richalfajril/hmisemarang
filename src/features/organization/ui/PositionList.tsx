@@ -3,10 +3,10 @@
 import { useActionState, useState } from 'react'
 import { createPositionAction, createBoardMemberAction, deletePositionAction, deleteBoardMemberAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Button } from '@/shared/ui/button'
-import { Input } from '@/shared/ui/input'
-import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/card'
-import { Separator } from '@/shared/ui/separator'
+import { Button } from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input'
+import { Card, CardHeader, CardTitle, CardContent } from '@/shared/ui/Card'
+import { Separator } from '@/shared/ui/Separator'
 import { PlusCircle, Trash2, UserPlus, Loader2 } from 'lucide-react'
 
 // Sederhanakan Tipe

@@ -1,4 +1,4 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
@@ -6,7 +6,7 @@ import { ReviewQueue } from '@/features/content-review/ui/ReviewQueue'
 
 
 
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 import { ClipboardCheck } from 'lucide-react'
 
 export default async function ReviewCenterPage() {

@@ -1,10 +1,10 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
 import { PeriodList } from '@/features/organization/ui/PeriodList'
 import { CreatePeriodModal } from '@/features/organization/ui/CreatePeriodModal'
 import { Users2Icon } from 'lucide-react'
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export const metadata = {
   title: 'Riwayat Kepengurusan - HMI Cabang Semarang',

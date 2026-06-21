@@ -18,7 +18,7 @@ import {
   ImageIcon,
   LinkIcon
 } from 'lucide-react'
-import { Button } from '@/shared/ui/button'
+import { Button } from '@/shared/ui/Button'
 import { cn } from '@/shared/lib/utils'
 
 interface TiptapEditorProps {

@@ -1,9 +1,9 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
 import { TaxonomyTabs } from '@/features/taxonomy/ui/TaxonomyTabs'
 import { FolderTree } from 'lucide-react'
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export const metadata = {
   title: 'Manajemen Taksonomi - HMI Cabang Semarang',

@@ -10,7 +10,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/shared/ui/command'
+} from '@/shared/ui/Command'
 import { useDebounce } from '@/shared/hooks/useDebounce'
 import { globalSearchAction, SearchResult } from '../api/actions'
 

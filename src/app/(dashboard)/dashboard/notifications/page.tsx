@@ -1,15 +1,15 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
 import { BellIcon, MailOpen, CheckCheck } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import Link from 'next/link'
-import { Button } from '@/shared/ui/button'
-import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/shared/ui/pagination'
+import { Button } from '@/shared/ui/Button'
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/shared/ui/Pagination'
 import { markAllAsReadAction } from '@/features/notifications/api/actions'
 
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export const metadata = {
   title: 'Semua Notifikasi - HMI Cabang Semarang',

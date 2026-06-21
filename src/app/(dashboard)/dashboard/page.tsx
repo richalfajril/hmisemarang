@@ -11,7 +11,7 @@ import { StatCard } from '@/widgets/dashboard/ui/StatCard'
 import { LeaderboardWidget } from '@/widgets/dashboard/ui/LeaderboardWidget'
 import { RecentActivityWidget } from '@/widgets/dashboard/ui/RecentActivityWidget'
 import { PendingQueueWidget } from '@/widgets/dashboard/ui/PendingQueueWidget'
-import { Skeleton } from '@/shared/ui/skeleton'
+import { Skeleton } from '@/shared/ui/Skeleton'
 import { FileText, CalendarRange, Building2, BookOpen } from 'lucide-react'
 
 export const metadata = {

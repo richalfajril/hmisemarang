@@ -1,4 +1,4 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 

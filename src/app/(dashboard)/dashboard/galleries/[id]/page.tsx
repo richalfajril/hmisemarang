@@ -1,13 +1,13 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { PhotoGrid } from '@/features/galleries/ui/PhotoGrid'
-import { Badge } from '@/shared/ui/badge'
-import { Button } from '@/shared/ui/button'
+import { Badge } from '@/shared/ui/Badge'
+import { Button } from '@/shared/ui/Button'
 import { Edit } from 'lucide-react'
 import Link from 'next/link'
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 
 export default async function AlbumDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getUserSession()

@@ -4,17 +4,17 @@ import { useActionState, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { processReviewAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Button } from '@/shared/ui/button'
-import { Input } from '@/shared/ui/input'
-import { Label } from '@/shared/ui/label'
-import { Textarea } from '@/shared/ui/textarea'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/shared/ui/card'
+import { Button } from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input'
+import { Label } from '@/shared/ui/Label'
+import { Textarea } from '@/shared/ui/Textarea'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/shared/ui/Card'
 import { AlertCircle, ArrowLeft, Loader2, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react'
 import Link from 'next/link'
 import { ReviewEntityType, ReviewActionEnum } from '../api/schema'
 import Image from 'next/image'
 
-import { BackButton } from '@/shared/ui/back-button'
+import { BackButton } from '@/shared/ui/BackButton'
 
 interface ReviewSplitScreenProps {
   entityType: ReviewEntityType

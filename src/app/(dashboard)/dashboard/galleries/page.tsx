@@ -1,15 +1,15 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { AlbumList } from '@/features/galleries/ui/AlbumList'
-import { Button } from '@/shared/ui/button'
+import { Button } from '@/shared/ui/Button'
 import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
 
 
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 import { Images } from 'lucide-react'
 
 export default async function GalleriesPage() {

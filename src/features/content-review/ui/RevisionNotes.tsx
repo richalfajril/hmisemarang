@@ -1,6 +1,6 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { AlertTriangle } from 'lucide-react'
-import { Card, CardContent } from '@/shared/ui/card'
+import { Card, CardContent } from '@/shared/ui/Card'
 import { PrismaClient } from '@prisma/client'
 
 

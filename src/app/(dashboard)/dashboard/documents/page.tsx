@@ -1,16 +1,16 @@
-import { prisma } from '@/shared/lib/prisma'
+import { prisma } from '@/shared/api/prisma/client'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { DocumentList } from '@/features/documents/ui/DocumentList'
-import { Button } from '@/shared/ui/button'
+import { Button } from '@/shared/ui/Button'
 import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 import { ensureDocumentCategoriesExist } from '@/features/documents/api/actions'
 
 
 
-import { PageHeader } from '@/shared/ui/page-header'
+import { PageHeader } from '@/shared/ui/PageHeader'
 import { BookOpen } from 'lucide-react'
 
 export default async function DocumentsPage() {

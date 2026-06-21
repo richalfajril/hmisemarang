@@ -8,9 +8,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/shared/ui/table'
-import { Badge } from '@/shared/ui/badge'
-import { Button } from '@/shared/ui/button'
+} from '@/shared/ui/Table'
+import { Badge } from '@/shared/ui/Badge'
+import { Button } from '@/shared/ui/Button'
 import { toggleTaxonomyStatusAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Loader2, PowerOff, Power } from 'lucide-react'

@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### FSD Naming Conventions Refactoring (2026-06-22)
+* Renamed all 35 generic `kebab-case.tsx` UI components in `src/shared/ui/` to `PascalCase.tsx` to strictly adhere to the project's React component naming standard.
+* Moved `src/shared/lib/prisma.ts` to `src/shared/api/prisma/client.ts` to standardize Prisma singleton location.
+* Renamed environment variables config from `src/shared/config/env.ts` to `src/shared/config/config.ts`.
+* Renamed and relocated `src/shared/api/cloudinary-action.ts` to `src/shared/api/media/actions.ts` to strictly adhere to the Server Actions filename (`actions.ts`) policy.
+* Updated import paths globally across 92 files to match the new component casing and relocated files.
+
 #### Codebase Structure & Action Consolidation (2026-06-22)
 * Consolidated authentication actions (`loginAction` and `logoutAction`) and schema (`loginSchema`) in `src/features/auth/api/` into unified `actions.ts` and `schema.ts` files, ensuring compliance with strict FSD naming conventions.
 * Updated `LoginForm.tsx` imports and removed obsolete separate `login.ts` and `logout.ts` files.

@@ -9,7 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/shared/ui/sidebar"
+} from "@/shared/ui/Sidebar"
 
 export function NavMain({
   items,

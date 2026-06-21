@@ -2,9 +2,9 @@
 
 import { useActionState } from 'react'
 import { loginAction } from '../api/actions'
-import { Button } from '@/shared/ui/button'
-import { Input } from '@/shared/ui/input'
-import { Label } from '@/shared/ui/label'
+import { Button } from '@/shared/ui/Button'
+import { Input } from '@/shared/ui/Input'
+import { Label } from '@/shared/ui/Label'
 import { AlertCircle, Loader2 } from 'lucide-react'
 import { initialActionState } from '@/shared/lib/action-state'
 

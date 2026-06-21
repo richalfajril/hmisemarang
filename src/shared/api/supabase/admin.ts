@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
-import { env } from '@/shared/config/env'
+import { env } from '@/shared/config/config'
 
 if (!env.SUPABASE_SERVICE_ROLE_KEY) {
   console.warn('⚠️ SUPABASE_SERVICE_ROLE_KEY is missing. Admin operations will fail.')
