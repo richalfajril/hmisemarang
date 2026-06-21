@@ -20,11 +20,18 @@ export default async function DashboardLayout({
     redirect('/login')
   }
 
-  // Fetch role securely from database
-  const dbUser = await prisma.user.findUnique({
+  // Fetch role securely from database (try ID first, fallback to email for desynced seeds)
+  let dbUser = await prisma.user.findUnique({
     where: { id: user.id },
     select: { role: true }
   })
+
+  if (!dbUser && user.email) {
+    dbUser = await prisma.user.findUnique({
+      where: { email: user.email },
+      select: { role: true }
+    })
+  }
   
   const role = dbUser?.role || 'ADMIN_KOMISARIAT'
   const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Admin'
