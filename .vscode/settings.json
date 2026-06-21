@@ -1,0 +1,1 @@
+{ "git.rebaseWhenSync": true, "git.autofetch": true, "git.confirmSync": false }
