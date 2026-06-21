@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
@@ -6,7 +7,7 @@ import { Button } from '@/shared/ui/ui/Button'
 import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 
-const prisma = new PrismaClient()
+
 
 export default async function GalleriesPage() {
   const session = await getUserSession()

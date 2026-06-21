@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect, notFound } from 'next/navigation'
@@ -7,7 +8,7 @@ import { Button } from '@/shared/ui/ui/Button'
 import { ArrowLeft, Edit } from 'lucide-react'
 import Link from 'next/link'
 
-const prisma = new PrismaClient()
+
 
 export default async function AlbumDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getUserSession()

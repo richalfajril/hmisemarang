@@ -1,9 +1,10 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { ReviewQueue } from '@/features/content-review/ui/ReviewQueue'
 
-const prisma = new PrismaClient()
+
 
 export default async function ReviewCenterPage() {
   const session = await getUserSession()

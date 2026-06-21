@@ -1,4 +1,5 @@
 'use server'
+import { prisma } from '@/shared/lib/prisma'
 
 import { revalidatePath } from 'next/cache'
 import { PrismaClient, ArticleStatus, AgendaStatus, ReviewAction } from '@prisma/client'
@@ -7,7 +8,7 @@ import { reviewSchema, ReviewEntityType, ReviewActionEnum } from './schema'
 import { ActionState } from '@/shared/lib/action-state'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 
-const prisma = new PrismaClient()
+
 
 export async function processReviewAction(
   prevState: ActionState,

@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
@@ -28,7 +29,6 @@ export async function createClient() {
   )
 }
 
-import { prisma } from '@/shared/lib/prisma'
 
 export async function getUserSession() {
   const supabase = await createClient()

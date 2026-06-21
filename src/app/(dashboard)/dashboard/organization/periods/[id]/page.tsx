@@ -1,6 +1,6 @@
+import { prisma } from '@/shared/lib/prisma'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
-import { prisma } from '@/shared/lib/prisma'
 import { PositionList } from '@/features/organization/ui/PositionList'
 import { Button } from '@/shared/ui/ui/Button'
 import { ArrowLeft } from 'lucide-react'

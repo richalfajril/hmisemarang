@@ -1,6 +1,6 @@
+import { prisma } from '@/shared/lib/prisma'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
-import { prisma } from '@/shared/lib/prisma'
 import { PeriodList } from '@/features/organization/ui/PeriodList'
 import { CreatePeriodModal } from '@/features/organization/ui/CreatePeriodModal'
 import { Users2Icon } from 'lucide-react'

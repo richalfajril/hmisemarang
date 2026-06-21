@@ -1,9 +1,9 @@
 'use server'
+import { prisma } from '@/shared/lib/prisma'
 
 import { z } from 'zod'
 import { createClient } from '@/shared/api/supabase/server'
 import { ActionState } from '@/shared/lib/action-state'
-import { prisma } from '@/shared/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
 const websiteSettingsSchema = z.object({

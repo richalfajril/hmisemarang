@@ -1,6 +1,6 @@
+import { prisma } from '@/shared/lib/prisma'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
-import { prisma } from '@/shared/lib/prisma'
 import { UserTable } from '@/features/user-management/ui/UserTable'
 import { CreateUserModal } from '@/features/user-management/ui/CreateUserModal'
 import { UsersIcon } from 'lucide-react'

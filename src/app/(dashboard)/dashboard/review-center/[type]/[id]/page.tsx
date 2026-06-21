@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { notFound, redirect } from 'next/navigation'
@@ -5,7 +6,7 @@ import { ReviewSplitScreen } from '@/features/content-review/ui/ReviewSplitScree
 import { ReviewEntityType } from '@/features/content-review/api/schema'
 import { getOptimizedUrl, generateSecureDownloadUrl } from '@/shared/lib/cloudinary'
 
-const prisma = new PrismaClient()
+
 
 export default async function ReviewDetailPage({ 
   params 

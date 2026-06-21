@@ -1,6 +1,6 @@
+import { prisma } from '@/shared/lib/prisma'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
-import { prisma } from '@/shared/lib/prisma'
 import { TaxonomyTabs } from '@/features/taxonomy/ui/TaxonomyTabs'
 import { FolderTree } from 'lucide-react'
 

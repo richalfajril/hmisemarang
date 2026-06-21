@@ -1,10 +1,10 @@
 'use server'
+import { prisma } from '@/shared/lib/prisma'
 
 import { z } from 'zod'
 import { createClient } from '@/shared/api/supabase/server'
 import { supabaseAdmin } from '@/shared/lib/supabase-admin'
 import { ActionState } from '@/shared/lib/action-state'
-import { prisma } from '@/shared/lib/prisma'
 
 const forceResetSchema = z.object({
   userId: z.string().uuid(),

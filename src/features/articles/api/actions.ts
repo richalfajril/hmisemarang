@@ -1,4 +1,5 @@
 'use server'
+import { prisma } from '@/shared/lib/prisma'
 
 import { revalidatePath } from 'next/cache'
 import { PrismaClient, ArticleStatus } from '@prisma/client'
@@ -7,7 +8,7 @@ import { articleSchema } from './schema'
 import { ActionState } from '@/shared/lib/action-state'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 
-const prisma = new PrismaClient()
+
 
 function generateSlug(title: string): string {
   return title

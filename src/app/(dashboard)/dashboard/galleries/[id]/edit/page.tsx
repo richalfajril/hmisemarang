@@ -1,9 +1,10 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { AlbumForm } from '@/features/galleries/ui/AlbumForm'
 
-const prisma = new PrismaClient()
+
 
 export default async function EditAlbumPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getUserSession()

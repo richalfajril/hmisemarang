@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
@@ -7,7 +8,7 @@ import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 import { Prisma } from '@prisma/client'
 
-const prisma = new PrismaClient()
+
 
 export default async function AgendasPage() {
   const session = await getUserSession()

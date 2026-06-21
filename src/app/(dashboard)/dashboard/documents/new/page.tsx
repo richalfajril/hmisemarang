@@ -1,9 +1,10 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { DocumentForm } from '@/features/documents/ui/DocumentForm'
 
-const prisma = new PrismaClient()
+
 
 export default async function NewDocumentPage() {
   const session = await getUserSession()

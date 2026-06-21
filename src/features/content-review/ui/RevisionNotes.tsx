@@ -1,8 +1,9 @@
+import { prisma } from '@/shared/lib/prisma'
 import { AlertTriangle } from 'lucide-react'
 import { Card, CardContent } from '@/shared/ui/ui/Card'
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()
+
 
 interface RevisionNotesProps {
   entityId: string

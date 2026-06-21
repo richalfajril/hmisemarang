@@ -1,4 +1,5 @@
 'use server'
+import { prisma } from '@/shared/lib/prisma'
 
 import { z } from 'zod'
 import { createClient } from '@/shared/api/supabase/server'
@@ -6,7 +7,6 @@ import { supabaseAdmin } from '@/shared/lib/supabase-admin'
 import { ActionState } from '@/shared/lib/action-state'
 import { revalidatePath } from 'next/cache'
 import { UserRole } from '@prisma/client'
-import { prisma } from '@/shared/lib/prisma'
 
 const createUserSchema = z.object({
   email: z.string().email('Format email tidak valid'),

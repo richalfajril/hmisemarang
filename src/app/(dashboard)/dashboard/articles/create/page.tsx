@@ -1,10 +1,11 @@
+import { prisma } from '@/shared/lib/prisma'
 import { Suspense } from 'react'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { ArticleForm } from '@/features/articles/ui/ArticleForm'
 import { redirect } from 'next/navigation'
 
-const prisma = new PrismaClient()
+
 
 export default async function CreateArticlePage() {
   const session = await getUserSession()

@@ -1,7 +1,7 @@
 'use server'
+import { prisma } from '@/shared/lib/prisma'
 
 import { createClient } from '@/shared/api/supabase/server'
-import { prisma } from '@/shared/lib/prisma'
 import { revalidatePath } from 'next/cache'
 
 export async function getUnreadNotificationsAction() {

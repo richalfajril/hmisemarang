@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
@@ -5,7 +6,7 @@ import { ProfileForm } from '@/features/commissariat-profile/ui/ProfileForm'
 import { RevisionNotes } from '@/features/content-review/ui/RevisionNotes'
 import { Suspense } from 'react'
 
-const prisma = new PrismaClient()
+
 
 export default async function ProfilePage() {
   const session = await getUserSession()

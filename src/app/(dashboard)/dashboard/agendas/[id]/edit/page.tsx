@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { Suspense } from 'react'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
@@ -5,7 +6,7 @@ import { AgendaForm } from '@/features/agendas/ui/AgendaForm'
 import { notFound, redirect } from 'next/navigation'
 import { RevisionNotes } from '@/features/content-review/ui/RevisionNotes'
 
-const prisma = new PrismaClient()
+
 
 export default async function EditAgendaPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getUserSession()

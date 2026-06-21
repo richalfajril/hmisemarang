@@ -1,6 +1,6 @@
+import { prisma } from '@/shared/lib/prisma'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/shared/api/supabase/server'
-import { prisma } from '@/shared/lib/prisma'
 import { BellIcon, MailOpen, CheckCheck } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'

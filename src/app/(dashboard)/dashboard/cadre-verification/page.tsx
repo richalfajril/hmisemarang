@@ -1,3 +1,4 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
@@ -8,7 +9,7 @@ import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import { FileSpreadsheet } from 'lucide-react'
 
-const prisma = new PrismaClient()
+
 
 export default async function CadreVerificationPage() {
   const session = await getUserSession()

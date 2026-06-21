@@ -1,7 +1,8 @@
+import { prisma } from '@/shared/lib/prisma'
 import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 
-const prisma = new PrismaClient()
+
 
 export async function getCabangDashboardStats() {
   const [

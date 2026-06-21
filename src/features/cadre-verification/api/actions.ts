@@ -1,4 +1,5 @@
 'use server'
+import { prisma } from '@/shared/lib/prisma'
 
 import { revalidatePath } from 'next/cache'
 import { PrismaClient } from '@prisma/client'
@@ -8,7 +9,7 @@ import { ActionState } from '@/shared/lib/action-state'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 import { uploadSecureFileToCloudinary } from '@/shared/lib/cloudinary'
 
-const prisma = new PrismaClient()
+
 
 export async function uploadCadreFileAction(
   prevState: ActionState,
