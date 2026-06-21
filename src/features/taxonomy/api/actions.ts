@@ -6,6 +6,7 @@ import { ActionState } from '@/shared/lib/action-state'
 import { prisma } from '@/shared/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { slugify } from '@/shared/lib/utils'
+import { logAuditAction } from '@/shared/lib/audit-logger'
 
 const taxonomySchema = z.object({
   name: z.string().min(1, 'Nama wajib diisi').max(50, 'Maksimal 50 karakter'),
@@ -44,21 +45,35 @@ export async function createTaxonomyAction(
   const slug = slugify(name)
 
   try {
+    let entityId = ''
+
     if (type === 'ARTICLE_CATEGORY') {
       const exists = await prisma.articleCategory.findUnique({ where: { slug } })
       if (exists) return { success: false, message: 'Kategori artikel ini sudah ada.', errorCode: 'VALIDATION_ERROR' }
-      await prisma.articleCategory.create({ data: { name, slug } })
+      const record = await prisma.articleCategory.create({ data: { name, slug } })
+      entityId = record.id
     } 
     else if (type === 'DOCUMENT_CATEGORY') {
       const exists = await prisma.documentCategory.findUnique({ where: { slug } })
       if (exists) return { success: false, message: 'Kategori dokumen ini sudah ada.', errorCode: 'VALIDATION_ERROR' }
-      await prisma.documentCategory.create({ data: { name, slug } })
+      const record = await prisma.documentCategory.create({ data: { name, slug } })
+      entityId = record.id
     }
     else if (type === 'TAG') {
       const exists = await prisma.tag.findUnique({ where: { slug } })
       if (exists) return { success: false, message: 'Tag ini sudah ada.', errorCode: 'VALIDATION_ERROR' }
-      await prisma.tag.create({ data: { name, slug } })
+      const record = await prisma.tag.create({ data: { name, slug } })
+      entityId = record.id
     }
+
+    // Rekam log aktivitas
+    await logAuditAction({
+      actor_id: currentUser.id,
+      entity_type: type,
+      entity_id: entityId,
+      action: 'CREATED',
+      new_data: { name, slug },
+    })
 
     revalidatePath('/dashboard/taxonomy')
 
