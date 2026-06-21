@@ -11,7 +11,7 @@ import { Textarea } from '@/shared/ui/Textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/shared/ui/Card'
 import { AlertCircle, ArrowLeft, Loader2, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react'
 import Link from 'next/link'
-import { ReviewEntityType, ReviewActionEnum } from '../api/schema'
+import { ReviewEntityType, ReviewActionEnum } from '@/entities/review-history/model/schema'
 import Image from 'next/image'
 
 import { BackButton } from '@/shared/ui/BackButton'

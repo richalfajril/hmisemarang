@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { notFound, redirect } from 'next/navigation'
 import { ReviewSplitScreen } from '@/features/content-review/ui/ReviewSplitScreen'
-import { ReviewEntityType } from '@/features/content-review/api/schema'
+import { ReviewEntityType } from '@/entities/review-history/model/schema'
 import { getOptimizedUrl, generateSecureDownloadUrl } from '@/shared/lib/cloudinary'
 
 

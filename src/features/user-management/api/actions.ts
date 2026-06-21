@@ -5,7 +5,7 @@ import { createClient } from '@/shared/api/supabase/server'
 import { supabaseAdmin } from '@/shared/api/supabase/admin'
 import { ActionState } from '@/shared/lib/action-state'
 import { revalidatePath } from 'next/cache'
-import { createUserSchema, forceResetSchema } from './schema'
+import { createUserSchema, forceResetSchema } from '@/entities/user/model/schema'
 
 export async function createUserAction(
   prevState: ActionState | null,

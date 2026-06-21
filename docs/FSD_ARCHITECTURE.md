@@ -9,8 +9,8 @@ Dokumen ini mendefinisikan arsitektur **Feature-Sliced Design (FSD)** yang dises
 
 Arsitektur ini menggunakan hierarki *layer* FSD standar dengan beberapa penyesuaian:
 
-1. **`app`**: Layer inisialisasi aplikasi. Berisi *setup* global, *providers* (React Query, Theme), gaya global (CSS), dan definisi rute bawaan Next.js (`layout.tsx`, `page.tsx`). **Dibutuhkan.**
-2. **`pages`**: Komposisi UI penuh untuk setiap rute. Menggabungkan *widgets* dan *features* menjadi satu tampilan halaman utuh. **Dibutuhkan.**
+1. **`app`**: Layer inisialisasi aplikasi. Berisi *setup* global, *providers* (React Query, Theme), gaya global (CSS), dan definisi rute bawaan Next.js (`layout.tsx`, `page.tsx`). Sekaligus bertindak sebagai layer *pages* (komposisi UI untuk setiap rute yang menggabungkan berbagai *widgets* dan *features*). **Dibutuhkan.**
+2. **`pages`**: Dihilangkan. Logika komposisi halaman dilebur langsung ke dalam rute `app/` untuk menghindari redundansi (*boilerplate*) di lingkungan Next.js App Router.
 3. **`widgets`**: Blok UI independen yang menyatukan berbagai *features* dan *entities*. Contoh: `Header`, `ReviewCenter`, `ArticleList`. **Dibutuhkan.**
 4. **`features`**: Logika bisnis spesifik atau interaksi pengguna yang dapat dipanggil (aksi). Contoh: `article-review`, `cadre-verification`. **Dibutuhkan.**
 5. **`entities`**: Representasi bisnis (model data) dari domain aplikasi. Berisi komponen *dumb UI* (seperti *card*), tipe data, dan *API calls* dasar. **Dibutuhkan.**
@@ -33,10 +33,6 @@ src/
 │   ├── layout.tsx
 │   ├── providers.tsx
 │   └── globals.css
-├── pages/
-│   ├── public/
-│   ├── auth/
-│   └── dashboard/
 ├── widgets/
 │   ├── layout/
 │   ├── review-center/
@@ -202,7 +198,7 @@ Hierarki lapisan mematuhi aturan standar FSD: lapisan atas hanya boleh mengimpor
   * `/dashboard/review-center`
   * `/dashboard/settings`
 
-Masing-masing halaman *route* di dalam folder `app/` di atas pada dasarnya akan merender komponen komposisi dari `src/pages`.
+Masing-masing halaman *route* di dalam folder `app/` di atas secara langsung bertindak sebagai *composer* yang menggabungkan berbagai *widgets* dan *features* menjadi satu halaman.
 
 ---
 

@@ -4,7 +4,7 @@ import { prisma } from '@/shared/api/prisma/client'
 import { revalidatePath } from 'next/cache'
 import { PrismaClient, AgendaStatus } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
-import { agendaSchema } from './schema'
+import { agendaSchema } from '@/entities/agenda/model/schema'
 import { ActionState } from '@/shared/lib/action-state'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 

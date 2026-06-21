@@ -4,7 +4,7 @@ import { prisma } from '@/shared/api/prisma/client'
 import { revalidatePath } from 'next/cache'
 import { PrismaClient, ArticleStatus, AgendaStatus, ReviewAction } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
-import { reviewSchema, ReviewEntityType, ReviewActionEnum } from './schema'
+import { reviewSchema, ReviewEntityType, ReviewActionEnum } from '@/entities/review-history/model/schema'
 import { ActionState } from '@/shared/lib/action-state'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 
