@@ -130,7 +130,7 @@ Hanya dikelola oleh ADMIN_CABANG dan SYSTEM_ADMIN.
   * Mengunggah PDF ke folder Cloudinary `secure-documents` menggunakan otentikasi privat.
 * **`publishDocument(id)`** / **`archiveDocument(id)`**
 * **`downloadDocument(id)`**
-  * Action ini memvalidasi permintaan, mencatat analitik jika diperlukan, dan mengembalikan *Signed URL* dari Supabase Storage.
+  * Action ini memvalidasi permintaan, mencatat analitik jika diperlukan, dan mengembalikan *Signed URL* dari Cloudinary.
 
 ---
 
@@ -176,7 +176,7 @@ Manajemen unggahan disentralisasi ke dalam fungsi pustaka (seperti `uploadFileTo
   * Verifikasi Kader: `.xlsx`, `.xls`, `.csv`. Maksimal: 5MB.
   * Dokumen: `.pdf`. Maksimal: 10MB.
 * **Media Optimization Pipeline:**
-  * Kompresi dan optimasi gambar akan dilayani *on-the-fly* oleh komponen `next/image` di sisi klien. Supabase Storage murni sebagai tempat penyimpanan file asli.
+  * Kompresi dan optimasi gambar akan dilayani secara otomatis oleh Cloudinary (menggunakan transformasi URL seperti f_auto dan q_auto). Cloudinary berfungsi sebagai penyimpan file asli.
 
 ---
 
