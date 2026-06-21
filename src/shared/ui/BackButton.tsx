@@ -19,7 +19,7 @@ export function BackButton({
   className 
 }: BackButtonProps) {
   return (
-    <Link href={href} className="inline-flex items-center">
+    <Link href={href} prefetch className="inline-flex items-center">
       <Button 
         variant={variant} 
         size={label ? 'default' : 'icon'} 

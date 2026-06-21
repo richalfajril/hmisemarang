@@ -37,7 +37,7 @@ export function NavMain({
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild tooltip={item.title} isActive={isActive}>
-                  <Link href={item.url}>
+                  <Link href={item.url} prefetch>
                     {item.icon}
                     <span>{item.title}</span>
                   </Link>

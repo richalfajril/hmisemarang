@@ -38,7 +38,7 @@ export default async function AgendasPage() {
         description="Kelola jadwal kegiatan dan aktivitas acara."
         icon={CalendarRange}
       >
-        <Link href="/dashboard/agendas/create">
+        <Link href="/dashboard/agendas/create" prefetch>
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Buat Agenda

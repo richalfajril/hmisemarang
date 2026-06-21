@@ -44,7 +44,7 @@ export default async function ArticlesPage() {
         description="Kelola publikasi artikel berita, opini, dan kajian."
         icon={FileText}
       >
-        <Link href="/dashboard/articles/create">
+        <Link href="/dashboard/articles/create" prefetch>
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Tulis Artikel

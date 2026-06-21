@@ -115,7 +115,7 @@ export function NotificationBell() {
         
         <div className="p-2 border-t">
           <Button variant="ghost" size="sm" className="w-full text-xs">
-            <Link href="/dashboard/notifications" onClick={() => setOpen(false)} className="flex h-full w-full items-center justify-center">
+            <Link href="/dashboard/notifications" prefetch onClick={() => setOpen(false)} className="flex h-full w-full items-center justify-center">
               Lihat Semua Notifikasi
             </Link>
           </Button>

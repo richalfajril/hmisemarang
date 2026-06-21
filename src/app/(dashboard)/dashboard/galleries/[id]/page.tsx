@@ -45,7 +45,7 @@ export default async function AlbumDetailsPage({ params }: { params: Promise<{ i
         description={album.description || undefined}
         backHref="/dashboard/galleries"
       >
-        <Link href={`/dashboard/galleries/${album.id}/edit`}>
+        <Link href={`/dashboard/galleries/${album.id}/edit`} prefetch>
           <Button variant="outline">
             <Edit className="mr-2 h-4 w-4" />
             Edit Info

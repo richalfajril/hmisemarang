@@ -97,13 +97,13 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/profile">
+                <Link href="/dashboard/profile" prefetch>
                   <UserRoundIcon />
                   Profil Saya
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/dashboard/notifications">
+                <Link href="/dashboard/notifications" prefetch>
                   <BellIcon />
                   Notifikasi
                 </Link>

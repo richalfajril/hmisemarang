@@ -41,7 +41,7 @@ export default async function DocumentsPage() {
         description="Pusat penyimpanan berkas PDF organisasi untuk publik."
         icon={BookOpen}
       >
-        <Link href="/dashboard/documents/new">
+        <Link href="/dashboard/documents/new" prefetch>
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Unggah Dokumen

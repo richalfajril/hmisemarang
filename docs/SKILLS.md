@@ -89,6 +89,7 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 * **Route Structure:** Direktori mencerminkan URL rute fisik (misal: `src/app/dashboard/articles/page.tsx`).
 * **Layouts:** Gunakan `layout.tsx` untuk UI pembungkus persisten antar navigasi (navigasi sisi kiri CMS).
 * **loading.tsx:** Wajib disediakan di dalam modul CMS untuk transisi pemuatan *suspense*, tetapi fallback visual boleh kosong agar navigasi tidak menampilkan placeholder kerangka.
+* **Link Prefetch:** Semua navigasi internal berbasis `next/link` wajib menuliskan prop `prefetch` secara eksplisit. Link eksternal, tautan unduh berkas, atau URL dinamis dari database hanya boleh diprefetch jika terbukti path internal (`href` diawali `/`).
 * **error.tsx:** Wajib ada untuk menangkap kegagalan fatal rendering sisi server.
 * **not-found.tsx:** Sesuaikan untuk Website Publik (halaman atraktif 404) dan CMS (tampilan error dashboard).
 

@@ -42,7 +42,7 @@ export function ReviewSplitScreen({ entityType, entityId, previewData }: ReviewS
         <CheckCircle2 className="h-16 w-16 text-green-500" />
         <h2 className="text-2xl font-bold text-center">Tinjauan Berhasil Disimpan</h2>
         <p className="text-muted-foreground text-center">{state.message}</p>
-        <Link href="/dashboard/review-center">
+        <Link href="/dashboard/review-center" prefetch>
           <Button className="mt-4">Kembali ke Antrean</Button>
         </Link>
       </div>
@@ -94,7 +94,7 @@ export function ReviewSplitScreen({ entityType, entityId, previewData }: ReviewS
 
           {previewData.fileDownloadUrl && (
             <div className="flex justify-center py-10">
-              <Link href={previewData.fileDownloadUrl} target="_blank">
+              <Link href={previewData.fileDownloadUrl} target="_blank" prefetch={false}>
                 <Button size="lg" className="h-16 px-8 text-lg font-semibold bg-emerald-600 hover:bg-emerald-700 text-white">
                   Unduh Berkas Excel Verifikasi Kader
                 </Button>

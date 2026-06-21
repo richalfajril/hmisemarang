@@ -88,7 +88,7 @@ export default async function NotificationsPage(props: { searchParams: Promise<{
               {notif.link_url && (
                 <div className="sm:ml-auto">
                   <Button variant="secondary" size="sm">
-                    <Link href={notif.link_url} className="flex h-full w-full items-center justify-center">
+                    <Link href={notif.link_url} prefetch={notif.link_url.startsWith('/')} className="flex h-full w-full items-center justify-center">
                       Buka Tautan
                     </Link>
                   </Button>

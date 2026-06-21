@@ -11,7 +11,7 @@ export default function NotFoundPage() {
         title="Halaman Tidak Ditemukan (404)"
         description="Ruang digital yang Anda cari tampaknya tidak ada di koordinat ini, atau tautannya sudah kedaluwarsa."
         action={
-          <Link href="/" className={buttonVariants({ variant: 'default' })}>
+          <Link href="/" prefetch className={buttonVariants({ variant: 'default' })}>
             Kembali ke Beranda
           </Link>
         }

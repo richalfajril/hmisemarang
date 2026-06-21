@@ -65,7 +65,7 @@ export function ReviewQueue({ articles, agendas, profiles = [], verifications = 
                   <CardDescription>{article.commissariat.name}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto pt-4 flex justify-end">
-                  <Link href={`/dashboard/review-center/ARTICLE/${article.id}`}>
+                  <Link href={`/dashboard/review-center/ARTICLE/${article.id}`} prefetch>
                     <Button size="sm">
                       Tinjau
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -98,7 +98,7 @@ export function ReviewQueue({ articles, agendas, profiles = [], verifications = 
                   <CardDescription>{agenda.commissariat?.name || 'Cabang'}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto pt-4 flex justify-end">
-                  <Link href={`/dashboard/review-center/AGENDA/${agenda.id}`}>
+                  <Link href={`/dashboard/review-center/AGENDA/${agenda.id}`} prefetch>
                     <Button size="sm">
                       Tinjau
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -131,7 +131,7 @@ export function ReviewQueue({ articles, agendas, profiles = [], verifications = 
                   <CardDescription>Pembaruan Profil Organisasi</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto pt-4 flex justify-end">
-                  <Link href={`/dashboard/review-center/COMMISSARIAT_PROFILE/${p.id}`}>
+                  <Link href={`/dashboard/review-center/COMMISSARIAT_PROFILE/${p.id}`} prefetch>
                     <Button size="sm">
                       Tinjau
                       <ArrowRight className="ml-2 h-4 w-4" />
@@ -164,7 +164,7 @@ export function ReviewQueue({ articles, agendas, profiles = [], verifications = 
                   <CardDescription>{v.commissariat?.name || 'Komisariat'}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto pt-4 flex justify-end">
-                  <Link href={`/dashboard/review-center/CADRE_VERIFICATION/${v.id}`}>
+                  <Link href={`/dashboard/review-center/CADRE_VERIFICATION/${v.id}`} prefetch>
                     <Button size="sm">
                       Tinjau
                       <ArrowRight className="ml-2 h-4 w-4" />

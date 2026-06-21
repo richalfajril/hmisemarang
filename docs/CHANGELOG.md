@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Aggressive Internal Link Prefetch (2026-06-22)
+* Added explicit `prefetch` props to known internal `next/link` navigation across dashboard layout, forms, lists, review center, notifications, and error pages.
+* Guarded database-driven notification links so only internal paths are prefetched.
+* Documented the internal prefetch convention in `docs/SKILLS.md`.
+
 #### Dashboard Streaming & Skeleton Refactoring (2026-06-22)
 * Removed global `loading.tsx` from dashboard root to prevent blocking the entire layout on navigation.
 * Refactored `RecentActivityWidget`, `PendingQueueWidget`, and `LeaderboardWidget` to internally handle their own `<Suspense>` boundaries.

@@ -67,7 +67,7 @@ export function DocumentList({ documents }: DocumentListProps) {
         <FileText className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
         <h3 className="text-lg font-medium">Belum Ada Dokumen</h3>
         <p className="text-muted-foreground mb-6">Mulai unggah dokumen untuk organisasi Anda.</p>
-        <Link href="/dashboard/documents/new">
+        <Link href="/dashboard/documents/new" prefetch>
           <Button>Unggah Dokumen</Button>
         </Link>
       </div>
@@ -128,7 +128,7 @@ export function DocumentList({ documents }: DocumentListProps) {
                       <Download className="mr-2 h-4 w-4" />
                       Unduh (Secure)
                     </DropdownMenuItem>
-                    <Link href={`/dashboard/documents/${doc.id}/edit`}>
+                    <Link href={`/dashboard/documents/${doc.id}/edit`} prefetch>
                       <DropdownMenuItem>
                         <Edit className="mr-2 h-4 w-4" />
                         Edit Metadata

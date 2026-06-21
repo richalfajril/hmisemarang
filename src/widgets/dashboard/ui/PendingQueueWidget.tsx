@@ -48,7 +48,7 @@ async function PendingQueueData() {
           <span className="font-medium">{stats.profiles}</span>
         </div>
       </div>
-      <Link href="/dashboard/review-center">
+      <Link href="/dashboard/review-center" prefetch>
         <Button className="w-full" variant="outline">
           Buka Review Center <ArrowRight className="ml-2 h-4 w-4" />
         </Button>

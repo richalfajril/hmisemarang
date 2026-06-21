@@ -104,7 +104,7 @@ export function AgendaList({ agendas }: AgendaListProps) {
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                       
-                      <Link href={`/dashboard/agendas/${agenda.id}/edit`}>
+                      <Link href={`/dashboard/agendas/${agenda.id}/edit`} prefetch>
                         <DropdownMenuItem className="cursor-pointer">
                           <Edit className="mr-2 h-4 w-4" />
                           Edit Draf

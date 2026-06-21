@@ -112,7 +112,7 @@ export function ArticleList({ articles }: ArticleListProps) {
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                       
-                      <Link href={`/dashboard/articles/${article.id}/edit`}>
+                      <Link href={`/dashboard/articles/${article.id}/edit`} prefetch>
                         <DropdownMenuItem className="cursor-pointer">
                           <Edit className="mr-2 h-4 w-4" />
                           Edit Draf

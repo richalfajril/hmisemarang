@@ -76,7 +76,7 @@ export function AppSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <Link href="/dashboard">
+              <Link href="/dashboard" prefetch>
                 <span className="flex size-5 items-center justify-center rounded-sm bg-primary text-primary-foreground text-xs font-bold">
                   H
                 </span>

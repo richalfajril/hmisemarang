@@ -37,7 +37,7 @@ export function DocumentForm({ initialData, categories }: DocumentFormProps) {
         description="Pilih berkas format PDF dengan ukuran maksimal 20MB untuk dipublikasikan."
         backHref="/dashboard/documents"
       >
-        <Link href="/dashboard/documents">
+        <Link href="/dashboard/documents" prefetch>
           <Button type="button" variant="outline" disabled={isPending}>Batal</Button>
         </Link>
         <Button type="submit" disabled={isPending}>

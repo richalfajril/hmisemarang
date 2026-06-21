@@ -36,7 +36,7 @@ export default async function GalleriesPage() {
         description="Pusat arsip dokumentasi visual kegiatan HMI Cabang Semarang."
         icon={Images}
       >
-        <Link href="/dashboard/galleries/new">
+        <Link href="/dashboard/galleries/new" prefetch>
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Buat Album Baru

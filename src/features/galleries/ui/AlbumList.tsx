@@ -50,7 +50,7 @@ export function AlbumList({ albums }: AlbumListProps) {
         <Images className="mx-auto h-12 w-12 text-muted-foreground/50 mb-4" />
         <h3 className="text-lg font-medium">Belum Ada Album Galeri</h3>
         <p className="text-muted-foreground mb-6">Mulai buat album untuk mendokumentasikan kegiatan.</p>
-        <Link href="/dashboard/galleries/new">
+        <Link href="/dashboard/galleries/new" prefetch>
           <Button>Buat Album Baru</Button>
         </Link>
       </div>
@@ -61,7 +61,7 @@ export function AlbumList({ albums }: AlbumListProps) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {albums.map((album) => (
         <Card key={album.id} className="overflow-hidden flex flex-col hover:shadow-md transition-shadow group">
-          <Link href={`/dashboard/galleries/${album.id}`} className="block relative aspect-video bg-muted border-b">
+          <Link href={`/dashboard/galleries/${album.id}`} prefetch className="block relative aspect-video bg-muted border-b">
             {album.cover_image_url ? (
               <Image
                 src={getOptimizedUrl(album.cover_image_url)}
@@ -91,7 +91,7 @@ export function AlbumList({ albums }: AlbumListProps) {
           <CardContent className="p-4 flex-1 flex flex-col justify-between">
             <div>
               <h3 className="font-semibold line-clamp-1" title={album.title}>
-                <Link href={`/dashboard/galleries/${album.id}`} className="hover:underline">
+                <Link href={`/dashboard/galleries/${album.id}`} prefetch className="hover:underline">
                   {album.title}
                 </Link>
               </h3>
@@ -108,7 +108,7 @@ export function AlbumList({ albums }: AlbumListProps) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <Link href={`/dashboard/galleries/${album.id}/edit`}>
+                  <Link href={`/dashboard/galleries/${album.id}/edit`} prefetch>
                     <DropdownMenuItem>
                       <Edit className="mr-2 h-4 w-4" />
                       Edit Info Album

@@ -34,7 +34,7 @@ export function ArticleForm({ initialData, categories }: ArticleFormProps) {
         description={initialData ? 'Perbarui informasi draf artikel Anda.' : 'Tulis draf artikel baru untuk dipublikasikan setelah disetujui.'}
         backHref="/dashboard/articles"
       >
-        <Link href="/dashboard/articles">
+        <Link href="/dashboard/articles" prefetch>
           <Button variant="outline" type="button" disabled={isPending}>Batal</Button>
         </Link>
         <Button type="submit" disabled={isPending}>

@@ -61,7 +61,7 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
                       <Button variant="outline" size="sm">
-                        <Link href={`/dashboard/organization/periods/${item.id}`} className="flex items-center">
+                        <Link href={`/dashboard/organization/periods/${item.id}`} prefetch className="flex items-center">
                           <Eye className="h-4 w-4 mr-2" />
                           Lihat Susunan
                         </Link>

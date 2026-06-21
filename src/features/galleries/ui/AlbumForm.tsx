@@ -44,7 +44,7 @@ export function AlbumForm({ initialData }: AlbumFormProps) {
         description={initialData ? 'Perbarui metadata album.' : 'Setelah album dibuat, Anda akan dapat mengunggah foto ke dalamnya.'}
         backHref={cancelHref}
       >
-        <Link href={cancelHref}>
+        <Link href={cancelHref} prefetch>
           <Button type="button" variant="outline" disabled={isPending}>Batal</Button>
         </Link>
         <Button type="submit" disabled={isPending}>

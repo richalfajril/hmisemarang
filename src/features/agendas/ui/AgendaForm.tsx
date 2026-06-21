@@ -38,7 +38,7 @@ export function AgendaForm({ initialData }: AgendaFormProps) {
         description={initialData ? 'Perbarui informasi draf agenda Anda.' : 'Buat agenda baru untuk dipublikasikan setelah disetujui.'}
         backHref="/dashboard/agendas"
       >
-        <Link href="/dashboard/agendas">
+        <Link href="/dashboard/agendas" prefetch>
           <Button variant="outline" type="button" disabled={isPending}>Batal</Button>
         </Link>
         <Button type="submit" disabled={isPending}>
