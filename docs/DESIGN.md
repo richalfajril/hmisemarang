@@ -159,7 +159,7 @@ Berdasarkan *shadcn/ui* yang akan diinstal nanti:
 
 ## 12. Loading States
 
-* **Skeleton:** Tampilan *placeholder* kelabu beranimasi nafas lambat (*pulse*). Digunakan untuk pemuatan konten awal (misal: *Article Card* di dasbor).
+* **Route Streaming:** Rute dan widget dasbor boleh menggunakan `Suspense`/`loading.tsx`, tetapi fallback visual dibuat kosong (`null`) agar tidak menampilkan placeholder kerangka.
 * **Spinner:** Ikon putar (biasanya `lucide-react/Loader2`). Digunakan secara spesifik *di dalam tombol aksi* (saat form *submit* sedang berproses Server Action).
 * **Optimistic Updates:** Diatur via *React Query*. (Misal: menekan ikon *mark as read* pada notifikasi akan langsung memudarkan notifikasi meski proses API di latar belakang belum selesai).
 

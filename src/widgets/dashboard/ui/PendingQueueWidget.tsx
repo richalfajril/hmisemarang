@@ -4,7 +4,6 @@ import { Inbox, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { getCabangDashboardStats } from '@/widgets/dashboard/api/queries'
-import { Skeleton } from '@/shared/ui/Skeleton'
 
 export function PendingQueueWidget() {
   return (
@@ -16,18 +15,7 @@ export function PendingQueueWidget() {
         <CardDescription>Menunggu persetujuan Cabang.</CardDescription>
       </CardHeader>
       <CardContent>
-        <Suspense fallback={
-          <div>
-            <Skeleton className="h-10 w-16 mb-4" />
-            <div className="grid grid-cols-2 gap-2 mb-6">
-              <Skeleton className="h-9 w-full rounded" />
-              <Skeleton className="h-9 w-full rounded" />
-              <Skeleton className="h-9 w-full rounded" />
-              <Skeleton className="h-9 w-full rounded" />
-            </div>
-            <Skeleton className="h-10 w-full" />
-          </div>
-        }>
+        <Suspense fallback={null}>
           <PendingQueueData />
         </Suspense>
       </CardContent>

@@ -137,7 +137,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
           <div className="flex flex-col items-center justify-center p-6 text-center space-y-3">
             {isUploading ? (
               <>
-                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center animate-pulse">
+                <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
                   <Loader2 className="h-6 w-6 text-primary animate-spin" />
                 </div>
                 <div className="space-y-1">

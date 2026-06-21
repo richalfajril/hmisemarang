@@ -88,7 +88,7 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 
 * **Route Structure:** Direktori mencerminkan URL rute fisik (misal: `src/app/dashboard/articles/page.tsx`).
 * **Layouts:** Gunakan `layout.tsx` untuk UI pembungkus persisten antar navigasi (navigasi sisi kiri CMS).
-* **loading.tsx:** Wajib disediakan di dalam modul CMS untuk transisi pemuatan *suspense*.
+* **loading.tsx:** Wajib disediakan di dalam modul CMS untuk transisi pemuatan *suspense*, tetapi fallback visual boleh kosong agar navigasi tidak menampilkan placeholder kerangka.
 * **error.tsx:** Wajib ada untuk menangkap kegagalan fatal rendering sisi server.
 * **not-found.tsx:** Sesuaikan untuk Website Publik (halaman atraktif 404) dan CMS (tampilan error dashboard).
 
@@ -164,7 +164,7 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 * **Cards:** Beri batas jelas antar kartu untuk form input dan ringkasan data.
 * **Dialogs/Drawers:** Jangan pakai dialog untuk *form* raksasa melebihi 1 layar. Gunakan halaman terpisah. Drawers digunakan untuk *mobile UX*.
 * **Forms:** Label berposisi atas (*top-aligned*). Bintang merah untuk tanda wajib isi.
-* **Empty States & Loading States:** Sajikan *Skeleton* saat *loading*, dan kotak pesan grafis bersahabat saat entitas berstatus kosong.
+* **Empty States & Loading States:** Sajikan fallback kosong saat *loading* rute/widget, spinner untuk aksi eksplisit, dan kotak pesan grafis bersahabat saat entitas berstatus kosong.
 
 ---
 

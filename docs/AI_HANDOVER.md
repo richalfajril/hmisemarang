@@ -16,7 +16,7 @@ Proyek ini mematuhi arsitektur FSD secara kaku dengan beberapa modifikasi khusus
 * ⚙️ **`src/features/`**: Berisi murni logika interaksi (*Server Actions*) dan UI interaktif yang memutasi entitas. **Jangan pernah** meletakkan deklarasi skema Zod di sini.
 * 🧩 **`src/widgets/`**: Blok komposisi UI besar (seperti *Header*, *Sidebar*, *ReviewCenter*).
 * 🧰 **`src/shared/`**: Komponen atomik (`PascalCase.tsx`), *hooks*, konfigurasi, dan klien database tunggal (`prisma/client.ts`).
-* **Skeletons & App Shell**: Rute dasbor telah dilengkapi dengan `loading.tsx` yang me-*render* komponen kerangka seperti `TableSkeleton` dan `GridSkeleton` dari `shared/ui` untuk navigasi instan. Jangan ubah pola pemuatan ini.
+* **App Shell Loading**: Rute dasbor tetap menggunakan `loading.tsx`/`Suspense` untuk menjaga navigasi cepat, tetapi fallback visual dibuat kosong tanpa komponen kerangka.
 
 ## 3. Aturan Main AI (AI Workflow Rules)
 Dokumen tunggal yang mengatur seluruh pergerakan AI ada di `AGENTS.md` (di *root* folder). Aturan mutlak:

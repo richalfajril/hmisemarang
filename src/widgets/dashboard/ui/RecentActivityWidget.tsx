@@ -4,7 +4,6 @@ import { id as idLocale } from 'date-fns/locale'
 import { Activity } from 'lucide-react'
 import { Suspense } from 'react'
 import { getRecentActivityLogs } from '@/widgets/dashboard/api/queries'
-import { Skeleton } from '@/shared/ui/Skeleton'
 
 export function RecentActivityWidget() {
   return (
@@ -15,19 +14,7 @@ export function RecentActivityWidget() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Suspense fallback={
-          <div className="space-y-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="flex items-start gap-4">
-                <Skeleton className="h-5 w-5 rounded-full" />
-                <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-3 w-24" />
-                </div>
-              </div>
-            ))}
-          </div>
-        }>
+        <Suspense fallback={null}>
           <RecentActivityData />
         </Suspense>
       </CardContent>

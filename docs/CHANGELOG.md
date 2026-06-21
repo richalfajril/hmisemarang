@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Removed
+
+#### Dashboard Skeleton Loading UI (2026-06-22)
+* Removed dashboard skeleton placeholder rendering from route `loading.tsx` files and granular `<Suspense>` fallbacks while preserving the App Shell streaming boundaries.
+* Removed unused shared skeleton UI helpers from `src/shared/ui/`.
+* Removed the sidebar menu skeleton export and the image uploader pulse placeholder accent.
+
 ### Added
 
 #### Dashboard Streaming & Skeleton Refactoring (2026-06-22)

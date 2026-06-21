@@ -11,7 +11,6 @@ import { StatCard } from '@/widgets/dashboard/ui/StatCard'
 import { LeaderboardWidget } from '@/widgets/dashboard/ui/LeaderboardWidget'
 import { RecentActivityWidget } from '@/widgets/dashboard/ui/RecentActivityWidget'
 import { PendingQueueWidget } from '@/widgets/dashboard/ui/PendingQueueWidget'
-import { Skeleton } from '@/shared/ui/Skeleton'
 import { FileText, CalendarRange, Building2, BookOpen } from 'lucide-react'
 
 export const metadata = {
@@ -38,7 +37,7 @@ export default async function DashboardOverview() {
       {isCabang ? (
         <CabangDashboard />
       ) : (
-        <Suspense fallback={<StatsGridSkeleton cols={3} />}>
+        <Suspense fallback={null}>
           <CommissariatDashboardSection commissariatId={commissariatId!} />
         </Suspense>
       )}
@@ -50,7 +49,7 @@ function CabangDashboard() {
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
-      <Suspense fallback={<StatsGridSkeleton cols={4} />}>
+      <Suspense fallback={null}>
         <CabangStatsSection />
       </Suspense>
 
@@ -62,24 +61,6 @@ function CabangDashboard() {
       <div className="grid gap-6 grid-cols-1">
         <CabangLeaderboardSection />
       </div>
-    </div>
-  )
-}
-
-// Stats grid loading skeleton
-function StatsGridSkeleton({ cols = 4 }: { cols?: number }) {
-  return (
-    <div className={`grid gap-4 md:grid-cols-2 lg:grid-cols-${cols}`}>
-      {Array.from({ length: cols }).map((_, i) => (
-        <div key={i} className="rounded-xl border bg-card p-6 shadow-xs space-y-3">
-          <div className="flex items-center justify-between">
-            <Skeleton className="h-4 w-28" />
-            <Skeleton className="h-4 w-4 rounded-full" />
-          </div>
-          <Skeleton className="h-8 w-16" />
-          <Skeleton className="h-3 w-36" />
-        </div>
-      ))}
     </div>
   )
 }
@@ -136,11 +117,7 @@ function CabangLeaderboardSection() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Suspense fallback={
-          <div className="h-[300px] flex items-center justify-center">
-             <Skeleton className="h-[250px] w-full" />
-          </div>
-        }>
+        <Suspense fallback={null}>
           <CabangLeaderboardData />
         </Suspense>
       </CardContent>

@@ -257,7 +257,7 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * `[x]` **Database Tasks:** Operasi komputasi agregasi untuk menduduki *Top 5 Commissariats* (Terbanyak Publikasi).
 * `[x]` **API Tasks:** Telusur cerdas *debounced* mencakup artikel, agenda, dokumen, komisariat, dan struktur organisasi berdasarkan relevansi.
 * `[x]` **UI Tasks:** *Command Palette (Dialog)* pintasan kibor `Ctrl+K`.
-* `[x]` **UI Tasks:** Standarisasi padding, margin, tombol back, serta implementasi RSC streaming dan skeleton di dasbor.
+* `[x]` **UI Tasks:** Standarisasi padding, margin, tombol back, serta implementasi RSC streaming tanpa placeholder kerangka di dasbor.
 
 ### Deliverables
 * Indikator *Metrics Dashboard* elegan dan pencarian omnibox super cepat (*Search everything*).
@@ -328,7 +328,8 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ## Adjustments (Unplanned Features)
 *(Area ini difungsikan murni untuk mencatat secara historis semua tugas ad-hoc atau perombakan darurat yang memaksa masuk di tengah-tengah rentang masa iterasi. Kosong secara baku).*
-- **Dashboard Layout & Performance Refactoring (2026-06-22):** Refaktorisasi padding, margin, back button terpadu, dan rendering non-blocking dengan Suspense & skeletons.
+- **Dashboard Layout & Performance Refactoring (2026-06-22):** Refaktorisasi padding, margin, back button terpadu, dan rendering non-blocking dengan Suspense.
+- **Dashboard Loading Placeholder Removal (2026-06-22):** Menghapus placeholder kerangka dari fallback `Suspense` dan `loading.tsx` sambil mempertahankan pola App Shell.
 - **FSD Safe Refactoring & Codebase Cleanup (2026-06-22):** Penyelarasan arsitektur kode FSD (pemindahan widget & layout, penyelarasan nama file/folder actions.ts & schema.ts, pembersihan file usang).
 
 ## Backlog
