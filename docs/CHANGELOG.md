@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Created `decisions/001-authentication.md`
 * Created `decisions/002-document-module.md`
 * Created `decisions/003-database-readiness.md`
+* Created `ROADMAP.md`
 
 #### Product Modules
 
@@ -65,6 +66,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 #### Product Decisions
 
+* Dashboard leaderboard restricted to Top 5 Commissariats.
+* Global Search priority defined: Relevance first, then Published Date DESC.
+* Content Review concurrency handled via Prisma Transactions (no version column/optimistic locking).
+* Audit Logs retention policy set to permanent (never auto-delete).
 * Defined Category cardinality (Article N:1, Document N:1).
 * Defined Tag cardinality (Article N:M).
 * Created dedicated Review History entity to permanently store revision notes.
