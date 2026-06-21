@@ -21,7 +21,7 @@ export function CreateTaxonomyModal({ type, label }: { type: 'ARTICLE_CATEGORY' 
 
   useEffect(() => {
     if (state?.success) {
-      setOpen(false)
+      setTimeout(() => setOpen(false), 0)
     }
   }, [state])
 

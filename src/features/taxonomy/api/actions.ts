@@ -72,7 +72,7 @@ export async function createTaxonomyAction(
       entity_type: type,
       entity_id: entityId,
       action: 'CREATED',
-      new_data: { name, slug },
+      newData: { name, slug },
     })
 
     revalidatePath('/dashboard/taxonomy')

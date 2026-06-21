@@ -100,7 +100,7 @@ export async function saveArticleDraftAction(
         entity_type: 'Article',
         entity_id: articleId,
         action: 'UPDATED',
-        new_data: { title: data.title }
+        newData: { title: data.title }
       })
     } else {
       await prisma.article.create({
@@ -128,7 +128,7 @@ export async function saveArticleDraftAction(
         entity_type: 'Article',
         entity_id: 'NEW',
         action: 'CREATED',
-        new_data: { title: data.title }
+        newData: { title: data.title }
       })
     }
 
@@ -170,13 +170,13 @@ export async function submitArticleAction(articleId: string) {
       entity_type: 'Article',
       entity_id: articleId,
       action: 'UPDATED',
-      new_data: { status: 'SUBMITTED' }
+      newData: { status: 'SUBMITTED' }
     })
     revalidatePath('/dashboard/articles')
     return { success: true, message: 'Artikel berhasil diajukan untuk peninjauan.' }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Submit article error:', error)
-    return { success: false, message: error.message || 'Terjadi kesalahan sistem.' }
+    return { success: false, message: (error as Error).message || 'Terjadi kesalahan sistem.' }
   }
 }
 
@@ -211,8 +211,8 @@ export async function softDeleteArticleAction(articleId: string) {
     })
     revalidatePath('/dashboard/articles')
     return { success: true, message: 'Artikel berhasil dihapus sementara.' }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Soft delete article error:', error)
-    return { success: false, message: error.message || 'Terjadi kesalahan sistem.' }
+    return { success: false, message: (error as Error).message || 'Terjadi kesalahan sistem.' }
   }
 }

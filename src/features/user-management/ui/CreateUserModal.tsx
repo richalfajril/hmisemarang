@@ -36,7 +36,7 @@ export function CreateUserModal({
 
   // Set ulang salinan ketika dialog terbuka
   useEffect(() => {
-    if (!open) setCopied(false)
+    if (!open) setTimeout(() => setCopied(false), 0)
   }, [open])
 
   const copyToClipboard = async (text: string) => {
@@ -73,14 +73,14 @@ export function CreateUserModal({
               </p>
               <div className="flex items-center gap-2">
                 <code className="relative rounded bg-white px-3 py-2 text-sm font-mono flex-1 border border-green-200 dark:bg-black dark:border-green-800">
-                  {state.data.tempPassword}
+                  {(state.data as { tempPassword?: string })?.tempPassword}
                 </code>
                 <Button 
                   type="button" 
                   size="icon" 
                   variant="outline"
                   className="shrink-0"
-                  onClick={() => copyToClipboard(state.data!.tempPassword)}
+                  onClick={() => copyToClipboard((state.data as { tempPassword?: string })?.tempPassword || '')}
                 >
                   {copied ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
                 </Button>

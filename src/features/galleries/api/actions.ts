@@ -46,7 +46,7 @@ export async function saveAlbumAction(
 
       let slug = existing.slug
       if (existing.title !== title) {
-        let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+        const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
         let uniqueSlug = baseSlug
         let counter = 1
         while (await prisma.galleryAlbum.findFirst({ where: { slug: uniqueSlug, id: { not: albumId } } })) {
@@ -72,7 +72,7 @@ export async function saveAlbumAction(
         entity_type: 'GalleryAlbum',
         entity_id: albumId,
         action: 'UPDATED',
-        new_data: { title, status }
+        newData: { title, status }
       })
 
       revalidatePath('/dashboard/galleries')
@@ -80,7 +80,7 @@ export async function saveAlbumAction(
       return { success: true, message: 'Album berhasil diperbarui.' }
 
     } else {
-      let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+      const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
       let uniqueSlug = baseSlug
       let counter = 1
       while (await prisma.galleryAlbum.findUnique({ where: { slug: uniqueSlug } })) {
@@ -104,7 +104,7 @@ export async function saveAlbumAction(
         entity_type: 'GalleryAlbum',
         entity_id: newAlbum.id,
         action: 'CREATED',
-        new_data: { title, status }
+        newData: { title, status }
       })
 
       revalidatePath('/dashboard/galleries')
@@ -136,7 +136,7 @@ export async function softDeleteAlbumAction(id: string): Promise<{ success: bool
       entity_type: 'GalleryAlbum',
       entity_id: id,
       action: 'DELETED',
-      new_data: { soft_delete: true }
+      newData: { soft_delete: true }
     })
 
     revalidatePath('/dashboard/galleries')

@@ -14,15 +14,33 @@ import { toast } from 'sonner'
 import { useTransition } from 'react'
 
 interface ProfileFormProps {
-  initialData: any // Mapped from submission or actual profile
+  initialData?: {
+    name?: string | null
+    address?: string | null
+    established_date?: string | Date | null
+    contact_email?: string | null
+    contact_phone?: string | null
+    instagram_url?: string | null
+    twitter_url?: string | null
+    facebook_url?: string | null
+    website_url?: string | null
+    logo_url?: string | null
+    secretariat_photo_url?: string | null
+    campus_name?: string | null
+    about?: string | null
+    chairman_name?: string | null
+    chairman_about?: string | null
+    cadre_count?: number | null
+    map_url?: string | null
+  } | null
   submissionId?: string
   status?: string // 'DRAFT' | 'SUBMITTED' | 'REJECTED' | 'APPROVED'
 }
 
 export function ProfileForm({ initialData, submissionId, status }: ProfileFormProps) {
   const [state, formAction, isPending] = useActionState(saveProfileDraftAction, initialActionState)
-  const [logo, setLogo] = useState(initialData?.logo_url || '')
-  const [photo, setPhoto] = useState(initialData?.secretariat_photo_url || '')
+  const [logo, setLogo] = useState<string>((initialData?.logo_url as string) || '')
+  const [photo, setPhoto] = useState<string>((initialData?.secretariat_photo_url as string) || '')
   const [isSubmitPending, startTransition] = useTransition()
 
   const isReadOnly = status === 'SUBMITTED'

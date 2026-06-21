@@ -71,7 +71,7 @@ export async function saveProfileDraftAction(
         entity_type: 'CommissariatProfileSubmission',
         entity_id: existingSubmission.id,
         action: 'UPDATED',
-        new_data: { status: 'DRAFT' }
+        newData: { status: 'DRAFT' }
       })
     } else {
       // Create new submission
@@ -90,14 +90,14 @@ export async function saveProfileDraftAction(
         entity_type: 'CommissariatProfileSubmission',
         entity_id: newSub.id,
         action: 'CREATED',
-        new_data: { status: 'DRAFT' }
+        newData: { status: 'DRAFT' }
       })
     }
 
     revalidatePath('/dashboard/profile')
     return { success: true, message: 'Draf profil berhasil disimpan.' }
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Save profile draft error:', error)
     return { success: false, message: 'Terjadi kesalahan sistem saat menyimpan draf.' }
   }
@@ -136,12 +136,12 @@ export async function submitProfileAction(submissionId: string): Promise<{ succe
       entity_type: 'CommissariatProfileSubmission',
       entity_id: submissionId,
       action: 'UPDATED',
-      new_data: { status: 'SUBMITTED' }
+      newData: { status: 'SUBMITTED' }
     })
 
     revalidatePath('/dashboard/profile')
     return { success: true, message: 'Profil berhasil diajukan untuk ditinjau oleh Cabang.' }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Submit profile error:', error)
     return { success: false, message: 'Terjadi kesalahan sistem.' }
   }

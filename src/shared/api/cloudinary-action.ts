@@ -14,8 +14,8 @@ export async function uploadMediaAction(formData: FormData, folder: string) {
 
     const result = await uploadFileToCloudinary(file, folder)
     return { success: true, url: result.secure_url, publicId: result.public_id }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Failed to upload media:', error)
-    return { success: false, error: error.message || 'Failed to upload media' }
+    return { success: false, error: (error as Error).message || 'Failed to upload media' }
   }
 }

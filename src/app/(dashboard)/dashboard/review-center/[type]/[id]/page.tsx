@@ -28,7 +28,14 @@ export default async function ReviewDetailPage({
     notFound()
   }
 
-  let previewData: any = null
+  let previewData: {
+    title: string
+    subtitle?: string
+    contentHtml?: string
+    imageUrl?: string
+    fileDownloadUrl?: string
+    metadata?: Array<{ label: string; value: string }>
+  } | null = null
 
   if (type === 'ARTICLE') {
     const article = await prisma.article.findUnique({
@@ -110,7 +117,7 @@ export default async function ReviewDetailPage({
       <ReviewSplitScreen 
         entityType={type as ReviewEntityType}
         entityId={id}
-        previewData={previewData}
+        previewData={previewData!}
       />
     </div>
   )

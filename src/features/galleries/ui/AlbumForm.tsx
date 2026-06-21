@@ -15,7 +15,12 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 interface AlbumFormProps {
-  initialData?: any
+  initialData?: {
+    id: string
+    title: string
+    status: string
+    description?: string | null
+  } | null
 }
 
 export function AlbumForm({ initialData }: AlbumFormProps) {

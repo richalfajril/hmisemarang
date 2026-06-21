@@ -101,7 +101,7 @@ export async function processReviewAction(
         createdById = sub.created_by
         entityTitle = `Profil: ${sub.commissariat.name}`
 
-        let nextStatus: any = 'DRAFT'
+        let nextStatus: 'PUBLISHED' | 'APPROVED' | 'REJECTED' | 'DRAFT' = 'DRAFT'
         if (action === 'APPROVED') nextStatus = 'APPROVED'
         else if (action === 'REVISION') nextStatus = 'REJECTED' // Tidak ada status REVISION khusus, kita pakai REJECTED/DRAFT
         else if (action === 'REJECTED') nextStatus = 'REJECTED'
@@ -146,7 +146,7 @@ export async function processReviewAction(
         
         entityTitle = `Verifikasi Kader: ${cv.commissariat.name}`
 
-        let nextStatus: any = 'REJECTED'
+        let nextStatus: 'VERIFIED' | 'REJECTED' | 'PENDING' = 'REJECTED'
         if (action === 'APPROVED') nextStatus = 'VERIFIED'
 
         await tx.cadreVerification.update({
@@ -212,7 +212,7 @@ export async function processReviewAction(
       entity_type: entity_type,
       entity_id: entity_id,
       action: action === 'APPROVED' ? 'PUBLISHED' : 'UPDATED',
-      new_data: { review_action: action, note }
+      newData: { review_action: action, note }
     })
 
     revalidatePath('/dashboard/review-center')
@@ -221,8 +221,8 @@ export async function processReviewAction(
 
     return { success: true, message: `Review untuk "${result.title}" berhasil diproses.` }
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Process review action error:', error)
-    return { success: false, message: error.message || 'Terjadi kesalahan sistem saat memproses tinjauan.' }
+    return { success: false, message: (error as Error).message || 'Terjadi kesalahan sistem saat memproses tinjauan.' }
   }
 }

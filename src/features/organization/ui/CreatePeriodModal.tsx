@@ -21,7 +21,7 @@ export function CreatePeriodModal() {
 
   useEffect(() => {
     if (state?.success) {
-      setOpen(false)
+      setTimeout(() => setOpen(false), 0)
     }
   }, [state])
 

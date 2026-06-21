@@ -9,12 +9,21 @@ import { format } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from '@/shared/ui/dropdown-menu'
 import { useTransition } from 'react'
-import { softDeleteDocumentAction } from '../api/actions'
+import { softDeleteDocumentAction, getSignedDocumentUrlAction } from '../api/actions'
 import { toast } from 'sonner'
-import { generateSecureDownloadUrl } from '@/shared/lib/cloudinary'
+
+type DocumentEntry = {
+  id: string
+  title: string
+  status: string
+  created_at: string | Date
+  file_url: string
+  file_size?: number | null
+  category?: { name: string } | null
+}
 
 interface DocumentListProps {
-  documents: Array<any>
+  documents: Array<DocumentEntry>
 }
 
 function formatBytes(bytes: number, decimals = 2) {
@@ -42,10 +51,14 @@ export function DocumentList({ documents }: DocumentListProps) {
     }
   }
 
-  const handleDownload = (fileUrl: string) => {
-    // Generate secure URL with 'raw' resource_type since PDF uploaded as raw
-    const url = generateSecureDownloadUrl(fileUrl, 'raw')
-    window.open(url, '_blank')
+  const handleDownload = async (fileUrl: string) => {
+    // Gunakan Server Action untuk membuat Signed URL
+    const result = await getSignedDocumentUrlAction(fileUrl)
+    if (result.success && result.url) {
+      window.open(result.url, '_blank')
+    } else {
+      toast.error('Gagal membuat tautan unduhan yang aman.')
+    }
   }
 
   if (documents.length === 0) {

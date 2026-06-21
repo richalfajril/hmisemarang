@@ -73,13 +73,13 @@ export async function uploadCadreFileAction(
       entity_type: 'CadreVerification',
       entity_id: newVerification.id,
       action: 'CREATED',
-      new_data: { status: 'PENDING' }
+      newData: { status: 'PENDING' }
     })
 
     revalidatePath('/dashboard/cadre-verification')
     return { success: true, message: 'Berkas verifikasi berhasil diunggah dan sedang menunggu peninjauan.' }
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Upload cadre verification error:', error)
     return { success: false, message: 'Terjadi kesalahan sistem saat memproses berkas.' }
   }

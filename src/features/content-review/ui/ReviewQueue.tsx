@@ -13,11 +13,14 @@ import { FileText, CalendarRange, Building2, UserCheck, ArrowRight, UserCircle }
 type PendingArticle = Article & { commissariat: Commissariat }
 type PendingAgenda = Agenda & { commissariat: Commissariat | null }
 
+type PendingProfile = { id: string; submitted_at?: Date | null; created_at: Date; commissariat?: { name: string } | null }
+type PendingVerification = { id: string; created_at: Date; commissariat?: { name: string } | null }
+
 interface ReviewQueueProps {
-  articles: Array<any>
-  agendas: Array<any>
-  profiles?: Array<any>
-  verifications?: Array<any>
+  articles: Array<PendingArticle>
+  agendas: Array<PendingAgenda>
+  profiles: Array<PendingProfile>
+  verifications: Array<PendingVerification>
 }
 
 export function ReviewQueue({ articles, agendas, profiles = [], verifications = [] }: ReviewQueueProps) {

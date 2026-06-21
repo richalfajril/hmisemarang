@@ -3,8 +3,16 @@ import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import { Activity } from 'lucide-react'
 
+type LogEntry = {
+  id: string
+  action: string
+  entity_type: string
+  created_at: string | Date
+  actor?: { name: string } | null
+}
+
 interface RecentActivityWidgetProps {
-  logs: Array<any>
+  logs: Array<LogEntry>
 }
 
 export function RecentActivityWidget({ logs }: RecentActivityWidgetProps) {

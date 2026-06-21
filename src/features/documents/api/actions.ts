@@ -6,7 +6,7 @@ import { getUserSession } from '@/shared/api/supabase/server'
 import { documentSchema } from './schema'
 import { ActionState } from '@/shared/lib/action-state'
 import { logAuditAction } from '@/shared/lib/audit-logger'
-import { uploadSecureFileToCloudinary, deleteFromCloudinary } from '@/shared/lib/cloudinary'
+import { uploadSecureFileToCloudinary, deleteFromCloudinary, generateSecureDownloadUrl } from '@/shared/lib/cloudinary'
 
 const prisma = new PrismaClient()
 
@@ -95,7 +95,7 @@ export async function saveDocumentAction(
       // Generate base slug and ensure uniqueness if title changed
       let slug = existingDoc.slug
       if (existingDoc.title !== title) {
-        let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+        const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
         let uniqueSlug = baseSlug
         let counter = 1
         while (await prisma.document.findFirst({ where: { slug: uniqueSlug, id: { not: documentId } } })) {
@@ -125,7 +125,7 @@ export async function saveDocumentAction(
         entity_type: 'Document',
         entity_id: documentId,
         action: 'UPDATED',
-        new_data: { title, status }
+        newData: { title, status }
       })
 
       revalidatePath('/dashboard/documents')
@@ -133,7 +133,7 @@ export async function saveDocumentAction(
 
     } else {
       // Create
-      let baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+      const baseSlug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
       let uniqueSlug = baseSlug
       let counter = 1
       while (await prisma.document.findUnique({ where: { slug: uniqueSlug } })) {
@@ -161,17 +161,26 @@ export async function saveDocumentAction(
         entity_type: 'Document',
         entity_id: newDoc.id,
         action: 'CREATED',
-        new_data: { title, status }
+        newData: { title, status }
       })
 
       revalidatePath('/dashboard/documents')
       return { success: true, message: 'Dokumen berhasil ditambahkan.' }
     }
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Save document error:', error)
     return { success: false, message: 'Terjadi kesalahan sistem.' }
   }
+}
+
+export async function getSignedDocumentUrlAction(publicId: string) {
+  // Hanya pengguna terautentikasi yang bisa mengambil (bisa ditambah cek RBAC jika mau)
+  const session = await getUserSession()
+  if (!session) return { success: false, url: null }
+
+  const url = generateSecureDownloadUrl(publicId, 'raw')
+  return { success: true, url }
 }
 
 export async function softDeleteDocumentAction(id: string): Promise<{ success: boolean; message: string }> {
@@ -195,7 +204,7 @@ export async function softDeleteDocumentAction(id: string): Promise<{ success: b
       entity_type: 'Document',
       entity_id: id,
       action: 'DELETED',
-      new_data: { soft_delete: true }
+      newData: { soft_delete: true }
     })
 
     revalidatePath('/dashboard/documents')

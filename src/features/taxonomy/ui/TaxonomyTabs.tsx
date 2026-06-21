@@ -4,14 +4,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/ui/Tabs'
 import { TaxonomyTable } from './TaxonomyTable'
 import { CreateTaxonomyModal } from './CreateTaxonomyModal'
 
+type TaxonomyData = {
+  id: string
+  name: string
+  slug: string
+  is_active: boolean
+  _count?: Record<string, number>
+}
+
 export function TaxonomyTabs({ 
   articleCategories, 
   documentCategories, 
-  tags 
+  tags
 }: { 
-  articleCategories: any[],
-  documentCategories: any[],
-  tags: any[]
+  articleCategories: Array<TaxonomyData>,
+  documentCategories: Array<TaxonomyData>,
+  tags: Array<TaxonomyData>
 }) {
   return (
     <Tabs defaultValue="article-categories" className="w-full">

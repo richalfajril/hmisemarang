@@ -5,14 +5,19 @@ import { Card, CardContent } from '@/shared/ui/ui/Card'
 import { Button } from '@/shared/ui/ui/Button'
 import { PlusCircle, Trash2, Star, Image as ImageIcon, Loader2 } from 'lucide-react'
 import Image from 'next/image'
-import { getOptimizedUrl } from '@/shared/lib/cloudinary'
+import { getOptimizedUrl } from '@/shared/lib/cloudinary-client'
 import { uploadSinglePhotoAction, deletePhotoAction, setAlbumCoverAction } from '../api/actions'
 import { toast } from 'sonner'
 import { Progress } from '@/shared/ui/progress'
 
+type PhotoEntry = {
+  id: string
+  image_url: string
+}
+
 interface PhotoGridProps {
   albumId: string
-  photos: Array<any>
+  photos: Array<PhotoEntry>
   coverImageUrl?: string | null
 }
 

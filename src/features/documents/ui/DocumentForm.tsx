@@ -14,7 +14,14 @@ import { DocumentCategory } from '@prisma/client'
 import Link from 'next/link'
 
 interface DocumentFormProps {
-  initialData?: any
+  initialData?: {
+    id: string
+    title: string
+    category_id: string
+    status: string
+    description?: string | null
+    file_url?: string | null
+  } | null
   categories: DocumentCategory[]
 }
 

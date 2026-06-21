@@ -98,7 +98,7 @@ export async function saveAgendaDraftAction(
         entity_type: 'Agenda',
         entity_id: agendaId,
         action: 'UPDATED',
-        new_data: { title: data.title }
+        newData: { title: data.title }
       })
     } else {
       await prisma.agenda.create({
@@ -124,7 +124,7 @@ export async function saveAgendaDraftAction(
         entity_type: 'Agenda',
         entity_id: 'NEW',
         action: 'CREATED',
-        new_data: { title: data.title }
+        newData: { title: data.title }
       })
     }
 
@@ -166,13 +166,13 @@ export async function submitAgendaAction(agendaId: string) {
       entity_type: 'Agenda',
       entity_id: agendaId,
       action: 'UPDATED',
-      new_data: { status: 'SUBMITTED' }
+      newData: { status: 'SUBMITTED' }
     })
     revalidatePath('/dashboard/agendas')
     return { success: true, message: 'Agenda berhasil diajukan untuk peninjauan.' }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Submit agenda error:', error)
-    return { success: false, message: error.message || 'Terjadi kesalahan sistem.' }
+    return { success: false, message: (error as Error).message || 'Terjadi kesalahan sistem.' }
   }
 }
 
@@ -207,8 +207,8 @@ export async function softDeleteAgendaAction(agendaId: string) {
     })
     revalidatePath('/dashboard/agendas')
     return { success: true, message: 'Agenda berhasil dihapus sementara.' }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Soft delete agenda error:', error)
-    return { success: false, message: error.message || 'Terjadi kesalahan sistem.' }
+    return { success: false, message: (error as Error).message || 'Terjadi kesalahan sistem.' }
   }
 }

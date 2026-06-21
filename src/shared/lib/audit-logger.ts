@@ -1,4 +1,5 @@
 import { prisma } from '@/shared/lib/prisma'
+import { Prisma } from '@prisma/client'
 import { headers } from 'next/headers'
 
 type LogActionProps = {
@@ -6,8 +7,8 @@ type LogActionProps = {
   entity_type: string
   entity_id: string
   action: 'CREATED' | 'UPDATED' | 'DELETED' | 'VIEWED' | 'LOGIN' | 'LOGOUT' | 'PUBLISHED' | 'ARCHIVED'
-  old_data?: any
-  new_data?: any
+  oldData?: unknown
+  newData?: unknown
 }
 
 export async function logAuditAction(props: LogActionProps) {
@@ -28,8 +29,8 @@ export async function logAuditAction(props: LogActionProps) {
         entity_type: props.entity_type,
         entity_id: props.entity_id,
         action: props.action,
-        old_data: props.old_data || null,
-        new_data: props.new_data || null,
+        old_data: props.oldData ? (props.oldData as Prisma.InputJsonValue) : undefined,
+        new_data: props.newData ? (props.newData as Prisma.InputJsonValue) : undefined,
         ip_address,
         browser,
       }

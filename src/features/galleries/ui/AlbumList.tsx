@@ -12,10 +12,20 @@ import { useTransition } from 'react'
 import { softDeleteAlbumAction } from '../api/actions'
 import { toast } from 'sonner'
 import Image from 'next/image'
-import { getOptimizedUrl } from '@/shared/lib/cloudinary'
+import { getOptimizedUrl } from '@/shared/lib/cloudinary-client'
+
+type AlbumEntry = {
+  id: string
+  title: string
+  status: string
+  created_at: string | Date
+  cover_image_url?: string | null
+  description?: string | null
+  _count?: { photos: number }
+}
 
 interface AlbumListProps {
-  albums: Array<any>
+  albums: Array<AlbumEntry>
 }
 
 export function AlbumList({ albums }: AlbumListProps) {

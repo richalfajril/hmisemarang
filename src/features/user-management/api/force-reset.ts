@@ -48,7 +48,7 @@ export async function forceResetPasswordAction(
     })
 
     if (error) {
-      return { success: false, message: `Gagal menyetel ulang: ${error.message}`, errorCode: 'SERVER_ERROR' }
+      return { success: false, message: `Gagal menyetel ulang: ${(error as Error).message}`, errorCode: 'SERVER_ERROR' }
     }
 
     return {

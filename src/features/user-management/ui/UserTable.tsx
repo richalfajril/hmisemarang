@@ -29,7 +29,7 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
   
   return (
     <div className="space-y-4">
-      {state?.success && state.data && (
+      {!!(state?.success && state.data) && (
          <div className="rounded-lg bg-amber-50 p-4 border border-amber-200 dark:bg-amber-950/30 dark:border-amber-900 mb-6 flex items-start gap-4 animate-in fade-in zoom-in-95">
            <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5 shrink-0" />
            <div>
@@ -38,7 +38,7 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
                Silakan sampaikan kata sandi baru berikut kepada pengguna secara rahasia. Akses ke sandi lama telah diputus.
              </p>
              <code className="rounded bg-amber-100 px-3 py-1.5 text-sm font-mono dark:bg-amber-900/50">
-               {state.data.tempPassword}
+               {(state.data as { tempPassword?: string })?.tempPassword}
              </code>
            </div>
          </div>

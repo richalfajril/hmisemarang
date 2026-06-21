@@ -20,4 +20,4 @@ if (!parsedEnv.success) {
   console.warn('⚠️ Environment Variables tidak lengkap:', parsedEnv.error.format())
 }
 
-export const env = parsedEnv.success ? parsedEnv.data : (process.env as any)
+export const env = parsedEnv.success ? parsedEnv.data : (process.env as unknown as z.infer<typeof envSchema>)

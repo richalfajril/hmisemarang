@@ -96,7 +96,7 @@ export default async function AuditLogsPage(props: { searchParams: Promise<{ pag
                       {log.actor_id ? `${log.actor_id.substring(0, 8)}...` : 'System'}
                     </TableCell>
                     <TableCell>
-                      <Badge variant={badgeColor as any} className={log.action === 'CREATED' ? 'bg-green-100 text-green-800 hover:bg-green-100' : ''}>
+                      <Badge variant={badgeColor as "default" | "secondary" | "destructive" | "outline"} className={log.action === 'CREATED' ? 'bg-green-100 text-green-800 hover:bg-green-100' : ''}>
                         {log.action}
                       </Badge>
                     </TableCell>
