@@ -36,10 +36,10 @@ docs/
 ├── features/
 ├── decisions/
 │
-└── AGENTS.md (future)
+└── [Root Level] AGENTS.md (Orchestration Layer)
 ```
 
-*Note: `AGENTS.md` is planned but not yet created.*
+*Note: `AGENTS.md` terletak di root direktori proyek sebagai panduan orkestrasi AI.*
 
 ---
 
