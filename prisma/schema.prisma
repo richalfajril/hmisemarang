@@ -1,0 +1,416 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  SYSTEM_ADMIN
+  ADMIN_CABANG
+  ADMIN_KOMISARIAT
+}
+
+enum ArticleStatus {
+  DRAFT
+  SUBMITTED
+  REVISION
+  APPROVED
+  PUBLISHED
+  REJECTED
+  ARCHIVED
+}
+
+enum AgendaStatus {
+  DRAFT
+  SUBMITTED
+  REVISION
+  APPROVED
+  PUBLISHED
+  REJECTED
+  ARCHIVED
+}
+
+enum ProfileSubmissionStatus {
+  DRAFT
+  SUBMITTED
+  REVISION
+  APPROVED
+  REJECTED
+}
+
+enum GalleryStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum DocumentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ReviewAction {
+  APPROVED
+  REJECTED
+  REVISION_REQUESTED
+}
+
+enum VerificationStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+model User {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  role            UserRole      @default(ADMIN_KOMISARIAT)
+  email           String        @unique
+  password_hash   String?
+  commissariat_id String?       @db.Uuid
+  last_login_at   DateTime?
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+  archived_at     DateTime?
+
+  commissariat Commissariat? @relation(fields: [commissariat_id], references: [id], onDelete: SetNull)
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Commissariat {
+  id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name                  String
+  slug                  String    @unique
+  logo_url              String?
+  campus_name           String?
+  about                 String?   @db.Text
+  chairman_name         String?
+  chairman_about        String?   @db.Text
+  cadre_count           Int       @default(0)
+  secretariat_photo_url String?
+  map_url               String?
+  instagram_url         String?
+  address               String?   @db.Text
+  is_active             Boolean   @default(true)
+  created_at            DateTime  @default(now())
+  updated_at            DateTime  @updatedAt
+
+  users                User[]
+  articles             Article[]
+  agendas              Agenda[]
+  cadreVerifications   CadreVerification[]
+  profileSubmissions   CommissariatProfileSubmission[]
+
+  @@map("commissariats")
+}
+
+model CommissariatProfileSubmission {
+  id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  commissariat_id       String                  @db.Uuid
+  status                ProfileSubmissionStatus @default(DRAFT)
+  name                  String?
+  logo_url              String?
+  campus_name           String?
+  about                 String?                 @db.Text
+  chairman_name         String?
+  chairman_about        String?                 @db.Text
+  secretariat_photo_url String?
+  map_url               String?
+  instagram_url         String?
+  address               String?                 @db.Text
+  
+  submitted_at          DateTime?
+  approved_at           DateTime?
+  approved_by           String?                 @db.Uuid
+  created_by            String                  @db.Uuid
+  updated_by            String                  @db.Uuid
+  created_at            DateTime                @default(now())
+  updated_at            DateTime                @updatedAt
+
+  commissariat Commissariat @relation(fields: [commissariat_id], references: [id], onDelete: Cascade)
+
+  @@map("commissariat_profile_submissions")
+}
+
+model ArticleCategory {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  slug      String    @unique
+  is_active Boolean   @default(true)
+
+  articles  Article[]
+
+  @@map("article_categories")
+}
+
+model Tag {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  slug      String    @unique
+  is_active Boolean   @default(true)
+
+  articles  Article[]
+
+  @@map("tags")
+}
+
+model Article {
+  id                  String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  commissariat_id     String        @db.Uuid
+  category_id         String        @db.Uuid
+  title               String
+  slug                String        @unique
+  excerpt             String?       @db.Text
+  content             String        @db.Text
+  featured_image_url  String?
+  author_name         String?
+  author_commissariat String?
+  status              ArticleStatus @default(DRAFT)
+
+  submitted_at DateTime?
+  approved_at  DateTime?
+  published_at DateTime?
+  approved_by  String?   @db.Uuid
+  created_by   String    @db.Uuid
+  updated_by   String    @db.Uuid
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  deleted_at   DateTime?
+  deleted_by   String?   @db.Uuid
+
+  commissariat Commissariat    @relation(fields: [commissariat_id], references: [id])
+  category     ArticleCategory @relation(fields: [category_id], references: [id])
+  tags         Tag[]
+
+  @@map("articles")
+}
+
+model Agenda {
+  id                  String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  commissariat_id     String?      @db.Uuid
+  title               String
+  slug                String       @unique
+  flyer_url           String?
+  description         String       @db.Text
+  short_description   String?      @db.Text
+  start_datetime      DateTime
+  end_datetime        DateTime?
+  location_name       String?
+  location_url        String?
+  status              AgendaStatus @default(DRAFT)
+
+  submitted_at DateTime?
+  approved_at  DateTime?
+  published_at DateTime?
+  approved_by  String?   @db.Uuid
+  created_by   String    @db.Uuid
+  updated_by   String    @db.Uuid
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  deleted_at   DateTime?
+  deleted_by   String?   @db.Uuid
+
+  commissariat Commissariat? @relation(fields: [commissariat_id], references: [id])
+  links        AgendaLink[]
+
+  @@map("agendas")
+}
+
+model AgendaLink {
+  id         String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  agenda_id  String @db.Uuid
+  title      String
+  url        String
+  sort_order Int    @default(0)
+
+  agenda Agenda @relation(fields: [agenda_id], references: [id], onDelete: Cascade)
+
+  @@map("agenda_links")
+}
+
+model GalleryAlbum {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title           String
+  slug            String        @unique
+  description     String?       @db.Text
+  cover_image_url String?
+  status          GalleryStatus @default(DRAFT)
+
+  created_by String    @db.Uuid
+  updated_by String    @db.Uuid
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+  deleted_by String?   @db.Uuid
+
+  photos GalleryPhoto[]
+
+  @@map("gallery_albums")
+}
+
+model GalleryPhoto {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  album_id   String   @db.Uuid
+  image_url  String
+  caption    String?
+  sort_order Int      @default(0)
+  created_at DateTime @default(now())
+
+  album GalleryAlbum @relation(fields: [album_id], references: [id], onDelete: Cascade)
+
+  @@map("gallery_photos")
+}
+
+model DocumentCategory {
+  id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  slug      String     @unique
+  is_active Boolean    @default(true)
+  documents Document[]
+
+  @@map("document_categories")
+}
+
+model Document {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  category_id String         @db.Uuid
+  title       String
+  slug        String         @unique
+  description String?        @db.Text
+  file_url    String
+  file_size   Int?
+  status      DocumentStatus @default(DRAFT)
+
+  published_at DateTime?
+  created_by   String    @db.Uuid
+  updated_by   String    @db.Uuid
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  deleted_at   DateTime?
+  deleted_by   String?   @db.Uuid
+
+  category DocumentCategory @relation(fields: [category_id], references: [id])
+
+  @@map("documents")
+}
+
+model ReviewHistory {
+  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  entity_type String       // e.g. ARTICLE, AGENDA, COMMISSARIAT_PROFILE
+  entity_id   String       @db.Uuid
+  reviewer_id String       @db.Uuid
+  action      ReviewAction
+  note        String?      @db.Text
+  created_at  DateTime     @default(now())
+
+  @@index([entity_type, entity_id])
+  @@map("review_histories")
+}
+
+model CadreVerification {
+  id              String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  commissariat_id String             @db.Uuid
+  file_url        String
+  row_count       Int?
+  status          VerificationStatus @default(PENDING)
+  note            String?            @db.Text
+
+  verified_by String?   @db.Uuid
+  verified_at DateTime?
+  created_at  DateTime  @default(now())
+
+  commissariat Commissariat @relation(fields: [commissariat_id], references: [id], onDelete: Cascade)
+
+  @@map("cadre_verifications")
+}
+
+model Period {
+  id         String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String
+  start_year Int
+  end_year   Int
+  is_active  Boolean    @default(true)
+  created_at DateTime   @default(now())
+  positions  Position[]
+
+  @@map("periods")
+}
+
+model Position {
+  id          String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  period_id   String        @db.Uuid
+  name        String
+  layout_type String?
+  sort_order  Int           @default(0)
+  period      Period        @relation(fields: [period_id], references: [id], onDelete: Cascade)
+  members     BoardMember[]
+
+  @@map("positions")
+}
+
+model BoardMember {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  period_id     String   @db.Uuid
+  position_id   String   @db.Uuid
+  full_name     String
+  photo_url     String?
+  short_bio     String?  @db.Text
+  instagram_url String?
+  position      Position @relation(fields: [position_id], references: [id], onDelete: Cascade)
+
+  @@map("board_members")
+}
+
+model Notification {
+  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id    String   @db.Uuid
+  title      String
+  message    String   @db.Text
+  type       String
+  link_url   String?
+  is_read    Boolean  @default(false)
+  created_at DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model AuditLog {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actor_id    String?  @db.Uuid
+  entity_type String
+  entity_id   String   @db.Uuid
+  action      String
+  old_data    Json?
+  new_data    Json?
+  ip_address  String?
+  browser     String?
+  device      String?
+  created_at  DateTime @default(now())
+
+  @@map("audit_logs")
+}
+
+model WebsiteSetting {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  site_name       String
+  logo_url        String?
+  favicon_url     String?
+  seo_title       String?
+  seo_description String?  @db.Text
+  contact_email   String?
+  instagram_url   String?
+  address         String?  @db.Text
+  footer_text     String?  @db.Text
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  @@map("website_settings")
+}
