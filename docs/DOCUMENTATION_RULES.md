@@ -19,22 +19,34 @@ Struktur dokumen pada project ini adalah sebagai berikut:
 ```txt
 docs/
 ├── PRD.md
+├── ROADMAP.md
 ├── TECH_STACK.md
+├── DESIGN.md
+├── SKILLS.md
 ├── DOCUMENTATION_RULES.md
 ├── CHANGELOG.md
 │
+├── FSD_ARCHITECTURE.md
+├── DATABASE_SCHEMA.md
+├── ROLE_PERMISSION_MATRIX.md
+├── API_SPECIFICATION.md
+├── FEATURES_DISCOVERY.md
+│
+├── SUPABASE_SETUP.md
+├── DEPLOYMENT.md
+├── ENVIRONMENT_VARIABLES.md
 ├── SITEMAP_PUBLIC.md
 ├── SITEMAP_CMS.md
-├── ROLE_PERMISSION_MATRIX.md
-├── DATABASE_SCHEMA.md
-│
-├── FSD_ARCHITECTURE.md
-├── API_SPECIFICATION.md
-├── DESIGN.md
-├── SKILLS.md
+├── GIT_WORKFLOW.md
 │
 ├── features/
+│   ├── article.md
+│   ├── agenda.md
+│   └── ... (16 feature files in kebab-case)
+│
 ├── decisions/
+│   ├── 001-single-nextjs-application.md
+│   └── ... (12 decision files in [number]-[topic].md)
 │
 └── [Root Level] AGENTS.md (Orchestration Layer)
 ```
