@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Dashboard Streaming & Skeleton Refactoring (2026-06-22)
+* Removed global `loading.tsx` from dashboard root to prevent blocking the entire layout on navigation.
+* Refactored `RecentActivityWidget`, `PendingQueueWidget`, and `LeaderboardWidget` to internally handle their own `<Suspense>` boundaries.
+* Widget shells (Cards, Headers, Titles) now render synchronously at `0ms` delay, while inner data fetches stream dynamically with granular row-level skeletons.
+
 #### Role-Based Sidebar Navigation (2026-06-22)
 * Implemented Role-Based Access Control (RBAC) filtering for the dashboard sidebar based on `ROLE_PERMISSION_MATRIX.md`.
 * `layout.tsx` now directly queries Prisma (`User` table) to securely retrieve the user's role without relying on potentially stale Supabase JWT metadata.

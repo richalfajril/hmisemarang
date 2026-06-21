@@ -55,18 +55,12 @@ function CabangDashboard() {
       </Suspense>
 
       <div className="grid gap-6 lg:grid-cols-5">
-        <Suspense fallback={<div className="lg:col-span-2"><WidgetSkeleton /></div>}>
-          <CabangPendingSection />
-        </Suspense>
-        <Suspense fallback={<div className="lg:col-span-3"><WidgetSkeleton /></div>}>
-          <CabangRecentActivitySection />
-        </Suspense>
+        <CabangPendingSection />
+        <CabangRecentActivitySection />
       </div>
 
       <div className="grid gap-6 grid-cols-1">
-        <Suspense fallback={<WidgetSkeleton className="h-80" />}>
-          <CabangLeaderboardSection />
-        </Suspense>
+        <CabangLeaderboardSection />
       </div>
     </div>
   )
@@ -86,23 +80,6 @@ function StatsGridSkeleton({ cols = 4 }: { cols?: number }) {
           <Skeleton className="h-3 w-36" />
         </div>
       ))}
-    </div>
-  )
-}
-
-// Widget loading skeleton
-function WidgetSkeleton({ className }: { className?: string }) {
-  return (
-    <div className={`rounded-xl border bg-card p-6 shadow-xs space-y-4 ${className}`}>
-      <div className="flex items-center gap-2">
-        <Skeleton className="h-5 w-5 rounded-full" />
-        <Skeleton className="h-5 w-32" />
-      </div>
-      <div className="space-y-3 pt-2">
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-10 w-full" />
-        <Skeleton className="h-10 w-full" />
-      </div>
     </div>
   )
 }
@@ -137,17 +114,41 @@ async function CabangStatsSection() {
   )
 }
 
-async function CabangPendingSection() {
-  const stats = await getCabangDashboardStats()
-  return <PendingQueueWidget stats={stats.pendingReview} />
+function CabangPendingSection() {
+  return <PendingQueueWidget />
 }
 
-async function CabangRecentActivitySection() {
-  const logs = await getRecentActivityLogs(6)
-  return <RecentActivityWidget logs={logs} />
+function CabangRecentActivitySection() {
+  return <RecentActivityWidget />
 }
 
-async function CabangLeaderboardSection() {
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/Card'
+
+function CabangLeaderboardSection() {
+  return (
+    <Card className="col-span-1 lg:col-span-4 border shadow-sm">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          Top 5 Komisariat Teraktif
+        </CardTitle>
+        <CardDescription>
+          Peringkat berdasarkan jumlah artikel yang berhasil dipublikasikan.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Suspense fallback={
+          <div className="h-[300px] flex items-center justify-center">
+             <Skeleton className="h-[250px] w-full" />
+          </div>
+        }>
+          <CabangLeaderboardData />
+        </Suspense>
+      </CardContent>
+    </Card>
+  )
+}
+
+async function CabangLeaderboardData() {
   const leaderboard = await getTopCommissariatsLeaderboard()
   return <LeaderboardWidget data={leaderboard} />
 }
