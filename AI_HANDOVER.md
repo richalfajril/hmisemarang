@@ -1,6 +1,6 @@
 # AI Handover Context (CMS HMI Cabang Semarang)
 
-> **Untuk AI Assistant / IDE (Codex,Cursor, Windsurf, Copilot, dll):**
+> **Untuk AI Assistant / IDE (Codex,Cursor, Copilot, dll):**
 > 1. **TUGAS PERTAMA ANDA:** Anda DIWAJIBKAN untuk membaca file `AGENTS.md` yang berada di direktori *root* sebelum melakukan apa pun. File tersebut adalah satu-satunya sumber kebenaran (*Single Source of Truth*) untuk alur kerja di repositori ini.
 > 2. Baca dokumen serah terima ini secara menyeluruh sebelum Anda mulai melakukan perubahan kode apa pun. Dokumen ini adalah peta jalan (*roadmap*) konteks proyek agar Anda bisa langsung bekerja tanpa merusak standar arsitektur yang sudah dibangun.
 
