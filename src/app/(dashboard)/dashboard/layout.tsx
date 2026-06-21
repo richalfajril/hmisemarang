@@ -1,6 +1,7 @@
 import { createClient } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { NotificationBell } from '@/features/notifications/ui/NotificationBell'
+import { GlobalSearch } from '@/features/search/ui/GlobalSearch'
 import Link from 'next/link'
 
 export default async function DashboardLayout({
@@ -32,6 +33,9 @@ export default async function DashboardLayout({
             </nav>
           </div>
           <div className="flex items-center gap-4">
+            <div className="hidden sm:block">
+              <GlobalSearch />
+            </div>
             <NotificationBell />
             <form action="/auth/logout" method="post">
               <button type="submit" className="text-sm font-medium hover:underline">
