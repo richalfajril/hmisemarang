@@ -30,8 +30,8 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 ### Checklist
 * `[x]` **UI Tasks:** Instalasi *shadcn/ui* & Tailwind v4. Pengaturan map FSD.
 * `[x]` **UI Tasks:** Upgrade tata letak Dashboard menggunakan `dashboard-01` shadcn — `AppSidebar`, `SidebarProvider`, `SiteHeader` dengan navigasi HMI lengkap, active state, dan `NavUser` dengan logout.
-* `[ ]` **Database Tasks:** `npx prisma db push` skema primer dan ciptakan berkas *Seeder* untuk entri akun `SYSTEM_ADMIN`.
-* `[ ]` **Permission Tasks:** Inisiasi peladen Supabase (Klien, SSR, Middleware) untuk memagari rute dasar `/dashboard`.
+* `[x]` **Database Tasks:** `npx prisma db push` skema primer dan ciptakan berkas *Seeder* untuk entri akun `SYSTEM_ADMIN`.
+* `[x]` **Permission Tasks:** Inisiasi peladen Supabase (Klien, SSR, Middleware) untuk memagari rute dasar `/dashboard`.
 
 ### Deliverables
 * Repositori *codebase* tersetup penuh.
@@ -61,11 +61,11 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Halaman muka Gerbang Log Masuk (`/login`).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Operasi CRUD untuk entitas Otentikasi dan *Users*.
-* `[ ]` **API Tasks:** Integrasi login/logout via *Server Actions* tanpa-API rute konvensional.
-* `[ ]` **API Tasks:** Logika penciptaan akun dengan `commissariat_id` terikat.
-* `[ ]` **UI Tasks:** Penanganan dialog peringatan ketika sesi kedaluwarsa dan logika `redirect` pasca-login.
-* `[ ]` **UI Tasks:** Tabel Daftar Pengguna untuk Cabang.
+* `[x]` **Database Tasks:** Operasi CRUD untuk entitas Otentikasi dan *Users*.
+* `[x]` **API Tasks:** Integrasi login/logout via *Server Actions* tanpa-API rute konvensional.
+* `[x]` **API Tasks:** Logika penciptaan akun dengan `commissariat_id` terikat.
+* `[x]` **UI Tasks:** Penanganan dialog peringatan ketika sesi kedaluwarsa dan logika `redirect` pasca-login.
+* `[x]` **UI Tasks:** Tabel Daftar Pengguna untuk Cabang.
 
 ### Deliverables
 * Pintu masuk aman (`/login`). Dasbor Manajemen Akses.
@@ -91,9 +91,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Organization Management (Periode dan Pengurus).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Relasi referensial untuk `periods`, `categories`, dan `website_settings`.
-* `[ ]` **API Tasks:** Validasi *Zod* ketat untuk mencegah form isian web publik kosong.
-* `[ ]` **UI Tasks:** Pembuatan form panjang menggunakan *React Hook Form* untuk SEO dan Profil Cabang.
+* `[x]` **Database Tasks:** Relasi referensial untuk `periods`, `categories`, dan `website_settings`.
+* `[x]` **API Tasks:** Validasi *Zod* ketat untuk mencegah form isian web publik kosong.
+* `[x]` **UI Tasks:** Pembuatan form panjang menggunakan *React Hook Form* untuk SEO dan Profil Cabang.
 
 ### Deliverables
 * Dasbor pengelolaan pengaturan SEO dan Daftar Ketaksonomian.
@@ -146,9 +146,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Form Penjadwalan Agenda (*Event Scheduler*).
 
 ### Checklist
-* `[ ]` **UI Tasks:** Mengintegrasikan pustaka Tiptap ke dalam wujud komponen FSD stabil.
-* `[ ]` **API Tasks:** Komputasi status tenggat pendaftaran agenda asinkron.
-* `[ ]` **Permission Tasks:** Memagari form agar Admin Komisariat hanya bisa melihat tulisan miliknya (kunci RLS aplikasi berdasar *User Session*).
+* `[x]` **UI Tasks:** Mengintegrasikan pustaka Tiptap ke dalam wujud komponen FSD stabil.
+* `[x]` **API Tasks:** Komputasi status tenggat pendaftaran agenda asinkron.
+* `[x]` **Permission Tasks:** Memagari form agar Admin Komisariat hanya bisa melihat tulisan miliknya (kunci RLS aplikasi berdasar *User Session*).
 
 ### Deliverables
 * Modul Redaksi Tiptap dan Kalender Formulir Agenda.
@@ -173,9 +173,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Panel Riwayat Tinjauan (*Revision Notes*).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Pembungkusan fungsi *Prisma Transaction* anti-*race-condition*.
-* `[ ]` **API Tasks:** Logika penciptaan *Review History* merangkap lompatan kueri mutasi status (DRAFT -> PUBLISHED).
-* `[ ]` **UI Tasks:** Panel telaah konten ganda (*Split Screen*).
+* `[x]` **Database Tasks:** Pembungkusan fungsi *Prisma Transaction* anti-*race-condition*.
+* `[x]` **API Tasks:** Logika penciptaan *Review History* merangkap lompatan kueri mutasi status (DRAFT -> PUBLISHED).
+* `[x]` **UI Tasks:** Panel telaah konten ganda (*Split Screen*).
 
 ### Deliverables
 * Meja pengadilan (*Review Center*) tempat Cabang menyetujui, menolak, atau mengembalikan dengan catatan atas draf masuk.
@@ -199,9 +199,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * *Cadre Verification Uploader* (Excel Berkas Validasi).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Modifikasi *record* duplikasi data dari draf ditarik menimpa tabel tayang profil.
-* `[ ]` **Storage Tasks:** Penampungan fail verifikasi kader Excel ke Cloudinary menggunakan skema akses terotentikasi (*Secure Signed URLs*).
-* `[ ]` **Permission Tasks:** Cabang berhak membaca Excel rahasia via skema *Signed URLs* Cloudinary.
+* `[x]` **Database Tasks:** Modifikasi *record* duplikasi data dari draf ditarik menimpa tabel tayang profil.
+* `[x]` **Storage Tasks:** Penampungan fail verifikasi kader Excel ke Cloudinary menggunakan skema akses terotentikasi (*Secure Signed URLs*).
+* `[x]` **Permission Tasks:** Cabang berhak membaca Excel rahasia via skema *Signed URLs* Cloudinary.
 
 ### Deliverables
 * Form mutasi identitas sosial organisasi tingkat bawah dan alat kepatuhan administrasi tertutup.
@@ -225,10 +225,10 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Penempatan repositori `Document Management` (*PDF/Surat Edaran*).
 
 ### Checklist
-* `[ ]` **Storage Tasks:** Operasi batas ukuran maksimal 5MB per media untuk memproteksi kelebihan tagihan peladen.
-* `[ ]` **Storage Tasks:** Penanganan siklus hidup media (*Replace file* saat *update*, *Delete file* fisik awan via *Destroy API* Cloudinary saat *record* dihapus).
-* `[ ]` **API Tasks:** Kueri *Cloudinary Node.js SDK* (*Upload/Remove asset*).
-* `[ ]` **UI Tasks:** Papan jatuhkan berkas (*Drag and drop zone*) masal.
+* `[x]` **Storage Tasks:** Operasi batas ukuran maksimal 5MB per media untuk memproteksi kelebihan tagihan peladen.
+* `[x]` **Storage Tasks:** Penanganan siklus hidup media (*Replace file* saat *update*, *Delete file* fisik awan via *Destroy API* Cloudinary saat *record* dihapus).
+* `[x]` **API Tasks:** Kueri *Cloudinary Node.js SDK* (*Upload/Remove asset*).
+* `[x]` **UI Tasks:** Papan jatuhkan berkas (*Drag and drop zone*) masal.
 
 ### Deliverables
 * Ruang penyimpanan berkas interaktif dan terkelompok (*Folder-like albums*) yang dikelola sepihak oleh Cabang tanpa perlu masuk *Review Center*.
@@ -254,9 +254,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Dasbor ringkas aktivitas pribadi.
 
 ### Checklist
-* `[ ]` **Database Tasks:** Operasi komputasi agregasi untuk menduduki *Top 5 Commissariats* (Terbanyak Publikasi).
-* `[ ]` **API Tasks:** Telusur cerdas *debounced* mencakup artikel, agenda, dokumen, komisariat, dan struktur organisasi berdasarkan relevansi.
-* `[ ]` **UI Tasks:** *Command Palette (Dialog)* pintasan kibor `Ctrl+K`.
+* `[x]` **Database Tasks:** Operasi komputasi agregasi untuk menduduki *Top 5 Commissariats* (Terbanyak Publikasi).
+* `[x]` **API Tasks:** Telusur cerdas *debounced* mencakup artikel, agenda, dokumen, komisariat, dan struktur organisasi berdasarkan relevansi.
+* `[x]` **UI Tasks:** *Command Palette (Dialog)* pintasan kibor `Ctrl+K`.
 
 ### Deliverables
 * Indikator *Metrics Dashboard* elegan dan pencarian omnibox super cepat (*Search everything*).
