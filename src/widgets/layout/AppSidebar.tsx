@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { NavMain } from "@/widgets/layout/NavMain"
 import { NavSecondary } from "@/widgets/layout/NavSecondary"
 import { NavUser } from "@/widgets/layout/NavUser"
@@ -76,11 +77,22 @@ export function AppSidebar({
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <Link href="/dashboard" prefetch>
-                <span className="flex size-5 items-center justify-center rounded-sm bg-primary text-primary-foreground text-xs font-bold">
-                  H
-                </span>
-                <span className="text-base font-semibold">HMI Semarang CMS</span>
+              <Link href="/dashboard" prefetch className="flex items-center gap-2">
+                <div className="relative h-6 w-6 flex-shrink-0">
+                  <Image
+                    src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097476/Logo_Dark_Theme_q1sfhq.png"
+                    alt="Logo"
+                    fill
+                    className="object-contain dark:hidden"
+                  />
+                  <Image
+                    src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png"
+                    alt="Logo"
+                    fill
+                    className="object-contain hidden dark:block"
+                  />
+                </div>
+                <span className="text-base font-semibold truncate">HMI Semarang CMS</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

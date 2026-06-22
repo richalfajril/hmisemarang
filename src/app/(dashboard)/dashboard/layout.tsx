@@ -43,7 +43,7 @@ export default async function DashboardLayout({
         user={{
           name,
           email,
-          avatar: user.user_metadata?.avatar_url ?? '',
+          avatar: user.user_metadata?.avatar_url ?? 'https://res.cloudinary.com/dbndgotx4/image/upload/v1782097131/avatar_1-1_n1km33.avif',
         }}
         role={role}
       />
