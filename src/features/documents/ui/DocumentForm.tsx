@@ -31,7 +31,7 @@ export function DocumentForm({ initialData, categories }: DocumentFormProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   return (
-    <form action={formAction} className="space-y-6 max-w-4xl">
+    <form action={formAction} className="space-y-6">
       <PageHeader
         title={initialData ? 'Edit Dokumen' : 'Unggah Dokumen Baru'}
         description="Pilih berkas format PDF dengan ukuran maksimal 20MB untuk dipublikasikan."
@@ -45,7 +45,7 @@ export function DocumentForm({ initialData, categories }: DocumentFormProps) {
         </Button>
       </PageHeader>
 
-      <Card className="max-w-4xl">
+      <Card>
         <CardContent className="pt-6">
           {!state?.success && state?.message && (
             <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 mb-6 text-sm text-destructive">

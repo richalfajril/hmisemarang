@@ -1,6 +1,7 @@
 'use client'
 
 import { useEditor, EditorContent, Editor } from '@tiptap/react'
+import { useEffect } from 'react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
@@ -216,6 +217,18 @@ export function TiptapEditor({ value, onChange, disabled }: TiptapEditorProps) {
       },
     },
   })
+
+  useEffect(() => {
+    if (editor && value !== editor.getHTML()) {
+      editor.commands.setContent(value)
+    }
+  }, [editor, value])
+
+  useEffect(() => {
+    if (editor) {
+      editor.setEditable(!disabled)
+    }
+  }, [editor, disabled])
 
   return (
     <div className={cn(

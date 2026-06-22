@@ -46,6 +46,7 @@ export async function saveArticleDraftAction(
         success: false,
         message: 'Gagal memvalidasi form. Silakan periksa kembali isian Anda.',
         fieldErrors: validatedFields.error.flatten().fieldErrors,
+        payload: rawData,
       }
     }
 
@@ -61,7 +62,7 @@ export async function saveArticleDraftAction(
     })
 
     if (existing && (!isEdit || existing.id !== articleId)) {
-      return { success: false, message: 'Slug/Judul sudah digunakan oleh artikel lain.' }
+      return { success: false, message: 'Slug/Judul sudah digunakan oleh artikel lain.', payload: rawData }
     }
 
     if (isEdit) {

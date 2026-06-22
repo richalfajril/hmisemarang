@@ -18,10 +18,21 @@ export default async function CreateArticlePage() {
     orderBy: { name: 'asc' },
   })
 
+  const commissariats = await prisma.commissariat.findMany({
+    where: { is_active: true },
+    orderBy: { name: 'asc' },
+    select: { id: true, name: true }
+  })
+
   return (
-    <div className="p-6 space-y-6 w-full">
-      <Suspense fallback={<div className="h-[500px] flex items-center justify-center">Memuat...</div>}>
-        <ArticleForm categories={categories} />
+    <div className="flex-1 flex flex-col h-[calc(100vh-var(--header-height))] overflow-hidden">
+      <Suspense fallback={<div className="flex-1 flex items-center justify-center">Memuat...</div>}>
+        <ArticleForm 
+          categories={categories}
+          userRole={session.user.role}
+          userCommissariatId={session.user.commissariatId || undefined}
+          commissariats={commissariats}
+        />
       </Suspense>
     </div>
   )

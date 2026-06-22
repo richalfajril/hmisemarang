@@ -36,13 +36,27 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
     orderBy: { name: 'asc' },
   })
 
+  const commissariats = await prisma.commissariat.findMany({
+    where: { is_active: true },
+    orderBy: { name: 'asc' },
+    select: { id: true, name: true }
+  })
+
   return (
-    <div className="p-6 space-y-6 w-full">
-      <Suspense fallback={<div>Memuat Catatan...</div>}>
-        <RevisionNotes entityId={id} entityType="ARTICLE" />
+    <div className="flex-1 flex flex-col h-[calc(100vh-var(--header-height))] overflow-hidden">
+      <Suspense fallback={<div className="p-6">Memuat Catatan...</div>}>
+        <div className="px-6 pt-6 shrink-0">
+          <RevisionNotes entityId={id} entityType="ARTICLE" />
+        </div>
       </Suspense>
-      <Suspense fallback={<div className="h-[500px] flex items-center justify-center">Memuat...</div>}>
-        <ArticleForm initialData={article} categories={categories} />
+      <Suspense fallback={<div className="flex-1 flex items-center justify-center">Memuat...</div>}>
+        <ArticleForm 
+          initialData={article} 
+          categories={categories}
+          userRole={session.user.role}
+          userCommissariatId={session.user.commissariatId || undefined}
+          commissariats={commissariats}
+        />
       </Suspense>
     </div>
   )

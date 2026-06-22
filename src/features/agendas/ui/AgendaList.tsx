@@ -18,6 +18,8 @@ import { Badge } from '@/shared/ui/Badge'
 import { useTransition } from 'react'
 import { softDeleteAgendaAction, submitAgendaAction } from '../api/actions'
 import { toast } from 'sonner'
+import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
+import { SmartPagination } from '@/shared/ui/SmartPagination'
 
 interface AgendaListProps {
   agendas: Agenda[]
@@ -34,6 +36,8 @@ const statusColorMap: Record<string, string> = {
 
 export function AgendaList({ agendas }: AgendaListProps) {
   const [isPending, startTransition] = useTransition()
+  
+  const pagination = useClientPagination(agendas, 15)
 
   const handleDelete = (agendaId: string) => {
     if (!window.confirm('Yakin ingin menghapus agenda ini?')) return
@@ -81,7 +85,7 @@ export function AgendaList({ agendas }: AgendaListProps) {
               </TableCell>
             </TableRow>
           ) : (
-            agendas.map((agenda) => (
+            pagination.paginatedData.map((agenda) => (
               <TableRow key={agenda.id}>
                 <TableCell className="font-medium">{agenda.title}</TableCell>
                 <TableCell>
@@ -136,6 +140,7 @@ export function AgendaList({ agendas }: AgendaListProps) {
           )}
         </TableBody>
       </Table>
+      <SmartPagination {...pagination} />
     </div>
   )
 }

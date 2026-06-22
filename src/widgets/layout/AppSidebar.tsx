@@ -75,24 +75,25 @@ export function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
+              className="data-[slot=sidebar-menu-button]:p-1.5! h-14"
             >
-              <Link href="/dashboard" prefetch className="flex items-center gap-2">
-                <div className="relative h-6 w-6 flex-shrink-0">
-                  <Image
-                    src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097476/Logo_Dark_Theme_q1sfhq.png"
-                    alt="Logo"
-                    fill
-                    className="object-contain dark:hidden"
-                  />
+              <Link href="/dashboard" prefetch className="flex items-center justify-start px-2">
+                <div className="relative h-10 w-40 flex-shrink-0">
                   <Image
                     src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png"
                     alt="Logo"
                     fill
-                    className="object-contain hidden dark:block"
+                    sizes="160px"
+                    className="object-contain object-left dark:hidden"
+                  />
+                  <Image
+                    src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097476/Logo_Dark_Theme_q1sfhq.png"
+                    alt="Logo"
+                    fill
+                    sizes="160px"
+                    className="object-contain object-left hidden dark:block"
                   />
                 </div>
-                <span className="text-base font-semibold truncate">HMI Semarang CMS</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -32,7 +32,7 @@ export function AgendaForm({ initialData }: AgendaFormProps) {
   const [flyer, setFlyer] = useState(initialData?.flyer_url || '')
 
   return (
-    <form action={formAction} className="space-y-8 max-w-4xl">
+    <form action={formAction} className="space-y-8">
       <PageHeader
         title={initialData ? 'Edit Draf Agenda' : 'Buat Agenda Baru'}
         description={initialData ? 'Perbarui informasi draf agenda Anda.' : 'Buat agenda baru untuk dipublikasikan setelah disetujui.'}

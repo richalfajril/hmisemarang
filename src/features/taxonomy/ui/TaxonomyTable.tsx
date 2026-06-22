@@ -14,6 +14,8 @@ import { Button } from '@/shared/ui/Button'
 import { toggleTaxonomyStatusAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Loader2, PowerOff, Power } from 'lucide-react'
+import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
+import { SmartPagination } from '@/shared/ui/SmartPagination'
 
 type TaxonomyData = {
   id: string
@@ -26,6 +28,8 @@ type TaxonomyData = {
 export function TaxonomyTable({ items, type }: { items: TaxonomyData[], type: string }) {
   const [state, formAction, isPending] = useActionState(toggleTaxonomyStatusAction, initialActionState)
   
+  const pagination = useClientPagination(items, 15)
+
   return (
     <div className="rounded-md border bg-card">
       <Table>
@@ -46,7 +50,7 @@ export function TaxonomyTable({ items, type }: { items: TaxonomyData[], type: st
               </TableCell>
             </TableRow>
           ) : (
-            items.map((item) => {
+            pagination.paginatedData.map((item) => {
               const usageCount = item._count?.articles ?? item._count?.documents ?? 0
               
               return (
@@ -83,6 +87,7 @@ export function TaxonomyTable({ items, type }: { items: TaxonomyData[], type: st
           )}
         </TableBody>
       </Table>
+      <SmartPagination {...pagination} />
     </div>
   )
 }

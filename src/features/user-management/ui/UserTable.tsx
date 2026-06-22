@@ -14,6 +14,8 @@ import { Button } from '@/shared/ui/Button'
 import { forceResetPasswordAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Loader2, KeyRound, AlertCircle } from 'lucide-react'
+import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
+import { SmartPagination } from '@/shared/ui/SmartPagination'
 
 export type UserData = {
   id: string
@@ -26,6 +28,8 @@ export type UserData = {
 export function UserTable({ users, currentUserId }: { users: UserData[], currentUserId: string }) {
   const [state, formAction, isPending] = useActionState(forceResetPasswordAction, initialActionState)
   const [resetId, setResetId] = useState<string | null>(null)
+  
+  const pagination = useClientPagination(users, 15)
   
   return (
     <div className="space-y-4">
@@ -70,7 +74,7 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
                 </TableCell>
               </TableRow>
             ) : (
-              users.map((user) => (
+              pagination.paginatedData.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{user.email}</TableCell>
                   <TableCell>
@@ -111,6 +115,7 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
             )}
           </TableBody>
         </Table>
+        <SmartPagination {...pagination} />
       </div>
     </div>
   )

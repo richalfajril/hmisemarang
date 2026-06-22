@@ -11,25 +11,24 @@ export default function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <div className="flex items-center gap-2 font-medium">
-            <div className="relative h-8 w-8 flex-shrink-0">
-              <Image
-                src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097476/Logo_Dark_Theme_q1sfhq.png"
-                alt="Logo"
-                fill
-                className="object-contain dark:hidden"
-                priority
-              />
-              <Image
-                src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png"
-                alt="Logo"
-                fill
-                className="object-contain hidden dark:block"
-                priority
-              />
-            </div>
-            <span className="text-xl font-bold tracking-tight">HMI Semarang</span>
+        <div className="flex justify-center md:justify-start">
+          <div className="relative h-14 w-48 flex-shrink-0">
+            <Image
+              src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png"
+              alt="Logo"
+              fill
+              sizes="200px"
+              className="object-contain object-left dark:hidden"
+              priority
+            />
+            <Image
+              src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097476/Logo_Dark_Theme_q1sfhq.png"
+              alt="Logo"
+              fill
+              sizes="200px"
+              className="object-contain object-left hidden dark:block"
+              priority
+            />
           </div>
         </div>
         <div className="flex flex-1 items-center justify-center">
@@ -46,9 +45,24 @@ export default function LoginPage() {
           src="https://res.cloudinary.com/dbndgotx4/image/upload/q_auto/f_auto/v1782096956/Semarang_4K_lefmvp.png"
           alt="Semarang Background"
           fill
+          sizes="50vw"
           priority
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.4]"
+          className="absolute inset-0 h-full w-full object-cover"
         />
+        {/* Dark overlay layer */}
+        <div className="absolute inset-0 bg-black/50 z-10" />
+        
+        {/* Quote text */}
+        <div className="absolute inset-0 z-20 flex flex-col items-end justify-end p-10 pb-12 text-right">
+          <div className="max-w-md lg:max-w-xl">
+            <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight text-white text-balance leading-snug drop-shadow-xl mb-4">
+              "Membangun Kader Umat<br />dan Bangsa dari Semarang"
+            </h2>
+            <p className="text-base lg:text-lg text-white/80 font-normal text-balance leading-relaxed drop-shadow-md">
+              HMI Cabang Semarang menjadi ruang kaderisasi, gagasan, dan pengabdian bagi mahasiswa Islam untuk berkontribusi nyata bagi agama dan negara.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -11,6 +11,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useTransition } from 'react'
 import { softDeleteDocumentAction, getSignedDocumentUrlAction } from '../api/actions'
 import { toast } from 'sonner'
+import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
+import { SmartPagination } from '@/shared/ui/SmartPagination'
 
 type DocumentEntry = {
   id: string
@@ -37,6 +39,8 @@ function formatBytes(bytes: number, decimals = 2) {
 
 export function DocumentList({ documents }: DocumentListProps) {
   const [isPending, startTransition] = useTransition()
+  
+  const pagination = useClientPagination(documents, 15)
 
   const handleDelete = (id: string, title: string) => {
     if (window.confirm(`Hapus dokumen "${title}"?`)) {
@@ -87,7 +91,7 @@ export function DocumentList({ documents }: DocumentListProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {documents.map((doc) => (
+          {pagination.paginatedData.map((doc) => (
             <TableRow key={doc.id}>
               <TableCell>
                 <div className="flex items-start gap-3">
@@ -149,6 +153,7 @@ export function DocumentList({ documents }: DocumentListProps) {
           ))}
         </TableBody>
       </Table>
+      <SmartPagination {...pagination} />
     </div>
   )
 }

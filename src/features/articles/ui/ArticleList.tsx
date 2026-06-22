@@ -18,6 +18,8 @@ import { Badge } from '@/shared/ui/Badge'
 import { useTransition } from 'react'
 import { softDeleteArticleAction, submitArticleAction } from '../api/actions'
 import { toast } from 'sonner'
+import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
+import { SmartPagination } from '@/shared/ui/SmartPagination'
 
 type ArticleWithRelations = Article & {
   category: ArticleCategory
@@ -39,6 +41,8 @@ const statusColorMap: Record<string, string> = {
 
 export function ArticleList({ articles }: ArticleListProps) {
   const [isPending, startTransition] = useTransition()
+  
+  const pagination = useClientPagination(articles, 15)
 
   const handleDelete = (id: string) => {
     if (!window.confirm('Yakin ingin menghapus artikel ini?')) return
@@ -86,7 +90,7 @@ export function ArticleList({ articles }: ArticleListProps) {
               </TableCell>
             </TableRow>
           ) : (
-            articles.map((article) => (
+            pagination.paginatedData.map((article) => (
               <TableRow key={article.id}>
                 <TableCell>
                   <div className="font-medium">{article.title}</div>
@@ -144,6 +148,7 @@ export function ArticleList({ articles }: ArticleListProps) {
           )}
         </TableBody>
       </Table>
+      <SmartPagination {...pagination} />
     </div>
   )
 }

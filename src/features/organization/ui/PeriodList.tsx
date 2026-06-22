@@ -15,6 +15,8 @@ import { activatePeriodAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Loader2, Power, Eye } from 'lucide-react'
 import Link from 'next/link'
+import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
+import { SmartPagination } from '@/shared/ui/SmartPagination'
 
 type PeriodData = {
   id: string
@@ -27,6 +29,8 @@ type PeriodData = {
 export function PeriodList({ items }: { items: PeriodData[] }) {
   const [state, formAction, isPending] = useActionState(activatePeriodAction, initialActionState)
   
+  const pagination = useClientPagination(items, 15)
+
   return (
     <div className="rounded-md border bg-card">
       <Table>
@@ -46,7 +50,7 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
               </TableCell>
             </TableRow>
           ) : (
-            items.map((item) => {
+            pagination.paginatedData.map((item) => {
               return (
                 <TableRow key={item.id} className={item.is_active ? 'bg-primary/5' : ''}>
                   <TableCell className="font-medium font-mono">
@@ -89,6 +93,7 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
           )}
         </TableBody>
       </Table>
+      <SmartPagination {...pagination} />
     </div>
   )
 }

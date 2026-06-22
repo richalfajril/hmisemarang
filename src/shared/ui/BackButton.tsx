@@ -14,7 +14,6 @@ interface BackButtonProps {
 
 export function BackButton({ 
   href, 
-  label, 
   variant = 'outline', 
   className 
 }: BackButtonProps) {
@@ -22,16 +21,14 @@ export function BackButton({
     <Link href={href} prefetch className="inline-flex items-center">
       <Button 
         variant={variant} 
-        size={label ? 'default' : 'icon'} 
+        size="icon"
         type="button"
         className={cn(
-          'rounded-full shadow-xs shrink-0',
-          !label && 'size-9',
+          'shadow-xs shrink-0',
           className
         )}
       >
         <ArrowLeft className="h-4 w-4" />
-        {label && <span className="ml-2">{label}</span>}
       </Button>
     </Link>
   )
