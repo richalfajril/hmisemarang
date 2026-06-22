@@ -2,7 +2,6 @@
 import { prisma } from '@/shared/api/prisma/client'
 
 import { revalidatePath } from 'next/cache'
-import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { cadreVerificationSchema } from '@/entities/commissariat/model/cadre-verification-schema'
 import { ActionState } from '@/shared/lib/action-state'

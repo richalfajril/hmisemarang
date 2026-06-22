@@ -24,7 +24,7 @@ export default async function TaxonomyPage() {
   }
 
   // Ambil Data Relasional & Hitung Penggunaan
-  const [articleCategories, documentCategories, tags] = await Promise.all([
+  const [articleCategories, documentCategories, tags, universities] = await Promise.all([
     prisma.articleCategory.findMany({
       include: { _count: { select: { articles: true } } },
       orderBy: { name: 'asc' }
@@ -34,6 +34,10 @@ export default async function TaxonomyPage() {
       orderBy: { name: 'asc' }
     }),
     prisma.tag.findMany({
+      orderBy: { name: 'asc' }
+    }),
+    prisma.university.findMany({
+      include: { _count: { select: { commissariats: true } } },
       orderBy: { name: 'asc' }
     })
   ])
@@ -50,6 +54,7 @@ export default async function TaxonomyPage() {
         articleCategories={articleCategories}
         documentCategories={documentCategories}
         tags={tags}
+        universities={universities}
       />
     </div>
   )

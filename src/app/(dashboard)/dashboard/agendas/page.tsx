@@ -1,5 +1,4 @@
 import { prisma } from '@/shared/api/prisma/client'
-import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { AgendaList } from '@/features/agendas/ui/AgendaList'

@@ -17,6 +17,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### University Taxonomy & Searchable Combobox Standardization (2026-06-23)
+* Created `University` model in Prisma schema with `name`, `slug`, `is_active` fields and relational links to `Commissariat` and `CommissariatProfileSubmission`.
+* Added `university_id` foreign key to `Commissariat` and `CommissariatProfileSubmission` models.
+* Built reusable `Combobox` component (`src/shared/ui/Combobox.tsx`) using Popover + Command (cmdk) for searchable dropdown pattern.
+* Extended Taxonomy CRUD actions and toggle status to support `UNIVERSITY` type, with RBAC enforcement for `SYSTEM_ADMIN` and `ADMIN_CABANG`.
+* Added "Universitas" tab to Taxonomy management page.
+* Converted `ProfileForm` campus field from text input to University Combobox dropdown.
+* Converted `ArticleForm` category and commissariat selects to searchable Combobox components.
+
+#### Table UX Standardization (2026-06-23)
+* Standardized all table action columns to use DropdownMenu with `MoreHorizontal` icon trigger instead of inline buttons.
+* Renamed "Tindakan" column header to "Aksi" across all 7 dashboard tables.
+* Made all Badge/status labels `w-full` for consistent column alignment.
+* Added `truncate` with `max-w-*` constraints on long-text table cells to prevent column overflow.
+* Set consistent `h-12` minimum height on `TableRow` for uniform row spacing.
+* Compacted `SmartPagination` padding to `py-2` while maintaining mobile touch targets.
+
+
 #### Aggressive Internal Link Prefetch (2026-06-22)
 * Added explicit `prefetch` props to known internal `next/link` navigation across dashboard layout, forms, lists, review center, notifications, and error pages.
 * Guarded database-driven notification links so only internal paths are prefetched.

@@ -8,7 +8,7 @@ import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
+import { Combobox } from '@/shared/ui/Combobox'
 import { TiptapEditor } from '@/shared/ui/editor/TiptapEditor'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
 import { Article, ArticleCategory } from '@prisma/client'
@@ -28,24 +28,26 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
   const [state, formAction, isPending] = useActionState(saveArticleDraftAction, initialActionState)
   const [content, setContent] = useState(initialData?.content || '')
   const [featuredImage, setFeaturedImage] = useState(initialData?.featured_image_url || '')
+  const [categoryId, setCategoryId] = useState(initialData?.category_id || '')
+  const [authorCommissariat, setAuthorCommissariat] = useState(initialData?.author_commissariat || '')
   const router = useRouter()
 
   useEffect(() => {
     if (state?.success) {
       router.push('/dashboard/articles')
-    } else if (state?.payload && !state.success) {
-      if (state.payload.content) setContent(state.payload.content)
-      if (state.payload.featured_image_url) setFeaturedImage(state.payload.featured_image_url)
+      return
+    }
+    if (state?.payload && !state.success) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (state.payload.content) setContent(state.payload.content as string)
+      if (state.payload.featured_image_url) setFeaturedImage(state.payload.featured_image_url as string)
     }
   }, [state, router])
 
   const isCommissariatAdmin = userRole === 'ADMIN_KOMISARIAT'
   const autoCommissariatName = commissariats.find(c => c.id === userCommissariatId)?.name || ''
   
-  // For Commissariat Admins, we lock the value to their commissariat name
-  const defaultAuthorCommissariat = isCommissariatAdmin 
-    ? autoCommissariatName 
-    : (initialData?.author_commissariat || '')
+
 
   return (
     <>
@@ -88,8 +90,12 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
         {initialData?.id && <input type="hidden" name="id" value={initialData.id} />}
         <input type="hidden" name="content" value={content} />
         <input type="hidden" name="featured_image_url" value={featuredImage} />
+        <input type="hidden" name="category_id" value={categoryId} />
         {isCommissariatAdmin && (
           <input type="hidden" name="author_commissariat" value={autoCommissariatName} />
+        )}
+        {!isCommissariatAdmin && (
+          <input type="hidden" name="author_commissariat" value={authorCommissariat} />
         )}
 
         {/* Main Content - Scrollable Columns */}
@@ -172,16 +178,16 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
                     className="bg-muted text-muted-foreground w-full"
                   />
                 ) : (
-                  <Select name="author_commissariat" defaultValue={state?.payload?.author_commissariat || defaultAuthorCommissariat || undefined} disabled={isPending} required>
-                    <SelectTrigger className={state?.fieldErrors?.author_commissariat ? 'border-destructive w-full' : 'bg-background w-full'}>
-                      <SelectValue placeholder="Pilih Komisariat..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {commissariats.map((c) => (
-                        <SelectItem key={c.id} value={c.name}>{c.name}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Combobox
+                    options={commissariats.map(c => ({ value: c.name, label: c.name }))}
+                    value={state?.payload?.author_commissariat || authorCommissariat || undefined}
+                    onValueChange={setAuthorCommissariat}
+                    placeholder="Pilih Komisariat..."
+                    searchPlaceholder="Ketik untuk mencari..."
+                    emptyMessage="Komisariat tidak ditemukan."
+                    disabled={isPending}
+                    className={state?.fieldErrors?.author_commissariat ? 'border-destructive' : 'bg-background'}
+                  />
                 )}
                 {state?.fieldErrors?.author_commissariat && (
                   <p className="text-xs text-destructive">{state.fieldErrors.author_commissariat[0]}</p>
@@ -190,16 +196,16 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
 
               <div className="space-y-2">
                 <Label htmlFor="category_id">Kategori *</Label>
-                <Select name="category_id" defaultValue={state?.payload?.category_id || initialData?.category_id || undefined} disabled={isPending} required>
-                  <SelectTrigger className={state?.fieldErrors?.category_id ? 'border-destructive w-full' : 'bg-background w-full'}>
-                    <SelectValue placeholder="Pilih Kategori..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Combobox
+                  options={categories.map(cat => ({ value: cat.id, label: cat.name }))}
+                  value={state?.payload?.category_id || categoryId || undefined}
+                  onValueChange={setCategoryId}
+                  placeholder="Pilih Kategori..."
+                  searchPlaceholder="Ketik untuk mencari..."
+                  emptyMessage="Kategori tidak ditemukan."
+                  disabled={isPending}
+                  className={state?.fieldErrors?.category_id ? 'border-destructive' : 'bg-background'}
+                />
                 {state?.fieldErrors?.category_id && (
                   <p className="text-xs text-destructive">{state.fieldErrors.category_id[0]}</p>
                 )}

@@ -1,7 +1,6 @@
 'use client'
 
 import { useActionState, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { processReviewAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Button } from '@/shared/ui/Button'
@@ -9,7 +8,7 @@ import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/shared/ui/Card'
-import { AlertCircle, ArrowLeft, Loader2, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react'
+import { AlertCircle, Loader2, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react'
 import Link from 'next/link'
 import { ReviewEntityType, ReviewActionEnum } from '@/entities/review-history/model/schema'
 import Image from 'next/image'
@@ -30,7 +29,6 @@ interface ReviewSplitScreenProps {
 }
 
 export function ReviewSplitScreen({ entityType, entityId, previewData }: ReviewSplitScreenProps) {
-  const router = useRouter()
   const [state, formAction, isPending] = useActionState(processReviewAction, initialActionState)
   const [actionType, setActionType] = useState<ReviewActionEnum | null>(null)
   const [note, setNote] = useState('')

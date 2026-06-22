@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useState } from 'react'
+import { useActionState } from 'react'
 import { createPositionAction, createBoardMemberAction, deletePositionAction, deleteBoardMemberAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Button } from '@/shared/ui/Button'
@@ -15,7 +15,7 @@ type Position = { id: string, name: string, sort_order: number, layout_type: str
 
 export function PositionList({ periodId, positions }: { periodId: string, positions: Position[] }) {
   const [posState, posFormAction, isPosPending] = useActionState(createPositionAction, initialActionState)
-  const [memState, memFormAction, isMemPending] = useActionState(createBoardMemberAction, initialActionState)
+  const [, memFormAction] = useActionState(createBoardMemberAction, initialActionState)
   
   return (
     <div className="space-y-8">

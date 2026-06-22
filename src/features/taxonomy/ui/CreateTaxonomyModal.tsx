@@ -15,7 +15,7 @@ import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Loader2, PlusCircle } from 'lucide-react'
 
-export function CreateTaxonomyModal({ type, label }: { type: 'ARTICLE_CATEGORY' | 'DOCUMENT_CATEGORY' | 'TAG', label: string }) {
+export function CreateTaxonomyModal({ type, label }: { type: 'ARTICLE_CATEGORY' | 'DOCUMENT_CATEGORY' | 'TAG' | 'UNIVERSITY', label: string }) {
   const [open, setOpen] = useState(false)
   const [state, formAction, isPending] = useActionState(createTaxonomyAction, initialActionState)
 

@@ -17,7 +17,6 @@ export function PageHeader({
   title,
   description,
   backHref,
-  backLabel,
   icon: Icon,
   children,
   className

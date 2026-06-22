@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/shared/ui/Table'
 import { Badge } from '@/shared/ui/Badge'
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/shared/ui/Pagination'
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from '@/shared/ui/Pagination'
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
 import { ActivityIcon, ServerCrash } from 'lucide-react'
@@ -88,7 +88,7 @@ export default async function AuditLogsPage(props: { searchParams: Promise<{ pag
                     <TableCell className="font-medium whitespace-nowrap">
                       {formatDistanceToNow(new Date(log.created_at), { addSuffix: true, locale: id })}
                     </TableCell>
-                    <TableCell className="font-mono text-muted-foreground max-w-[120px] sm:max-w-[150px] truncate" title={log.ip_address}>{log.ip_address}</TableCell>
+                    <TableCell className="font-mono text-muted-foreground max-w-[120px] sm:max-w-[150px] truncate" title={log.ip_address || undefined}>{log.ip_address}</TableCell>
                     <TableCell className="font-mono truncate max-w-[100px]" title={log.actor_id || 'System'}>
                       {log.actor_id ? `${log.actor_id.substring(0, 8)}...` : 'System'}
                     </TableCell>

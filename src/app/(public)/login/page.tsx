@@ -56,7 +56,7 @@ export default function LoginPage() {
         <div className="absolute inset-0 z-20 flex flex-col items-end justify-end p-10 pb-12 text-right">
           <div className="max-w-md lg:max-w-xl">
             <h2 className="text-2xl lg:text-3xl font-semibold tracking-tight text-white text-balance leading-snug drop-shadow-xl mb-4">
-              "Membangun Kader Umat<br />dan Bangsa dari Semarang"
+              &ldquo;Membangun Kader Umat<br />dan Bangsa dari Semarang&rdquo;
             </h2>
             <p className="text-base lg:text-lg text-white/80 font-normal text-balance leading-relaxed drop-shadow-md">
               HMI Cabang Semarang menjadi ruang kaderisasi, gagasan, dan pengabdian bagi mahasiswa Islam untuk berkontribusi nyata bagi agama dan negara.

@@ -5,7 +5,7 @@ import { Button } from '@/shared/ui/Button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/Table'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
-import { Edit, Eye, MoreHorizontal, Trash, Send } from 'lucide-react'
+import { Edit, MoreHorizontal, Trash, Send } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,

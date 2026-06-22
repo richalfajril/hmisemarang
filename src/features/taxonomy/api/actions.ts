@@ -9,8 +9,8 @@ import { slugify } from '@/shared/lib/utils'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 
 const taxonomySchema = z.object({
-  name: z.string().min(1, 'Nama wajib diisi').max(50, 'Maksimal 50 karakter'),
-  type: z.enum(['ARTICLE_CATEGORY', 'DOCUMENT_CATEGORY', 'TAG'])
+  name: z.string().min(1, 'Nama wajib diisi').max(100, 'Maksimal 100 karakter'),
+  type: z.enum(['ARTICLE_CATEGORY', 'DOCUMENT_CATEGORY', 'TAG', 'UNIVERSITY'])
 })
 
 export async function createTaxonomyAction(
@@ -65,6 +65,12 @@ export async function createTaxonomyAction(
       const record = await prisma.tag.create({ data: { name, slug } })
       entityId = record.id
     }
+    else if (type === 'UNIVERSITY') {
+      const exists = await prisma.university.findUnique({ where: { slug } })
+      if (exists) return { success: false, message: 'Universitas ini sudah ada.', errorCode: 'VALIDATION_ERROR' }
+      const record = await prisma.university.create({ data: { name, slug } })
+      entityId = record.id
+    }
 
     // Rekam log aktivitas
     await logAuditAction({
@@ -81,8 +87,8 @@ export async function createTaxonomyAction(
       success: true,
       message: `${name} berhasil ditambahkan.`,
     }
-  } catch (error) {
-    console.error('Create Taxonomy Error:', error)
+  } catch (_error) {
+    console.error('Create Taxonomy Error:', _error)
     return { success: false, message: 'Gagal menyimpan ke basis data.', errorCode: 'SERVER_ERROR' }
   }
 }
@@ -118,11 +124,13 @@ export async function toggleTaxonomyStatusAction(
       await prisma.documentCategory.update({ where: { id }, data: { is_active: newStatus } })
     } else if (type === 'TAG') {
       await prisma.tag.update({ where: { id }, data: { is_active: newStatus } })
+    } else if (type === 'UNIVERSITY') {
+      await prisma.university.update({ where: { id }, data: { is_active: newStatus } })
     }
 
     revalidatePath('/dashboard/taxonomy')
     return { success: true, message: `Status berhasil diubah menjadi ${newStatus ? 'Aktif' : 'Nonaktif'}.` }
-  } catch (error) {
+  } catch (_error) {
     return { success: false, message: 'Gagal mengubah status.', errorCode: 'SERVER_ERROR' }
   }
 }

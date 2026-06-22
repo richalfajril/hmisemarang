@@ -8,7 +8,7 @@ import { Article, Agenda, Commissariat } from '@prisma/client'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import Link from 'next/link'
-import { FileText, CalendarRange, Building2, UserCheck, ArrowRight, UserCircle } from 'lucide-react'
+import { FileText, CalendarRange, Building2, UserCheck, ArrowRight } from 'lucide-react'
 
 type PendingArticle = Article & { commissariat: Commissariat }
 type PendingAgenda = Agenda & { commissariat: Commissariat | null }

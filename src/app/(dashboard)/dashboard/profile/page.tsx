@@ -1,5 +1,4 @@
 import { prisma } from '@/shared/api/prisma/client'
-import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { ProfileForm } from '@/features/commissariat-profile/ui/ProfileForm'
@@ -43,6 +42,13 @@ export default async function ProfilePage() {
   const status = latestSubmission ? latestSubmission.status : 'DRAFT'
   const submissionId = latestSubmission?.id
 
+  // Ambil daftar universitas aktif untuk dropdown
+  const universities = await prisma.university.findMany({
+    where: { is_active: true },
+    select: { id: true, name: true },
+    orderBy: { name: 'asc' }
+  })
+
   return (
     <div className="p-6 space-y-6 w-full">
       <PageHeader
@@ -60,7 +66,8 @@ export default async function ProfilePage() {
       <ProfileForm 
         initialData={initialData} 
         submissionId={submissionId} 
-        status={status} 
+        status={status}
+        universities={universities}
       />
     </div>
   )

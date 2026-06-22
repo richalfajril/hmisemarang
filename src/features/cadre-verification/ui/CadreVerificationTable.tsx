@@ -12,7 +12,7 @@ import { Badge } from '@/shared/ui/Badge'
 import { Button } from '@/shared/ui/Button'
 import { format } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
-import { DownloadIcon, EyeIcon, MoreHorizontal } from 'lucide-react'
+import { EyeIcon, MoreHorizontal } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,

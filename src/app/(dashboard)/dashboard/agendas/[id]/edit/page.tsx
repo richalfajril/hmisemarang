@@ -1,6 +1,5 @@
 import { prisma } from '@/shared/api/prisma/client'
 import { Suspense } from 'react'
-import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { AgendaForm } from '@/features/agendas/ui/AgendaForm'
 import { notFound, redirect } from 'next/navigation'

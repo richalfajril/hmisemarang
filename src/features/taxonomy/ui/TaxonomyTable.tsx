@@ -13,7 +13,7 @@ import { Badge } from '@/shared/ui/Badge'
 import { Button } from '@/shared/ui/Button'
 import { toggleTaxonomyStatusAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Loader2, PowerOff, Power, MoreHorizontal } from 'lucide-react'
+import { PowerOff, Power, MoreHorizontal } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,7 +33,7 @@ type TaxonomyData = {
 }
 
 export function TaxonomyTable({ items, type }: { items: TaxonomyData[], type: string }) {
-  const [state, formAction, isPending] = useActionState(toggleTaxonomyStatusAction, initialActionState)
+  const [, formAction, isPending] = useActionState(toggleTaxonomyStatusAction, initialActionState)
   
   const pagination = useClientPagination(items, 15)
 

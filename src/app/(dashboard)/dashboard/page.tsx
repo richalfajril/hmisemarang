@@ -2,10 +2,9 @@ import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 import { 
-  getCabangDashboardStats, 
-  getCommissariatDashboardStats, 
-  getTopCommissariatsLeaderboard, 
-  getRecentActivityLogs 
+  getCabangDashboardStats,
+  getCommissariatDashboardStats,
+  getTopCommissariatsLeaderboard,
 } from '@/widgets/dashboard/api/queries'
 import { StatCard } from '@/widgets/dashboard/ui/StatCard'
 import { LeaderboardWidget } from '@/widgets/dashboard/ui/LeaderboardWidget'

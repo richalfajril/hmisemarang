@@ -2,7 +2,7 @@
 import { prisma } from '@/shared/api/prisma/client'
 
 import { revalidatePath } from 'next/cache'
-import { PrismaClient, GalleryStatus } from '@prisma/client'
+import { GalleryStatus } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { albumSchema, photoSchema } from '@/entities/gallery/model/schema'
 import { ActionState } from '@/shared/lib/action-state'
@@ -176,7 +176,7 @@ export async function uploadSinglePhotoAction(albumId: string, formData: FormDat
     // Check count for sorting
     const count = await prisma.galleryPhoto.count({ where: { album_id: albumId } })
 
-    const newPhoto = await prisma.galleryPhoto.create({
+    await prisma.galleryPhoto.create({
       data: {
         album_id: albumId,
         image_url: imageUrl,

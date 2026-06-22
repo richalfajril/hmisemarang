@@ -2,7 +2,7 @@
 import { prisma } from '@/shared/api/prisma/client'
 
 import { revalidatePath } from 'next/cache'
-import { PrismaClient, ArticleStatus } from '@prisma/client'
+import { ArticleStatus } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { articleSchema } from '@/entities/article/model/schema'
 import { ActionState } from '@/shared/lib/action-state'

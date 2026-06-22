@@ -1,5 +1,4 @@
 import { prisma } from '@/shared/api/prisma/client'
-import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import { PhotoGrid } from '@/features/galleries/ui/PhotoGrid'

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { Card, CardContent } from '@/shared/ui/Card'
+import { Card } from '@/shared/ui/Card'
 import { Button } from '@/shared/ui/Button'
 import { PlusCircle, Trash2, Star, Image as ImageIcon, Loader2 } from 'lucide-react'
 import Image from 'next/image'

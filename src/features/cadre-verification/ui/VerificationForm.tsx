@@ -7,7 +7,6 @@ import { Button } from '@/shared/ui/Button'
 import { Label } from '@/shared/ui/Label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { UploadCloud, FileSpreadsheet, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react'
-import { useTransition } from 'react'
 
 interface VerificationFormProps {
   hasPending: boolean

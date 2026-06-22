@@ -9,6 +9,7 @@ import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
+import { Combobox, type ComboboxOption } from '@/shared/ui/Combobox'
 import { Loader2, Save, Send, AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTransition } from 'react'
@@ -27,6 +28,7 @@ interface ProfileFormProps {
     logo_url?: string | null
     secretariat_photo_url?: string | null
     campus_name?: string | null
+    university_id?: string | null
     about?: string | null
     chairman_name?: string | null
     chairman_period?: string | null
@@ -36,13 +38,20 @@ interface ProfileFormProps {
   } | null
   submissionId?: string
   status?: string // 'DRAFT' | 'SUBMITTED' | 'REJECTED' | 'APPROVED'
+  universities?: Array<{ id: string; name: string }>
 }
 
-export function ProfileForm({ initialData, submissionId, status }: ProfileFormProps) {
+export function ProfileForm({ initialData, submissionId, status, universities = [] }: ProfileFormProps) {
   const [state, formAction, isPending] = useActionState(saveProfileDraftAction, initialActionState)
   const [logo, setLogo] = useState<string>((initialData?.logo_url as string) || '')
   const [photo, setPhoto] = useState<string>((initialData?.secretariat_photo_url as string) || '')
+  const [universityId, setUniversityId] = useState<string>(initialData?.university_id || '')
   const [isSubmitPending, startTransition] = useTransition()
+
+  const universityOptions: ComboboxOption[] = universities.map(u => ({
+    value: u.id,
+    label: u.name,
+  }))
 
   const isReadOnly = status === 'SUBMITTED'
 
@@ -128,14 +137,16 @@ export function ProfileForm({ initialData, submissionId, status }: ProfileFormPr
                   {state?.fieldErrors?.name && <p className="text-xs text-destructive">{state.fieldErrors.name[0]}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="campus_name">Nama Kampus *</Label>
-                  <Input
-                    id="campus_name"
-                    name="campus_name"
-                    defaultValue={initialData?.campus_name || ''}
+                  <Label htmlFor="university_id">Nama Kampus / Universitas *</Label>
+                  <Combobox
+                    options={universityOptions}
+                    value={universityId}
+                    onValueChange={setUniversityId}
+                    name="university_id"
+                    placeholder="Pilih universitas..."
+                    searchPlaceholder="Ketik untuk mencari..."
+                    emptyMessage="Universitas tidak ditemukan."
                     disabled={isPending || isReadOnly}
-                    className={state?.fieldErrors?.campus_name ? 'border-destructive' : ''}
-                    required
                   />
                   {state?.fieldErrors?.campus_name && <p className="text-xs text-destructive">{state.fieldErrors.campus_name[0]}</p>}
                 </div>

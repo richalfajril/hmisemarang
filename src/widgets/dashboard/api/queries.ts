@@ -1,6 +1,4 @@
 import { prisma } from '@/shared/api/prisma/client'
-import { PrismaClient } from '@prisma/client'
-import { getUserSession } from '@/shared/api/supabase/server'
 import { unstable_cache } from 'next/cache'
 
 export const getCabangDashboardStats = unstable_cache(

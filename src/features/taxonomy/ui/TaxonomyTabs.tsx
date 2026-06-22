@@ -15,11 +15,13 @@ type TaxonomyData = {
 export function TaxonomyTabs({ 
   articleCategories, 
   documentCategories, 
-  tags
+  tags,
+  universities = [],
 }: { 
   articleCategories: Array<TaxonomyData>,
   documentCategories: Array<TaxonomyData>,
-  tags: Array<TaxonomyData>
+  tags: Array<TaxonomyData>,
+  universities?: Array<TaxonomyData>,
 }) {
   return (
     <Tabs defaultValue="article-categories" className="w-full">
@@ -28,11 +30,8 @@ export function TaxonomyTabs({
           <TabsTrigger value="article-categories">Kategori Artikel</TabsTrigger>
           <TabsTrigger value="document-categories">Kategori Dokumen</TabsTrigger>
           <TabsTrigger value="tags">Tag Label</TabsTrigger>
+          <TabsTrigger value="universities">Universitas</TabsTrigger>
         </TabsList>
-        
-        {/* Dynamic Buttons for the active tab could be handled with separate components or state,
-            but for simplicity we'll render the modal button specific to each tab content inside the tab,
-            or just keep it simple and put the button inside the tab content. */}
       </div>
       
       <TabsContent value="article-categories" className="space-y-4">
@@ -57,6 +56,14 @@ export function TaxonomyTabs({
           <CreateTaxonomyModal type="TAG" label="Tag" />
         </div>
         <TaxonomyTable items={tags} type="TAG" />
+      </TabsContent>
+
+      <TabsContent value="universities" className="space-y-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold">Daftar Universitas / Perguruan Tinggi</h2>
+          <CreateTaxonomyModal type="UNIVERSITY" label="Universitas" />
+        </div>
+        <TaxonomyTable items={universities} type="UNIVERSITY" />
       </TabsContent>
     </Tabs>
   )

@@ -2,9 +2,9 @@
 import { prisma } from '@/shared/api/prisma/client'
 
 import { revalidatePath } from 'next/cache'
-import { PrismaClient, ArticleStatus, AgendaStatus, ReviewAction } from '@prisma/client'
+import { ArticleStatus, AgendaStatus, ReviewAction } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
-import { reviewSchema, ReviewEntityType, ReviewActionEnum } from '@/entities/review-history/model/schema'
+import { reviewSchema } from '@/entities/review-history/model/schema'
 import { ActionState } from '@/shared/lib/action-state'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 
@@ -142,10 +142,6 @@ export async function processReviewAction(
         if (!cv) throw new Error('Pengajuan Verifikasi tidak ditemukan.')
         if (cv.status !== 'PENDING') throw new Error('Verifikasi tidak dalam status PENDING.')
 
-        let createdById = 'SYSTEM' // Fallback
-        const commissariatAdmins = await tx.user.findMany({ where: { commissariat_id: cv.commissariat_id, role: 'ADMIN_KOMISARIAT' } })
-        if (commissariatAdmins.length > 0) createdById = commissariatAdmins[0].id
-        
         entityTitle = `Verifikasi Kader: ${cv.commissariat.name}`
 
         let nextStatus: 'VERIFIED' | 'REJECTED' | 'PENDING' = 'REJECTED'

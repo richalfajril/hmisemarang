@@ -1,7 +1,7 @@
 'use server'
 import { prisma } from '@/shared/api/prisma/client'
 
-import { PrismaClient } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 
 
@@ -24,25 +24,25 @@ export async function globalSearchAction(query: string): Promise<SearchResult[]>
   if (!query || query.trim().length < 2) return []
   const searchTerm = query.trim()
 
-  const articleWhere: any = {
+  const articleWhere: Prisma.ArticleWhereInput = {
     OR: [
       { title: { contains: searchTerm, mode: 'insensitive' } },
       { content: { contains: searchTerm, mode: 'insensitive' } }
     ],
     deleted_at: null
   }
-  if (!isAdmin) {
+  if (!isAdmin && commissariatId) {
     articleWhere.commissariat_id = commissariatId
   }
 
-  const agendaWhere: any = {
+  const agendaWhere: Prisma.AgendaWhereInput = {
     OR: [
       { title: { contains: searchTerm, mode: 'insensitive' } },
       { description: { contains: searchTerm, mode: 'insensitive' } }
     ],
     deleted_at: null
   }
-  if (!isAdmin) {
+  if (!isAdmin && commissariatId) {
     agendaWhere.commissariat_id = commissariatId
   }
 

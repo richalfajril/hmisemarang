@@ -71,7 +71,7 @@ export async function createPeriodAction(
 
     revalidatePath('/dashboard/organization')
     return { success: true, message: 'Periode kepengurusan berhasil dibuat.' }
-  } catch (error) {
+  } catch (_error) {
     return { success: false, message: 'Gagal membuat periode.', errorCode: 'SERVER_ERROR' }
   }
 }
@@ -94,7 +94,7 @@ export async function activatePeriodAction(
 
     revalidatePath('/', 'layout') // Revalidate semua halaman publik
     return { success: true, message: 'Periode berhasil diaktifkan. Situs publik kini menampilkan susunan pengurus ini.' }
-  } catch (error) {
+  } catch (_error) {
     return { success: false, message: 'Gagal mengaktifkan periode.', errorCode: 'SERVER_ERROR' }
   }
 }
@@ -125,7 +125,7 @@ export async function createPositionAction(
 
     revalidatePath('/dashboard/organization')
     return { success: true, message: 'Posisi jabatan berhasil ditambahkan.' }
-  } catch (error) {
+  } catch (_error) {
     return { success: false, message: 'Gagal membuat jabatan.', errorCode: 'SERVER_ERROR' }
   }
 }
@@ -143,7 +143,7 @@ export async function deletePositionAction(
     await prisma.position.delete({ where: { id } })
     revalidatePath('/dashboard/organization')
     return { success: true, message: 'Jabatan beserta anggotanya berhasil dihapus.' }
-  } catch (error) {
+  } catch (_error) {
     return { success: false, message: 'Gagal menghapus jabatan.', errorCode: 'SERVER_ERROR' }
   }
 }
@@ -175,7 +175,7 @@ export async function createBoardMemberAction(
 
     revalidatePath('/dashboard/organization')
     return { success: true, message: 'Anggota pengurus berhasil ditambahkan ke jabatan.' }
-  } catch (error) {
+  } catch (_error) {
     return { success: false, message: 'Gagal menambahkan anggota.', errorCode: 'SERVER_ERROR' }
   }
 }
@@ -193,7 +193,7 @@ export async function deleteBoardMemberAction(
     await prisma.boardMember.delete({ where: { id } })
     revalidatePath('/dashboard/organization')
     return { success: true, message: 'Anggota pengurus berhasil dicopot.' }
-  } catch (error) {
+  } catch (_error) {
     return { success: false, message: 'Gagal menghapus anggota.', errorCode: 'SERVER_ERROR' }
   }
 }

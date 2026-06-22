@@ -13,7 +13,7 @@ import { Badge } from '@/shared/ui/Badge'
 import { Button } from '@/shared/ui/Button'
 import { activatePeriodAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Loader2, Power, Eye, MoreHorizontal } from 'lucide-react'
+import { Power, Eye, MoreHorizontal } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +34,7 @@ type PeriodData = {
 }
 
 export function PeriodList({ items }: { items: PeriodData[] }) {
-  const [state, formAction, isPending] = useActionState(activatePeriodAction, initialActionState)
+  const [, formAction, isPending] = useActionState(activatePeriodAction, initialActionState)
   
   const pagination = useClientPagination(items, 15)
 

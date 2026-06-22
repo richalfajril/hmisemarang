@@ -83,12 +83,25 @@ model User {
   @@map("users")
 }
 
+model University {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String    @unique
+  slug      String    @unique
+  is_active Boolean   @default(true)
+
+  commissariats      Commissariat[]
+  profileSubmissions CommissariatProfileSubmission[]
+
+  @@map("universities")
+}
+
 model Commissariat {
   id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                  String
   slug                  String    @unique
   logo_url              String?
   campus_name           String?
+  university_id         String?   @db.Uuid
   about                 String?   @db.Text
   chairman_name         String?
   chairman_period       String?
@@ -102,6 +115,7 @@ model Commissariat {
   created_at            DateTime  @default(now())
   updated_at            DateTime  @updatedAt
 
+  university           University? @relation(fields: [university_id], references: [id], onDelete: SetNull)
   users                User[]
   articles             Article[]
   agendas              Agenda[]
@@ -118,6 +132,7 @@ model CommissariatProfileSubmission {
   name                  String?
   logo_url              String?
   campus_name           String?
+  university_id         String?                 @db.Uuid
   about                 String?                 @db.Text
   chairman_name         String?
   chairman_period       String?
@@ -136,6 +151,7 @@ model CommissariatProfileSubmission {
   updated_at            DateTime                @updatedAt
 
   commissariat Commissariat @relation(fields: [commissariat_id], references: [id], onDelete: Cascade)
+  university   University?  @relation(fields: [university_id], references: [id], onDelete: SetNull)
 
   @@map("commissariat_profile_submissions")
 }
