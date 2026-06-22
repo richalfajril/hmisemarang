@@ -88,12 +88,12 @@ export default async function AuditLogsPage(props: { searchParams: Promise<{ pag
                     <TableCell className="font-medium whitespace-nowrap">
                       {formatDistanceToNow(new Date(log.created_at), { addSuffix: true, locale: id })}
                     </TableCell>
-                    <TableCell className="font-mono text-muted-foreground">{log.ip_address}</TableCell>
+                    <TableCell className="font-mono text-muted-foreground max-w-[120px] sm:max-w-[150px] truncate" title={log.ip_address}>{log.ip_address}</TableCell>
                     <TableCell className="font-mono truncate max-w-[100px]" title={log.actor_id || 'System'}>
                       {log.actor_id ? `${log.actor_id.substring(0, 8)}...` : 'System'}
                     </TableCell>
                     <TableCell>
-                      <Badge variant={badgeColor as "default" | "secondary" | "destructive" | "outline"} className={log.action === 'CREATED' ? 'bg-green-100 text-green-800 hover:bg-green-100' : ''}>
+                      <Badge variant={badgeColor as "default" | "secondary" | "destructive" | "outline"} className={`w-full ${log.action === 'CREATED' ? 'bg-green-100 text-green-800 hover:bg-green-100' : ''}`}>
                         {log.action}
                       </Badge>
                     </TableCell>

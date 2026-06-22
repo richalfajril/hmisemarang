@@ -127,6 +127,7 @@ export async function processReviewAction(
               campus_name: sub.campus_name || undefined,
               about: sub.about || undefined,
               chairman_name: sub.chairman_name || undefined,
+              chairman_period: sub.chairman_period || undefined,
               chairman_about: sub.chairman_about || undefined,
               secretariat_photo_url: sub.secretariat_photo_url || undefined,
               map_url: sub.map_url || undefined,
@@ -160,6 +161,15 @@ export async function processReviewAction(
             note: note || null, // Capture note directly on the verification entity as well
           }
         })
+
+        if (action === 'APPROVED' && row_count) {
+          await tx.commissariat.update({
+            where: { id: cv.commissariat_id },
+            data: {
+              cadre_count: row_count,
+            }
+          })
+        }
       } else {
         throw new Error(`Entitas ${entity_type} belum didukung di MVP ini.`)
       }

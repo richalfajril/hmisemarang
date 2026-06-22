@@ -16,38 +16,49 @@ export type SearchResult = {
 
 export async function globalSearchAction(query: string): Promise<SearchResult[]> {
   const session = await getUserSession()
-  if (!session || (session.user.role !== 'SYSTEM_ADMIN' && session.user.role !== 'ADMIN_CABANG')) {
-    return []
-  }
+  if (!session) return []
+
+  const isAdmin = session.user.role === 'SYSTEM_ADMIN' || session.user.role === 'ADMIN_CABANG'
+  const commissariatId = session.user.commissariatId
 
   if (!query || query.trim().length < 2) return []
   const searchTerm = query.trim()
 
+  const articleWhere: any = {
+    OR: [
+      { title: { contains: searchTerm, mode: 'insensitive' } },
+      { content: { contains: searchTerm, mode: 'insensitive' } }
+    ],
+    deleted_at: null
+  }
+  if (!isAdmin) {
+    articleWhere.commissariat_id = commissariatId
+  }
+
+  const agendaWhere: any = {
+    OR: [
+      { title: { contains: searchTerm, mode: 'insensitive' } },
+      { description: { contains: searchTerm, mode: 'insensitive' } }
+    ],
+    deleted_at: null
+  }
+  if (!isAdmin) {
+    agendaWhere.commissariat_id = commissariatId
+  }
+
   // We do parallel searches, using Prisma's `contains` with mode: 'insensitive'
   const [articles, agendas, documents, commissariats] = await Promise.all([
     prisma.article.findMany({
-      where: {
-        OR: [
-          { title: { contains: searchTerm, mode: 'insensitive' } },
-          { content: { contains: searchTerm, mode: 'insensitive' } }
-        ],
-        deleted_at: null
-      },
+      where: articleWhere,
       take: 5,
       select: { id: true, title: true, commissariat: { select: { name: true } } }
     }),
     prisma.agenda.findMany({
-      where: {
-        OR: [
-          { title: { contains: searchTerm, mode: 'insensitive' } },
-          { description: { contains: searchTerm, mode: 'insensitive' } }
-        ],
-        deleted_at: null
-      },
+      where: agendaWhere,
       take: 3,
       select: { id: true, title: true, commissariat: { select: { name: true } } }
     }),
-    prisma.document.findMany({
+    isAdmin ? prisma.document.findMany({
       where: {
         OR: [
           { title: { contains: searchTerm, mode: 'insensitive' } },
@@ -57,8 +68,8 @@ export async function globalSearchAction(query: string): Promise<SearchResult[]>
       },
       take: 3,
       select: { id: true, title: true, category: { select: { name: true } } }
-    }),
-    prisma.commissariat.findMany({
+    }) : Promise.resolve([]),
+    isAdmin ? prisma.commissariat.findMany({
       where: {
         OR: [
           { name: { contains: searchTerm, mode: 'insensitive' } },
@@ -67,7 +78,7 @@ export async function globalSearchAction(query: string): Promise<SearchResult[]>
       },
       take: 3,
       select: { id: true, name: true, campus_name: true }
-    })
+    }) : Promise.resolve([])
   ])
 
   const results: SearchResult[] = []
@@ -76,9 +87,9 @@ export async function globalSearchAction(query: string): Promise<SearchResult[]>
     results.push({
       id: a.id,
       title: a.title,
-      subtitle: a.commissariat.name,
+      subtitle: a.commissariat?.name || 'Cabang',
       type: 'ARTICLE',
-      url: `/dashboard/articles/${a.id}/edit` // or view page if implemented
+      url: `/dashboard/articles/${a.id}/edit`
     })
   })
 
@@ -96,7 +107,7 @@ export async function globalSearchAction(query: string): Promise<SearchResult[]>
     results.push({
       id: d.id,
       title: d.title,
-      subtitle: d.category.name,
+      subtitle: d.category?.name || 'Tidak ada kategori',
       type: 'DOCUMENT',
       url: `/dashboard/documents/${d.id}/edit`
     })

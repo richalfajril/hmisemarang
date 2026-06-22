@@ -91,6 +91,7 @@ model Commissariat {
   campus_name           String?
   about                 String?   @db.Text
   chairman_name         String?
+  chairman_period       String?
   chairman_about        String?   @db.Text
   cadre_count           Int       @default(0)
   secretariat_photo_url String?
@@ -119,6 +120,7 @@ model CommissariatProfileSubmission {
   campus_name           String?
   about                 String?                 @db.Text
   chairman_name         String?
+  chairman_period       String?
   chairman_about        String?                 @db.Text
   secretariat_photo_url String?
   map_url               String?

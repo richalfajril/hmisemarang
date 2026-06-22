@@ -25,6 +25,7 @@ export async function saveProfileDraftAction(
       campus_name: formData.get('campus_name') as string,
       about: formData.get('about') as string,
       chairman_name: formData.get('chairman_name') as string,
+      chairman_period: formData.get('chairman_period') as string,
       chairman_about: formData.get('chairman_about') as string,
       address: formData.get('address') as string,
       map_url: formData.get('map_url') as string,

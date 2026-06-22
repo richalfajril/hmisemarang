@@ -39,16 +39,30 @@ export async function uploadCadreFileAction(
 
     const commissariatId = session.user.commissariatId
 
-    // Cek apakah ada submission PENDING
-    const existingPending = await prisma.cadreVerification.findFirst({
+    // Ambil periode aktif
+    const activePeriod = await prisma.period.findFirst({
+      where: { is_active: true }
+    });
+
+    if (!activePeriod) {
+      return { success: false, message: 'Gagal mengunggah: Tidak ada periode organisasi yang aktif.' }
+    }
+
+    // Cek apakah ada submission PENDING atau VERIFIED di periode aktif
+    const existingActive = await prisma.cadreVerification.findFirst({
       where: { 
         commissariat_id: commissariatId,
-        status: 'PENDING'
+        status: { in: ['PENDING', 'VERIFIED'] },
+        created_at: { gte: activePeriod.created_at }
       }
     })
 
-    if (existingPending) {
-      return { success: false, message: 'Anda sudah memiliki pengajuan yang sedang menunggu review Cabang.' }
+    if (existingActive) {
+      if (existingActive.status === 'PENDING') {
+        return { success: false, message: 'Anda sudah memiliki pengajuan yang sedang menunggu review Cabang.' }
+      } else {
+        return { success: false, message: 'Komisariat Anda sudah berhasil diverifikasi pada periode aktif ini.' }
+      }
     }
 
     // Unggah file ke Cloudinary secara aman (Secure URL)

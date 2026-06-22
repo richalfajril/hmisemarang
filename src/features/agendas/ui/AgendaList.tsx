@@ -70,11 +70,12 @@ export function AgendaList({ agendas }: AgendaListProps) {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-[50px]">No.</TableHead>
             <TableHead>Nama Acara</TableHead>
             <TableHead>Waktu Pelaksanaan</TableHead>
             <TableHead>Lokasi</TableHead>
             <TableHead>Status</TableHead>
-            <TableHead className="w-[80px]"></TableHead>
+            <TableHead className="w-[80px]">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -85,15 +86,18 @@ export function AgendaList({ agendas }: AgendaListProps) {
               </TableCell>
             </TableRow>
           ) : (
-            pagination.paginatedData.map((agenda) => (
+            pagination.paginatedData.map((agenda, index) => {
+              const rowIndex = (pagination.currentPage - 1) * 15 + index + 1
+              return (
               <TableRow key={agenda.id}>
-                <TableCell className="font-medium">{agenda.title}</TableCell>
+                <TableCell>{rowIndex}</TableCell>
+                <TableCell className="font-medium max-w-[150px] sm:max-w-[200px] md:max-w-[250px] truncate" title={agenda.title}>{agenda.title}</TableCell>
                 <TableCell>
                   {format(new Date(agenda.start_datetime), 'dd MMM yyyy, HH:mm', { locale: id })}
                 </TableCell>
-                <TableCell>{agenda.location_name || '-'}</TableCell>
+                <TableCell className="max-w-[100px] sm:max-w-[150px] truncate" title={agenda.location_name || '-'}>{agenda.location_name || '-'}</TableCell>
                 <TableCell>
-                  <Badge variant="outline" className={statusColorMap[agenda.status] || ''}>
+                  <Badge variant="outline" className={`w-full ${statusColorMap[agenda.status] || ''}`}>
                     {agenda.status}
                   </Badge>
                 </TableCell>
@@ -136,7 +140,8 @@ export function AgendaList({ agendas }: AgendaListProps) {
                   </DropdownMenu>
                 </TableCell>
               </TableRow>
-            ))
+              )
+            })
           )}
         </TableBody>
       </Table>

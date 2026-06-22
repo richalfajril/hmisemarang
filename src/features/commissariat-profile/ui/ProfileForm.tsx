@@ -29,6 +29,7 @@ interface ProfileFormProps {
     campus_name?: string | null
     about?: string | null
     chairman_name?: string | null
+    chairman_period?: string | null
     chairman_about?: string | null
     cadre_count?: number | null
     map_url?: string | null
@@ -174,6 +175,16 @@ export function ProfileForm({ initialData, submissionId, status }: ProfileFormPr
                   required
                 />
                 {state?.fieldErrors?.chairman_name && <p className="text-xs text-destructive">{state.fieldErrors.chairman_name[0]}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="chairman_period">Periode Kepengurusan</Label>
+                <Input
+                  id="chairman_period"
+                  name="chairman_period"
+                  defaultValue={initialData?.chairman_period || ''}
+                  disabled={isPending || isReadOnly}
+                  placeholder="Contoh: 2023-2024"
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="chairman_about">Pesan / Visi Misi Ketua Umum</Label>

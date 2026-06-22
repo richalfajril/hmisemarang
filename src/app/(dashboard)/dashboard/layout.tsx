@@ -20,22 +20,34 @@ export default async function DashboardLayout({
     redirect('/login')
   }
 
-  // Fetch role securely from database (try ID first, fallback to email for desynced seeds)
+  // Fetch role securely from database
   let dbUser = await prisma.user.findUnique({
     where: { id: user.id },
-    select: { role: true }
+    select: { role: true, commissariat_id: true }
   })
 
   if (!dbUser && user.email) {
     dbUser = await prisma.user.findUnique({
       where: { email: user.email },
-      select: { role: true }
+      select: { role: true, commissariat_id: true }
     })
   }
   
   const role = dbUser?.role || 'ADMIN_KOMISARIAT'
-  const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Admin'
+  let name = user.user_metadata?.name || user.email?.split('@')[0] || 'Admin'
   const email = user.email ?? ''
+  let avatar = user.user_metadata?.avatar_url ?? 'https://res.cloudinary.com/dbndgotx4/image/upload/v1782097131/avatar_1-1_n1km33.avif'
+
+  if (role === 'ADMIN_KOMISARIAT' && dbUser?.commissariat_id) {
+    const commissariat = await prisma.commissariat.findUnique({
+      where: { id: dbUser.commissariat_id },
+      select: { name: true, logo_url: true }
+    })
+    if (commissariat) {
+      name = commissariat.name
+      if (commissariat.logo_url) avatar = commissariat.logo_url
+    }
+  }
 
   return (
     <SidebarProvider>
@@ -43,7 +55,7 @@ export default async function DashboardLayout({
         user={{
           name,
           email,
-          avatar: user.user_metadata?.avatar_url ?? 'https://res.cloudinary.com/dbndgotx4/image/upload/v1782097131/avatar_1-1_n1km33.avif',
+          avatar,
         }}
         role={role}
       />

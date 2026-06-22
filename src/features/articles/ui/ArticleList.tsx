@@ -75,11 +75,12 @@ export function ArticleList({ articles }: ArticleListProps) {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-[50px]">No.</TableHead>
             <TableHead>Judul</TableHead>
             <TableHead>Kategori</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Diperbarui</TableHead>
-            <TableHead className="w-[80px]"></TableHead>
+            <TableHead className="w-[80px]">Aksi</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -90,15 +91,18 @@ export function ArticleList({ articles }: ArticleListProps) {
               </TableCell>
             </TableRow>
           ) : (
-            pagination.paginatedData.map((article) => (
+            pagination.paginatedData.map((article, index) => {
+              const rowIndex = (pagination.currentPage - 1) * 15 + index + 1
+              return (
               <TableRow key={article.id}>
-                <TableCell>
-                  <div className="font-medium">{article.title}</div>
-                  <div className="text-xs text-muted-foreground">{article.commissariat.name}</div>
+                <TableCell>{rowIndex}</TableCell>
+                <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[300px]">
+                  <div className="font-bold text-base truncate" title={article.title}>{article.title}</div>
+                  <div className="text-xs text-muted-foreground truncate" title={article.commissariat.name}>{article.commissariat.name}</div>
                 </TableCell>
                 <TableCell>{article.category.name}</TableCell>
                 <TableCell>
-                  <Badge variant="outline" className={statusColorMap[article.status] || ''}>
+                  <Badge variant="outline" className={`w-full ${statusColorMap[article.status] || ''}`}>
                     {article.status}
                   </Badge>
                 </TableCell>
@@ -144,7 +148,8 @@ export function ArticleList({ articles }: ArticleListProps) {
                   </DropdownMenu>
                 </TableCell>
               </TableRow>
-            ))
+              )
+            })
           )}
         </TableBody>
       </Table>

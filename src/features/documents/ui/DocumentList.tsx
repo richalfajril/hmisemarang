@@ -83,6 +83,7 @@ export function DocumentList({ documents }: DocumentListProps) {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-[50px]">No.</TableHead>
             <TableHead className="w-[40%]">Nama Dokumen</TableHead>
             <TableHead>Kategori</TableHead>
             <TableHead>Ukuran</TableHead>
@@ -91,16 +92,19 @@ export function DocumentList({ documents }: DocumentListProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {pagination.paginatedData.map((doc) => (
+          {pagination.paginatedData.map((doc, index) => {
+            const rowIndex = (pagination.currentPage - 1) * 15 + index + 1
+            return (
             <TableRow key={doc.id}>
+              <TableCell>{rowIndex}</TableCell>
               <TableCell>
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-red-100 dark:bg-red-950/30 text-red-600 dark:text-red-400 rounded">
+                <div className="flex items-start gap-3 max-w-[200px] sm:max-w-[300px] md:max-w-[400px]">
+                  <div className="p-2 bg-red-100 dark:bg-red-950/30 text-red-600 dark:text-red-400 rounded shrink-0">
                     <FileText className="h-4 w-4" />
                   </div>
-                  <div>
-                    <p className="font-medium line-clamp-1">{doc.title}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">
+                  <div className="min-w-0">
+                    <p className="font-medium truncate" title={doc.title}>{doc.title}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5 truncate">
                       Diunggah: {format(new Date(doc.created_at), 'dd MMM yyyy', { locale: idLocale })}
                     </p>
                   </div>
@@ -115,7 +119,7 @@ export function DocumentList({ documents }: DocumentListProps) {
               <TableCell>
                 <Badge 
                   variant={doc.status === 'PUBLISHED' ? 'default' : doc.status === 'DRAFT' ? 'secondary' : 'outline'}
-                  className={doc.status === 'PUBLISHED' ? 'bg-green-500' : ''}
+                  className={`w-full ${doc.status === 'PUBLISHED' ? 'bg-green-500' : ''}`}
                 >
                   {doc.status}
                 </Badge>
@@ -150,7 +154,8 @@ export function DocumentList({ documents }: DocumentListProps) {
                 </DropdownMenu>
               </TableCell>
             </TableRow>
-          ))}
+            )
+          })}
         </TableBody>
       </Table>
       <SmartPagination {...pagination} />

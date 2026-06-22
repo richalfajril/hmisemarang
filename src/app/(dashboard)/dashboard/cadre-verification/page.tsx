@@ -1,13 +1,13 @@
 import { prisma } from '@/shared/api/prisma/client'
-import { PrismaClient } from '@prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { VerificationForm } from '@/features/cadre-verification/ui/VerificationForm'
+import { CadreVerificationTable } from '@/features/cadre-verification/ui/CadreVerificationTable'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { Badge } from '@/shared/ui/Badge'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
-import { FileSpreadsheet, FileCheck } from 'lucide-react'
+import { FileSpreadsheet, FileCheck, ClipboardList } from 'lucide-react'
 import { PageHeader } from '@/shared/ui/PageHeader'
 
 export default async function CadreVerificationPage() {
@@ -17,7 +17,26 @@ export default async function CadreVerificationPage() {
     redirect('/login')
   }
 
-  // Hanya Admin Komisariat yang boleh mengakses halaman ini
+  // Tampilan khusus untuk ADMIN_CABANG / SYSTEM_ADMIN
+  if (session.user.role === 'ADMIN_CABANG' || session.user.role === 'SYSTEM_ADMIN') {
+    const allVerifications = await prisma.cadreVerification.findMany({
+      include: { commissariat: true },
+      orderBy: { created_at: 'desc' }
+    })
+
+    return (
+      <div className="p-6 space-y-6 w-full">
+        <PageHeader
+          title="Verifikasi Kader Seluruh Komisariat"
+          description="Pantau riwayat unggahan dan status verifikasi pangkalan data kader dari seluruh komisariat."
+          icon={ClipboardList}
+        />
+        <CadreVerificationTable items={allVerifications} />
+      </div>
+    )
+  }
+
+  // Hanya Admin Komisariat yang boleh mengakses halaman unggahan
   if (session.user.role !== 'ADMIN_KOMISARIAT' || !session.user.commissariatId) {
     redirect('/dashboard')
   }
@@ -43,7 +62,6 @@ export default async function CadreVerificationPage() {
   })
 
   // Ambil data profil terbaru untuk mengecek jumlah baris/kader saat ini yang disetujui
-  // Ini ada di kolom kader komisariat yang nantinya akan di-sync (MVP: row_count di history VERIFIED terbaru)
   const latestVerified = history.find(h => h.status === 'VERIFIED')
 
   return (

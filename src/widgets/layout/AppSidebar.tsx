@@ -98,15 +98,22 @@ export function AppSidebar({
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
+        {role === 'ADMIN_KOMISARIAT' && (
+          <div className="mt-2 px-2">
+            <NavUser user={user} />
+          </div>
+        )}
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={filteredNavMain} label="Konten" />
         {filteredNavManagement.length > 0 && <NavMain items={filteredNavManagement} label="Manajemen" />}
         <NavSecondary items={filteredNavSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={user} />
-      </SidebarFooter>
+      {role !== 'ADMIN_KOMISARIAT' && (
+        <SidebarFooter>
+          <NavUser user={user} />
+        </SidebarFooter>
+      )}
     </Sidebar>
   )
 }

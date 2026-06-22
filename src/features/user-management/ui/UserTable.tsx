@@ -13,7 +13,14 @@ import { Badge } from '@/shared/ui/Badge'
 import { Button } from '@/shared/ui/Button'
 import { forceResetPasswordAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Loader2, KeyRound, AlertCircle } from 'lucide-react'
+import { Loader2, KeyRound, AlertCircle, MoreHorizontal } from 'lucide-react'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/shared/ui/DropdownMenu'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
 
@@ -59,30 +66,34 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[50px]">No.</TableHead>
               <TableHead>Email Fungsionaris</TableHead>
               <TableHead>Status Kewenangan</TableHead>
               <TableHead>Unit / Instansi</TableHead>
               <TableHead>Jejak Aktivitas</TableHead>
-              <TableHead className="text-right">Tindakan</TableHead>
+              <TableHead className="text-right">Aksi</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {users.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={5} className="text-center h-32 text-muted-foreground">
+                <TableCell colSpan={6} className="text-center h-32 text-muted-foreground">
                   Belum ada data partisipan yang didaftarkan.
                 </TableCell>
               </TableRow>
             ) : (
-              pagination.paginatedData.map((user) => (
+              pagination.paginatedData.map((user, index) => {
+                const rowIndex = (pagination.currentPage - 1) * 15 + index + 1
+                return (
                 <TableRow key={user.id}>
-                  <TableCell className="font-medium">{user.email}</TableCell>
+                  <TableCell>{rowIndex}</TableCell>
+                  <TableCell className="font-medium max-w-[150px] sm:max-w-[200px] md:max-w-[250px] truncate" title={user.email}>{user.email}</TableCell>
                   <TableCell>
-                    <Badge variant={user.role === 'SYSTEM_ADMIN' ? 'destructive' : user.role === 'ADMIN_CABANG' ? 'default' : 'secondary'}>
+                    <Badge className="w-full" variant={user.role === 'SYSTEM_ADMIN' ? 'destructive' : user.role === 'ADMIN_CABANG' ? 'default' : 'secondary'}>
                       {user.role.replace('_', ' ')}
                     </Badge>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[250px] truncate" title={user.commissariat_name || 'Pusat Cabang'}>
                     {user.commissariat_name ? user.commissariat_name : <span className="text-muted-foreground italic">Pusat Cabang</span>}
                   </TableCell>
                   <TableCell className="text-muted-foreground text-sm">
@@ -90,28 +101,38 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
                   </TableCell>
                   <TableCell className="text-right">
                     {user.id !== currentUserId && (
-                      <form action={formAction}>
-                        <input type="hidden" name="userId" value={user.id} />
-                        <Button 
-                          type="submit" 
-                          variant="ghost" 
-                          size="sm" 
-                          className="text-muted-foreground hover:text-amber-600 hover:bg-amber-100/50 dark:hover:bg-amber-950/50"
-                          disabled={isPending}
-                          onClick={() => setResetId(user.id)}
-                        >
-                          {isPending && resetId === user.id ? (
-                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          ) : (
-                            <KeyRound className="mr-2 h-4 w-4" />
-                          )}
-                          Paksa Reset Sandi
-                        </Button>
-                      </form>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" disabled={isPending && resetId === user.id}>
+                            {isPending && resetId === user.id ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <MoreHorizontal className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                          <form action={formAction}>
+                            <input type="hidden" name="userId" value={user.id} />
+                            <DropdownMenuItem asChild>
+                              <button 
+                                type="submit" 
+                                className="w-full cursor-pointer flex items-center text-amber-600 focus:text-amber-700 focus:bg-amber-100/50 dark:focus:bg-amber-950/50"
+                                onClick={() => setResetId(user.id)}
+                              >
+                                <KeyRound className="mr-2 h-4 w-4" />
+                                Paksa Reset Sandi
+                              </button>
+                            </DropdownMenuItem>
+                          </form>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     )}
                   </TableCell>
                 </TableRow>
-              ))
+                )
+              })
             )}
           </TableBody>
         </Table>

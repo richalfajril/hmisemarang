@@ -6,6 +6,7 @@ export const profileSubmissionSchema = z.object({
   about: z.string().optional(),
   
   chairman_name: z.string().min(3, 'Nama ketua harus minimal 3 karakter').max(100),
+  chairman_period: z.string().optional(),
   chairman_about: z.string().optional(),
   
   address: z.string().optional(),
