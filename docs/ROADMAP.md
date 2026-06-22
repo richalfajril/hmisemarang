@@ -328,6 +328,7 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ## Adjustments (Unplanned Features)
 *(Area ini difungsikan murni untuk mencatat secara historis semua tugas ad-hoc atau perombakan darurat yang memaksa masuk di tengah-tengah rentang masa iterasi. Kosong secara baku).*
+- **Sidebar "Profil Komisariat" & Dropdown Cleanup (2026-06-23):** Menambahkan item menu sidebar "Profil Komisariat" di bawah "Dasbor" khusus role `ADMIN_KOMISARIAT`. Menghilangkan dropdown "Profil Saya" untuk ADMIN_KOMISARIAT (sudah diwakili sidebar). Role lain tetap memiliki "Profil Saya" di dropdown.
 - **Dashboard Layout & Performance Refactoring (2026-06-22):** Refaktorisasi padding, margin, back button terpadu, dan rendering non-blocking dengan Suspense.
 - **Dashboard Loading Placeholder Removal (2026-06-22):** Menghapus placeholder kerangka dari fallback `Suspense` dan `loading.tsx` sambil mempertahankan pola App Shell.
 - **FSD Safe Refactoring & Codebase Cleanup (2026-06-22):** Penyelarasan arsitektur kode FSD (pemindahan widget & layout, penyelarasan nama file/folder actions.ts & schema.ts, pembersihan file usang).

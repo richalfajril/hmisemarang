@@ -32,12 +32,14 @@ function getInitials(name: string) {
 
 export function NavUser({
   user,
+  role,
 }: {
   user: {
     name: string
     email: string
     avatar: string
   }
+  role: string
 }) {
   const { isMobile } = useSidebar()
   const router = useRouter()
@@ -96,12 +98,14 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
-                <Link href="/dashboard/profile" prefetch>
-                  <UserRoundIcon />
-                  Profil Saya
-                </Link>
-              </DropdownMenuItem>
+              {role !== 'ADMIN_KOMISARIAT' && (
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/profile" prefetch>
+                    <UserRoundIcon />
+                    Profil Saya
+                  </Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem asChild>
                 <Link href="/dashboard/notifications" prefetch>
                   <BellIcon />

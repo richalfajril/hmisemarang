@@ -17,6 +17,7 @@ import {
 } from "@/shared/ui/Sidebar"
 import {
   LayoutDashboardIcon,
+  UserRoundIcon,
   FileTextIcon,
   CalendarRangeIcon,
   ImageIcon,
@@ -33,9 +34,11 @@ import {
 
 const ALL_ROLES = ["SYSTEM_ADMIN", "ADMIN_CABANG", "ADMIN_KOMISARIAT"]
 const ADMIN_CABANG_ONLY = ["SYSTEM_ADMIN", "ADMIN_CABANG"]
+const KOMISARIAT_ONLY = ["ADMIN_KOMISARIAT"]
 
 const navMain = [
   { title: "Dasbor", url: "/dashboard", icon: <LayoutDashboardIcon />, roles: ALL_ROLES },
+  { title: "Profil Komisariat", url: "/dashboard/profile", icon: <UserRoundIcon />, roles: KOMISARIAT_ONLY },
   { title: "Artikel", url: "/dashboard/articles", icon: <FileTextIcon />, roles: ALL_ROLES },
   { title: "Agenda", url: "/dashboard/agendas", icon: <CalendarRangeIcon />, roles: ALL_ROLES },
   { title: "Galeri", url: "/dashboard/galleries", icon: <ImageIcon />, roles: ADMIN_CABANG_ONLY },
@@ -100,7 +103,7 @@ export function AppSidebar({
         </SidebarMenu>
         {role === 'ADMIN_KOMISARIAT' && (
           <div className="mt-2 px-2">
-            <NavUser user={user} />
+            <NavUser user={user} role={role} />
           </div>
         )}
       </SidebarHeader>
@@ -111,7 +114,7 @@ export function AppSidebar({
       </SidebarContent>
       {role !== 'ADMIN_KOMISARIAT' && (
         <SidebarFooter>
-          <NavUser user={user} />
+          <NavUser user={user} role={role} />
         </SidebarFooter>
       )}
     </Sidebar>

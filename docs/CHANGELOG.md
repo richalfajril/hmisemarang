@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Changed
+
+#### Sidebar & Dropdown Navigation for ADMIN_KOMISARIAT (2026-06-23)
+* Added "Profil Komisariat" as a dedicated sidebar menu item below "Dasbor", visible exclusively for `ADMIN_KOMISARIAT` role, linking to `/dashboard/profile`.
+* Removed "Profil Saya" dropdown item from NavUser for `ADMIN_KOMISARIAT` since the sidebar item replaces it; non-komisariat roles (`ADMIN_CABANG`, `SYSTEM_ADMIN`) retain "Profil Saya" in their dropdown as before.
+* Extended `NavUser` component to accept a `role` prop for conditional rendering of dropdown items.
+
 ### Removed
 
 #### Dashboard Skeleton Loading UI (2026-06-22)
