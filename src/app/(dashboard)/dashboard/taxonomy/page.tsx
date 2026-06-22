@@ -39,7 +39,7 @@ export default async function TaxonomyPage() {
   ])
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Manajemen Taksonomi"
         description="Klasifikasikan seluruh data publikasi organisasi untuk mempermudah pencarian. Kategori yang diarsipkan (Nonaktif) akan dihilangkan dari form penulisan baru, namun tidak merusak artikel lama."

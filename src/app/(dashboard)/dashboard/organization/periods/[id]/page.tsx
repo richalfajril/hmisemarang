@@ -34,7 +34,7 @@ export default async function PeriodDetailPage(props: { params: Promise<{ id: st
   if (!period) redirect('/dashboard/organization/periods')
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title={`Susunan Kepengurusan ${period.start_year}-${period.end_year}`}
         description="Tambahkan nama jabatan struktural lalu isi dengan anggota pengurus yang bersangkutan."

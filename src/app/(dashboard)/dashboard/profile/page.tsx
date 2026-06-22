@@ -44,7 +44,7 @@ export default async function ProfilePage() {
   const submissionId = latestSubmission?.id
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Profil Komisariat"
         description="Kelola informasi dan detail kepengurusan. Perubahan memerlukan persetujuan Cabang."

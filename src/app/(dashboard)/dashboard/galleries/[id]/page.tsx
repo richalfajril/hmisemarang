@@ -29,7 +29,7 @@ export default async function AlbumDetailsPage({ params }: { params: Promise<{ i
   if (!album) notFound()
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title={
           <div className="flex items-center gap-3">

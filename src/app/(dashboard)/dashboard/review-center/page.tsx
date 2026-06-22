@@ -49,7 +49,7 @@ export default async function ReviewCenterPage() {
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Review Center"
         description="Pusat antrean persetujuan konten dari seluruh Komisariat."

@@ -30,7 +30,7 @@ export default async function GalleriesPage() {
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Manajemen Galeri"
         description="Pusat arsip dokumentasi visual kegiatan HMI Cabang Semarang."

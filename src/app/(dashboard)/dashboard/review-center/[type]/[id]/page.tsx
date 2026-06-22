@@ -114,7 +114,7 @@ export default async function ReviewDetailPage({
   }
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <ReviewSplitScreen 
         entityType={type as ReviewEntityType}
         entityId={id}

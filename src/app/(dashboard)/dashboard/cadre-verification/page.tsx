@@ -47,7 +47,7 @@ export default async function CadreVerificationPage() {
   const latestVerified = history.find(h => h.status === 'VERIFIED')
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Verifikasi Kader"
         description="Unggah pangkalan data anggota terbaru dalam format Excel untuk diproses oleh Cabang. Angka kader tervalidasi akan ditampilkan di profil publik Anda."

@@ -26,7 +26,7 @@ export default async function EditDocumentPage({ params }: { params: Promise<{ i
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <DocumentForm initialData={doc} categories={categories} />
     </div>
   )

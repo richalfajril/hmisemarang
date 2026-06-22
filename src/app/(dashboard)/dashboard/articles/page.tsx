@@ -38,7 +38,7 @@ export default async function ArticlesPage() {
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Manajemen Artikel"
         description="Kelola publikasi artikel berita, opini, dan kajian."

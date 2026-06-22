@@ -27,7 +27,7 @@ export default async function SettingsPage() {
   const websiteSetting = await prisma.websiteSetting.findFirst()
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Pengaturan Situs"
         description="Konfigurasi identitas global HMI Cabang Semarang yang akan ditampilkan kepada publik, termasuk Metadata SEO dan tautan sosial media resmi."

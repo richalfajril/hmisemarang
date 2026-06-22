@@ -19,7 +19,7 @@ export default async function CreateArticlePage() {
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <Suspense fallback={<div className="h-[500px] flex items-center justify-center">Memuat...</div>}>
         <ArticleForm categories={categories} />
       </Suspense>

@@ -32,7 +32,7 @@ export default async function AgendasPage() {
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader 
         title="Manajemen Agenda" 
         description="Kelola jadwal kegiatan dan aktivitas acara."

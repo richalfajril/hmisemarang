@@ -48,7 +48,7 @@ export default async function UsersPage() {
   }))
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Manajemen Pengguna"
         description="Pusat kendali otoritas dan akses. Anda dapat menambahkan pengurus cabang baru atau membuka paksa kunci sandi akun komisariat."

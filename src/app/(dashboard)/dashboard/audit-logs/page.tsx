@@ -48,7 +48,7 @@ export default async function AuditLogsPage(props: { searchParams: Promise<{ pag
   const totalPages = Math.ceil(total / pageSize)
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Log Audit Sistem"
         description="Pusat pengawasan operasional. Merekam seluruh jejak perubahan entitas secara persisten (Append-Only)."

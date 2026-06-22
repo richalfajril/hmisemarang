@@ -26,7 +26,7 @@ export default async function DashboardOverview() {
   const isCabang = role === 'SYSTEM_ADMIN' || role === 'ADMIN_CABANG'
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Selamat Datang, {name}!</h1>
         <p className="text-muted-foreground mt-2">

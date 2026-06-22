@@ -43,7 +43,7 @@ export default async function NotificationsPage(props: { searchParams: Promise<{
   const hasUnread = notifications.some(n => !n.is_read)
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Pusat Notifikasi"
         description="Riwayat lengkap pemberitahuan sistem dan pembaruan alur persetujuan konten Anda."

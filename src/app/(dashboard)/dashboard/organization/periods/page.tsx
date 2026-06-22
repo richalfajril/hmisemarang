@@ -29,7 +29,7 @@ export default async function PeriodsPage() {
   })
 
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto w-full">
+    <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Riwayat Kepengurusan"
         description="Manajemen hierarki periode struktur organisasi HMI Cabang Semarang. Hanya ada satu periode yang tampil (Aktif) di Publik pada satu waktu."
