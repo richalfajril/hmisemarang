@@ -2,10 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/Card'
 import { formatDistanceToNow } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import { Activity } from 'lucide-react'
-import { Suspense } from 'react'
 import { getRecentActivityLogs } from '@/widgets/dashboard/api/queries'
 
-export function RecentActivityWidget() {
+export async function RecentActivityWidget() {
+  const logs = await getRecentActivityLogs(6)
+
   return (
     <Card className="col-span-1 lg:col-span-3 border shadow-sm">
       <CardHeader>
@@ -14,22 +15,9 @@ export function RecentActivityWidget() {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <Suspense fallback={null}>
-          <RecentActivityData />
-        </Suspense>
-      </CardContent>
-    </Card>
-  )
-}
-
-async function RecentActivityData() {
-  const logs = await getRecentActivityLogs(6)
-
-  if (logs.length === 0) {
-    return <p className="text-sm text-muted-foreground text-center py-8">Belum ada aktivitas tercatat.</p>
-  }
-
-  return (
+        {logs.length === 0 ? (
+          <p className="text-sm text-muted-foreground text-center py-8">Belum ada aktivitas tercatat.</p>
+        ) : (
     <div className="space-y-4">
       {logs.map((log) => (
         <div key={log.id} className="flex items-start gap-4">
@@ -51,5 +39,8 @@ async function RecentActivityData() {
         </div>
       ))}
     </div>
+        )}
+      </CardContent>
+    </Card>
   )
 }

@@ -2,10 +2,12 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/sha
 import { Button } from '@/shared/ui/Button'
 import { Inbox, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { Suspense } from 'react'
 import { getCabangDashboardStats } from '@/widgets/dashboard/api/queries'
 
-export function PendingQueueWidget() {
+export async function PendingQueueWidget() {
+  const fullStats = await getCabangDashboardStats()
+  const stats = fullStats.pendingReview
+
   return (
     <Card className="col-span-1 lg:col-span-2 border shadow-sm bg-gradient-to-br from-card to-amber-500/5 dark:to-amber-500/10">
       <CardHeader>
@@ -15,20 +17,6 @@ export function PendingQueueWidget() {
         <CardDescription>Menunggu persetujuan Cabang.</CardDescription>
       </CardHeader>
       <CardContent>
-        <Suspense fallback={null}>
-          <PendingQueueData />
-        </Suspense>
-      </CardContent>
-    </Card>
-  )
-}
-
-async function PendingQueueData() {
-  const fullStats = await getCabangDashboardStats()
-  const stats = fullStats.pendingReview
-
-  return (
-    <>
       <div className="text-4xl font-bold mb-4">{stats.total}</div>
       <div className="grid grid-cols-2 gap-2 mb-6">
         <div className="flex justify-between items-center bg-background/50 p-2 rounded text-sm">
@@ -53,6 +41,7 @@ async function PendingQueueData() {
           Buka Review Center <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </Link>
-    </>
+      </CardContent>
+    </Card>
   )
 }
