@@ -81,7 +81,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
     <div className={cn("space-y-4 w-full", className)}>
       <div 
         className={cn(
-          "relative flex flex-col items-center justify-center w-full min-h-[200px] border-2 border-dashed rounded-lg transition-colors overflow-hidden group",
+          "relative flex flex-col items-center justify-center w-full h-full min-h-[200px] border-2 border-dashed rounded-lg transition-colors overflow-hidden group",
           dragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25 bg-muted/20 hover:bg-muted/50",
           disabled && "opacity-50 cursor-not-allowed",
           value && "border-none"

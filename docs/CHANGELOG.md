@@ -8,14 +8,64 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Added
+
+#### Dark / Light Theme Toggle (2026-06-23)
+* Wired up `next-themes` `ThemeProvider` (class-based, `defaultTheme="light"`) in the root `Providers`. The `.dark` CSS variables already existed in `globals.css`.
+* Added a `ThemeToggle` button (Sun/Moon) placed in `SiteHeader` immediately to the **left of the notification bell**. Hydration-safe (renders icon only after mount).
+* Board member card name/position font sizes bumped to match the reference proportions (name → `text-xl` 20px, jabatan → `text-base` 16px; jabatan area height widened to fit two lines).
+
+#### Redesigned Kepengurusan Workflow — Period → Pengurus → Flip Cards (2026-06-23)
+* **DB migration** on `BoardMember`: added `social_links` (JSON array, replaces single `instagram_url`), `university_id` + `commissariat_id` (FKs → University/Commissariat), and `created_at`; added back-relations on `University` & `Commissariat`. `Position.layout_type` now carries the layout group (`KSB` | `KETUA_BIDANG` | `LAINNYA`).
+* **Tambah Periode** modal (`CreatePeriodModal`): create a new period + multi positions in one step, each position assigned a layout group. Button "Simpan & Susun Pengurus" redirects straight to the period detail page (action returns the new `periodId`).
+* **Susunan Kepengurusan** page: a "Tambah Pengurus" modal (`TambahPengurusModal`) with foto (1:1, required), nama, jabatan (combobox), kampus & komisariat (comboboxes) — all required — plus optional multi social links (default 1 Instagram, "Tambah Sosmed" button) and a ≤200-char bio with counter.
+* **Flip cards** (`PengurusCard`): front shows photo + name (green, larger, bold) + position + social icons below; clicking flips to reveal bio, kampus, komisariat. Edit/Delete shown only when `editable` (dashboard); reusable for the public page later with `editable={false}`.
+* Added **`react-icons`** (Font Awesome 6 brands) for proper social-media brand icons (Instagram, X/Twitter, LinkedIn, Facebook, YouTube, TikTok), since Lucide dropped brand icons. Scoped to social platforms only; Lucide remains the primary icon set. Documented in `TECH_STACK.md`.
+* **Layout grouping** (`SusunanKepengurusan`): KSB row (centered, Ketua in middle), Ketua Bidang grid (newest top-left), and Lainnya grid, with tight section spacing.
+* **Kelola Jabatan** section retained on the detail page (add/rename/delete jabatan + change layout group) so the position combobox stays current.
+* New/updated server actions: `createPositionStructureAction` (new-period only, returns `periodId`), `createBoardMemberAction`/`updateBoardMemberAction` (full fields + required validation), `updatePositionAction`/`createPositionAction` (accept layout group). Removed the obsolete `PositionList` component.
+* **Period edit now reuses the Tambah Periode modal**: clicking Edit in the period row opens the same `CreatePeriodModal` (years + jabatan list + layout groups) in edit mode with the button relabeled "Simpan Perubahan". New `updatePeriodStructureAction` updates the year range and syncs positions (rename/regroup/reorder existing by row id, create new rows, delete removed rows incl. their members). Removed the standalone `EditPeriodModal`.
+* Fixed: the period **Hapus** action is no longer disabled for the active period — it is now clickable, and the active-period safety guard is enforced (with message) inside `deletePeriodAction`/the confirmation dialog.
+
+### Changed
+
+#### Consolidated "Jabatan" Management into the Organization Module (2026-06-23)
+* Removed the "Jabatan" tab from the Taxonomy page (and its `JabatanTaxonomyTable` flat list) — position/period data belongs to the Organization module, not taxonomy (which is for classification labels). Taxonomy now only manages Article/Document categories, Tags, and Universities.
+* Moved `CreatePositionStructureModal` from `taxonomy/ui` to `organization/ui` (now an in-slice import, FSD-compliant) and made it the primary action on the Periods page (`/dashboard/organization/periods`), replacing the old `CreatePeriodModal`. It creates a new period + multiple positions at once, or appends positions to an existing period via a searchable Combobox.
+* Removed the now-unused `CreatePeriodModal` component and `createPeriodAction` server action.
+* Added per-position **Edit/rename** (new `EditPositionModal` using the existing `updatePositionAction`) to `PositionList` on the period detail page, so the rename capability from the dropped flat table is preserved.
+* Cleaned up `revalidatePath('/dashboard/taxonomy')` calls in the organization actions (no longer relevant).
+
+### Added
+
+#### Period (Riwayat Kepengurusan) Edit, Archive & Delete Actions (2026-06-23)
+* Added `updatePeriodAction` (edit start/end year with auto-regenerated period name and duplicate-year guard) and `deletePeriodAction` (cascade-deletes the period with all its positions & board members) in the organization actions.
+* Added `archivePeriodAction` (soft delete): deactivates the active period via `is_active=false` — the structure data is preserved but no longer shows on the public homepage. No DB migration; reuses the existing active/inactive flag.
+* `deletePeriodAction` refuses to delete the currently active period — another period must be activated first — to avoid wiping the live public structure.
+* Added "Edit", "Arsipkan" (shown only for the active period), and "Hapus" items to the period row action dropdown in `PeriodList`, with new `EditPeriodModal` and a `DeletePeriodModal` confirmation dialog (showing affected position count). The Delete item is disabled for the active period; archived periods stay listed with the existing "Arsip" badge and can be re-activated.
+
+#### Taxonomy Edit Action & Jabatan Structure Tab (2026-06-23)
+* Added `updateTaxonomyAction` server action enabling full CRUD on simple taxonomies (Article Category, Document Category, Tag, University); the URL slug is intentionally preserved on rename to avoid breaking public/SEO links.
+* Added an "Edit" action (with `EditTaxonomyModal`) to every taxonomy table row's action dropdown alongside the existing Archive/Activate toggle.
+* Added a new "Jabatan" tab to the Taxonomy page that reuses the existing `Period` + `Position` models as a single source of truth shared with the Organization module (no DB migration).
+* Added `createPositionStructureAction` (creates one Period plus multiple Positions in a single transaction via a combined modal) and `updatePositionAction` (rename a position) in the organization actions.
+* New components: `CreatePositionStructureModal` (year inputs + dynamic multi-position list) and `JabatanTaxonomyTable` (flat list showing each position with its period/year, with inline Edit and Delete).
+* `CreatePositionStructureModal` now supports two modes via a toggle: **"Periode yang ada"** (pick an existing period through a searchable `Combobox`; new positions are appended with continuing `sort_order`) or **"Buat periode baru"** (creates the period + positions). Defaults to existing-period mode when at least one period exists. `createPositionStructureAction` branches on a `mode` field accordingly.
+* The dynamic position list in `CreatePositionStructureModal` uses a fixed-height window (`h-[min(432px,46vh)]`, ~10 rows) that reserves roomy empty space when there are few rows and scrolls internally for long lists, keeping the modal within the viewport.
+
 ### Changed
 
 #### Sidebar & Dropdown Navigation for ADMIN_KOMISARIAT (2026-06-23)
 * Added "Profil Komisariat" as a dedicated sidebar menu item below "Dasbor", visible exclusively for `ADMIN_KOMISARIAT` role, linking to `/dashboard/profile`.
 * Removed "Profil Saya" dropdown item from NavUser for `ADMIN_KOMISARIAT` since the sidebar item replaces it; non-komisariat roles (`ADMIN_CABANG`, `SYSTEM_ADMIN`) retain "Profil Saya" in their dropdown as before.
 * Extended `NavUser` component to accept a `role` prop for conditional rendering of dropdown items.
+* Unified the user profile card placement into `SidebarFooter` for all roles (including `ADMIN_KOMISARIAT`), restoring its original bottom-of-sidebar position instead of the header.
+* Added subtle horizontal padding to the sidebar header, content, and footer (`px-3` / `px-1`) so navigation items are no longer flush against the edge.
 
 ### Removed
+
+#### Dark Mode Toggle (2026-06-23)
+* Removed `ThemeToggle` component from `SiteHeader`. Project now focuses exclusively on light theme.
 
 #### Dashboard Skeleton Loading UI (2026-06-22)
 * Removed dashboard skeleton placeholder rendering from route `loading.tsx` files and granular `<Suspense>` fallbacks while preserving the App Shell streaming boundaries.
@@ -23,6 +73,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Removed the sidebar menu skeleton export and the image uploader pulse placeholder accent.
 
 ### Added
+
+#### Dashboard UI Adjustments (2026-06-23)
+* `SiteHeader` now dynamically resolves page title from `pathname` instead of static "Dasbor" text. Added `py-2` vertical padding.
+* `GlobalSearch` trigger is now icon-only on mobile (`w-9 h-9`), and expands to a 2x wider searchbar (`w-64` on tablet, `w-80` on desktop) with text on `sm:` breakpoint.
+* `PageHeader` standardized: heading capped at `text-2xl` (24px), subheading set to `text-xs`, icon max `h-8 w-8` (32px).
+* Sidebar auto-closes on mobile when navigating to subpages via `NavMain` pathname change detection.
+* `KelolaJabatanSection` refactored into `KelolaJabatanModal` dialog, triggered from a button next to "Tambah Pengurus" on the organization period page.
+* Fixed inconsistent gap between position names and Instagram icons in `PengurusCard` by allowing natural text height and pushing icons with fixed top margin.
 
 #### University Taxonomy & Searchable Combobox Standardization (2026-06-23)
 * Created `University` model in Prisma schema with `name`, `slug`, `is_active` fields and relational links to `Commissariat` and `CommissariatProfileSubmission`.

@@ -138,13 +138,14 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
               </div>
 
               <div className="space-y-2">
-                <Label>Gambar Fitur *</Label>
+                <Label>Gambar Fitur (rasio 16:9) *</Label>
                 <div className="bg-background rounded-md overflow-hidden">
                   <ImageUploader
                     value={featuredImage}
                     onChange={setFeaturedImage}
                     folder="public-media"
                     disabled={isPending}
+                    className="aspect-video w-full"
                   />
                 </div>
                 {state?.fieldErrors?.featured_image_url && (

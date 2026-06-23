@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -11,31 +11,39 @@ import {
 } from '@/shared/ui/Table'
 import { Badge } from '@/shared/ui/Badge'
 import { Button } from '@/shared/ui/Button'
-import { activatePeriodAction } from '../api/actions'
+import { activatePeriodAction, archivePeriodAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Power, Eye, MoreHorizontal } from 'lucide-react'
+import { Power, Eye, MoreHorizontal, Pencil, Trash2, Archive } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/DropdownMenu'
 import Link from 'next/link'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
+import { CreatePeriodModal } from './CreatePeriodModal'
+import { DeletePeriodModal } from './DeletePeriodModal'
+import { normalizeGroup } from './position-groups'
 
 type PeriodData = {
   id: string
   start_year: number
   end_year: number
   is_active: boolean
+  positions: { id: string; name: string; layout_type: string | null }[]
   _count?: { positions: number }
 }
 
 export function PeriodList({ items }: { items: PeriodData[] }) {
   const [, formAction, isPending] = useActionState(activatePeriodAction, initialActionState)
-  
+  const [, archiveAction, isArchivePending] = useActionState(archivePeriodAction, initialActionState)
+  const [editItem, setEditItem] = useState<PeriodData | null>(null)
+  const [deleteItem, setDeleteItem] = useState<PeriodData | null>(null)
+
   const pagination = useClientPagination(items, 15)
 
   return (
@@ -75,7 +83,7 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" disabled={isPending}>
+                        <Button variant="ghost" size="icon" disabled={isPending || isArchivePending}>
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
@@ -99,6 +107,33 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
                             </DropdownMenuItem>
                           </form>
                         )}
+
+                        {item.is_active && (
+                          <form action={archiveAction}>
+                            <input type="hidden" name="id" value={item.id} />
+                            <DropdownMenuItem asChild>
+                              <button type="submit" className="w-full cursor-pointer flex items-center text-amber-600 focus:text-amber-700 focus:bg-amber-50">
+                                <Archive className="mr-2 h-4 w-4" />
+                                Arsipkan
+                              </button>
+                            </DropdownMenuItem>
+                          </form>
+                        )}
+
+                        <DropdownMenuItem onSelect={() => setEditItem(item)} className="cursor-pointer">
+                          <Pencil className="mr-2 h-4 w-4" />
+                          Edit
+                        </DropdownMenuItem>
+
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem
+                          onSelect={() => setDeleteItem(item)}
+                          className="cursor-pointer text-destructive focus:text-destructive focus:bg-destructive/10"
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Hapus
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -109,6 +144,38 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
         </TableBody>
       </Table>
       <SmartPagination {...pagination} />
+
+      {editItem && (
+        <CreatePeriodModal
+          key={editItem.id}
+          open={true}
+          onOpenChange={(o) => { if (!o) setEditItem(null) }}
+          initial={{
+            id: editItem.id,
+            start_year: editItem.start_year,
+            end_year: editItem.end_year,
+            positions: editItem.positions.map((p) => ({
+              id: p.id,
+              name: p.name,
+              layout: normalizeGroup(p.layout_type),
+            })),
+          }}
+        />
+      )}
+
+      {deleteItem && (
+        <DeletePeriodModal
+          key={deleteItem.id}
+          open={true}
+          onOpenChange={(o) => { if (!o) setDeleteItem(null) }}
+          item={{
+            id: deleteItem.id,
+            start_year: deleteItem.start_year,
+            end_year: deleteItem.end_year,
+            positionCount: deleteItem._count?.positions ?? 0,
+          }}
+        />
+      )}
     </div>
   )
 }

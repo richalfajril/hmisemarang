@@ -684,17 +684,25 @@ Fields:
 
 * photo_url
 
-* short_bio
+* short_bio (maks 200 karakter)
 
-* instagram_url
+* social_links (JSON array `{ platform, url }`, menggantikan `instagram_url`)
+
+* university_id (FK → universities, kampus asal pengurus)
+
+* commissariat_id (FK → commissariats, komisariat asal pengurus)
+
+* created_at
 
 Relationships:
 
 ```txt
-Position
-1:N
-BoardMember
+Position 1:N BoardMember
+University 1:N BoardMember
+Commissariat 1:N BoardMember
 ```
+
+> Catatan: grup tata letak kartu ditentukan oleh `positions.layout_type` (`KSB` | `KETUA_BIDANG` | `LAINNYA`). Kewajiban field (foto, nama, jabatan, kampus, komisariat) diberlakukan di level validasi server; kolom DB tetap nullable.
 
 ---
 

@@ -91,6 +91,7 @@ model University {
 
   commissariats      Commissariat[]
   profileSubmissions CommissariatProfileSubmission[]
+  boardMembers       BoardMember[]
 
   @@map("universities")
 }
@@ -121,6 +122,7 @@ model Commissariat {
   agendas              Agenda[]
   cadreVerifications   CadreVerification[]
   profileSubmissions   CommissariatProfileSubmission[]
+  boardMembers         BoardMember[]
 
   @@map("commissariats")
 }
@@ -373,14 +375,20 @@ model Position {
 }
 
 model BoardMember {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  period_id     String   @db.Uuid
-  position_id   String   @db.Uuid
-  full_name     String
-  photo_url     String?
-  short_bio     String?  @db.Text
-  instagram_url String?
-  position      Position @relation(fields: [position_id], references: [id], onDelete: Cascade)
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  period_id       String   @db.Uuid
+  position_id     String   @db.Uuid
+  full_name       String
+  photo_url       String?
+  short_bio       String?  @db.Text
+  social_links    Json?
+  university_id   String?  @db.Uuid
+  commissariat_id String?  @db.Uuid
+  created_at      DateTime @default(now())
+
+  position     Position      @relation(fields: [position_id], references: [id], onDelete: Cascade)
+  university   University?   @relation(fields: [university_id], references: [id], onDelete: SetNull)
+  commissariat Commissariat? @relation(fields: [commissariat_id], references: [id], onDelete: SetNull)
 
   @@map("board_members")
 }

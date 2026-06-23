@@ -165,6 +165,9 @@ function Sidebar({
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
 
+  const touchStartX = React.useRef(0)
+  const touchEndX = React.useRef(0)
+
   if (collapsible === "none") {
     return (
       <div
@@ -181,6 +184,29 @@ function Sidebar({
   }
 
   if (isMobile) {
+    const minSwipeDistance = 50
+
+    const onTouchStart = (e: React.TouchEvent) => {
+      touchStartX.current = e.targetTouches[0].clientX
+      touchEndX.current = 0
+    }
+
+    const onTouchMove = (e: React.TouchEvent) => {
+      touchEndX.current = e.targetTouches[0].clientX
+    }
+
+    const onTouchEnd = () => {
+      if (!touchStartX.current || !touchEndX.current) return
+      const distance = touchStartX.current - touchEndX.current
+      // Swipe left (positive distance) on left sidebar, or swipe right on right sidebar
+      const isLeftSwipe = side === "left" && distance > minSwipeDistance
+      const isRightSwipe = side === "right" && distance < -minSwipeDistance
+
+      if (isLeftSwipe || isRightSwipe) {
+        setOpenMobile(false)
+      }
+    }
+
     return (
       <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
         <SheetContent
@@ -195,6 +221,9 @@ function Sidebar({
             } as React.CSSProperties
           }
           side={side}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
         >
           <SheetHeader className="sr-only">
             <SheetTitle>Sidebar</SheetTitle>
@@ -503,7 +532,14 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot.Root : "button"
-  const { isMobile, state } = useSidebar()
+  const { isMobile, state, setOpenMobile } = useSidebar()
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+    props.onClick?.(e)
+  }
 
   const button = (
     <Comp
@@ -513,6 +549,7 @@ function SidebarMenuButton({
       data-active={isActive}
       className={cn(sidebarMenuButtonVariants({ variant, size }), className)}
       {...props}
+      onClick={handleClick}
     />
   )
 

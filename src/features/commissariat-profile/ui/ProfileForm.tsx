@@ -162,12 +162,13 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Logo Komisariat (Rasio 1:1)</Label>
+                <Label>Logo Komisariat (rasio 1:1)</Label>
                 <ImageUploader
                   value={logo}
                   onChange={setLogo}
                   folder="public-media"
                   disabled={isPending || isReadOnly}
+                  className="aspect-square max-w-[240px] w-full"
                 />
               </div>
             </div>
@@ -251,12 +252,13 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Foto Depan Sekretariat (Opsional)</Label>
+                <Label>Foto Depan Sekretariat (rasio 16:9) (Opsional)</Label>
                 <ImageUploader
                   value={photo}
                   onChange={setPhoto}
                   folder="public-media"
                   disabled={isPending || isReadOnly}
+                  className="aspect-video w-full"
                 />
               </div>
             </div>

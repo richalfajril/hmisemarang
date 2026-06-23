@@ -24,7 +24,13 @@ export default async function PeriodsPage() {
   }
 
   const periods = await prisma.period.findMany({
-    include: { _count: { select: { positions: true } } },
+    include: {
+      _count: { select: { positions: true } },
+      positions: {
+        select: { id: true, name: true, layout_type: true },
+        orderBy: { sort_order: 'asc' },
+      },
+    },
     orderBy: { start_year: 'desc' }
   })
 

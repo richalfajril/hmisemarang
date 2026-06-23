@@ -61,10 +61,10 @@ export function GlobalSearch() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground bg-muted/50 hover:bg-muted border rounded-md transition-colors w-full max-w-sm"
+        className="flex items-center gap-2 px-2 sm:px-3 py-1.5 text-sm text-muted-foreground bg-muted/50 hover:bg-muted border rounded-md transition-colors w-9 h-9 sm:w-64 lg:w-80 sm:h-auto sm:max-w-md justify-center sm:justify-start"
       >
-        <Search className="h-4 w-4" />
-        <span className="flex-1 text-left">Cari apa saja...</span>
+        <Search className="h-4 w-4 shrink-0" />
+        <span className="hidden sm:inline flex-1 text-left">Cari apa saja...</span>
         <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-background px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
           <span className="text-xs">⌘</span>K
         </kbd>

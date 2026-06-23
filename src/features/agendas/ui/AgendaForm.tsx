@@ -148,12 +148,13 @@ export function AgendaForm({ initialData }: AgendaFormProps) {
 
         <div className="space-y-6">
           <div className="space-y-2">
-            <Label>Flyer Acara</Label>
+            <Label>Flyer Acara (rasio 4:5)</Label>
             <ImageUploader
               value={flyer}
               onChange={setFlyer}
               folder="public-media"
               disabled={isPending}
+              className="aspect-[4/5] max-w-[320px] w-full"
             />
             <p className="text-xs text-muted-foreground mt-2">Rekomendasi rasio 4:5 (untuk Instagram). Maks 5MB.</p>
           </div>

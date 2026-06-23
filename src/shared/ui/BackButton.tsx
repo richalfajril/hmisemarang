@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { Button } from '@/shared/ui/Button'
+import { useSidebar } from '@/shared/ui/Sidebar'
 import { cn } from '@/shared/lib/utils'
 
 interface BackButtonProps {
@@ -17,8 +18,17 @@ export function BackButton({
   variant = 'outline', 
   className 
 }: BackButtonProps) {
+  const { isMobile, setOpen } = useSidebar()
+
+  const handleClick = () => {
+    // Auto-open sidebar on desktop when navigating back to a parent page
+    if (!isMobile) {
+      setTimeout(() => setOpen(true), 300)
+    }
+  }
+
   return (
-    <Link href={href} prefetch className="inline-flex items-center">
+    <Link href={href} prefetch className="inline-flex items-center" onClick={handleClick}>
       <Button 
         variant={variant} 
         size="icon"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -13,7 +13,7 @@ import { Badge } from '@/shared/ui/Badge'
 import { Button } from '@/shared/ui/Button'
 import { toggleTaxonomyStatusAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { PowerOff, Power, MoreHorizontal } from 'lucide-react'
+import { PowerOff, Power, MoreHorizontal, Pencil } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,9 @@ import {
 } from '@/shared/ui/DropdownMenu'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
+import { EditTaxonomyModal } from './EditTaxonomyModal'
+
+type TaxonomyType = 'ARTICLE_CATEGORY' | 'DOCUMENT_CATEGORY' | 'TAG' | 'UNIVERSITY'
 
 type TaxonomyData = {
   id: string
@@ -32,9 +35,10 @@ type TaxonomyData = {
   _count?: { articles?: number, documents?: number }
 }
 
-export function TaxonomyTable({ items, type }: { items: TaxonomyData[], type: string }) {
+export function TaxonomyTable({ items, type, label }: { items: TaxonomyData[], type: TaxonomyType, label: string }) {
   const [, formAction, isPending] = useActionState(toggleTaxonomyStatusAction, initialActionState)
-  
+  const [editItem, setEditItem] = useState<TaxonomyData | null>(null)
+
   const pagination = useClientPagination(items, 15)
 
   return (
@@ -82,6 +86,13 @@ export function TaxonomyTable({ items, type }: { items: TaxonomyData[], type: st
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                        <DropdownMenuItem
+                          onSelect={() => setEditItem(item)}
+                          className="cursor-pointer"
+                        >
+                          <Pencil className="h-4 w-4 mr-2" />
+                          Edit
+                        </DropdownMenuItem>
                         <form action={formAction}>
                           <input type="hidden" name="id" value={item.id} />
                           <input type="hidden" name="type" value={type} />
@@ -107,6 +118,17 @@ export function TaxonomyTable({ items, type }: { items: TaxonomyData[], type: st
         </TableBody>
       </Table>
       <SmartPagination {...pagination} />
+
+      {editItem && (
+        <EditTaxonomyModal
+          key={editItem.id}
+          open={true}
+          onOpenChange={(o) => { if (!o) setEditItem(null) }}
+          item={editItem}
+          type={type}
+          label={label}
+        />
+      )}
     </div>
   )
 }

@@ -73,7 +73,7 @@ export function AppSidebar({
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="px-3">
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
@@ -101,22 +101,15 @@ export function AppSidebar({
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
-        {role === 'ADMIN_KOMISARIAT' && (
-          <div className="mt-2 px-2">
-            <NavUser user={user} role={role} />
-          </div>
-        )}
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="px-1">
         <NavMain items={filteredNavMain} label="Konten" />
         {filteredNavManagement.length > 0 && <NavMain items={filteredNavManagement} label="Manajemen" />}
         <NavSecondary items={filteredNavSecondary} className="mt-auto" />
       </SidebarContent>
-      {role !== 'ADMIN_KOMISARIAT' && (
-        <SidebarFooter>
-          <NavUser user={user} role={role} />
-        </SidebarFooter>
-      )}
+      <SidebarFooter className="px-3">
+        <NavUser user={user} role={role} />
+      </SidebarFooter>
     </Sidebar>
   )
 }

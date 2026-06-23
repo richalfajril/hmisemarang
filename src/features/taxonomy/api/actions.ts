@@ -93,6 +93,70 @@ export async function createTaxonomyAction(
   }
 }
 
+export async function updateTaxonomyAction(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return { success: false, message: 'Belum masuk sistem.', errorCode: 'UNAUTHORIZED' }
+  }
+
+  const currentUser = await prisma.user.findUnique({ where: { email: user.email } })
+  if (!currentUser || (currentUser.role !== 'SYSTEM_ADMIN' && currentUser.role !== 'ADMIN_CABANG')) {
+    return { success: false, message: 'Hanya cabang yang dapat mengubah taksonomi.', errorCode: 'UNAUTHORIZED' }
+  }
+
+  const id = formData.get('id') as string
+  const data = Object.fromEntries(formData.entries())
+  const parsed = taxonomySchema.safeParse(data)
+
+  if (!id) {
+    return { success: false, message: 'Data tidak valid.', errorCode: 'VALIDATION_ERROR' }
+  }
+
+  if (!parsed.success) {
+    return {
+      success: false,
+      message: 'Kesalahan validasi form.',
+      fieldErrors: parsed.error.flatten().fieldErrors,
+      errorCode: 'VALIDATION_ERROR',
+    }
+  }
+
+  const { name, type } = parsed.data
+
+  try {
+    // Slug sengaja dipertahankan agar tautan publik/SEO tidak putus.
+    if (type === 'ARTICLE_CATEGORY') {
+      await prisma.articleCategory.update({ where: { id }, data: { name } })
+    } else if (type === 'DOCUMENT_CATEGORY') {
+      await prisma.documentCategory.update({ where: { id }, data: { name } })
+    } else if (type === 'TAG') {
+      await prisma.tag.update({ where: { id }, data: { name } })
+    } else if (type === 'UNIVERSITY') {
+      await prisma.university.update({ where: { id }, data: { name } })
+    }
+
+    await logAuditAction({
+      actor_id: currentUser.id,
+      entity_type: type,
+      entity_id: id,
+      action: 'UPDATED',
+      newData: { name },
+    })
+
+    revalidatePath('/dashboard/taxonomy')
+
+    return { success: true, message: `${name} berhasil diperbarui.` }
+  } catch (_error) {
+    console.error('Update Taxonomy Error:', _error)
+    return { success: false, message: 'Gagal memperbarui ke basis data.', errorCode: 'SERVER_ERROR' }
+  }
+}
+
 export async function toggleTaxonomyStatusAction(
   prevState: ActionState | null,
   formData: FormData

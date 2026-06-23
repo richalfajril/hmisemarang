@@ -429,7 +429,14 @@ Do not use:
 
 Purpose:
 
-* Consistent icon set
+* Primary/consistent icon set untuk UI umum (aksi, navigasi, status).
+
+## React Icons (Font Awesome 6 brands)
+
+Purpose:
+
+* Khusus **ikon brand media sosial** (Instagram, X/Twitter, LinkedIn, Facebook, YouTube, TikTok) yang tidak lagi tersedia di Lucide.
+* Hanya dipakai untuk merepresentasikan platform sosial (mis. kartu pengurus). Untuk ikon non-brand tetap gunakan Lucide React.
 
 ---
 

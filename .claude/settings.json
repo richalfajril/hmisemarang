@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx prisma *)",
+      "Bash(node -e \"const l=require\\('lucide-react'\\); ['Instagram','Twitter','Linkedin','Facebook','Youtube','Globe','Link','Link2','AtSign','Camera','Hash','Share2','Send','MessageCircle'].forEach\\(n=>console.log\\(n, n in l ? 'OK':'-- MISSING'\\)\\)\")",
+      "Bash(npm install *)",
+      "Bash(node -e \"const si=require\\('react-icons/si'\\); ['SiInstagram','SiX','SiLinkedin','SiFacebook','SiYoutube','SiTiktok'].forEach\\(n=>console.log\\(n, n in si?'OK':'MISSING'\\)\\)\")",
+      "Bash(node -e \"console.log\\('MousePointerClick' in require\\('lucide-react'\\) ? 'icon OK':'MISSING'\\)\")"
+    ]
+  }
+}
