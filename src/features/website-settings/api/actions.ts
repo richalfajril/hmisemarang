@@ -54,6 +54,8 @@ export async function updateSettingsAction(
           contact_email: parsed.data.contact_email || null,
           address: parsed.data.address || null,
           instagram_url: parsed.data.instagram_url || null,
+          hero_image_url: parsed.data.hero_image_url || null,
+          dark_logo_url: parsed.data.dark_logo_url || null,
         },
       })
     } else {
@@ -64,6 +66,8 @@ export async function updateSettingsAction(
           contact_email: parsed.data.contact_email || null,
           address: parsed.data.address || null,
           instagram_url: parsed.data.instagram_url || null,
+          hero_image_url: parsed.data.hero_image_url || null,
+          dark_logo_url: parsed.data.dark_logo_url || null,
         },
       })
     }

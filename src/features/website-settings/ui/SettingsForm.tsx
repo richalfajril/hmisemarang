@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useActionState } from 'react'
 import { updateSettingsAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
@@ -8,11 +9,14 @@ import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
+import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
 import { Loader2, Save, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { WebsiteSetting } from '@prisma/client'
 
 export function SettingsForm({ initialData }: { initialData: WebsiteSetting | null }) {
   const [state, formAction, isPending] = useActionState(updateSettingsAction, initialActionState)
+  const [heroImageUrl, setHeroImageUrl] = useState(initialData?.hero_image_url ?? '')
+  const [darkLogoUrl, setDarkLogoUrl] = useState(initialData?.dark_logo_url ?? '')
 
   return (
     <form action={formAction} className="space-y-6">
@@ -31,12 +35,13 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
       )}
 
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-6">
+        <TabsList className="grid w-full grid-cols-4 mb-6">
           <TabsTrigger value="general">Informasi Umum</TabsTrigger>
           <TabsTrigger value="contact">Kontak & Alamat</TabsTrigger>
           <TabsTrigger value="social">Sosial Media</TabsTrigger>
+          <TabsTrigger value="visual">Tampilan</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="general" className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="site_name">Nama Situs Web (Site Name)</Label>
@@ -74,21 +79,21 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
         </TabsContent>
 
         <TabsContent value="contact" className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="contact_email">Alamat Email Resmi</Label>
-              <Input
-                id="contact_email"
-                name="contact_email"
-                type="email"
-                defaultValue={initialData?.contact_email || ''}
-                disabled={isPending}
-                placeholder="sekretariat@hmisemarang.com"
-                className={state?.fieldErrors?.contact_email ? 'border-destructive' : ''}
-              />
-              {state?.fieldErrors?.contact_email && (
-                <p className="text-xs text-destructive">{state.fieldErrors.contact_email[0]}</p>
-              )}
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="contact_email">Alamat Email Resmi</Label>
+            <Input
+              id="contact_email"
+              name="contact_email"
+              type="email"
+              defaultValue={initialData?.contact_email || ''}
+              disabled={isPending}
+              placeholder="sekretariat@hmisemarang.com"
+              className={state?.fieldErrors?.contact_email ? 'border-destructive' : ''}
+            />
+            {state?.fieldErrors?.contact_email && (
+              <p className="text-xs text-destructive">{state.fieldErrors.contact_email[0]}</p>
+            )}
+          </div>
 
           <div className="space-y-2">
             <Label htmlFor="address">Alamat Sekretariat Cabang</Label>
@@ -126,6 +131,47 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
             </div>
           </div>
           <p className="text-[0.8rem] text-muted-foreground pt-2">Kosongkan tautan untuk menyembunyikan ikon sosial media bersangkutan di bagian footer situs publik.</p>
+        </TabsContent>
+
+        <TabsContent value="visual" className="space-y-8">
+          <input type="hidden" name="hero_image_url" value={heroImageUrl} />
+          <input type="hidden" name="dark_logo_url" value={darkLogoUrl} />
+
+          <div className="space-y-3">
+            <div>
+              <Label>Gambar Latar Hero</Label>
+              <p className="text-[0.8rem] text-muted-foreground mt-1">
+                Gambar yang tampil sebagai latar belakang halaman utama (hero section). Ukuran rekomendasi: 1920×1080px atau lebih besar.
+              </p>
+            </div>
+            <ImageUploader
+              value={heroImageUrl || null}
+              onChange={(url) => setHeroImageUrl(url)}
+              folder="hero-images"
+              disabled={isPending}
+            />
+            {state?.fieldErrors?.hero_image_url && (
+              <p className="text-xs text-destructive">{state.fieldErrors.hero_image_url[0]}</p>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <Label>Logo Gelap (untuk Navbar Solid)</Label>
+              <p className="text-[0.8rem] text-muted-foreground mt-1">
+                Logo versi gelap yang digunakan di navbar saat pengguna men-scroll. Jika kosong, logo putih akan ditampilkan dalam kotak hijau.
+              </p>
+            </div>
+            <ImageUploader
+              value={darkLogoUrl || null}
+              onChange={(url) => setDarkLogoUrl(url)}
+              folder="logos"
+              disabled={isPending}
+            />
+            {state?.fieldErrors?.dark_logo_url && (
+              <p className="text-xs text-destructive">{state.fieldErrors.dark_logo_url[0]}</p>
+            )}
+          </div>
         </TabsContent>
       </Tabs>
 

@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Hero Section — Full Spec Compliance + Transparent Navbar + CMS Hero Image (2026-06-24)
+* **`HomeHero` rewrite** (spec: `docs/public-website/homepage/hero.md`): full-screen (`min-h-screen`), background image dari CMS (`hero_image_url`) via `next/image fill`, emerald gradient overlay, Islamic SVG diamond pattern (opacity 4%). Metrics sekarang **inline di dalam hero** (Komisariat DB, Korkom hardcode 3, Kampus DB, Kader DB+) — bukan card terpisah. `HomeStats` dihapus dari homepage.
+* **Transparent navbar**: `PublicHeader` berubah dari `sticky` menjadi `fixed`. Di halaman beranda (`pathname === '/'`), navbar transparan dengan teks putih & logo putih langsung (tanpa wrapper hijau). Saat scroll > 80px, navbar berubah solid (`bg-background/80 backdrop-blur`) dengan transisi 300ms. Pada halaman lain, langsung solid.
+* **DB migration** (via `prisma db push`): tambah `hero_image_url String?` dan `dark_logo_url String?` ke model `WebsiteSetting`.
+* **CMS Settings Form** — tambah tab keempat "Tampilan" berisi `ImageUploader` untuk Gambar Hero (`hero-images/`) dan Logo Gelap (`logos/`). Schema + action `updateSettingsAction` diperbarui untuk menyimpan kedua field baru.
+* `getWebsiteSettings()` dibungkus `React.cache` untuk deduplikasi fetch antara layout dan page.
+* `src/app/(website)/search/page.tsx` diperbarui untuk `pt-24` agar konten tidak tertutup fixed navbar.
+
+#### Public Homepage (Fase Inti) + Shell Publik Reusable (2026-06-23)
+* **Route group baru `src/app/(website)/`** dengan layout publik bersama (`PublicHeader` + `PublicFooter`) yang akan dipakai ulang oleh halaman publik berikutnya (`/profil`, `/artikel`, dst). Login tetap di `(public)/login` tanpa shell publik. `generateMetadata()` membaca `site_name`/`seo_title`/`seo_description` dari `WebsiteSetting`. Boilerplate `src/app/page.tsx` dihapus; homepage kini di `(website)/page.tsx`.
+* **`PublicHeader`** (widget `widgets/public-layout`): logo (default logo putih HMI dibungkus wadah hijau agar terlihat di latar terang), nav lengkap (Beranda, Profil, Struktur, Artikel, Agenda, Komisariat, Galeri, Dokumen, Kontak) sebagai scaffolding, tombol Login, dan menu mobile via `Sheet` (hamburger). Highlight tautan aktif via `usePathname`.
+* **`PublicFooter`** (latar hijau `bg-primary`): brand + deskripsi + ikon Instagram (react-icons/fa6), tautan cepat, kontak (email/alamat dari settings), dan bar copyright (`footer_text` atau default "Yakin Usaha Sampai").
+* **Homepage sections** (widget `widgets/home`): `OpeningSplash` (overlay "Yakin · Usaha · Sampai" sekali per sesi via `sessionStorage`, fade-out), `HomeHero` (heading & subheading fixed dari PRD + CTA Selengkapnya/Login), `HomeSearch` (bar pencarian → `/search?q=`), `HomeStats` (3 kartu: Komisariat, Kampus, Kader — diagregasi dari Prisma).
+* **Stub `/search`** di group `(website)` (baca `q`, `EmptyState` "Pencarian segera hadir") agar submit search tidak 404; pencarian penuh menyusul.
+* Helper baru `getWebsiteSettings()` di `features/website-settings/api/queries.ts` (singleton via `findFirst`).
+* **Ditunda ke iterasi berikutnya:** Komisariat Carousel, Featured Articles, Agenda Carousel, Gallery Preview (sesuai keputusan scope "inti dulu").
+
 #### Dark / Light Theme Toggle (2026-06-23)
 * Wired up `next-themes` `ThemeProvider` (class-based, `defaultTheme="light"`) in the root `Providers`. The `.dark` CSS variables already existed in `globals.css`.
 * Added a `ThemeToggle` button (Sun/Moon) placed in `SiteHeader` immediately to the **left of the notification bell**. Hydration-safe (renders icon only after mount).

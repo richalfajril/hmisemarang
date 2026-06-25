@@ -6,4 +6,6 @@ export const websiteSettingsSchema = z.object({
   contact_email: z.string().email('Format email tidak valid').optional().or(z.literal('')),
   address: z.string().max(500).optional().or(z.literal('')),
   instagram_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
+  hero_image_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
+  dark_logo_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
 })

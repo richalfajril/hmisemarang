@@ -435,6 +435,8 @@ model WebsiteSetting {
   instagram_url   String?
   address         String?  @db.Text
   footer_text     String?  @db.Text
+  hero_image_url  String?
+  dark_logo_url   String?
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
 
