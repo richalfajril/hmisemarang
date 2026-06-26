@@ -1,21 +1,21 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { Mail, MapPin } from 'lucide-react'
-import { FaInstagram } from 'react-icons/fa6'
+import { Mail, MapPin } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { FaInstagram } from "react-icons/fa6";
 import {
   DEFAULT_LOGO_URL,
   DEFAULT_SITE_NAME,
   PUBLIC_NAV_LINKS,
-} from '../config/site'
+} from "../config/site";
 
 type Props = {
-  siteName?: string | null
-  logoUrl?: string | null
-  contactEmail?: string | null
-  address?: string | null
-  instagramUrl?: string | null
-  footerText?: string | null
-}
+  siteName?: string | null;
+  logoUrl?: string | null;
+  contactEmail?: string | null;
+  address?: string | null;
+  instagramUrl?: string | null;
+  footerText?: string | null;
+};
 
 export function PublicFooter({
   siteName,
@@ -25,10 +25,10 @@ export function PublicFooter({
   instagramUrl,
   footerText,
 }: Props) {
-  const name = siteName || DEFAULT_SITE_NAME
-  const logo = logoUrl || DEFAULT_LOGO_URL
-  const year = new Date().getFullYear()
-  const quickLinks = PUBLIC_NAV_LINKS.filter((l) => l.href !== '/')
+  const name = siteName || DEFAULT_SITE_NAME;
+  const logo = logoUrl || DEFAULT_LOGO_URL;
+  const year = new Date().getFullYear();
+  const quickLinks = PUBLIC_NAV_LINKS.filter((l) => l.href !== "/");
 
   return (
     <footer className="mt-auto bg-primary text-primary-foreground">
@@ -46,8 +46,8 @@ export function PublicFooter({
             <span className="text-base font-bold tracking-tight">{name}</span>
           </Link>
           <p className="max-w-xs text-sm leading-relaxed text-primary-foreground/80">
-            Ruang kaderisasi, gagasan, dan pengabdian bagi mahasiswa Islam untuk berkontribusi
-            nyata bagi agama dan negara.
+            Ruang kaderisasi, gagasan, dan pengabdian bagi mahasiswa Islam untuk
+            berkontribusi nyata bagi agama dan negara.
           </p>
           {instagramUrl && (
             <div className="flex items-center gap-3">
@@ -69,7 +69,7 @@ export function PublicFooter({
           <h3 className="text-sm font-semibold uppercase tracking-wide text-primary-foreground/90">
             Tautan
           </h3>
-          <ul className="space-y-2">
+          <ul className="grid grid-cols-3 gap-x-4 gap-y-2">
             {quickLinks.map((link) => (
               <li key={link.href}>
                 <Link
@@ -92,7 +92,10 @@ export function PublicFooter({
             {contactEmail && (
               <li className="flex items-start gap-2.5">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0" />
-                <a href={`mailto:${contactEmail}`} className="hover:text-primary-foreground">
+                <a
+                  href={`mailto:${contactEmail}`}
+                  className="hover:text-primary-foreground"
+                >
                   {contactEmail}
                 </a>
               </li>
@@ -104,7 +107,9 @@ export function PublicFooter({
               </li>
             )}
             {!contactEmail && !address && (
-              <li className="text-primary-foreground/60">Informasi kontak belum tersedia.</li>
+              <li className="text-primary-foreground/60">
+                Informasi kontak belum tersedia.
+              </li>
             )}
           </ul>
         </div>
@@ -113,10 +118,11 @@ export function PublicFooter({
       <div className="border-t border-primary-foreground/15">
         <div className="container mx-auto px-4 py-5">
           <p className="text-center text-xs text-primary-foreground/70">
-            {footerText || `© ${year} ${name}. Yakin Usaha Sampai.`}
+            {footerText ||
+              `© ${year} ${name}. Dibuat oleh Bidang Komunikasi & Digital 2026-2027`}
           </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }
