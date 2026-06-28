@@ -5,12 +5,22 @@ import { cn } from '@/shared/lib/utils'
 
 // Spec: docs/public-website/homepage/opening-screen.md
 const WORDS = ['YAKIN', 'USAHA', 'SAMPAI']
-const SESSION_KEY = 'hmi_splash_shown'
+
+// Module-level guard: cegah StrictMode menjalankan splash dua kali dalam satu
+// load. Reset setiap full refresh → splash tampil tiap refresh.
+let splashStarted = false
 
 // Timing per spec (~800ms per kata, total ~2.8s)
 const WORD_FADE_MS = 300   // durasi fade-in dan fade-out per kata
 const WORD_HOLD_MS = 200   // kata tampil penuh sebelum fade-out
 const OVERLAY_FADE_MS = 400
+
+// Total durasi splash hingga overlay hilang — dipakai untuk men-stagger animasi
+// konten hero agar mulai SETELAH splash selesai.
+export const SPLASH_DURATION_MS =
+  WORDS.length * (WORD_FADE_MS + WORD_HOLD_MS + WORD_FADE_MS) +
+  80 +
+  OVERLAY_FADE_MS
 
 /**
  * Opening screen: YAKIN → USAHA → SAMPAI muncul bergantian (fade in/out).
@@ -24,17 +34,15 @@ export function OpeningSplash() {
   const [overlayOut, setOverlayOut] = useState(false)
 
   useEffect(() => {
-    if (sessionStorage.getItem(SESSION_KEY)) return
-    sessionStorage.setItem(SESSION_KEY, '1')
+    if (splashStarted) return
+    splashStarted = true
 
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setShow(true)
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setReducedMotion(prefersReduced)
 
-    const ids: ReturnType<typeof setTimeout>[] = []
-    const after = (ms: number, fn: () => void) => { ids.push(setTimeout(fn, ms)) }
+    const after = (ms: number, fn: () => void) => { setTimeout(fn, ms) }
 
     const leave = () => {
       setOverlayOut(true)
@@ -63,8 +71,8 @@ export function OpeningSplash() {
       }
       runWord(0)
     }
-
-    return () => ids.forEach(clearTimeout)
+    // One-shot: timer sengaja tidak di-clear di cleanup agar urutan splash
+    // tetap selesai meski StrictMode/Fast-Refresh me-remount komponen.
   }, [])
 
   if (!show) return null
@@ -123,7 +131,7 @@ export function OpeningSplash() {
         ) : (
           // Animasi sequential: satu kata, fade in → fade out
           <span
-            className="block text-6xl font-extrabold uppercase tracking-widest text-white transition-opacity sm:text-8xl"
+            className="block text-6xl font-extrabold uppercase leading-none tracking-widest text-white transition-opacity sm:text-8xl lg:text-[12rem]"
             style={{
               opacity: wordIn ? 1 : 0,
               transitionDuration: `${WORD_FADE_MS}ms`,

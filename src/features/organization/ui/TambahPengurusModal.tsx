@@ -101,8 +101,9 @@ export function TambahPengurusModal({
               <ImageUploader 
                 value={photoUrl} 
                 onChange={setPhotoUrl} 
-                folder="public-media" 
-                disabled={isPending} 
+                folder="public-media"
+                disabled={isPending}
+                maxDimension={600}
                 className="aspect-square max-w-[240px] w-full"
               />
             </div>

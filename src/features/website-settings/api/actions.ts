@@ -56,6 +56,7 @@ export async function updateSettingsAction(
           instagram_url: parsed.data.instagram_url || null,
           hero_image_url: parsed.data.hero_image_url || null,
           dark_logo_url: parsed.data.dark_logo_url || null,
+          about_image_url: parsed.data.about_image_url || null,
         },
       })
     } else {
@@ -68,6 +69,7 @@ export async function updateSettingsAction(
           instagram_url: parsed.data.instagram_url || null,
           hero_image_url: parsed.data.hero_image_url || null,
           dark_logo_url: parsed.data.dark_logo_url || null,
+          about_image_url: parsed.data.about_image_url || null,
         },
       })
     }

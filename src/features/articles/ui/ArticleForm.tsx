@@ -145,6 +145,7 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
                     onChange={setFeaturedImage}
                     folder="public-media"
                     disabled={isPending}
+                    maxDimension={1280}
                     className="aspect-video w-full"
                   />
                 </div>

@@ -17,6 +17,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
   const [state, formAction, isPending] = useActionState(updateSettingsAction, initialActionState)
   const [heroImageUrl, setHeroImageUrl] = useState(initialData?.hero_image_url ?? '')
   const [darkLogoUrl, setDarkLogoUrl] = useState(initialData?.dark_logo_url ?? '')
+  const [aboutImageUrl, setAboutImageUrl] = useState(initialData?.about_image_url ?? '')
 
   return (
     <form action={formAction} className="space-y-6">
@@ -136,6 +137,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
         <TabsContent value="visual" className="space-y-8">
           <input type="hidden" name="hero_image_url" value={heroImageUrl} />
           <input type="hidden" name="dark_logo_url" value={darkLogoUrl} />
+          <input type="hidden" name="about_image_url" value={aboutImageUrl} />
 
           <div className="space-y-3">
             <div>
@@ -166,10 +168,30 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
               value={darkLogoUrl || null}
               onChange={(url) => setDarkLogoUrl(url)}
               folder="logos"
+              maxDimension={512}
               disabled={isPending}
             />
             {state?.fieldErrors?.dark_logo_url && (
               <p className="text-xs text-destructive">{state.fieldErrors.dark_logo_url[0]}</p>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <Label>Gambar Tentang Kami</Label>
+              <p className="text-[0.8rem] text-muted-foreground mt-1">
+                Gambar yang tampil di section &quot;Tentang HMI Cabang Semarang&quot; pada halaman utama. Jika kosong, placeholder abu-abu akan ditampilkan. Rasio rekomendasi: 4:3.
+              </p>
+            </div>
+            <ImageUploader
+              value={aboutImageUrl || null}
+              onChange={(url) => setAboutImageUrl(url)}
+              folder="about-images"
+              maxDimension={1280}
+              disabled={isPending}
+            />
+            {state?.fieldErrors?.about_image_url && (
+              <p className="text-xs text-destructive">{state.fieldErrors.about_image_url[0]}</p>
             )}
           </div>
         </TabsContent>

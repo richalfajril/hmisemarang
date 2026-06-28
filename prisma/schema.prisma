@@ -437,6 +437,7 @@ model WebsiteSetting {
   footer_text     String?  @db.Text
   hero_image_url  String?
   dark_logo_url   String?
+  about_image_url String?
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
 

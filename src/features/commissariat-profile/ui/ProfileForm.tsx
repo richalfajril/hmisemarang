@@ -168,6 +168,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                   onChange={setLogo}
                   folder="public-media"
                   disabled={isPending || isReadOnly}
+                  maxDimension={512}
                   className="aspect-square max-w-[240px] w-full"
                 />
               </div>
@@ -258,6 +259,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                   onChange={setPhoto}
                   folder="public-media"
                   disabled={isPending || isReadOnly}
+                  maxDimension={1280}
                   className="aspect-video w-full"
                 />
               </div>

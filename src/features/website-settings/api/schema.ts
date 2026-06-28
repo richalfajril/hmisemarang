@@ -8,4 +8,5 @@ export const websiteSettingsSchema = z.object({
   instagram_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
   hero_image_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
   dark_logo_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
+  about_image_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
 })

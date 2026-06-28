@@ -154,6 +154,7 @@ export function AgendaForm({ initialData }: AgendaFormProps) {
               onChange={setFlyer}
               folder="public-media"
               disabled={isPending}
+              maxDimension={1280}
               className="aspect-[4/5] max-w-[320px] w-full"
             />
             <p className="text-xs text-muted-foreground mt-2">Rekomendasi rasio 4:5 (untuk Instagram). Maks 5MB.</p>

@@ -1,5 +1,10 @@
-import Image from "next/image";
+import { getPublicCommissariats } from "../api/queries";
+import { CommissariatCarousel } from "./CommissariatCarousel";
 import { HeroSearchBar } from "./HeroSearchBar";
+import { HeroBackground } from "./HeroBackground";
+import { CountUp } from "./CountUp";
+import { SPLASH_DURATION_MS } from "./OpeningSplash";
+import { FadeIn } from "@/shared/ui/FadeIn";
 
 type Props = {
   heroImageUrl?: string | null;
@@ -12,21 +17,38 @@ const METRICS = [
   { value: "5000+", label: "Kader" },
 ];
 
-export function HomeHero({ heroImageUrl }: Props) {
+const FALLBACK = [
+  { id: "f1", slug: "undip", name: "Komisariat UNDIP", logo_url: null },
+  { id: "f2", slug: "unnes", name: "Komisariat UNNES", logo_url: null },
+  {
+    id: "f3",
+    slug: "uin-walisongo",
+    name: "Komisariat UIN Walisongo",
+    logo_url: null,
+  },
+  { id: "f4", slug: "unissula", name: "Komisariat UNISSULA", logo_url: null },
+  { id: "f5", slug: "usm", name: "Komisariat USM", logo_url: null },
+  { id: "f6", slug: "udinus", name: "Komisariat UDINUS", logo_url: null },
+  { id: "f7", slug: "unika", name: "Komisariat UNIKA", logo_url: null },
+  { id: "f8", slug: "polines", name: "Komisariat Polines", logo_url: null },
+];
+
+export async function HomeHero({ heroImageUrl }: Props) {
+  const data = await getPublicCommissariats();
+  const cmsItems = data.map((c) => ({
+    id: c.id,
+    slug: c.slug,
+    name: c.name,
+    logo_url: c.logo_url,
+  }));
+  const cmsSlugs = new Set(cmsItems.map((c) => c.slug));
+  const supplemental = FALLBACK.filter((f) => !cmsSlugs.has(f.slug));
+  const commissariats = [...cmsItems, ...supplemental];
+
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
-      {/* Layer 0: Background image */}
-      {heroImageUrl && (
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={heroImageUrl}
-            alt="Hero background"
-            fill
-            className="object-cover object-center"
-            priority
-          />
-        </div>
-      )}
+      {/* Layer 0: Background image (parallax) */}
+      {heroImageUrl && <HeroBackground src={heroImageUrl} />}
 
       {/* Layer 1: Emerald gradient overlay */}
       <div
@@ -83,44 +105,61 @@ export function HomeHero({ heroImageUrl }: Props) {
       </svg>
 
       {/* Layer 3: Content */}
-      <div className="relative z-20 container mx-auto flex flex-col items-center px-4 pt-20 pb-16 text-center">
-        {/* Eyebrow — pill badge */}
-        <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-medium text-white backdrop-blur-sm sm:px-5 sm:py-1.5 sm:text-sm">
-          HMI Cabang Semarang
-        </span>
+      <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center px-4 pt-24 pb-24 text-center">
+        {/* Eyebrow */}
+        <FadeIn delay={SPLASH_DURATION_MS}>
+          <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-medium text-white backdrop-blur-sm sm:px-5 sm:py-1.5 sm:text-sm">
+            Official Website HMI Cabang Semarang
+          </span>
+        </FadeIn>
 
         {/* Heading */}
-        <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-tight text-white">
-          Membangun Kader Umat & Bangsa dari Semarang
-        </h1>
+        <FadeIn delay={SPLASH_DURATION_MS + 100}>
+          <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-tight text-white">
+            Membangun Kader Umat & Bangsa dari Semarang
+          </h1>
+        </FadeIn>
 
         {/* Subheading */}
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/75 sm:text-base md:text-lg">
-          HMI Cabang Semarang menjadi ruang kaderisasi, gagasan, dan pengabdian
-          bagi mahasiswa Islam untuk berkontribusi nyata bagi agama dan negara.
-        </p>
+        <FadeIn delay={SPLASH_DURATION_MS + 200}>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/75 sm:text-base md:text-lg">
+            HMI Cabang Semarang menjadi ruang kaderisasi, gagasan, dan
+            pengabdian bagi mahasiswa Islam untuk berkontribusi nyata bagi agama
+            dan negara.
+          </p>
+        </FadeIn>
 
-        {/* CTA — Search bar */}
-        <div className="mt-8 w-full max-w-xl">
+        {/* Search bar */}
+        <FadeIn delay={SPLASH_DURATION_MS + 300} className="mt-8 w-full max-w-xl">
           <HeroSearchBar />
-        </div>
+        </FadeIn>
 
-        {/* Inline Metrics — 2×2 on mobile, 1 row on sm+ */}
-        <div className="mt-10 grid grid-cols-2 gap-x-0 gap-y-4 sm:flex sm:gap-0 sm:divide-x sm:divide-white/20">
+        {/* Metrics */}
+        <FadeIn
+          delay={SPLASH_DURATION_MS + 400}
+          className="mt-10 grid grid-cols-2 gap-x-0 gap-y-4 sm:flex sm:gap-0 sm:divide-x sm:divide-white/20"
+        >
           {METRICS.map((m) => (
             <div
               key={m.label}
               className="px-4 text-center sm:px-6 sm:first:pl-0 sm:last:pr-0"
             >
-              <p className="text-2xl font-bold text-white sm:text-3xl">
-                {m.value}
-              </p>
+              <CountUp
+                value={m.value}
+                delay={SPLASH_DURATION_MS + 500}
+                className="block text-2xl font-bold text-white sm:text-3xl"
+              />
               <p className="mt-0.5 text-[10px] font-medium uppercase tracking-widest text-white/60 sm:text-xs">
                 {m.label}
               </p>
             </div>
           ))}
-        </div>
+        </FadeIn>
+      </div>
+
+      {/* Komisariat infinite carousel */}
+      <div className="absolute bottom-0 z-20 w-full pb-6">
+        <CommissariatCarousel items={commissariats} />
       </div>
     </section>
   );

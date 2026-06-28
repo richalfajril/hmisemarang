@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef } from 'react'
 import { uploadMediaAction } from '@/shared/api/media/actions'
+import { compressImageToWebp } from '@/shared/lib/image-compress'
 import { Button } from '@/shared/ui/Button'
 import { Loader2, Image as ImageIcon, UploadCloud, X } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
@@ -12,9 +13,11 @@ interface ImageUploaderProps {
   folder?: string
   className?: string
   disabled?: boolean
+  /** Longest-edge cap (px) for client-side optimization. 1920 hero, 1280 content, 512 logo. */
+  maxDimension?: number
 }
 
-export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920 }: ImageUploaderProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -24,9 +27,12 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
     
     setIsUploading(true)
     try {
+      // Optimize before upload: resize + convert to WebP, ≤2MB.
+      const optimized = await compressImageToWebp(file, maxDimension)
+
       const formData = new FormData()
-      formData.append('file', file)
-      
+      formData.append('file', optimized)
+
       const result = await uploadMediaAction(formData, folder)
       
       if (result.success && result.url) {
@@ -40,7 +46,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
     } finally {
       setIsUploading(false)
     }
-  }, [folder, onChange])
+  }, [folder, onChange, maxDimension])
 
   const onDragEnter = (e: React.DragEvent) => {
     e.preventDefault()

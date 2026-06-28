@@ -10,6 +10,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Optimasi Gambar Otomatis sebelum Upload (WebP, best-practice) (2026-06-28)
+* **`compressImageToWebp`** (client, `shared/lib/image-compress.ts`): semua gambar via `ImageUploader` dioptimalkan di browser sebelum dikirim ke Server Action/Cloudinary — dikonversi ke **WebP** dengan strategi best-practice. Canvas API, tanpa dependensi baru:
+  * **Resize** ke `maxDimension` per-konteks (default 1920); quality dasar **0.82** (sweet spot, hampir tak terlihat bedanya vs 0.9 tapi jauh lebih kecil).
+  * Bila masih > 2MB (ceiling): **downscale dulu** (jaga ketajaman) sampai sisi terpanjang 640px, baru turunkan quality dengan floor **0.6** (cegah artefak). Loop terbatas ~16 iterasi.
+  * EXIF orientation diterapkan (`imageOrientation: 'from-image'`) agar foto HP tak miring. Input non-raster (SVG/GIF) / gagal decode → fallback file asli.
+* **`ImageUploader`** menerima prop `maxDimension` (default 1920). Disetel per-konteks: logo 512, foto pengurus 600, featured artikel / about / flyer / foto sekretariat 1280, hero 1920.
+* Delivery tetap pakai Cloudinary `f_auto,q_auto` (`getOptimizedUrl`) → AVIF/WebP adaptif per-browser saat tampil.
+* `next.config.ts`: `experimental.serverActions.bodySizeLimit: '3mb'` — headroom di atas default 1MB untuk payload multipart WebP ≤2MB.
+
+#### OpeningSplash tampil tiap refresh (2026-06-28)
+* `OpeningSplash` tidak lagi memakai guard `sessionStorage` (sekali per sesi) — kini animasi "Yakin · Usaha · Sampai" tampil **setiap refresh halaman**. Dedupe StrictMode tetap via guard module-level (`splashStarted`) yang reset pada full reload.
+
+#### Hero Animations — Entrance, Parallax & Count-Up (2026-06-28)
+* **Entrance**: konten hero (eyebrow, heading, subheading, search, metrics) dibungkus `FadeIn` dengan stagger. Mulai **setelah OpeningSplash selesai** — `OpeningSplash` mengekspor `SPLASH_DURATION_MS` (dihitung dari timing kata + overlay), dipakai sebagai offset delay hero (`SPLASH_DURATION_MS + 0/100/200/300/400`). `CountUp` menerima prop `delay` agar count metric mulai setelah splash.
+* **Parallax**: `HeroBackground` (client, `widgets/home/ui/HeroBackground.tsx`) — background image bergeser `scrollY * 0.3` via `requestAnimationFrame`; image di-oversize `h-[130%] -top-[15%]` agar tidak bocor saat bergeser. Menggantikan layer `<Image>` statis di `HomeHero`.
+* **Count-up metrics**: `CountUp` (client, `widgets/home/ui/CountUp.tsx`) — angka metrik menghitung 0→target saat masuk viewport (ease-out cubic 1.5s), mempertahankan suffix non-numerik ("5000+", "16+"); "3" tetap.
+
+#### Homepage Section 05 — Featured Articles (2026-06-28)
+* **`HomeArticles`** (server component, `widgets/home/ui/HomeArticles.tsx`): bento grid — 1 featured besar (`lg:col-span-2`, image + gradient overlay gelap, kategori, judul, excerpt, tombol "Baca Selengkapnya") + 2 card sekunder bertumpuk kanan. Card sekunder dua varian: punya `featured_image_url` → image overlay + zoom hover; tanpa gambar → card hijau solid (`bg-primary`). Header dua kolom (eyebrow "Artikel" + heading "Artikel Pilihan" + subheading kiri, CTA "Jelajahi Artikel →" `/artikel` kanan). Metadata `Kategori • Tanggal` (`Intl.DateTimeFormat id-ID`), excerpt `line-clamp-2`, semua card → `/artikel/[slug]`. Dibungkus `FadeIn`.
+* **Query** `getFeaturedArticles()` di `widgets/home/api/queries.ts`: 3 artikel `PUBLISHED` terbaru (`published_at desc`, `deleted_at: null`), select + relasi `category.name`, `React.cache`.
+* **Fallback** 3 artikel hardcoded di-merge bila CMS < 3 (slug dedup).
+* **`FeaturedCarousel`** (client, `widgets/home/ui/FeaturedCarousel.tsx`): slot featured besar kini single-item carousel — auto-play 5 detik, infinite loop, fade animation (crossfade), pause on hover, pagination dots (aktif melebar, klik pindah slide, tanpa prev/next). Query `take: 5` → 3 artikel untuk carousel, 2 untuk sekunder. Featured = artikel terbaru (model `Article` tak punya flag `is_featured`); tata letak bento (carousel kiri + 2 sekunder kanan) mengikuti referensi user.
+* `src/app/(website)/page.tsx`: tambah `<HomeArticles />` setelah `<HomeAbout />`.
+
+#### Homepage Section 04 — About HMI Cabang Semarang (2026-06-27)
+* **`HomeAbout`** (server component, `widgets/home/ui/HomeAbout.tsx`): split layout 50:50 (desktop `md:grid-cols-2`, mobile 1 kolom dengan gambar di bawah) sesuai spec `docs/public-website/homepage/about.md`. Kiri: eyebrow "Tentang Kami", heading, 2 paragraf profil organisasi, core values inline (✓ Yakin / Usaha / Sampai — visual, bukan badge), CTA "Lihat Profil Lengkap →" ke `/profil`. Kanan: featured image `aspect-[4/3]` rounded dari CMS, fallback placeholder abu "Gambar belum tersedia". Background light gradient (`from-emerald-50/40 to-white`).
+* **`FadeIn`** (client, `shared/ui/FadeIn.tsx`): reusable fade-up wrapper berbasis `IntersectionObserver` — reveal sekali saat masuk viewport (threshold 0.15), `translate-y-6 opacity-0` → `0/100` transisi 700ms, `motion-reduce` aware. Dipakai `HomeAbout`, siap dipakai ulang section homepage berikutnya.
+* **DB migration** (`prisma db push`): tambah `about_image_url String?` ke `WebsiteSetting`.
+* **CMS**: field "Gambar Tentang Kami" (`ImageUploader` folder `about-images`) ditambahkan ke tab "Tampilan" SettingsForm; schema Zod + `updateSettingsAction` (create & update) diperbarui.
+* `src/app/(website)/page.tsx`: tambah `<HomeAbout aboutImageUrl={settings?.about_image_url} />` setelah `<HomeHero />`.
+
+#### Homepage — Infinite Commissariat Strip di Hero Bottom (2026-06-27)
+* **`CommissariatCarousel`** (client, `widgets/home/ui/CommissariatCarousel.tsx`): infinite strip berbasis rAF — auto-scroll (0.5px/frame), pause on hover, drag mouse, swipe touch. Setiap item: logo rounded square (48×48 + `bg-white/20`) + nama komisariat bold putih, `w-64` fixed. Item diduplikasi `[...items, ...items]` untuk seamless loop; normalisasi posisi `x` saat drag selesai.
+* **`HomeHero`** diubah menjadi `async` server component: fetch `getPublicCommissariats()` langsung di dalam komponen, merge hasil DB + fallback hardcoded (8 komisariat) berdasarkan slug deduplication. Carousel ditempatkan `absolute bottom-0 z-20 w-full pb-6` di dalam hero.
+* **Query** `getPublicCommissariats()` di `widgets/home/api/queries.ts`: fetch komisariat aktif (`is_active: true`), ordered alfabet, select `id/name/slug/logo_url/campus_name` + relasi `university.name`; dibungkus `React.cache`.
+* **`CommissariatCard.tsx`** dan **`HomeCommissariats.tsx`** dihapus — section komisariat terpisah diganti dengan carousel strip langsung di bottom hero (identitas visual, bukan section navigasi).
+* **`Section.tsx`** ditambahkan di `shared/ui`: reusable section wrapper (`overflow-hidden py-14`) dengan prop `className` opsional.
+
+#### Navbar & Hero Refinements (2026-06-27)
+* **Navbar scroll state:** saat scroll > 80px di homepage, navbar berubah ke `border-b bg-white shadow-sm` (sebelumnya `bg-background/80 backdrop-blur`).
+* **Hero content padding:** `pt-24 pb-24` (simetris) agar konten hero tepat di tengah vertikal dengan ruang untuk carousel strip di bawah.
+
 #### Hero Section — Full Spec Compliance + Transparent Navbar + CMS Hero Image (2026-06-24)
 * **`HomeHero` rewrite** (spec: `docs/public-website/homepage/hero.md`): full-screen (`min-h-screen`), background image dari CMS (`hero_image_url`) via `next/image fill`, emerald gradient overlay, Islamic SVG diamond pattern (opacity 4%). Metrics sekarang **inline di dalam hero** (Komisariat DB, Korkom hardcode 3, Kampus DB, Kader DB+) — bukan card terpisah. `HomeStats` dihapus dari homepage.
 * **Transparent navbar**: `PublicHeader` berubah dari `sticky` menjadi `fixed`. Di halaman beranda (`pathname === '/'`), navbar transparan dengan teks putih & logo putih langsung (tanpa wrapper hijau). Saat scroll > 80px, navbar berubah solid (`bg-background/80 backdrop-blur`) dengan transisi 300ms. Pada halaman lain, langsung solid.

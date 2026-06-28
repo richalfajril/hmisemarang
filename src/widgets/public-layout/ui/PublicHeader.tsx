@@ -35,23 +35,20 @@ function isActive(pathname: string, href: string) {
 export function PublicHeader({ siteName, logoUrl, darkLogoUrl }: Props) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
+  const [scrolledHome, setScrolledHome] = useState(false)
 
   const isHome = pathname === '/'
 
   useEffect(() => {
-    if (!isHome) {
-      setScrolled(true)
-      return
-    }
-    setScrolled(false)
-    const onScroll = () => setScrolled(window.scrollY > 80)
+    if (!isHome) return
+    const onScroll = () => setScrolledHome(window.scrollY > 80)
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
   }, [isHome])
 
-  const isTransparent = isHome && !scrolled
+  // Solid kecuali di beranda sebelum scroll
+  const isTransparent = isHome && !scrolledHome
 
   const name = siteName || DEFAULT_SITE_NAME
   const whiteLogo = logoUrl || DEFAULT_LOGO_URL
@@ -83,7 +80,7 @@ export function PublicHeader({ siteName, logoUrl, darkLogoUrl }: Props) {
         'fixed top-0 z-50 w-full transition-all duration-300',
         isTransparent
           ? 'bg-transparent'
-          : 'border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60'
+          : 'border-b bg-white shadow-sm'
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between gap-4 px-4">
