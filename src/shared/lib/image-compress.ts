@@ -13,8 +13,9 @@ const BASE_QUALITY = 0.82 // sweet spot — near-indistinguishable, much smaller
 const MIN_QUALITY = 0.6 // floor — below this artifacts get visible
 
 /**
- * Returns a web-optimized WebP `File`. Re-encodes even small images to WebP.
- * Non-raster inputs (SVG/GIF) or any decode failure fall back to the original.
+ * Returns a web-optimized WebP `File`. Re-encodes even small non-WebP images.
+ * Inputs that are already WebP, non-raster (SVG/GIF), or fail to decode are
+ * passed through untouched (no compress/convert pipeline).
  *
  * @param file source image
  * @param maxDimension longest-edge cap in px (e.g. 1920 hero, 1280 content, 512 logo)
@@ -25,6 +26,7 @@ export async function compressImageToWebp(
 ): Promise<File> {
   if (
     !file.type.startsWith("image/") ||
+    file.type === "image/webp" || // sudah WebP → langsung upload, lewati pipeline
     file.type === "image/svg+xml" ||
     file.type === "image/gif"
   ) {

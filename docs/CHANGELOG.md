@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Stub Halaman Publik + Prefetch Default (2026-06-28)
+* Menambahkan **stub halaman publik** untuk seluruh route navigasi yang sebelumnya 404: `/profil`, `/struktur-organisasi`, `/artikel`, `/agenda`, `/komisariat`, `/galeri`, `/dokumen`, `/kontak`, plus dinamis `/artikel/[slug]` & `/komisariat/[slug]`. Semua memakai komponen reusable **`ComingSoon`** (`shared/ui/ComingSoon.tsx`) berisi `EmptyState` "Segera hadir".
+* Karena route kini ada, **`prefetch={false}` dihapus** dari semua link scaffolding (nav header/footer, About CTA, carousel komisariat, featured carousel, article cards, SectionHeader CTA) — kembali ke prefetch default Next.js → navigasi instan, tanpa 404 prefetch di console.
+
 #### Optimasi Gambar Otomatis sebelum Upload (WebP, best-practice) (2026-06-28)
 * **`compressImageToWebp`** (client, `shared/lib/image-compress.ts`): semua gambar via `ImageUploader` dioptimalkan di browser sebelum dikirim ke Server Action/Cloudinary — dikonversi ke **WebP** dengan strategi best-practice. Canvas API, tanpa dependensi baru:
   * **Resize** ke `maxDimension` per-konteks (default 1920); quality dasar **0.82** (sweet spot, hampir tak terlihat bedanya vs 0.9 tapi jauh lebih kecil).
   * Bila masih > 2MB (ceiling): **downscale dulu** (jaga ketajaman) sampai sisi terpanjang 640px, baru turunkan quality dengan floor **0.6** (cegah artefak). Loop terbatas ~16 iterasi.
-  * EXIF orientation diterapkan (`imageOrientation: 'from-image'`) agar foto HP tak miring. Input non-raster (SVG/GIF) / gagal decode → fallback file asli.
+  * EXIF orientation diterapkan (`imageOrientation: 'from-image'`) agar foto HP tak miring. Input **yang sudah WebP**, non-raster (SVG/GIF), atau gagal decode → di-pass-through tanpa pipeline (langsung upload).
 * **`ImageUploader`** menerima prop `maxDimension` (default 1920). Disetel per-konteks: logo 512, foto pengurus 600, featured artikel / about / flyer / foto sekretariat 1280, hero 1920.
 * Delivery tetap pakai Cloudinary `f_auto,q_auto` (`getOptimizedUrl`) → AVIF/WebP adaptif per-browser saat tampil.
 * `next.config.ts`: `experimental.serverActions.bodySizeLimit: '3mb'` — headroom di atas default 1MB untuk payload multipart WebP ≤2MB.

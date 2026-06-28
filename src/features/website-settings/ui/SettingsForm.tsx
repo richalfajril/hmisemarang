@@ -43,7 +43,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
           <TabsTrigger value="visual">Tampilan</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="general" className="space-y-4">
+        <TabsContent value="general" forceMount className="space-y-4 data-[state=inactive]:hidden">
           <div className="space-y-2">
             <Label htmlFor="site_name">Nama Situs Web (Site Name)</Label>
             <Input
@@ -79,7 +79,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
           </div>
         </TabsContent>
 
-        <TabsContent value="contact" className="space-y-4">
+        <TabsContent value="contact" forceMount className="space-y-4 data-[state=inactive]:hidden">
           <div className="space-y-2">
             <Label htmlFor="contact_email">Alamat Email Resmi</Label>
             <Input
@@ -113,7 +113,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
           </div>
         </TabsContent>
 
-        <TabsContent value="social" className="space-y-4">
+        <TabsContent value="social" forceMount className="space-y-4 data-[state=inactive]:hidden">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="instagram_url">Tautan Instagram</Label>
@@ -134,7 +134,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
           <p className="text-[0.8rem] text-muted-foreground pt-2">Kosongkan tautan untuk menyembunyikan ikon sosial media bersangkutan di bagian footer situs publik.</p>
         </TabsContent>
 
-        <TabsContent value="visual" className="space-y-8">
+        <TabsContent value="visual" forceMount className="space-y-8 data-[state=inactive]:hidden">
           <input type="hidden" name="hero_image_url" value={heroImageUrl} />
           <input type="hidden" name="dark_logo_url" value={darkLogoUrl} />
           <input type="hidden" name="about_image_url" value={aboutImageUrl} />
