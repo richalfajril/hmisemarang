@@ -235,6 +235,20 @@ Field yang digunakan:
 
 ---
 
+## Data States
+
+Mengikuti standar global `DESIGN.md` §16 (Public Website Data States).
+
+**Data Source:** **Dynamic** — Komisariat aktif (`is_active`) dari DB. Lihat juga subbab *Data Source* & *Empty State* di atas.
+
+**Loading State:** Skeleton strip (lingkaran logo + garis nama) selebar carousel via `Suspense`, mencegah CLS.
+
+**Success State:** Data DB diurutkan alfabet + fallback bila belum cukup (fallback bukan loading).
+
+**Error State:** Fetch gagal → carousel memakai data fallback / disembunyikan dengan tinggi dipertahankan, tanpa pesan teknis.
+
+---
+
 ## Acceptance Criteria
 
 - Header menggunakan layout dua kolom.

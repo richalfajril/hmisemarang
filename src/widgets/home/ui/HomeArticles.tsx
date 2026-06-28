@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Section } from "@/shared/ui/Section";
+import { AnimatedSection } from "@/shared/ui/AnimatedSection";
 import { FadeIn } from "@/shared/ui/FadeIn";
 import { SectionHeaderLeft } from "@/shared/ui/SectionHeader";
 import { FeaturedCarousel } from "./FeaturedCarousel";
@@ -70,16 +70,37 @@ const FALLBACK: Article[] = [
   },
 ];
 
-function SecondaryCard({ article }: { article: Article }) {
-  const href = `/artikel/${article.slug}`;
+const dateFmt = new Intl.DateTimeFormat("id-ID", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
-  // Image variant
-  if (article.featured_image_url) {
-    return (
-      <Link
-        href={href}
-        className="group relative flex-1 overflow-hidden rounded-3xl transition-transform duration-300 hover:-translate-y-1"
-      >
+function formatMeta(a: Article) {
+  const parts: string[] = [];
+  if (a.category?.name) parts.push(a.category.name);
+  if (a.published_at) parts.push(dateFmt.format(a.published_at));
+  return parts.join(" • ");
+}
+
+/**
+ * Secondary article card: image background. `tinted` adds an emerald layer over
+ * the image (top card); otherwise a dark gradient (bottom card). Content
+ * (metadata, title, excerpt, CTA) sits in a glassmorphism panel at the bottom.
+ */
+function SecondaryCard({
+  article,
+  tinted,
+}: {
+  article: Article;
+  tinted?: boolean;
+}) {
+  return (
+    <Link
+      href={`/artikel/${article.slug}`}
+      className="group relative min-h-[18rem] flex-1 overflow-hidden rounded-3xl bg-emerald-900 transition-transform duration-300 hover:-translate-y-1"
+    >
+      {article.featured_image_url && (
         <Image
           src={article.featured_image_url}
           alt={article.title}
@@ -87,37 +108,33 @@ function SecondaryCard({ article }: { article: Article }) {
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(min-width: 1024px) 33vw, 100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 p-6">
-          <p className="text-lg font-bold leading-snug text-white line-clamp-2">
+      )}
+
+      {/* Overlay: green layer (tinted) atau gradient gelap */}
+      {tinted ? (
+        <div className="absolute inset-0 bg-primary/80" />
+      ) : (
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+      )}
+
+      {/* Content — glassmorphism panel di bawah */}
+      <div className="absolute inset-x-0 bottom-0 p-4">
+        <div className="rounded-2xl border border-white/20 bg-white/10 p-5 shadow-2xl backdrop-blur-md">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-200">
+            {formatMeta(article)}
+          </p>
+          <p className="mt-2 text-lg font-bold leading-snug text-white line-clamp-1">
             {article.title}
           </p>
-          <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-semibold text-white">
+          {article.excerpt && (
+            <p className="mt-1.5 text-sm leading-relaxed text-white/85 line-clamp-2">
+              {article.excerpt}
+            </p>
+          )}
+          <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-white">
             Baca Artikel <ArrowRight className="h-4 w-4" />
           </span>
         </div>
-      </Link>
-    );
-  }
-
-  // Solid green variant
-  return (
-    <Link
-      href={href}
-      className="group relative flex-1 overflow-hidden rounded-3xl bg-primary p-6 text-primary-foreground transition-all duration-300 hover:-translate-y-1 hover:bg-primary/90"
-    >
-      <div className="flex h-full flex-col">
-        <p className="text-lg font-bold leading-snug line-clamp-2">
-          {article.title}
-        </p>
-        {article.excerpt && (
-          <p className="mt-2 text-sm leading-relaxed text-primary-foreground/80 line-clamp-3">
-            {article.excerpt}
-          </p>
-        )}
-        <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-semibold">
-          Baca Artikel <ArrowRight className="h-4 w-4" />
-        </span>
       </div>
     </Link>
   );
@@ -135,32 +152,32 @@ export async function HomeArticles() {
   if (carousel.length === 0) return null;
 
   return (
-    <Section className="bg-white">
-      <div className="mx-auto max-w-7xl px-4">
+    <AnimatedSection className="bg-white">
+      <FadeIn>
         <SectionHeaderLeft
           eyebrow="Artikel"
           heading="Artikel Pilihan"
           subheading="Ikuti berbagai kajian, opini, berita, dan informasi terbaru dari HMI Cabang Semarang."
           cta={{ label: "Jelajahi Artikel", href: "/artikel" }}
         />
+      </FadeIn>
 
-        {/* Bento grid */}
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {/* Featured single-item carousel */}
-          <FadeIn delay={150} className="lg:col-span-2">
-            <FeaturedCarousel items={carousel} />
-          </FadeIn>
+      {/* Bento grid */}
+      <div className="mt-10 grid gap-6 lg:grid-cols-3">
+        {/* Featured single-item carousel */}
+        <FadeIn delay={150} className="lg:col-span-2">
+          <FeaturedCarousel items={carousel} />
+        </FadeIn>
 
-          {/* Secondary stacked */}
-          <div className="flex flex-col gap-6">
-            {secondary.map((a, i) => (
-              <FadeIn key={a.id} delay={300 + i * 150} className="flex flex-1">
-                <SecondaryCard article={a} />
-              </FadeIn>
-            ))}
-          </div>
+        {/* Secondary stacked */}
+        <div className="flex flex-col gap-6">
+          {secondary.map((a, i) => (
+            <FadeIn key={a.id} delay={300 + i * 150} className="flex flex-1">
+              <SecondaryCard article={a} tinted={i === 0} />
+            </FadeIn>
+          ))}
         </div>
       </div>
-    </Section>
+    </AnimatedSection>
   );
 }

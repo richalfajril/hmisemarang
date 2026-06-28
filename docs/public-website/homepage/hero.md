@@ -259,6 +259,20 @@ Smooth Fade
 
 ---
 
+## Data States
+
+Mengikuti standar global `DESIGN.md` §16 (Public Website Data States).
+
+**Data Source:** **Dynamic** — `WebsiteSetting.hero_image_url` (CMS), daftar Komisariat aktif (DB) untuk carousel bawah, metrik agregat (DB). Teks eyebrow/heading/subheading & ikon bersifat **statis** (langsung render).
+
+**Loading State:** Skeleton setinggi hero (full-screen) — placeholder gradient + skeleton strip logo komisariat — via `Suspense`/`loading`, mencegah CLS.
+
+**Success State:** Gambar hero dari CMS; bila kosong → gradient emerald default (fallback, bukan loading). Carousel komisariat: data DB + fallback bila belum cukup.
+
+**Error State:** Fetch gagal → render hero dengan gradient default + carousel disembunyikan/fallback. Tinggi section dipertahankan, tanpa pesan error teknis.
+
+---
+
 ## Acceptance Criteria
 
 * Hero menggunakan tinggi 100vh.

@@ -303,6 +303,20 @@ Fallback hanya digunakan selama proses pengembangan atau ketika CMS belum memili
 
 ---
 
+## Data States
+
+Mengikuti standar global `DESIGN.md` §16 (Public Website Data States).
+
+**Data Source:** **Dynamic** — Artikel `PUBLISHED` dari DB (`category`, `published_at`). Lihat *Data Resolution Strategy* di atas untuk Success.
+
+**Loading State:** Skeleton bento (1 besar + 2 kartu) mengikuti layout aktual via `Suspense`, mencegah CLS.
+
+**Success State:** CMS dulu → fallback bila jumlah < kebutuhan (fallback bukan loading).
+
+**Error State:** Fetch gagal → Graceful Fallback UI (kartu fallback / empty state), tinggi section dipertahankan, tanpa pesan teknis.
+
+---
+
 ## Acceptance Criteria
 
 - Header menggunakan layout dua kolom.

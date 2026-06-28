@@ -443,3 +443,21 @@ model WebsiteSetting {
 
   @@map("website_settings")
 }
+
+model Testimonial {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  photo_url     String?
+  quote         String    @db.Text
+  name          String
+  title         String
+  featured      Boolean   @default(false)
+  display_order Int       @default(0)
+  is_published  Boolean   @default(false)
+
+  created_by String   @db.Uuid
+  updated_by String   @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("testimonials")
+}

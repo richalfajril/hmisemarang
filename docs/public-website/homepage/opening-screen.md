@@ -237,6 +237,12 @@ Tampil kembali
 
 ---
 
+## Data States
+
+**Data Source:** **Static** — kata "Yakin · Usaha · Sampai" hardcoded; tanpa CMS/DB/API. Sesuai standar `DESIGN.md` §16, komponen statis **dirender langsung tanpa Loading maupun Error State** (tidak ada Skeleton/Retry/Error UI).
+
+---
+
 ## Acceptance Criteria
 
 - Background menggunakan emerald gradient dengan pattern islami halus.

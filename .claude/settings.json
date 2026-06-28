@@ -9,7 +9,9 @@
       "Bash(echo \"=== tsc exit: $? ===\")",
       "Bash(npm run *)",
       "Bash(claude plugin *)",
-      "Bash(grep -i \"link\\\\|href=\\\\`/\\\\|href=\\\\\"/\")"
+      "Bash(grep -i \"link\\\\|href=\\\\`/\\\\|href=\\\\\"/\")",
+      "Bash(npx tsx *)",
+      "Bash(grep -E \"Compiled|✓ Generating|Failed to compile|error TS|/$|^○|^ƒ\")"
     ]
   },
   "enabledPlugins": {

@@ -30,6 +30,7 @@ import {
   ScrollTextIcon,
   UserCheckIcon,
   BellIcon,
+  QuoteIcon,
 } from "lucide-react"
 
 const ALL_ROLES = ["SYSTEM_ADMIN", "ADMIN_CABANG", "ADMIN_KOMISARIAT"]
@@ -43,6 +44,7 @@ const navMain = [
   { title: "Agenda", url: "/dashboard/agendas", icon: <CalendarRangeIcon />, roles: ALL_ROLES },
   { title: "Galeri", url: "/dashboard/galleries", icon: <ImageIcon />, roles: ADMIN_CABANG_ONLY },
   { title: "Dokumen", url: "/dashboard/documents", icon: <FileIcon />, roles: ADMIN_CABANG_ONLY },
+  { title: "Kata Mereka", url: "/dashboard/testimonials", icon: <QuoteIcon />, roles: ADMIN_CABANG_ONLY },
   { title: "Review Center", url: "/dashboard/review-center", icon: <ClipboardCheckIcon />, roles: ADMIN_CABANG_ONLY },
 ]
 

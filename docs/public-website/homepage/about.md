@@ -186,6 +186,20 @@ Animasi hanya dijalankan satu kali ketika pertama kali terlihat.
 
 ---
 
+## Data States
+
+Mengikuti standar global `DESIGN.md` §16 (Public Website Data States).
+
+**Data Source:** **Dynamic sebagian** — hanya **Featured Image** dari `WebsiteSetting.about_image_url` (CMS). Eyebrow, heading, deskripsi, core values, dan CTA bersifat **statis** (copywriting manual, langsung render).
+
+**Loading State:** Hanya area gambar yang perlu skeleton (placeholder `aspect-[4/3]`); konten teks render langsung. Cegah CLS dengan rasio tetap.
+
+**Success State:** Gambar dari CMS; bila kosong → placeholder/visual default (fallback, bukan loading).
+
+**Error State:** Gagal memuat gambar → tampilkan placeholder default. Layout & tinggi dipertahankan, tanpa pesan teknis.
+
+---
+
 ## Acceptance Criteria
 
 - Menggunakan layout dua kolom pada Desktop.

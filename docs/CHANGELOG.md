@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Changed
+
+#### Standar Global: Public Website Data States (2026-06-28)
+* **`DESIGN.md` §16 (baru, "Public Website Data States")**: standar global perilaku state berdasarkan sumber data. **Dynamic Data** (CMS/DB/Prisma/Supabase/API/Server Action/External) wajib **Loading (Skeleton) + Success (CMS → Fallback bila perlu) + Error (Graceful Fallback UI tanpa Layout Shift & tanpa pesan teknis)**. **Static Data** (hardcoded/config/env/asset/copywriting) dirender langsung tanpa Skeleton/Error. Reusable component = presentasional (Presentation Ready Data); business logic hanya di Server Component/Feature Layer/Server Action/Shared API (FSD). (§17 Final Summary di-renumber dari §16.)
+* **`SKILLS.md` §14**: tambah butir "Public Website Data States (WAJIB)" merujuk `DESIGN.md` §16.
+* **Audit dokumentasi homepage**: subbab **Data States** (Data Source/Loading/Success/Error) ditambahkan ke section ber-Dynamic Data — `hero`, `about` (dynamic sebagian: gambar CMS), `commissariat-carousel`, `featured-articel`, `agendas-carousel`, `gallery-section`. Section **statis** `opening-screen` diberi catatan klasifikasi (Static, tanpa Loading/Error).
+* **Penerapan di kode (homepage):**
+  * **Loading State** — `Skeleton` primitive baru (`shared/ui/Skeleton.tsx`) + skeleton per section (`widgets/home/ui/HomeSkeletons.tsx`); `page.tsx` membungkus tiap dynamic section dengan `<Suspense fallback={…}>` (streaming, cegah CLS). `OpeningSplash` (static) render langsung tanpa Suspense.
+  * **Error State (Graceful)** — semua query homepage (`widgets/home/api/queries.ts`) + `getWebsiteSettings` dibungkus `try/catch` → kembalikan `[]`/`null` saat DB gagal, sehingga section jatuh ke fallback/empty (tanpa crash, tinggi dipertahankan).
+  * `HomeHero` & `HomeAbout` kini fetch `getWebsiteSettings` sendiri (`React.cache` dedupe) agar bisa di-stream per-section; prop `heroImageUrl`/`aboutImageUrl` dihapus dari `page.tsx`.
+
+#### Preset Font: Bricolage Grotesque (heading) + Rubik (body) (2026-06-28)
+* Ganti font global di `src/app/layout.tsx`: **Inter → Rubik** (`--font-sans`, untuk body/subheading/eyebrow/UI) dan **Geist (sans) → Bricolage Grotesque** (`--font-heading`, untuk heading). Geist Mono dipertahankan (`--font-mono`).
+* `globals.css`: `--font-heading` kini menunjuk Bricolage; base layer menerapkan `font-heading` ke `h1`–`h6` otomatis.
+* `docs/DESIGN.md` (§Typography) diperbarui sesuai preset baru.
+
 ### Added
 
 #### Stub Halaman Publik + Prefetch Default (2026-06-28)
@@ -30,6 +46,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **Entrance**: konten hero (eyebrow, heading, subheading, search, metrics) dibungkus `FadeIn` dengan stagger. Mulai **setelah OpeningSplash selesai** — `OpeningSplash` mengekspor `SPLASH_DURATION_MS` (dihitung dari timing kata + overlay), dipakai sebagai offset delay hero (`SPLASH_DURATION_MS + 0/100/200/300/400`). `CountUp` menerima prop `delay` agar count metric mulai setelah splash.
 * **Parallax**: `HeroBackground` (client, `widgets/home/ui/HeroBackground.tsx`) — background image bergeser `scrollY * 0.3` via `requestAnimationFrame`; image di-oversize `h-[130%] -top-[15%]` agar tidak bocor saat bergeser. Menggantikan layer `<Image>` statis di `HomeHero`.
 * **Count-up metrics**: `CountUp` (client, `widgets/home/ui/CountUp.tsx`) — angka metrik menghitung 0→target saat masuk viewport (ease-out cubic 1.5s), mempertahankan suffix non-numerik ("5000+", "16+"); "3" tetap.
+
+#### Modul CMS "Kata Mereka" (Testimonial Management) (2026-06-28)
+* **DB**: model `Testimonial` (`prisma db push`) — `photo_url, quote, name, title, featured, display_order, is_published` + audit fields.
+* **Entity** `entities/testimonial/model/schema.ts` (Zod: nama/title/kutipan/foto wajib, `display_order` int ≥0).
+* **Feature** `features/testimonial-management`: actions `saveTestimonialAction` (create/update), `deleteTestimonialAction`, `togglePublishTestimonialAction` — pola standar (auth SYSTEM_ADMIN/ADMIN_CABANG → Zod → Prisma → Audit Log). `TestimonialForm` (ImageUploader avatar folder `testimonials` maxDimension 400, featured Checkbox, status Select, display_order) + `TestimonialList` (tabel + aksi edit/publish-toggle/delete + cari nama, EmptyState).
+* **Dashboard**: route `/dashboard/testimonials` (+`/new`, `/[id]/edit`) dengan guard role; sidebar grup "Konten" tambah item **"Kata Mereka"** (`QuoteIcon`, `ADMIN_CABANG_ONLY`). ADMIN_KOMISARIAT no access.
+* **Public**: `getTestimonials()` kini query `is_published && featured`, urut `display_order asc` → `updated_at desc`; `HomeTestimonials` map `photo_url`→`getOptimizedUrl` (fallback bila kosong).
+
+#### Homepage Section "Kata Mereka" — Testimonial Carousel (2026-06-28)
+* **`HomeTestimonials`** (server, `widgets/home/ui/HomeTestimonials.tsx`): header center (eyebrow "Kata Mereka", heading "Apa Kata Mereka Tentang HMI?", subheading) + carousel. Section tint emerald. `FadeIn`.
+* **`TestimonialCarousel`** (client, `widgets/home/ui/TestimonialCarousel.tsx`): infinite marquee (reuse rAF — auto-play, pause hover, drag, swipe, loop). **TestimonialCard**: ikon Quote, quote italic `line-clamp-4`, divider, avatar bulat (atau initial) + nama + title. Responsif `w-80 sm:w-96` (≈1/2/3 card).
+* **Query** `getTestimonials()` di `widgets/home/api/queries.ts` + tipe `PublicTestimonial`. **Deviasi/penting:** model `Testimonial` & modul CMS "Testimoni" **belum ada di skema** → query mengembalikan `[]` (graceful), section memakai **fallback** (Lafran Pane, Nurcholish Madjid, dll — sesuai gambar referensi). Saat model+CMS siap, tinggal isi body query (Featured → displayOrder, Published only). Komponen tetap presentasional (props only).
+* `page.tsx`: `<HomeTestimonials />` (dibungkus `Suspense` + `TestimonialsSkeleton`) setelah `<HomeCTA />`.
+
+#### Homepage Section 08 — CTA Banner (2026-06-28)
+* **`HomeCTA`** (server, **static**, `widgets/home/ui/HomeCTA.tsx`): banner full-width rounded gradient emerald + decorative diamond pattern (radial mask, menonjol di sudut), konten center — heading "Cari Tahu Tentang Kami Lebih Banyak", subheading, 2 tombol: primary putih "Lihat Galeri" → `/galeri`, secondary outline "Hubungi Kami" → `/kontak`. Mobile tombol vertikal, desktop horizontal. `FadeIn` (fade-up). Section **statis** → render langsung tanpa Suspense/Loading/Error (DESIGN §16).
+* `src/app/(website)/page.tsx`: tambah `<HomeCTA />` setelah `<HomeGallery />` (tanpa Suspense). `cta-section.md` diberi subbab Data Source (Static).
+
+#### Homepage Section 07 — Gallery Preview (Circular Gallery 3D) (2026-06-28)
+* **`CircularGallery`** (client, `widgets/home/ui/CircularGallery.tsx`): komponen presentasional 3D carousel melingkar (kode referensi user, dimodifikasi). Props `albums` (presentation-ready), `href`, `radius`, `autoRotateSpeed`. Auto-rotate + scroll-based rotation, **hover memperlambat** rotasi, **radius responsif** (mengecil di layar sempit). Tiap album = `Link` ke `/galeri` (keyboard-focusable, focus ring). Card: cover + gradient overlay + judul; `coverImageUrl` kosong → placeholder gradien emerald. Tanpa business logic (no fetch/sort/fallback).
+* **`HomeGallery`** (server, `widgets/home/ui/HomeGallery.tsx`): header center (eyebrow "Galeri", heading "Dokumentasi Kegiatan", subheading) + CircularGallery + CTA "Jelajahi Galeri →" `/galeri`. Map `cover_image_url` → `getOptimizedUrl`. Merge fallback (6 album) bila CMS < 6 agar lingkaran penuh. `FadeIn` (header → gallery → CTA).
+* **Query** `getGalleryAlbums()` di `widgets/home/api/queries.ts`: album `PUBLISHED`, `cover_image_url` not null, `created_at desc`, take 8, `React.cache`.
+* **Deviasi spec**: model `GalleryAlbum` belum punya `is_featured`/`featured_order` → urutan pakai album terbaru (`created_at desc`), bukan featured-first. Drag/touch gesture penuh belum diimplementasikan (auto + scroll + hover-slow saja).
+* `src/app/(website)/page.tsx`: tambah `<HomeGallery />` setelah `<HomeAgenda />`.
+
+#### Homepage Section 06 — Upcoming Agenda (2026-06-28)
+* **`HomeAgenda`** (server, `widgets/home/ui/HomeAgenda.tsx`): header dua kolom (eyebrow "Agenda", heading "Agenda Mendatang", subheading, CTA "Agenda Lainnya" → `/agenda`) + carousel. Section tint `bg-emerald-50/60` (zebra setelah Articles putih). Fetch `getUpcomingAgendas()` + merge fallback (4 hardcoded).
+* **`AgendaCarousel`** (client, `widgets/home/ui/AgendaCarousel.tsx`): infinite horizontal carousel (reuse pola rAF `CommissariatCarousel` — auto-scroll, pause hover, drag, swipe, loop). **AgendaCard** vertical sesuai referensi: flyer `aspect-[4/5]` + badge status kanan-atas (hijau Akan Datang/Hari Ini, abu Selesai), body putih (judul 2 baris, 📅 tanggal, 📍 lokasi, countdown, tombol outline "Lihat Detail" / "Lihat Dokumentasi" bila selesai). Hover lift + image zoom, klik → `/agenda/[slug]` (dicegah saat drag).
+* **`shared/lib/agenda.ts`**: helper pure `getAgendaStatus` (today/upcoming/done dari tanggal), `getAgendaBadge`, `getCountdownLabel` ("Besok"/"N Hari Lagi"), `formatAgendaDate` (tunggal / rentang "01 - 07 Des 2026"). Self-check `agenda.check.ts` (runnable `npx tsx`).
+* **Query** `getUpcomingAgendas()` di `widgets/home/api/queries.ts`: agenda `PUBLISHED`, `start_datetime asc`, take 8, `React.cache`.
+* `src/app/(website)/page.tsx`: tambah `<HomeAgenda />` setelah `<HomeArticles />`.
 
 #### Homepage Section 05 — Featured Articles (2026-06-28)
 * **`HomeArticles`** (server component, `widgets/home/ui/HomeArticles.tsx`): bento grid — 1 featured besar (`lg:col-span-2`, image + gradient overlay gelap, kategori, judul, excerpt, tombol "Baca Selengkapnya") + 2 card sekunder bertumpuk kanan. Card sekunder dua varian: punya `featured_image_url` → image overlay + zoom hover; tanpa gambar → card hijau solid (`bg-primary`). Header dua kolom (eyebrow "Artikel" + heading "Artikel Pilihan" + subheading kiri, CTA "Jelajahi Artikel →" `/artikel` kanan). Metadata `Kategori • Tanggal` (`Intl.DateTimeFormat id-ID`), excerpt `line-clamp-2`, semua card → `/artikel/[slug]`. Dibungkus `FadeIn`.

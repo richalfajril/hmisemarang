@@ -1,13 +1,10 @@
+import { AnimatedSection } from "@/shared/ui/AnimatedSection";
 import { FadeIn } from "@/shared/ui/FadeIn";
-import { Section } from "@/shared/ui/Section";
 import { SectionHeaderCenter } from "@/shared/ui/SectionHeader";
+import { getWebsiteSettings } from "@/features/website-settings/api/queries";
 import { ArrowRight, BookOpen, MapPin, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-type Props = {
-  aboutImageUrl?: string | null;
-};
 
 const FEATURES = [
   { icon: BookOpen, title: "Kaderisasi terarah" },
@@ -15,20 +12,23 @@ const FEATURES = [
   { icon: MapPin, title: "Untuk Semarang" },
 ];
 
-export function HomeAbout({ aboutImageUrl }: Props) {
+export async function HomeAbout() {
+  const settings = await getWebsiteSettings();
+  const aboutImageUrl = settings?.about_image_url;
   return (
-    <Section className="bg-emerald-50/60">
-      <div className="mx-auto max-w-7xl px-4">
+    <AnimatedSection className="bg-emerald-50/60">
+      <FadeIn>
         <SectionHeaderCenter
           eyebrow="Tentang Kami"
           heading="Tentang HMI Cabang Semarang"
           subheading="Kepengurusan cabang HMI yang menaungi komisariat di berbagai perguruan tinggi Kota Semarang."
         />
+      </FadeIn>
 
-        {/* Split Cards */}
-        <div className="mt-12 grid gap-8 lg:grid-cols-2">
-          {/* Left Card */}
-          <FadeIn delay={150} className="rounded-3xl border bg-white p-8 shadow-sm sm:p-10">
+      {/* Split Cards */}
+      <div className="mt-12 grid gap-8 lg:grid-cols-2">
+        {/* Left Card */}
+        <FadeIn delay={150} className="rounded-3xl border bg-white p-8 shadow-sm sm:p-10">
             <h3 className="text-2xl font-bold text-foreground">
               HMI Cabang Semarang
             </h3>
@@ -138,7 +138,6 @@ export function HomeAbout({ aboutImageUrl }: Props) {
             )}
           </FadeIn>
         </div>
-      </div>
-    </Section>
+    </AnimatedSection>
   );
 }

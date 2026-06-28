@@ -166,6 +166,7 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 * **Dialogs/Drawers:** Jangan pakai dialog untuk *form* raksasa melebihi 1 layar. Gunakan halaman terpisah. Drawers digunakan untuk *mobile UX*.
 * **Forms:** Label berposisi atas (*top-aligned*). Bintang merah untuk tanda wajib isi.
 * **Empty States & Loading States:** Sajikan fallback kosong saat *loading* rute/widget, spinner untuk aksi eksplisit, dan kotak pesan grafis bersahabat saat entitas berstatus kosong.
+* **Public Website Data States (WAJIB):** Seluruh reusable component bersifat **presentasional** dan hanya menerima *Presentation Ready Data* (dilarang fetching/filtering/sorting/pagination/fallback/business logic — semuanya di Server Component / Feature Layer / Server Action / Shared API sesuai FSD). Komponen ber-**Dynamic Data** (CMS/DB/API/Server Action) wajib punya **Loading (Skeleton)**, **Success (CMS → Fallback bila perlu)**, dan **Error (Graceful Fallback UI, tanpa Layout Shift & tanpa pesan teknis)**. Komponen **Static** (hardcoded/config/asset/copywriting) dirender langsung tanpa Skeleton/Error. Acuan lengkap: `DESIGN.md` §16 *Public Website Data States*.
 
 ---
 

@@ -1,14 +1,11 @@
 import { getPublicCommissariats } from "../api/queries";
+import { getWebsiteSettings } from "@/features/website-settings/api/queries";
 import { CommissariatCarousel } from "./CommissariatCarousel";
 import { HeroSearchBar } from "./HeroSearchBar";
 import { HeroBackground } from "./HeroBackground";
 import { CountUp } from "./CountUp";
 import { SPLASH_DURATION_MS } from "./OpeningSplash";
 import { FadeIn } from "@/shared/ui/FadeIn";
-
-type Props = {
-  heroImageUrl?: string | null;
-};
 
 const METRICS = [
   { value: "36+", label: "Komisariat" },
@@ -33,7 +30,9 @@ const FALLBACK = [
   { id: "f8", slug: "polines", name: "Komisariat Polines", logo_url: null },
 ];
 
-export async function HomeHero({ heroImageUrl }: Props) {
+export async function HomeHero() {
+  const settings = await getWebsiteSettings();
+  const heroImageUrl = settings?.hero_image_url;
   const data = await getPublicCommissariats();
   const cmsItems = data.map((c) => ({
     id: c.id,

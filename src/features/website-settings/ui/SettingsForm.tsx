@@ -50,7 +50,6 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
               id="site_name"
               name="site_name"
               defaultValue={initialData?.site_name || ''}
-              required
               disabled={isPending}
               placeholder="HMI Cabang Semarang"
               className={state?.fieldErrors?.site_name ? 'border-destructive' : ''}

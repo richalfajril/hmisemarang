@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { FadeIn } from "@/shared/ui/FadeIn";
 
 const EYEBROW =
   "inline-flex items-center rounded-full bg-emerald-100 px-4 py-1.5 text-sm font-semibold text-primary";
@@ -24,13 +23,13 @@ export function SectionHeaderCenter({
   className,
 }: BaseProps) {
   return (
-    <FadeIn className={cn("text-center", className)}>
+    <div className={cn("text-center", className)}>
       <span className={EYEBROW}>{eyebrow}</span>
       <h2 className={cn("mt-5", HEADING)}>{heading}</h2>
       {subheading && (
         <p className={cn("mx-auto mt-4 max-w-2xl", SUBHEADING)}>{subheading}</p>
       )}
-    </FadeIn>
+    </div>
   );
 }
 
@@ -47,7 +46,7 @@ export function SectionHeaderLeft({
   className,
 }: LeftProps) {
   return (
-    <FadeIn
+    <div
       className={cn(
         "flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between",
         className
@@ -68,6 +67,6 @@ export function SectionHeaderLeft({
           {cta.label} <ArrowRight className="h-4 w-4" />
         </Link>
       )}
-    </FadeIn>
+    </div>
   );
 }

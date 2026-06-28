@@ -65,6 +65,11 @@ Dashboard dibagi berdasarkan role:
 │   ├── [id]
 │   └── [id]/edit
 │
+├── testimonials          # Kata Mereka (SYSTEM_ADMIN, ADMIN_CABANG)
+│   ├── /
+│   ├── new
+│   └── [id]/edit
+│
 ├── organization
 │   ├── periods
 │   ├── positions
