@@ -292,6 +292,21 @@ docs/PRD.md
 
 # Rich Text Editor
 
+## @google/model-viewer
+
+Purpose:
+
+* Render aset 3D `.glb` (logo HMI Cabang Semarang) di web melalui web component `<model-viewer>`.
+
+Penggunaan:
+
+* Homepage — card kanan section "Tentang HMI Cabang Semarang" (`widgets/home/ui/Logo3D.tsx`, client-only, lazy import di `useEffect`).
+* Aset di `public/models/logo-hmsmg3d.glb`. Auto-rotate + camera-controls, zoom dimatikan.
+
+Catatan: dependency disetujui (2026-06-29). Dipilih ketimbang `react-three-fiber`/`three` karena jauh lebih ringan (1 paket, lighting/kontrol bawaan).
+
+---
+
 ## Tiptap
 
 Purpose:

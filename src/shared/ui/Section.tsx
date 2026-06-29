@@ -13,7 +13,7 @@ export function Section({ className, pattern = true, children }: Props) {
       {pattern && (
         <svg
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 h-full w-full text-emerald-700 opacity-[0.07]"
+          className="pointer-events-none absolute inset-0 h-full w-full text-white opacity-[0.06]"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>

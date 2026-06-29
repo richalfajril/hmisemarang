@@ -98,8 +98,8 @@ export function TestimonialCarousel({
 
 function TestimonialCard({ t }: { t: Testimonial }) {
   return (
-    <figure className="flex w-80 shrink-0 flex-col rounded-3xl border bg-card p-6 shadow-sm sm:w-96 sm:p-8">
-      <Quote className="h-9 w-9 shrink-0 text-emerald-200" aria-hidden="true" />
+    <figure className="flex w-80 shrink-0 flex-col rounded-3xl border bg-card p-6 shadow-xl shadow-emerald-900/5 sm:w-96 sm:p-8">
+      <Quote className="h-9 w-9 shrink-0 text-primary" aria-hidden="true" />
       <blockquote className="mt-4 flex-1 text-sm italic leading-relaxed text-foreground/90 line-clamp-4 sm:text-base">
         &ldquo;{t.quote}&rdquo;
       </blockquote>

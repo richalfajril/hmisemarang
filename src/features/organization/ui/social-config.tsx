@@ -20,6 +20,14 @@ export type SocialPlatform =
 
 export type SocialLink = { platform: string; url: string }
 
+// Platform sosmed yang dipakai di form pengurus (fixed 4 input).
+export const FORM_SOCIAL_PLATFORMS: { value: SocialPlatform; label: string }[] = [
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'tiktok', label: 'TikTok' },
+  { value: 'twitter', label: 'Twitter / X' },
+  { value: 'linkedin', label: 'LinkedIn' },
+]
+
 export const SOCIAL_PLATFORMS: { value: SocialPlatform; label: string }[] = [
   { value: 'instagram', label: 'Instagram' },
   { value: 'twitter', label: 'Twitter / X' },

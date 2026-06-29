@@ -44,13 +44,13 @@ export function PengurusCard({
   const [flipped, setFlipped] = useState(false)
 
   return (
-    <div className="group [perspective:1000px] w-full h-full">
+    <div className="group h-full w-full transition-transform duration-300 ease-out [perspective:1000px] hover:-translate-y-2 hover:scale-[1.015]">
       <div
         onClick={() => setFlipped((f) => !f)}
         className={`relative w-full h-full cursor-pointer rounded-xl transition-transform duration-500 [transform-style:preserve-3d] ${flipped ? '[transform:rotateY(180deg)]' : ''}`}
       >
         {/* FRONT — alur normal, menentukan tinggi kartu */}
-        <div className="relative flex flex-col h-full rounded-[10px] border bg-card p-3.5 shadow-sm transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg [backface-visibility:hidden]">
+        <div className="relative flex flex-col h-full rounded-[10px] border bg-card p-3.5 shadow-[0_12px_28px_-10px_rgba(6,78,59,0.20)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_30px_50px_-14px_rgba(6,78,59,0.32)] [backface-visibility:hidden]">
           <div className="relative aspect-square w-full shrink-0 overflow-hidden rounded-md bg-muted ring-1 ring-inset ring-black/5 dark:ring-white/10">
             {member.photo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -126,7 +126,7 @@ export function PengurusCard({
         </div>
 
         {/* BACK — overlay menutupi tinggi front */}
-        <div className="absolute inset-0 flex flex-col justify-center gap-3 overflow-hidden rounded-[10px] border bg-card p-3.5 text-center shadow-sm transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        <div className="absolute inset-0 flex flex-col justify-center gap-3 overflow-hidden rounded-[10px] border bg-card p-3.5 text-center shadow-[0_12px_28px_-10px_rgba(6,78,59,0.20)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_30px_50px_-14px_rgba(6,78,59,0.32)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <p className="font-bold text-primary">{member.full_name}</p>
           {member.short_bio ? (
             <p className="text-xs text-muted-foreground italic line-clamp-4">&ldquo;{member.short_bio}&rdquo;</p>

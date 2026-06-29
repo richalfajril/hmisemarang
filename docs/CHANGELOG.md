@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Added
+
+#### Logo 3D (.glb) di Section "Tentang HMI Cabang Semarang" (2026-06-29)
+* Dependency baru **`@google/model-viewer`** (disetujui; dicatat di `TECH_STACK.md`) — web component `<model-viewer>` untuk render aset 3D, jauh lebih ringan dari react-three-fiber.
+* **`Logo3D`** (client, `widgets/home/ui/Logo3D.tsx`): render `public/models/logo-hmsmg3d.glb` (auto-rotate, camera-controls, zoom off). Lazy import `@google/model-viewer` di `useEffect` (client-only WebGL); element di-cast FC agar ter-tipe tanpa augmentasi JSX global.
+* **`HomeAbout`** card kanan: "Pratinjau Visual" mock diganti **logo 3D berputar** dalam kartu glass (`bg-white/5 border-white/15 backdrop-blur`, aspect-square). `HomeAbout` kini sync (tidak lagi fetch `about_image_url`).
+* Aset GLB di-rename `logo hmsmg3d 2.glb` → `logo-hmsmg3d.glb` (URL bersih tanpa spasi).
+
 ### Changed
 
 #### Standar Global: Public Website Data States (2026-06-28)

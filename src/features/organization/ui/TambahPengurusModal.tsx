@@ -9,21 +9,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/shared/ui/Dialog'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/Select'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
 import { Combobox } from '@/shared/ui/Combobox'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
-import { Loader2, Plus, Trash2 } from 'lucide-react'
-import { SOCIAL_PLATFORMS, type SocialLink } from './social-config'
+import { Loader2 } from 'lucide-react'
+import { FORM_SOCIAL_PLATFORMS, getSocialIcon, type SocialLink } from './social-config'
 
 type Option = { value: string; label: string }
 
@@ -62,8 +55,13 @@ export function TambahPengurusModal({
   const [universityId, setUniversityId] = useState(initial?.university_id || '')
   const [commissariatId, setCommissariatId] = useState(initial?.commissariat_id || '')
   const [bio, setBio] = useState(initial?.short_bio || '')
-  const [socials, setSocials] = useState<SocialLink[]>(
-    initial?.social_links?.length ? initial.social_links : [{ platform: 'instagram', url: '' }]
+  const [socials, setSocials] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      FORM_SOCIAL_PLATFORMS.map((p) => [
+        p.value,
+        initial?.social_links?.find((s) => s.platform === p.value)?.url ?? '',
+      ])
+    )
   )
 
   useEffect(() => {
@@ -72,12 +70,12 @@ export function TambahPengurusModal({
     }
   }, [state, onOpenChange])
 
-  const updateSocial = (i: number, patch: Partial<SocialLink>) =>
-    setSocials((prev) => prev.map((s, idx) => (idx === i ? { ...s, ...patch } : s)))
-  const addSocial = () => setSocials((prev) => [...prev, { platform: 'instagram', url: '' }])
-  const removeSocial = (i: number) => setSocials((prev) => prev.filter((_, idx) => idx !== i))
-
-  const socialJson = JSON.stringify(socials.filter((s) => s.url.trim().length > 0))
+  const socialJson = JSON.stringify(
+    FORM_SOCIAL_PLATFORMS.filter((p) => socials[p.value]?.trim().length > 0).map((p) => ({
+      platform: p.value,
+      url: socials[p.value].trim(),
+    }))
+  )
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -171,44 +169,28 @@ export function TambahPengurusModal({
           </div>
 
           <div className="space-y-2">
-            <Label>Media Sosial</Label>
+            <Label>Media Sosial (opsional)</Label>
             <div className="space-y-2">
-              {socials.map((s, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <Select value={s.platform} onValueChange={(v) => updateSocial(i, { platform: v })} disabled={isPending}>
-                    <SelectTrigger className="w-[140px] shrink-0">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {SOCIAL_PLATFORMS.map((p) => (
-                        <SelectItem key={p.value} value={p.value}>{p.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <Input
-                    value={s.url}
-                    onChange={(e) => updateSocial(i, { url: e.target.value })}
-                    placeholder="https://..."
-                    disabled={isPending}
-                    className="flex-1"
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => removeSocial(i)}
-                    disabled={isPending || socials.length === 1}
-                    className="text-destructive hover:bg-destructive/10 shrink-0"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
+              {FORM_SOCIAL_PLATFORMS.map((p) => {
+                const Icon = getSocialIcon(p.value)
+                return (
+                  <div key={p.value} className="flex items-center gap-2">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <Input
+                      value={socials[p.value]}
+                      onChange={(e) =>
+                        setSocials((prev) => ({ ...prev, [p.value]: e.target.value }))
+                      }
+                      placeholder={`URL ${p.label}`}
+                      disabled={isPending}
+                      className="flex-1"
+                    />
+                  </div>
+                )
+              })}
             </div>
-            <Button type="button" variant="outline" size="sm" onClick={addSocial} disabled={isPending} className="w-full">
-              <Plus className="mr-2 h-4 w-4" />
-              Tambah Sosmed
-            </Button>
           </div>
 
           <div className="space-y-2">

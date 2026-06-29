@@ -2,8 +2,6 @@ import { getOptimizedUrl } from "@/shared/lib/cloudinary-upload";
 import { FadeIn } from "@/shared/ui/FadeIn";
 import { Section } from "@/shared/ui/Section";
 import { SectionHeaderCenter } from "@/shared/ui/SectionHeader";
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import { getGalleryAlbums } from "../api/queries";
 import { CircularGallery, type GalleryAlbum } from "./CircularGallery";
 
@@ -84,7 +82,7 @@ export async function HomeGallery() {
         );
 
   return (
-    <Section className="bg-white">
+    <Section className="bg-white" pattern={false}>
       <div className="mx-auto max-w-7xl px-4">
         <FadeIn>
           <SectionHeaderCenter
@@ -97,16 +95,6 @@ export async function HomeGallery() {
         {/* Circular Gallery 3D */}
         <FadeIn delay={150} className="mt-8 h-[460px] sm:h-[520px]">
           <CircularGallery albums={albums} href="/galeri" />
-        </FadeIn>
-
-        {/* CTA */}
-        <FadeIn delay={300} className="mt-10 text-center">
-          <Link
-            href="/galeri"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Jelajahi Galeri <ArrowRight className="h-4 w-4" />
-          </Link>
         </FadeIn>
       </div>
     </Section>

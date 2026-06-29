@@ -52,7 +52,7 @@ export async function HomeTestimonials() {
       : FALLBACK;
 
   return (
-    <Section className="bg-emerald-50/60">
+    <Section className="bg-white pb-28" pattern={false}>
       <div className="mx-auto max-w-7xl px-4">
         <FadeIn>
           <SectionHeaderCenter

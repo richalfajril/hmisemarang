@@ -1,9 +1,8 @@
 import { AnimatedSection } from "@/shared/ui/AnimatedSection";
 import { FadeIn } from "@/shared/ui/FadeIn";
 import { SectionHeaderCenter } from "@/shared/ui/SectionHeader";
-import { getWebsiteSettings } from "@/features/website-settings/api/queries";
+import { Logo3D } from "./Logo3D";
 import { ArrowRight, BookOpen, MapPin, Users } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const FEATURES = [
@@ -12,13 +11,12 @@ const FEATURES = [
   { icon: MapPin, title: "Untuk Semarang" },
 ];
 
-export async function HomeAbout() {
-  const settings = await getWebsiteSettings();
-  const aboutImageUrl = settings?.about_image_url;
+export function HomeAbout() {
   return (
-    <AnimatedSection className="bg-emerald-50/60">
+    <AnimatedSection className="bg-gradient-to-br from-emerald-800 to-emerald-950">
       <FadeIn>
         <SectionHeaderCenter
+          inverted
           eyebrow="Tentang Kami"
           heading="Tentang HMI Cabang Semarang"
           subheading="Kepengurusan cabang HMI yang menaungi komisariat di berbagai perguruan tinggi Kota Semarang."
@@ -48,11 +46,14 @@ export async function HomeAbout() {
             {/* Feature mini-cards */}
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
               {FEATURES.map((f) => (
-                <div key={f.title} className="rounded-2xl bg-muted/40 p-5">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-primary">
+                <div
+                  key={f.title}
+                  className="flex items-center gap-4 rounded-2xl bg-muted/40 p-5 sm:block sm:py-7"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-primary">
                     <f.icon className="h-5 w-5" />
                   </div>
-                  <p className="mt-4 text-sm font-bold text-foreground">
+                  <p className="text-sm font-bold text-foreground sm:mt-4">
                     {f.title}
                   </p>
                 </div>
@@ -72,70 +73,14 @@ export async function HomeAbout() {
             </p>
           </FadeIn>
 
-          {/* Right Card — Featured Image / Visual Preview */}
-          <FadeIn delay={300} className="rounded-3xl bg-emerald-50 p-6 sm:p-8">
-            {aboutImageUrl ? (
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-white">
-                <Image
-                  src={aboutImageUrl}
-                  alt="Tentang HMI Cabang Semarang"
-                  fill
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 50vw, 100vw"
-                />
-              </div>
-            ) : (
-              <div className="rounded-2xl bg-white p-6 shadow-sm">
-                {/* Header row */}
-                <div className="flex items-center justify-between">
-                  <span className="rounded-full border border-emerald-200 px-4 py-1.5 text-sm font-semibold text-primary">
-                    Pratinjau Visual
-                  </span>
-                  <span className="h-3 w-3 rounded-full bg-primary" />
-                </div>
-
-                {/* Skeleton block */}
-                <div className="mt-6 rounded-2xl bg-muted/40 p-5">
-                  <div className="flex gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-primary">
-                      <BookOpen className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1 space-y-2 pt-1.5">
-                      <div className="h-3 w-full rounded-full bg-muted" />
-                      <div className="h-3 w-2/3 rounded-full bg-muted" />
-                    </div>
-                  </div>
-                  <div className="mt-5 grid grid-cols-2 gap-4">
-                    {[0, 1].map((i) => (
-                      <div
-                        key={i}
-                        className="space-y-2 rounded-xl bg-white p-4"
-                      >
-                        <div className="h-2.5 w-1/2 rounded-full bg-emerald-200" />
-                        <div className="h-2.5 w-full rounded-full bg-muted" />
-                        <div className="h-2.5 w-2/3 rounded-full bg-muted" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Stats */}
-                <div className="mt-6 grid grid-cols-2 gap-4">
-                  <div className="rounded-2xl bg-emerald-50 p-5">
-                    <p className="text-2xl font-bold text-foreground">36+</p>
-                    <p className="mt-0.5 text-sm text-muted-foreground">
-                      Komisariat
-                    </p>
-                  </div>
-                  <div className="rounded-2xl bg-emerald-50 p-5">
-                    <p className="text-2xl font-bold text-foreground">5000+</p>
-                    <p className="mt-0.5 text-sm text-muted-foreground">
-                      Kader
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
+          {/* Right Card — Logo 3D */}
+          <FadeIn
+            delay={300}
+            className="order-first rounded-3xl bg-white p-2 shadow-xl sm:p-3 lg:order-none"
+          >
+            <div className="aspect-square w-full">
+              <Logo3D />
+            </div>
           </FadeIn>
         </div>
     </AnimatedSection>

@@ -39,7 +39,7 @@ function HeaderSkeleton({ center }: { center?: boolean }) {
 
 export function AboutSkeleton() {
   return (
-    <section className="overflow-hidden bg-emerald-50/60 py-14">
+    <section className="overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 py-14">
       <div className="mx-auto max-w-7xl px-4">
         <HeaderSkeleton center />
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
@@ -70,7 +70,7 @@ export function ArticlesSkeleton() {
 
 export function AgendaSkeleton() {
   return (
-    <section className="overflow-hidden bg-emerald-50/60 py-14">
+    <section className="overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 py-14">
       <div className="mx-auto max-w-7xl px-4">
         <HeaderSkeleton />
       </div>
@@ -85,7 +85,7 @@ export function AgendaSkeleton() {
 
 export function TestimonialsSkeleton() {
   return (
-    <section className="overflow-hidden bg-emerald-50/60 py-14">
+    <section className="overflow-hidden bg-white py-14 pb-28">
       <div className="mx-auto max-w-7xl px-4">
         <HeaderSkeleton center />
       </div>

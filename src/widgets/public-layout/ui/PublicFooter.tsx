@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram } from "react-icons/fa6";
 import {
-  DEFAULT_LOGO_URL,
+  DEFAULT_DARK_LOGO_URL,
   DEFAULT_SITE_NAME,
   PUBLIC_NAV_LINKS,
 } from "../config/site";
@@ -19,19 +19,19 @@ type Props = {
 
 export function PublicFooter({
   siteName,
-  logoUrl,
   contactEmail,
   address,
   instagramUrl,
   footerText,
 }: Props) {
   const name = siteName || DEFAULT_SITE_NAME;
-  const logo = logoUrl || DEFAULT_LOGO_URL;
+  // Footer berlatar emerald gelap → pakai logo dark (varian terang untuk bg gelap).
+  const logo = DEFAULT_DARK_LOGO_URL;
   const year = new Date().getFullYear();
   const quickLinks = PUBLIC_NAV_LINKS.filter((l) => l.href !== "/");
 
   return (
-    <footer className="mt-auto bg-primary text-primary-foreground">
+    <footer className="mt-auto bg-gradient-to-br from-emerald-800 to-emerald-950 text-primary-foreground">
       <div className="container mx-auto grid grid-cols-1 gap-10 px-4 py-12 md:grid-cols-3">
         {/* Brand */}
         <div className="space-y-4">

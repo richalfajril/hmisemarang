@@ -152,7 +152,7 @@ export async function HomeArticles() {
   if (carousel.length === 0) return null;
 
   return (
-    <AnimatedSection className="bg-white">
+    <AnimatedSection className="bg-white" pattern={false}>
       <FadeIn>
         <SectionHeaderLeft
           eyebrow="Artikel"

@@ -51,10 +51,11 @@ export async function HomeAgenda() {
   if (agendas.length === 0) return null;
 
   return (
-    <Section className="bg-emerald-50/60">
+    <Section className="bg-gradient-to-br from-emerald-800 to-emerald-950">
       <div className="mx-auto max-w-7xl px-4">
         <FadeIn>
           <SectionHeaderLeft
+            inverted
             eyebrow="Agenda"
             heading="Agenda Mendatang"
             subheading="Ikuti berbagai kegiatan, diskusi, pelatihan, dan agenda HMI Cabang Semarang yang dapat diikuti oleh kader maupun masyarakat."
