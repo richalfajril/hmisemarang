@@ -126,10 +126,10 @@ export function PengurusCard({
         </div>
 
         {/* BACK — overlay menutupi tinggi front */}
-        <div className="absolute inset-0 flex flex-col justify-center gap-3 overflow-hidden rounded-[10px] border bg-card p-3.5 text-center shadow-[0_12px_28px_-10px_rgba(6,78,59,0.20)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_30px_50px_-14px_rgba(6,78,59,0.32)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        <div className="absolute inset-0 flex flex-col justify-center gap-3 overflow-y-auto rounded-[10px] border bg-card p-3.5 text-center shadow-[0_12px_28px_-10px_rgba(6,78,59,0.20)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_30px_50px_-14px_rgba(6,78,59,0.32)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <p className="font-bold text-primary">{member.full_name}</p>
           {member.short_bio ? (
-            <p className="text-xs text-muted-foreground italic line-clamp-4">&ldquo;{member.short_bio}&rdquo;</p>
+            <p className="text-xs text-muted-foreground italic">&ldquo;{member.short_bio}&rdquo;</p>
           ) : (
             <p className="text-xs text-muted-foreground/60 italic">Belum ada bio.</p>
           )}
