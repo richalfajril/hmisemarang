@@ -37,6 +37,7 @@ export async function saveArticleDraftAction(
       author_name: formData.get('author_name') as string,
       author_commissariat: formData.get('author_commissariat') as string,
       tag_ids: formData.getAll('tag_ids') as string[],
+      tag_labels: (formData.get('tag_labels') as string | null) ?? '',
     }
 
     const validatedFields = articleSchema.safeParse(rawData)
@@ -65,6 +66,22 @@ export async function saveArticleDraftAction(
       return { success: false, message: 'Slug/Judul sudah digunakan oleh artikel lain.', payload: rawData }
     }
 
+    // Tag labels (kata kunci SEO) → upsert Tag by slug, dedupe case-insensitive.
+    const seen = new Set<string>()
+    const tagIds: string[] = []
+    for (const raw of (formData.get('tag_labels') as string | null ?? '').split(',')) {
+      const name = raw.trim()
+      const slug = generateSlug(name)
+      if (!slug || seen.has(slug)) continue
+      seen.add(slug)
+      const tag = await prisma.tag.upsert({
+        where: { slug },
+        update: {},
+        create: { name, slug },
+      })
+      tagIds.push(tag.id)
+    }
+
     if (isEdit) {
       // Check permissions: only CABANG or owner KOMISARIAT can edit
       const existingArticle = await prisma.article.findUnique({
@@ -89,10 +106,10 @@ export async function saveArticleDraftAction(
           author_name: data.author_name,
           author_commissariat: data.author_commissariat,
           updated_by: session.user.id,
-          // Handle tags update if needed (disconnect all, connect new)
+          // Reset & connect tag kata kunci hasil upsert.
           tags: {
             set: [],
-            connect: data.tag_ids.map(id => ({ id }))
+            connect: tagIds.map(id => ({ id }))
           }
         },
       })
@@ -120,7 +137,7 @@ export async function saveArticleDraftAction(
           created_by: session.user.id,
           updated_by: session.user.id,
           tags: {
-            connect: data.tag_ids.map(id => ({ id }))
+            connect: tagIds.map(id => ({ id }))
           }
         },
       })

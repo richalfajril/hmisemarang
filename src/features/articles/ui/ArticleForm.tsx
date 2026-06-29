@@ -11,13 +11,13 @@ import { Textarea } from '@/shared/ui/Textarea'
 import { Combobox } from '@/shared/ui/Combobox'
 import { TiptapEditor } from '@/shared/ui/editor/TiptapEditor'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
-import { Article, ArticleCategory } from '@prisma/client'
+import { Article, ArticleCategory, Tag } from '@prisma/client'
 import { Loader2, Save, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { PageHeader } from '@/shared/ui/PageHeader'
 
 interface ArticleFormProps {
-  initialData?: Article
+  initialData?: Article & { tags?: Tag[] }
   categories: ArticleCategory[]
   userRole?: string
   userCommissariatId?: string
@@ -214,18 +214,20 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="slug">Slug (Opsional)</Label>
+                <Label htmlFor="tag_labels">Tag Label (Kata Kunci SEO)</Label>
                 <Input
-                  id="slug"
-                  name="slug"
-                  defaultValue={state?.payload?.slug || initialData?.slug || ''}
+                  id="tag_labels"
+                  name="tag_labels"
+                  defaultValue={
+                    state?.payload?.tag_labels ??
+                    initialData?.tags?.map((t) => t.name).join(', ') ??
+                    ''
+                  }
                   disabled={isPending}
-                  placeholder="Kosongkan untuk generate otomatis"
-                  className={state?.fieldErrors?.slug ? 'border-destructive' : 'bg-background'}
+                  placeholder="isi sebanyak-banyaknya kata kunci yang mewakili"
+                  className="bg-background"
                 />
-                {state?.fieldErrors?.slug && (
-                  <p className="text-xs text-destructive">{state.fieldErrors.slug[0]}</p>
-                )}
+                <p className="text-xs text-muted-foreground">Pisahkan tiap kata kunci dengan koma.</p>
               </div>
 
               <div className="space-y-2">
