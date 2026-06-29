@@ -15,6 +15,7 @@ import { Article, ArticleCategory, Tag } from '@prisma/client'
 import { Loader2, Save, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { PageHeader } from '@/shared/ui/PageHeader'
+import { TagInput } from '@/shared/ui/TagInput'
 
 interface ArticleFormProps {
   initialData?: Article & { tags?: Tag[] }
@@ -215,19 +216,13 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
 
               <div className="space-y-2">
                 <Label htmlFor="tag_labels">Tag Label (Kata Kunci SEO)</Label>
-                <Input
-                  id="tag_labels"
+                <TagInput
                   name="tag_labels"
-                  defaultValue={
-                    state?.payload?.tag_labels ??
-                    initialData?.tags?.map((t) => t.name).join(', ') ??
-                    ''
-                  }
+                  defaultValue={initialData?.tags?.map((t) => t.name) ?? []}
                   disabled={isPending}
                   placeholder="isi sebanyak-banyaknya kata kunci yang mewakili"
-                  className="bg-background"
                 />
-                <p className="text-xs text-muted-foreground">Pisahkan tiap kata kunci dengan koma.</p>
+                <p className="text-xs text-muted-foreground">Ketik kata kunci lalu tekan Enter atau koma.</p>
               </div>
 
               <div className="space-y-2">
