@@ -27,7 +27,7 @@ const boardMemberSchema = z.object({
   photo_url: z.string().url('Foto wajib diunggah'),
   university_id: z.string().uuid('Kampus wajib dipilih'),
   commissariat_id: z.string().uuid('Komisariat wajib dipilih'),
-  short_bio: z.string().max(200, 'Bio maksimal 200 karakter').optional().or(z.literal('')),
+  short_bio: z.string().max(250, 'Bio maksimal 250 karakter').optional().or(z.literal('')),
 })
 
 function parseSocialLinks(raw: string | null): { platform: string; url: string }[] {

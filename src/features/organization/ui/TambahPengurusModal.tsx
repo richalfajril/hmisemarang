@@ -199,14 +199,14 @@ export function TambahPengurusModal({
               id="short_bio"
               name="short_bio"
               value={bio}
-              onChange={(e) => setBio(e.target.value.slice(0, 200))}
-              maxLength={200}
+              onChange={(e) => setBio(e.target.value.slice(0, 250))}
+              maxLength={250}
               rows={3}
               disabled={isPending}
               placeholder="Deskripsi singkat..."
               className="resize-none"
             />
-            <p className="text-right text-xs text-muted-foreground">{bio.length}/200</p>
+            <p className="text-right text-xs text-muted-foreground">{bio.length}/250</p>
           </div>
 
           <div className="pt-2 flex justify-end space-x-2">
