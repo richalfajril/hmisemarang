@@ -18,6 +18,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
   const [heroImageUrl, setHeroImageUrl] = useState(initialData?.hero_image_url ?? '')
   const [darkLogoUrl, setDarkLogoUrl] = useState(initialData?.dark_logo_url ?? '')
   const [aboutImageUrl, setAboutImageUrl] = useState(initialData?.about_image_url ?? '')
+  const [contactImageUrl, setContactImageUrl] = useState(initialData?.contact_image_url ?? '')
 
   return (
     <form action={formAction} className="space-y-6">
@@ -79,20 +80,39 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
         </TabsContent>
 
         <TabsContent value="contact" forceMount className="space-y-4 data-[state=inactive]:hidden">
-          <div className="space-y-2">
-            <Label htmlFor="contact_email">Alamat Email Resmi</Label>
-            <Input
-              id="contact_email"
-              name="contact_email"
-              type="email"
-              defaultValue={initialData?.contact_email || ''}
-              disabled={isPending}
-              placeholder="sekretariat@hmisemarang.com"
-              className={state?.fieldErrors?.contact_email ? 'border-destructive' : ''}
-            />
-            {state?.fieldErrors?.contact_email && (
-              <p className="text-xs text-destructive">{state.fieldErrors.contact_email[0]}</p>
-            )}
+          <input type="hidden" name="contact_image_url" value={contactImageUrl} />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="contact_email">Alamat Email Resmi</Label>
+              <Input
+                id="contact_email"
+                name="contact_email"
+                type="email"
+                defaultValue={initialData?.contact_email || ''}
+                disabled={isPending}
+                placeholder="sekretariat@hmisemarang.com"
+                className={state?.fieldErrors?.contact_email ? 'border-destructive' : ''}
+              />
+              {state?.fieldErrors?.contact_email && (
+                <p className="text-xs text-destructive">{state.fieldErrors.contact_email[0]}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="contact_phone">Nomor Telepon / WhatsApp</Label>
+              <Input
+                id="contact_phone"
+                name="contact_phone"
+                defaultValue={initialData?.contact_phone || ''}
+                disabled={isPending}
+                placeholder="0852 1007 6423"
+                className={state?.fieldErrors?.contact_phone ? 'border-destructive' : ''}
+              />
+              {state?.fieldErrors?.contact_phone && (
+                <p className="text-xs text-destructive">{state.fieldErrors.contact_phone[0]}</p>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
@@ -108,6 +128,44 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
             />
             {state?.fieldErrors?.address && (
               <p className="text-xs text-destructive">{state.fieldErrors.address[0]}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="maps_embed_url">Tautan Embed Google Maps</Label>
+            <Input
+              id="maps_embed_url"
+              name="maps_embed_url"
+              type="url"
+              defaultValue={initialData?.maps_embed_url || ''}
+              disabled={isPending}
+              placeholder="https://www.google.com/maps/embed?pb=..."
+              className={state?.fieldErrors?.maps_embed_url ? 'border-destructive' : ''}
+            />
+            {state?.fieldErrors?.maps_embed_url && (
+              <p className="text-xs text-destructive">{state.fieldErrors.maps_embed_url[0]}</p>
+            )}
+            <p className="text-[0.8rem] text-muted-foreground">
+              Google Maps → Bagikan → <strong>Sematkan peta</strong> → salin URL di dalam <code>src=&quot;...&quot;</code>. Kosongkan untuk pakai peta otomatis dari alamat.
+            </p>
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <Label>Foto Sekretariat</Label>
+              <p className="text-[0.8rem] text-muted-foreground mt-1">
+                Tampil di kartu kanan halaman Kontak. Jika kosong, ditampilkan placeholder hijau. Rasio rekomendasi: 4:3.
+              </p>
+            </div>
+            <ImageUploader
+              value={contactImageUrl || null}
+              onChange={(url) => setContactImageUrl(url)}
+              folder="contact-images"
+              maxDimension={1280}
+              disabled={isPending}
+            />
+            {state?.fieldErrors?.contact_image_url && (
+              <p className="text-xs text-destructive">{state.fieldErrors.contact_image_url[0]}</p>
             )}
           </div>
         </TabsContent>

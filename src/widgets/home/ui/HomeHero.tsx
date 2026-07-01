@@ -5,7 +5,6 @@ import { HeroSearchBar } from "./HeroSearchBar";
 import { HeroBackground } from "./HeroBackground";
 import { CountUp } from "./CountUp";
 import { SPLASH_DURATION_MS } from "./OpeningSplash";
-import { FadeIn } from "@/shared/ui/FadeIn";
 
 const METRICS = [
   { value: "36+", label: "Komisariat" },
@@ -106,38 +105,28 @@ export async function HomeHero() {
       {/* Layer 3: Content */}
       <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center px-4 pt-24 pb-24 text-center">
         {/* Eyebrow */}
-        <FadeIn delay={SPLASH_DURATION_MS}>
-          <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-medium text-white backdrop-blur-sm sm:px-5 sm:py-1.5 sm:text-sm">
-            Official Website HMI Cabang Semarang
-          </span>
-        </FadeIn>
+        <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-medium text-white backdrop-blur-sm sm:px-5 sm:py-1.5 sm:text-sm">
+          Official Website HMI Cabang Semarang
+        </span>
 
         {/* Heading */}
-        <FadeIn delay={SPLASH_DURATION_MS + 100}>
-          <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-tight text-white">
-            Membangun Kader Umat & Bangsa dari Semarang
-          </h1>
-        </FadeIn>
+        <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-tight text-white">
+          Membangun Kader Umat & Bangsa dari Semarang
+        </h1>
 
         {/* Subheading */}
-        <FadeIn delay={SPLASH_DURATION_MS + 200}>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/75 sm:text-base md:text-lg">
-            HMI Cabang Semarang menjadi ruang kaderisasi, gagasan, dan
-            pengabdian bagi mahasiswa Islam untuk berkontribusi nyata bagi agama
-            dan negara.
-          </p>
-        </FadeIn>
+        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/75 sm:text-base md:text-lg">
+          HMI Cabang Semarang menjadi ruang kaderisasi, gagasan, dan pengabdian
+          bagi mahasiswa Islam untuk berkontribusi nyata bagi agama dan negara.
+        </p>
 
         {/* Search bar */}
-        <FadeIn delay={SPLASH_DURATION_MS + 300} className="mt-8 w-full max-w-xl">
+        <div className="mt-8 w-full max-w-xl">
           <HeroSearchBar />
-        </FadeIn>
+        </div>
 
-        {/* Metrics */}
-        <FadeIn
-          delay={SPLASH_DURATION_MS + 400}
-          className="mt-10 grid grid-cols-2 gap-x-0 gap-y-4 sm:flex sm:gap-0 sm:divide-x sm:divide-white/20"
-        >
+        {/* Metrics — counting tetap animasi */}
+        <div className="mt-10 grid grid-cols-2 gap-x-0 gap-y-4 sm:flex sm:gap-0 sm:divide-x sm:divide-white/20">
           {METRICS.map((m) => (
             <div
               key={m.label}
@@ -153,7 +142,7 @@ export async function HomeHero() {
               </p>
             </div>
           ))}
-        </FadeIn>
+        </div>
       </div>
 
       {/* Komisariat infinite carousel */}

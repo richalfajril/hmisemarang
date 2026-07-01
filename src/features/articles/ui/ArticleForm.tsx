@@ -31,6 +31,7 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
   const [featuredImage, setFeaturedImage] = useState(initialData?.featured_image_url || '')
   const [categoryId, setCategoryId] = useState(initialData?.category_id || '')
   const [authorCommissariat, setAuthorCommissariat] = useState(initialData?.author_commissariat || '')
+  const [authorImage, setAuthorImage] = useState(initialData?.author_image_url || '')
   const router = useRouter()
 
   useEffect(() => {
@@ -169,6 +170,19 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
                 {state?.fieldErrors?.author_name && (
                   <p className="text-xs text-destructive">{state.fieldErrors.author_name[0]}</p>
                 )}
+              </div>
+
+              <div className="space-y-2">
+                <input type="hidden" name="author_image_url" value={authorImage} />
+                <Label>Foto Penulis (rasio 1:1, opsional)</Label>
+                <ImageUploader
+                  value={authorImage || null}
+                  onChange={setAuthorImage}
+                  folder="author-avatars"
+                  maxDimension={400}
+                  disabled={isPending}
+                  className="aspect-square max-w-[140px]"
+                />
               </div>
 
               <div className="space-y-2">

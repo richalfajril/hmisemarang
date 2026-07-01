@@ -8,6 +8,7 @@ export const articleSchema = z.object({
   featured_image_url: z.string().min(1, 'Gambar fitur wajib diunggah.'),
   category_id: z.string().uuid('Kategori tidak valid.'),
   author_name: z.string().max(100, 'Nama penulis maksimal 100 karakter.').optional().nullable(),
+  author_image_url: z.string().optional().nullable(),
   author_commissariat: z.string().max(100, 'Asal komisariat maksimal 100 karakter.').optional().nullable(),
   // Tags array (UUID strings)
   tag_ids: z.array(z.string().uuid()).optional().default([]),

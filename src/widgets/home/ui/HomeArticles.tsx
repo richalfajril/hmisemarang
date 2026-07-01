@@ -14,6 +14,9 @@ type Article = {
   excerpt: string | null;
   featured_image_url: string | null;
   published_at: Date | null;
+  author_name: string | null;
+  author_image_url: string | null;
+  reading_time: number;
   category: { name: string } | null;
 };
 
@@ -26,6 +29,9 @@ const FALLBACK: Article[] = [
       "Menelaah relevansi teks-teks ideologis HMI dalam menjawab tantangan disrupsi teknologi dan pergeseran paradigma sosial di kalangan generasi Z.",
     featured_image_url: null,
     published_at: new Date("2026-06-15"),
+    author_name: "Redaksi HMI",
+    author_image_url: null,
+    reading_time: 5,
     category: { name: "Kajian NDP" },
   },
   {
@@ -36,6 +42,9 @@ const FALLBACK: Article[] = [
       "Membangun narasi keislaman yang inklusif dan adaptif terhadap kemajuan zaman.",
     featured_image_url: null,
     published_at: new Date("2026-06-10"),
+    author_name: "Redaksi HMI",
+    author_image_url: null,
+    reading_time: 3,
     category: { name: "Kajian" },
   },
   {
@@ -46,6 +55,9 @@ const FALLBACK: Article[] = [
       "Merefleksikan arah pengkaderan HMI di tengah perubahan lanskap sosial dan teknologi.",
     featured_image_url: null,
     published_at: new Date("2026-06-05"),
+    author_name: "Redaksi HMI",
+    author_image_url: null,
+    reading_time: 4,
     category: { name: "Opini" },
   },
   {
@@ -56,6 +68,9 @@ const FALLBACK: Article[] = [
       "Menyoroti kontribusi gerakan mahasiswa dalam mengawal kebijakan publik yang berpihak pada rakyat.",
     featured_image_url: null,
     published_at: new Date("2026-05-28"),
+    author_name: "Redaksi HMI",
+    author_image_url: null,
+    reading_time: 4,
     category: { name: "Berita" },
   },
   {
@@ -66,6 +81,9 @@ const FALLBACK: Article[] = [
       "Meneguhkan kembali komitmen kaderisasi dan pengabdian di momentum milad HMI.",
     featured_image_url: null,
     published_at: new Date("2026-05-20"),
+    author_name: "Redaksi HMI",
+    author_image_url: null,
+    reading_time: 2,
     category: { name: "Opini" },
   },
 ];

@@ -11,9 +11,9 @@ type Props = {
 }
 
 /**
- * Reveals children with a fade-up transition whenever they enter the viewport,
- * fading back out when they leave (re-triggers on every scroll). Reusable
- * across homepage sections.
+ * Reveals children with a fade-up transition the first time they enter the
+ * viewport (scroll down), then stays visible — no re-animate on scroll up.
+ * Reusable across public pages.
  */
 export function FadeIn({ className, delay = 0, children }: Props) {
   const ref = useRef<HTMLDivElement>(null)
@@ -23,7 +23,14 @@ export function FadeIn({ className, delay = 0, children }: Props) {
     const el = ref.current
     if (!el) return
     const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
+      ([entry]) => {
+        // Reveal sekali: muncul saat masuk viewport (scroll turun), tetap
+        // tampil saat scroll naik — tidak re-animate.
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.disconnect()
+        }
+      },
       { threshold: 0.15 }
     )
     observer.observe(el)

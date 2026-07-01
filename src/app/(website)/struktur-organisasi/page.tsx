@@ -16,11 +16,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/shared/ui/Breadcrumb";
+import {
+  PeriodSelect,
+  PeriodArrow,
+} from "@/features/organization/ui/PeriodSwitcher";
 import { SectionHeaderCenter } from "@/shared/ui/SectionHeader";
+import { FadeIn } from "@/shared/ui/FadeIn";
 import Link from "next/link";
 
 export const metadata = { title: "Struktur Organisasi" };
-export const revalidate = 300;
 
 function toSocialLinks(value: unknown): SocialLink[] {
   if (!Array.isArray(value)) return [];
@@ -44,11 +48,21 @@ const GROUP_TITLES: Record<PositionGroup, string> = {
   LAINNYA: "Pengurus Lainnya",
 };
 
-async function getActiveOrganization() {
+async function getAllPeriods() {
   try {
-    return await prisma.period.findFirst({
-      where: { is_active: true },
+    return await prisma.period.findMany({
       orderBy: { start_year: "desc" },
+      select: { id: true, start_year: true, end_year: true, is_active: true },
+    });
+  } catch {
+    return [];
+  }
+}
+
+async function getOrganizationByPeriod(id: string) {
+  try {
+    return await prisma.period.findUnique({
+      where: { id },
       include: {
         positions: {
           orderBy: { sort_order: "asc" },
@@ -66,8 +80,28 @@ async function getActiveOrganization() {
   }
 }
 
-export default async function Page() {
-  const period = await getActiveOrganization();
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ period?: string }>;
+}) {
+  const { period: periodParam } = await searchParams;
+  const periods = await getAllPeriods();
+  const selectedId =
+    (periodParam && periods.some((p) => p.id === periodParam)
+      ? periodParam
+      : null) ??
+    periods.find((p) => p.is_active)?.id ??
+    periods[0]?.id ??
+    null;
+
+  const period = selectedId
+    ? await getOrganizationByPeriod(selectedId)
+    : null;
+
+  const idx = periods.findIndex((p) => p.id === selectedId);
+  const olderId = idx >= 0 && idx < periods.length - 1 ? periods[idx + 1].id : null;
+  const newerId = idx > 0 ? periods[idx - 1].id : null;
 
   const groups: Record<PositionGroup, PengurusCardData[]> = {
     KSB: [],
@@ -121,22 +155,30 @@ export default async function Page() {
         <rect width="100%" height="100%" fill="url(#struktur-geo)" />
       </svg>
       <div className="relative z-10 mx-auto max-w-7xl px-4 pb-14 pt-24 sm:pt-28">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href="/">Beranda</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage className="font-medium text-primary">Struktur Organisasi</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <div className="flex items-center justify-between gap-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/">Beranda</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage className="font-medium text-primary">Struktur Organisasi</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
 
-        <div className="mt-8">
+          {selectedId && periods.length > 0 && (
+            <PeriodSelect periods={periods} selectedId={selectedId} />
+          )}
+        </div>
+
+        <div className="mt-8 flex items-center justify-center gap-3 sm:gap-6">
+          <PeriodArrow targetId={olderId} direction="prev" />
           <SectionHeaderCenter
+            className="flex-1"
             eyebrow="Struktur Organisasi"
             heading={
               period
@@ -145,6 +187,7 @@ export default async function Page() {
             }
             subheading="Pengemban amanah kepemimpinan dan kaderisasi cabang."
           />
+          <PeriodArrow targetId={newerId} direction="next" />
         </div>
 
         {!hasAny ? (
@@ -160,13 +203,14 @@ export default async function Page() {
                     {GROUP_TITLES[g]}
                   </h3>
                   <div className="flex flex-wrap justify-center gap-5">
-                    {groups[g].map((m) => (
-                      <div
+                    {groups[g].map((m, i) => (
+                      <FadeIn
                         key={m.id}
+                        delay={Math.floor(i / 4) * 120}
                         className="w-full max-w-[380px] sm:w-[47%] sm:max-w-none lg:w-[23%]"
                       >
                         <PengurusCard member={m} />
-                      </div>
+                      </FadeIn>
                     ))}
                   </div>
                 </section>

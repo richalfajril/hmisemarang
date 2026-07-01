@@ -11,6 +11,9 @@ export type FeaturedItem = {
   excerpt: string | null;
   featured_image_url: string | null;
   published_at: Date | string | null;
+  author_name: string | null;
+  author_image_url: string | null;
+  reading_time: number;
   category: { name: string } | null;
 };
 
@@ -85,6 +88,27 @@ export function FeaturedCarousel({ items }: { items: FeaturedItem[] }) {
                     {a.excerpt}
                   </p>
                 )}
+
+                {/* Penulis + waktu baca */}
+                <div className="mt-4 flex items-center gap-2.5 text-sm text-white/90">
+                  <span className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-white/20 text-xs font-bold text-white">
+                    {a.author_image_url ? (
+                      <Image
+                        src={a.author_image_url}
+                        alt={a.author_name ?? "Penulis"}
+                        fill
+                        className="object-cover"
+                        sizes="28px"
+                      />
+                    ) : (
+                      (a.author_name ?? "?").charAt(0)
+                    )}
+                  </span>
+                  <span className="font-medium">{a.author_name ?? "Anonim"}</span>
+                  <span className="text-white/50">|</span>
+                  <span className="text-white/70">{a.reading_time} min baca</span>
+                </div>
+
                 <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors group-hover:bg-primary/90">
                   Baca Selengkapnya
                 </span>

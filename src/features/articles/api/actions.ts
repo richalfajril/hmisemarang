@@ -35,6 +35,7 @@ export async function saveArticleDraftAction(
       featured_image_url: formData.get('featured_image_url') as string,
       category_id: formData.get('category_id') as string,
       author_name: formData.get('author_name') as string,
+      author_image_url: formData.get('author_image_url') as string,
       author_commissariat: formData.get('author_commissariat') as string,
       tag_ids: formData.getAll('tag_ids') as string[],
       tag_labels: (formData.get('tag_labels') as string | null) ?? '',
@@ -104,6 +105,7 @@ export async function saveArticleDraftAction(
           featured_image_url: data.featured_image_url,
           category_id: data.category_id,
           author_name: data.author_name,
+          author_image_url: data.author_image_url || null,
           author_commissariat: data.author_commissariat,
           updated_by: session.user.id,
           // Reset & connect tag kata kunci hasil upsert.
@@ -132,6 +134,7 @@ export async function saveArticleDraftAction(
           featured_image_url: data.featured_image_url,
           category_id: data.category_id,
           author_name: data.author_name,
+          author_image_url: data.author_image_url || null,
           author_commissariat: data.author_commissariat,
           status: ArticleStatus.DRAFT,
           created_by: session.user.id,

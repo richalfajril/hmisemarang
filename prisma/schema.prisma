@@ -190,6 +190,7 @@ model Article {
   content             String        @db.Text
   featured_image_url  String?
   author_name         String?
+  author_image_url    String?
   author_commissariat String?
   status              ArticleStatus @default(DRAFT)
 
@@ -432,8 +433,11 @@ model WebsiteSetting {
   seo_title       String?
   seo_description String?  @db.Text
   contact_email   String?
+  contact_phone   String?
   instagram_url   String?
   address         String?  @db.Text
+  maps_embed_url  String?  @db.Text
+  contact_image_url String?
   footer_text     String?  @db.Text
   hero_image_url  String?
   dark_logo_url   String?

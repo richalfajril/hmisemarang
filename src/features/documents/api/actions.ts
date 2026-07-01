@@ -175,6 +175,20 @@ export async function saveDocumentAction(
   }
 }
 
+/** URL unduh untuk halaman publik. Hanya melayani dokumen PUBLISHED (tanpa auth). */
+export async function getPublicDocumentUrlAction(id: string) {
+  try {
+    const doc = await prisma.document.findFirst({
+      where: { id, status: 'PUBLISHED', deleted_at: null },
+      select: { file_url: true },
+    })
+    if (!doc) return { success: false, url: null }
+    return { success: true, url: generateSecureDownloadUrl(doc.file_url, 'raw') }
+  } catch {
+    return { success: false, url: null }
+  }
+}
+
 export async function getSignedDocumentUrlAction(publicId: string) {
   // Hanya pengguna terautentikasi yang bisa mengambil (bisa ditambah cek RBAC jika mau)
   const session = await getUserSession()

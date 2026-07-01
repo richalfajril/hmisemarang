@@ -25,9 +25,15 @@ export const getPublicCommissariats = cache(async () => {
   }
 })
 
+/** Estimasi waktu baca (menit) dari konten HTML. ~200 kata/menit. */
+function readingTimeMinutes(html: string): number {
+  const words = html.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 200))
+}
+
 export const getFeaturedArticles = cache(async () => {
   try {
-    return await prisma.article.findMany({
+    const rows = await prisma.article.findMany({
       where: { status: 'PUBLISHED', deleted_at: null },
       select: {
         id: true,
@@ -36,11 +42,18 @@ export const getFeaturedArticles = cache(async () => {
         excerpt: true,
         featured_image_url: true,
         published_at: true,
+        author_name: true,
+        author_image_url: true,
+        content: true,
         category: { select: { name: true } },
       },
       orderBy: { published_at: 'desc' },
       take: 5,
     })
+    return rows.map(({ content, ...a }) => ({
+      ...a,
+      reading_time: readingTimeMinutes(content),
+    }))
   } catch (e) {
     console.error('getFeaturedArticles failed:', e)
     return []
