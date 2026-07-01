@@ -4,6 +4,7 @@ import { createClient } from '@/shared/api/supabase/server'
 import { KeyRoundIcon } from 'lucide-react'
 import { PageHeader } from '@/shared/ui/PageHeader'
 import { ImportAccountsModal } from '@/features/commissariat-accounts/ui/ImportAccountsModal'
+import { CreateAccountModal } from '@/features/commissariat-accounts/ui/CreateAccountModal'
 import { CommissariatAccountTable } from '@/features/commissariat-accounts/ui/CommissariatAccountTable'
 
 export const metadata = {
@@ -36,6 +37,12 @@ export default async function CommissariatAccountsPage() {
     last_login_at: u.last_login_at,
   }))
 
+  const commissariats = await prisma.commissariat.findMany({
+    where: { is_active: true },
+    select: { id: true, name: true },
+    orderBy: { name: 'asc' },
+  })
+
   return (
     <div className="w-full space-y-6 p-6">
       <PageHeader
@@ -43,6 +50,7 @@ export default async function CommissariatAccountsPage() {
         description="Kelola akun login komisariat dan Lembaga Pengembangan Profesi (LPP). Buat akun massal via impor Excel."
         icon={KeyRoundIcon}
       >
+        <CreateAccountModal commissariats={commissariats} />
         <ImportAccountsModal />
       </PageHeader>
 

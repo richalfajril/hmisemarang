@@ -132,6 +132,57 @@ export async function importCommissariatAccountsAction(
   return { success: true, message: msg, data: result }
 }
 
+/** Tambah satu akun komisariat/LPP manual. Password default 123456. */
+export async function createCommissariatAccountAction(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState> {
+  const actor = await authorize()
+  if (!actor) return { success: false, message: 'Akses ditolak.', errorCode: 'UNAUTHORIZED' }
+
+  const name = String(formData.get('name') ?? '').trim()
+  const username = String(formData.get('username') ?? '').trim().toLowerCase()
+  const commissariat_id = String(formData.get('commissariat_id') ?? '').trim() || null
+
+  if (!name) {
+    return { success: false, message: 'Nama wajib diisi.', fieldErrors: { name: ['Wajib diisi'] }, errorCode: 'VALIDATION_ERROR' }
+  }
+  if (!/^[a-z0-9._-]{3,50}$/.test(username)) {
+    return { success: false, message: 'Username tidak valid (3-50, huruf/angka/._-).', fieldErrors: { username: ['Format tidak valid'] }, errorCode: 'VALIDATION_ERROR' }
+  }
+
+  const taken = await prisma.user.findUnique({ where: { username } })
+  if (taken) {
+    return { success: false, message: 'Username sudah dipakai.', fieldErrors: { username: ['Sudah dipakai'] }, errorCode: 'VALIDATION_ERROR' }
+  }
+
+  const email = `${username}@${SYNTHETIC_DOMAIN}`
+  try {
+    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
+      email,
+      password: DEFAULT_PASSWORD,
+      email_confirm: true,
+    })
+    if (authError || !authData.user) {
+      return { success: false, message: `Auth gagal: ${authError?.message ?? 'tidak diketahui'}`, errorCode: 'SERVER_ERROR' }
+    }
+    await prisma.user.create({
+      data: {
+        id: authData.user.id,
+        email,
+        username,
+        name,
+        role: 'ADMIN_KOMISARIAT',
+        commissariat_id,
+      },
+    })
+    revalidatePath('/dashboard/commissariat-accounts')
+    return { success: true, message: `Akun "${username}" dibuat (password: ${DEFAULT_PASSWORD}).` }
+  } catch {
+    return { success: false, message: 'Gagal menyimpan akun ke database.', errorCode: 'SERVER_ERROR' }
+  }
+}
+
 /** Reset password akun komisariat/LPP kembali ke default (123456). */
 export async function resetCommissariatPasswordAction(
   prevState: ActionState | null,
