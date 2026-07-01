@@ -88,7 +88,8 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 
 * **Route Structure:** Direktori mencerminkan URL rute fisik (misal: `src/app/dashboard/articles/page.tsx`).
 * **Layouts:** Gunakan `layout.tsx` untuk UI pembungkus persisten antar navigasi (navigasi sisi kiri CMS).
-* **loading.tsx:** Wajib disediakan di dalam modul CMS untuk transisi pemuatan *suspense*.
+* **loading.tsx:** Wajib disediakan di dalam modul CMS untuk transisi pemuatan *suspense*, tetapi fallback visual boleh kosong agar navigasi tidak menampilkan placeholder kerangka.
+* **Link Prefetch:** Semua navigasi internal berbasis `next/link` wajib menuliskan prop `prefetch` secara eksplisit. Link eksternal, tautan unduh berkas, atau URL dinamis dari database hanya boleh diprefetch jika terbukti path internal (`href` diawali `/`).
 * **error.tsx:** Wajib ada untuk menangkap kegagalan fatal rendering sisi server.
 * **not-found.tsx:** Sesuaikan untuk Website Publik (halaman atraktif 404) dan CMS (tampilan error dashboard).
 
@@ -116,8 +117,8 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 ## 9. Supabase Conventions
 
 * **Auth:** Verifikasi sesi *server-side* selalu merujuk pada *helper* `@supabase/ssr` `createServerClient`.
-* **Storage & File Uploads:** Validasi ukuran (misal maksimal 5MB) dan ekstensi MIME *file* (WebP, JPG, PDF) SEBELUM dilempar ke Supabase Storage.
-* **Bucket Usage:** `public-media` untuk foto logo/galeri (bisa dibaca dunia), `secure-documents` dan `secure-verifications` diakses khusus.
+* **Storage Interaction:** Agent harus memisahkan unggahan file ke layanan eksternal (Cloudinary). Server Action mengurus *buffer* ke API Cloudinary.
+* **Bucket Usage:** Folder `public-media` untuk foto logo/galeri (bisa dibaca dunia), `secure-documents` dan `secure-verifications` di Cloudinary diakses khusus.
 * **Service Role Key:** Kunci *Service Role* (`SUPABASE_SERVICE_ROLE_KEY`) TIDAK BOLEH sekalipun dibocorkan ke *Client Component*.
 
 ---
@@ -164,7 +165,8 @@ Lapisan dengan tingkat yang sama **tidak boleh** saling mengimpor langsung kecua
 * **Cards:** Beri batas jelas antar kartu untuk form input dan ringkasan data.
 * **Dialogs/Drawers:** Jangan pakai dialog untuk *form* raksasa melebihi 1 layar. Gunakan halaman terpisah. Drawers digunakan untuk *mobile UX*.
 * **Forms:** Label berposisi atas (*top-aligned*). Bintang merah untuk tanda wajib isi.
-* **Empty States & Loading States:** Sajikan *Skeleton* saat *loading*, dan kotak pesan grafis bersahabat saat entitas berstatus kosong.
+* **Empty States & Loading States:** Sajikan fallback kosong saat *loading* rute/widget, spinner untuk aksi eksplisit, dan kotak pesan grafis bersahabat saat entitas berstatus kosong.
+* **Public Website Data States (WAJIB):** Seluruh reusable component bersifat **presentasional** dan hanya menerima *Presentation Ready Data* (dilarang fetching/filtering/sorting/pagination/fallback/business logic — semuanya di Server Component / Feature Layer / Server Action / Shared API sesuai FSD). Komponen ber-**Dynamic Data** (CMS/DB/API/Server Action) wajib punya **Loading (Skeleton)**, **Success (CMS → Fallback bila perlu)**, dan **Error (Graceful Fallback UI, tanpa Layout Shift & tanpa pesan teknis)**. Komponen **Static** (hardcoded/config/asset/copywriting) dirender langsung tanpa Skeleton/Error. Acuan lengkap: `DESIGN.md` §16 *Public Website Data States*.
 
 ---
 

@@ -4,6 +4,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 enum UserRole {
@@ -81,14 +83,29 @@ model User {
   @@map("users")
 }
 
+model University {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String    @unique
+  slug      String    @unique
+  is_active Boolean   @default(true)
+
+  commissariats      Commissariat[]
+  profileSubmissions CommissariatProfileSubmission[]
+  boardMembers       BoardMember[]
+
+  @@map("universities")
+}
+
 model Commissariat {
   id                    String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name                  String
   slug                  String    @unique
   logo_url              String?
   campus_name           String?
+  university_id         String?   @db.Uuid
   about                 String?   @db.Text
   chairman_name         String?
+  chairman_period       String?
   chairman_about        String?   @db.Text
   cadre_count           Int       @default(0)
   secretariat_photo_url String?
@@ -99,11 +116,13 @@ model Commissariat {
   created_at            DateTime  @default(now())
   updated_at            DateTime  @updatedAt
 
+  university           University? @relation(fields: [university_id], references: [id], onDelete: SetNull)
   users                User[]
   articles             Article[]
   agendas              Agenda[]
   cadreVerifications   CadreVerification[]
   profileSubmissions   CommissariatProfileSubmission[]
+  boardMembers         BoardMember[]
 
   @@map("commissariats")
 }
@@ -115,8 +134,10 @@ model CommissariatProfileSubmission {
   name                  String?
   logo_url              String?
   campus_name           String?
+  university_id         String?                 @db.Uuid
   about                 String?                 @db.Text
   chairman_name         String?
+  chairman_period       String?
   chairman_about        String?                 @db.Text
   secretariat_photo_url String?
   map_url               String?
@@ -132,6 +153,7 @@ model CommissariatProfileSubmission {
   updated_at            DateTime                @updatedAt
 
   commissariat Commissariat @relation(fields: [commissariat_id], references: [id], onDelete: Cascade)
+  university   University?  @relation(fields: [university_id], references: [id], onDelete: SetNull)
 
   @@map("commissariat_profile_submissions")
 }
@@ -168,6 +190,7 @@ model Article {
   content             String        @db.Text
   featured_image_url  String?
   author_name         String?
+  author_image_url    String?
   author_commissariat String?
   status              ArticleStatus @default(DRAFT)
 
@@ -353,14 +376,20 @@ model Position {
 }
 
 model BoardMember {
-  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  period_id     String   @db.Uuid
-  position_id   String   @db.Uuid
-  full_name     String
-  photo_url     String?
-  short_bio     String?  @db.Text
-  instagram_url String?
-  position      Position @relation(fields: [position_id], references: [id], onDelete: Cascade)
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  period_id       String   @db.Uuid
+  position_id     String   @db.Uuid
+  full_name       String
+  photo_url       String?
+  short_bio       String?  @db.Text
+  social_links    Json?
+  university_id   String?  @db.Uuid
+  commissariat_id String?  @db.Uuid
+  created_at      DateTime @default(now())
+
+  position     Position      @relation(fields: [position_id], references: [id], onDelete: Cascade)
+  university   University?   @relation(fields: [university_id], references: [id], onDelete: SetNull)
+  commissariat Commissariat? @relation(fields: [commissariat_id], references: [id], onDelete: SetNull)
 
   @@map("board_members")
 }
@@ -404,11 +433,35 @@ model WebsiteSetting {
   seo_title       String?
   seo_description String?  @db.Text
   contact_email   String?
+  contact_phone   String?
   instagram_url   String?
   address         String?  @db.Text
+  maps_embed_url  String?  @db.Text
+  contact_image_url String?
   footer_text     String?  @db.Text
+  hero_image_url  String?
+  dark_logo_url   String?
+  about_image_url String?
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
 
   @@map("website_settings")
+}
+
+model Testimonial {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  photo_url     String?
+  quote         String    @db.Text
+  name          String
+  title         String
+  featured      Boolean   @default(false)
+  display_order Int       @default(0)
+  is_published  Boolean   @default(false)
+
+  created_by String   @db.Uuid
+  updated_by String   @db.Uuid
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("testimonials")
 }

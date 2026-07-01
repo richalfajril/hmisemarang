@@ -8,10 +8,18 @@ Modul sentral untuk membangun dan memelihara struktur historis organisasi. Modul
 * ADMIN_CABANG
 
 ## User Flow
-1. Pengguna masuk ke `/dashboard/organization/periods`.
-2. Klik "Tambah Periode Baru" (misal: "Periode 2024-2025").
-3. Masuk ke halaman Posisi, susun jabatannya secara berurutan (*Sort Order*).
-4. Masuk ke halaman Susunan Pengurus, lampirkan anggota ke posisinya masing-masing dengan biografi serta foto profil.
+1. Pengguna masuk ke `/dashboard/organization/periods` (Riwayat Kepengurusan).
+2. Klik **Tambah Periode** → modal: isi tahun periode + multi tambah daftar jabatan; tiap jabatan dipilih **grup layout** (KSB / Ketua Bidang / Lainnya). Tombol **Batal** & **Simpan & Susun Pengurus**.
+3. Klik "Simpan & Susun Pengurus" → otomatis diarahkan ke halaman **Susunan Kepengurusan** (detail periode).
+4. Di halaman detail klik **Tambah Pengurus** → modal: foto (rasio 1:1, wajib), nama (wajib), jabatan (combobox, wajib), kampus (combobox, wajib), komisariat (combobox, wajib), media sosial (multi, default 1 Instagram, opsional), bio singkat (≤200 char, opsional).
+5. Pengurus tampil sebagai **kartu** di grid. Kartu depan: foto, nama (hijau, lebih besar), jabatan, ikon sosmed. Klik kartu → **flip** → belakang: bio, kampus, komisariat. Di dashboard kartu punya tombol **Edit/Hapus** (di publik tidak).
+6. Section **Kelola Jabatan** di halaman detail untuk tambah/rename/hapus jabatan & ubah grup setelah periode dibuat.
+
+## Public Layout
+* **KSB**: baris (Sekretaris | Ketua | Bendahara), Ketua di tengah.
+* **Ketua Bidang**: grid kartu, terbaru kiri-atas (urut `created_at` desc).
+* **Lainnya**: grid kartu.
+* Jarak antar-section dibuat rapat.
 
 ## Requirements
 * Harus mencakup entitas hierarkis terpadu: `periods` → `positions` → `board_members`.

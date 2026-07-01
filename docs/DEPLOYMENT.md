@@ -65,8 +65,7 @@ Kami menggunakan **Prisma ORM**. Karena manipulasi *database* sangat riskan di s
 
 ## 6. Storage Deployment Notes
 
-Manajemen *bucket* diatur di luar *codebase*.
-Setiap menyiapkan *environment* baru (misalnya saat memisahkan Dev dan Prod), pastikan Anda melakukan prapengaturan *bucket* sesuai pedoman di:
+Setiap menyiapkan *environment* baru (misalnya saat memisahkan Dev dan Prod), pastikan Anda melakukan prapengaturan *Cloudinary* dan *Supabase Triggers* sesuai pedoman di:
 👉 **[SUPABASE_SETUP.md](SUPABASE_SETUP.md)**
 
 ---

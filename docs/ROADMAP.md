@@ -11,7 +11,7 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Mencapai standar kecepatan *Core Web Vitals* optimal dengan merender elemen secara pasif ke DOM dan mengandalkan pendelegasian komponen statis.
 
 ## Current Version
-**v0.0.0** (Project Bootstrap Phase)
+**v1.9.0-dev** (Dashboard UI Upgrade — Sidebar Navigation)
 
 ---
 
@@ -29,9 +29,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ### Checklist
 * `[x]` **UI Tasks:** Instalasi *shadcn/ui* & Tailwind v4. Pengaturan map FSD.
-* `[ ]` **UI Tasks:** Konstruksi tata letak halaman `error.tsx`, `not-found.tsx`, *Forbidden*, dan *Empty State* UI dasar.
-* `[ ]` **Database Tasks:** `npx prisma db push` skema primer dan ciptakan berkas *Seeder* untuk entri akun `SYSTEM_ADMIN`.
-* `[ ]` **Permission Tasks:** Inisiasi peladen Supabase (Klien, SSR, Middleware) untuk memagari rute dasar `/dashboard`.
+* `[x]` **UI Tasks:** Upgrade tata letak Dashboard menggunakan `dashboard-01` shadcn — `AppSidebar`, `SidebarProvider`, `SiteHeader` dengan navigasi HMI lengkap, active state, dan `NavUser` dengan logout.
+* `[x]` **Database Tasks:** `npx prisma db push` skema primer dan ciptakan berkas *Seeder* untuk entri akun `SYSTEM_ADMIN`.
+* `[x]` **Permission Tasks:** Inisiasi peladen Supabase (Klien, SSR, Middleware) untuk memagari rute dasar `/dashboard`.
 
 ### Deliverables
 * Repositori *codebase* tersetup penuh.
@@ -61,11 +61,11 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Halaman muka Gerbang Log Masuk (`/login`).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Operasi CRUD untuk entitas Otentikasi dan *Users*.
-* `[ ]` **API Tasks:** Integrasi login/logout via *Server Actions* tanpa-API rute konvensional.
-* `[ ]` **API Tasks:** Logika penciptaan akun dengan `commissariat_id` terikat.
-* `[ ]` **UI Tasks:** Penanganan dialog peringatan ketika sesi kedaluwarsa dan logika `redirect` pasca-login.
-* `[ ]` **UI Tasks:** Tabel Daftar Pengguna untuk Cabang.
+* `[x]` **Database Tasks:** Operasi CRUD untuk entitas Otentikasi dan *Users*.
+* `[x]` **API Tasks:** Integrasi login/logout via *Server Actions* tanpa-API rute konvensional.
+* `[x]` **API Tasks:** Logika penciptaan akun dengan `commissariat_id` terikat.
+* `[x]` **UI Tasks:** Penanganan dialog peringatan ketika sesi kedaluwarsa dan logika `redirect` pasca-login.
+* `[x]` **UI Tasks:** Tabel Daftar Pengguna untuk Cabang.
 
 ### Deliverables
 * Pintu masuk aman (`/login`). Dasbor Manajemen Akses.
@@ -91,9 +91,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Organization Management (Periode dan Pengurus).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Relasi referensial untuk `periods`, `categories`, dan `website_settings`.
-* `[ ]` **API Tasks:** Validasi *Zod* ketat untuk mencegah form isian web publik kosong.
-* `[ ]` **UI Tasks:** Pembuatan form panjang menggunakan *React Hook Form* untuk SEO dan Profil Cabang.
+* `[x]` **Database Tasks:** Relasi referensial untuk `periods`, `categories`, dan `website_settings`.
+* `[x]` **API Tasks:** Validasi *Zod* ketat untuk mencegah form isian web publik kosong.
+* `[x]` **UI Tasks:** Pembuatan form panjang menggunakan *React Hook Form* untuk SEO dan Profil Cabang.
 
 ### Deliverables
 * Dasbor pengelolaan pengaturan SEO dan Daftar Ketaksonomian.
@@ -119,9 +119,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Bel *Notifications* (Penerima).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Fungsi injeksi pasif *Append-Only* ke `audit_logs`.
-* `[ ]` **UI Tasks:** Tabel jejak aktivitas (*Audit Table*) dengan *IP Tracker* sederhana.
-* `[ ]` **API Tasks:** Konfigurasi pemanggilan berkala Lonceng *header* melalui TanStack Query.
+* `[x]` **Database Tasks:** Fungsi injeksi pasif *Append-Only* ke `audit_logs`.
+* `[x]` **UI Tasks:** Tabel jejak aktivitas (*Audit Table*) dengan *IP Tracker* sederhana.
+* `[x]` **API Tasks:** Konfigurasi pemanggilan berkala Lonceng *header* melalui TanStack Query.
 
 ### Deliverables
 * Mata-mata log aktivitas bekerja tanpa terlihat dari pengguna (`background trace`).
@@ -146,9 +146,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Form Penjadwalan Agenda (*Event Scheduler*).
 
 ### Checklist
-* `[ ]` **UI Tasks:** Mengintegrasikan pustaka Tiptap ke dalam wujud komponen FSD stabil.
-* `[ ]` **API Tasks:** Komputasi status tenggat pendaftaran agenda asinkron.
-* `[ ]` **Permission Tasks:** Memagari form agar Admin Komisariat hanya bisa melihat tulisan miliknya (kunci RLS aplikasi berdasar *User Session*).
+* `[x]` **UI Tasks:** Mengintegrasikan pustaka Tiptap ke dalam wujud komponen FSD stabil.
+* `[x]` **API Tasks:** Komputasi status tenggat pendaftaran agenda asinkron.
+* `[x]` **Permission Tasks:** Memagari form agar Admin Komisariat hanya bisa melihat tulisan miliknya (kunci RLS aplikasi berdasar *User Session*).
 
 ### Deliverables
 * Modul Redaksi Tiptap dan Kalender Formulir Agenda.
@@ -173,9 +173,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Panel Riwayat Tinjauan (*Revision Notes*).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Pembungkusan fungsi *Prisma Transaction* anti-*race-condition*.
-* `[ ]` **API Tasks:** Logika penciptaan *Review History* merangkap lompatan kueri mutasi status (DRAFT -> PUBLISHED).
-* `[ ]` **UI Tasks:** Panel telaah konten ganda (*Split Screen*).
+* `[x]` **Database Tasks:** Pembungkusan fungsi *Prisma Transaction* anti-*race-condition*.
+* `[x]` **API Tasks:** Logika penciptaan *Review History* merangkap lompatan kueri mutasi status (DRAFT -> PUBLISHED).
+* `[x]` **UI Tasks:** Panel telaah konten ganda (*Split Screen*).
 
 ### Deliverables
 * Meja pengadilan (*Review Center*) tempat Cabang menyetujui, menolak, atau mengembalikan dengan catatan atas draf masuk.
@@ -199,9 +199,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * *Cadre Verification Uploader* (Excel Berkas Validasi).
 
 ### Checklist
-* `[ ]` **Database Tasks:** Modifikasi *record* duplikasi data dari draf ditarik menimpa tabel tayang profil.
-* `[ ]` **Storage Tasks:** Penampungan fail verifikasi kader Excel ke Supabase **Secure/Private Bucket**.
-* `[ ]` **Permission Tasks:** Cabang berhak membaca Excel rahasia via skema *Signed URLs*.
+* `[x]` **Database Tasks:** Modifikasi *record* duplikasi data dari draf ditarik menimpa tabel tayang profil.
+* `[x]` **Storage Tasks:** Penampungan fail verifikasi kader Excel ke Cloudinary menggunakan skema akses terotentikasi (*Secure Signed URLs*).
+* `[x]` **Permission Tasks:** Cabang berhak membaca Excel rahasia via skema *Signed URLs* Cloudinary.
 
 ### Deliverables
 * Form mutasi identitas sosial organisasi tingkat bawah dan alat kepatuhan administrasi tertutup.
@@ -216,8 +216,8 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 <summary><h2>v1.7.0 Media & Files</h2></summary>
 
 **Focus:** Deposito gambar, rak buku dokumen organisasi publik, dan galeri kolektif.
-**Target:** Penyediaan memori awan tak terbatas untuk media CMS via *Public Buckets*.
-**Dependencies:** Kapasitas Supabase Storage (diinisialisasi pada `v1.0.0`).
+**Target:** Penyediaan memori awan tak terbatas untuk media CMS via Cloudinary.
+**Dependencies:** Konfigurasi *Environment* Cloudinary (`CLOUDINARY_URL`).
 
 ### Features
 **CMS Cabang**
@@ -225,16 +225,16 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Penempatan repositori `Document Management` (*PDF/Surat Edaran*).
 
 ### Checklist
-* `[ ]` **Storage Tasks:** Operasi batas ukuran maksimal 5MB per media untuk memproteksi kelebihan tagihan peladen.
-* `[ ]` **Storage Tasks:** Penanganan siklus hidup media (*Replace file* saat *update*, *Delete file* fisik awan saat *record* dihapus).
-* `[ ]` **API Tasks:** Kueri *Supabase uploader* (*Upload/Remove asset*).
-* `[ ]` **UI Tasks:** Papan jatuhkan berkas (*Drag and drop zone*) masal.
+* `[x]` **Storage Tasks:** Operasi batas ukuran maksimal 5MB per media untuk memproteksi kelebihan tagihan peladen.
+* `[x]` **Storage Tasks:** Penanganan siklus hidup media (*Replace file* saat *update*, *Delete file* fisik awan via *Destroy API* Cloudinary saat *record* dihapus).
+* `[x]` **API Tasks:** Kueri *Cloudinary Node.js SDK* (*Upload/Remove asset*).
+* `[x]` **UI Tasks:** Papan jatuhkan berkas (*Drag and drop zone*) masal.
 
 ### Deliverables
 * Ruang penyimpanan berkas interaktif dan terkelompok (*Folder-like albums*) yang dikelola sepihak oleh Cabang tanpa perlu masuk *Review Center*.
 
 ### Success Criteria
-* Gambar yang disuntik dari `Tiptap` atau `Gallery` merender ekstensi modern `webp` otomatis di web secara optis. Kegagalan penghapusan arsip media tak menyisakan fail yatim piatu yang membengkak di Supabase *Bucket*.
+* Gambar yang disuntik dari `Tiptap` atau `Gallery` diotomatisasi kompresinya (ekstensi modern `webp`/`avif`) lewat URL Cloudinary secara optis. Kegagalan penghapusan arsip media tak menyisakan fail yatim piatu yang membengkak di *Cloudinary*.
 </details>
 
 ---
@@ -254,9 +254,10 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 * Dasbor ringkas aktivitas pribadi.
 
 ### Checklist
-* `[ ]` **Database Tasks:** Operasi komputasi agregasi untuk menduduki *Top 5 Commissariats* (Terbanyak Publikasi).
-* `[ ]` **API Tasks:** Telusur cerdas *debounced* mencakup artikel, agenda, dokumen, komisariat, dan struktur organisasi berdasarkan relevansi.
-* `[ ]` **UI Tasks:** *Command Palette (Dialog)* pintasan kibor `Ctrl+K`.
+* `[x]` **Database Tasks:** Operasi komputasi agregasi untuk menduduki *Top 5 Commissariats* (Terbanyak Publikasi).
+* `[x]` **API Tasks:** Telusur cerdas *debounced* mencakup artikel, agenda, dokumen, komisariat, dan struktur organisasi berdasarkan relevansi.
+* `[x]` **UI Tasks:** *Command Palette (Dialog)* pintasan kibor `Ctrl+K`.
+* `[x]` **UI Tasks:** Standarisasi padding, margin, tombol back, serta implementasi RSC streaming tanpa placeholder kerangka di dasbor.
 
 ### Deliverables
 * Indikator *Metrics Dashboard* elegan dan pencarian omnibox super cepat (*Search everything*).
@@ -327,7 +328,24 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ## Adjustments (Unplanned Features)
 *(Area ini difungsikan murni untuk mencatat secara historis semua tugas ad-hoc atau perombakan darurat yang memaksa masuk di tengah-tengah rentang masa iterasi. Kosong secara baku).*
-- Tidak ada penyesuaian (*adjustment*) hingga titik ini.
+- **Hero Spec Compliance + Transparent Navbar + CMS Hero Image (2026-06-24):** Revisi `HomeHero` menjadi full-screen (100vh), background image CMS (`hero_image_url`), emerald gradient + Islamic pattern, dan 4 inline metrics di dalam hero (Komisariat DB, Korkom statis 3, Kampus DB, Kader DB+). `HomeStats` card section dihapus. Navbar diubah menjadi `fixed` + transparan di hero, solid saat scroll (transisi 300ms). DB migration `hero_image_url` + `dark_logo_url` ke `WebsiteSetting` via `prisma db push`. Tab "Tampilan" ditambahkan ke SettingsForm CMS berisi `ImageUploader` untuk gambar hero dan logo gelap. `getWebsiteSettings()` sekarang dibungkus `React.cache`.
+- **Homepage Publik Fase Inti (2026-06-23):** Memulai v1.9.0 lebih awal secara bertahap. Dibangun: route group `(website)` + layout publik bersama (`PublicHeader` nav lengkap + menu mobile Sheet, `PublicFooter` latar hijau dengan kontak/sosmed dari `WebsiteSetting`), `OpeningSplash` ("Yakin · Usaha · Sampai", sekali per sesi), `HomeHero` (heading/subheading PRD + CTA), `HomeSearch` (→ `/search?q=`), `HomeStats` (Komisariat/Kampus/Kader). Stub `/search` agar tak 404. Helper `getWebsiteSettings()`. **Ditunda:** Komisariat Carousel, Featured Articles, Agenda Carousel, Gallery Preview, dan halaman publik lain (`/profil`, `/artikel`, dst) — saat ini hanya tautan scaffolding. Logo default memakai aset putih HMI (dibungkus wadah hijau di navbar). Tema light only.
+- **Redesign Workflow Kepengurusan (2026-06-23):** Alur baru Periode → Susun Pengurus → kartu flip. Migrasi `BoardMember` (social_links JSON, university_id, commissariat_id, created_at; hapus instagram_url). Modal "Tambah Periode" (periode + multi jabatan + grup layout) langsung redirect ke halaman Susunan; modal "Tambah Pengurus" (foto 1:1, nama, jabatan/kampus/komisariat wajib, sosmed multi opsional, bio ≤200). Kartu flip (depan: foto/nama hijau/jabatan/ikon sosmed; belakang: bio/kampus/komisariat) dengan Edit/Hapus khusus dashboard. Layout KSB (Sekretaris|Ketua|Bendahara) + grid Ketua Bidang (terbaru kiri-atas) + Lainnya. Section Kelola Jabatan dipertahankan. Halaman publik struktur menyusul (kartu reusable `editable={false}`).
+- **Konsolidasi Jabatan ke Modul Organisasi (2026-06-23):** Merevisi keputusan sebelumnya — tab "Jabatan" beserta tabel flat-nya dihapus dari Taksonomi karena tumpang tindih dengan modul Organisasi (data `Period`/`Position`). Modal gabungan "Tambah Struktur Jabatan" dipindah ke `organization/ui` dan menggantikan tombol "Tambah Periode Baru" di halaman Periode (bisa buat periode baru + jabatan, atau tambah jabatan ke periode existing). Tombol Edit/rename jabatan ditambahkan di `PositionList` (halaman detail periode). `CreatePeriodModal` & `createPeriodAction` yang tak terpakai dihapus. Taksonomi kembali fokus ke label klasifikasi (kategori, tag, universitas).
+- **Riwayat Kepengurusan: Edit, Arsipkan & Hapus Periode (2026-06-23):** Menambahkan aksi Edit (ubah tahun mulai/selesai, nama periode otomatis, cek duplikat), Arsipkan (soft delete — nonaktifkan periode aktif via `is_active=false` sehingga data tetap tersimpan tapi hilang dari homepage, tanpa migrasi DB), dan Hapus (cascade ke seluruh jabatan & anggota) di dropdown tabel periode. Periode aktif tidak dapat dihapus demi menjaga struktur publik; konfirmasi hapus menampilkan jumlah jabatan terdampak; periode terarsip tetap di daftar dengan badge "Arsip" dan bisa diaktifkan kembali.
+- **Taksonomi: Aksi Edit & Tab Jabatan (2026-06-23):** Menambahkan tombol Edit (CRUD penuh) untuk taksonomi sederhana (Kategori Artikel/Dokumen, Tag, Universitas) dengan slug dipertahankan saat rename. Menambahkan tab "Jabatan" yang me-reuse model `Period` + `Position` (satu sumber data dengan modul Organisasi, tanpa migrasi DB) — alur "Tambah Struktur Jabatan" membuat 1 periode + banyak jabatan sekaligus, tampil di tabel dengan info periode/tahun beserta aksi Edit & Hapus. Modal "Tambah Struktur Jabatan" kini bisa memilih **periode yang sudah ada** (via Combobox, jabatan ditambahkan ke periode terpilih) atau **buat periode baru**.
+- **Sidebar "Profil Komisariat" & Dropdown Cleanup (2026-06-23):** Menambahkan item menu sidebar "Profil Komisariat" di bawah "Dasbor" khusus role `ADMIN_KOMISARIAT`. Menghilangkan dropdown "Profil Saya" untuk ADMIN_KOMISARIAT (sudah diwakili sidebar). Role lain tetap memiliki "Profil Saya" di dropdown. Card profil dikembalikan ke posisi semula di `SidebarFooter` (paling bawah) untuk semua role, serta penambahan padding horizontal tipis agar item sidebar tidak mepet ke tepi.
+- **Homepage Section "Kata Mereka" Testimonial Carousel (2026-06-28):** `HomeTestimonials` (server) + `TestimonialCarousel` (client, infinite marquee: auto-play/pause-hover/drag/swipe; card Quote+quote italic line-clamp-4+avatar/nama/title). Header center, section tint, Suspense+skeleton.
+- **Modul CMS "Kata Mereka" / Testimonial Management (2026-06-28):** model DB `Testimonial` (`prisma db push`), `entities/testimonial`, `features/testimonial-management` (save/delete/togglePublish — auth→Zod→Prisma→Audit), route `/dashboard/testimonials` (+new/edit) + item sidebar "Kata Mereka" (ADMIN_CABANG_ONLY). `getTestimonials()` query `is_published && featured` (urut display_order→updated_at). Menggantikan deviasi sebelumnya (fallback-only).
+- **Homepage Section 08 CTA Banner (2026-06-28):** `HomeCTA` (static) — banner gradient emerald rounded + decorative diamond pattern (radial mask), center heading/subheading + 2 tombol (primary putih "Lihat Galeri" `/galeri`, outline "Hubungi Kami" `/kontak`), mobile vertikal/desktop horizontal, `FadeIn`. Static → tanpa Suspense/Loading/Error.
+- **Homepage Section 07 Gallery Preview (2026-06-28):** `CircularGallery` (client, presentasional 3D — kode referensi user dimodifikasi: auto-rotate + scroll-rotation + hover-slow + radius responsif, tiap album Link ke `/galeri`, placeholder gradien bila cover kosong) + `HomeGallery` (server, header center + CTA "Jelajahi Galeri", map cover via `getOptimizedUrl`, fallback 6 album). Query `getGalleryAlbums()` (PUBLISHED, cover not null, `created_at desc`, `React.cache`). **Deviasi:** `GalleryAlbum` belum ada `is_featured`/`featured_order` → urut album terbaru; drag/touch penuh belum (auto+scroll+hover).
+- **Homepage Section 06 Upcoming Agenda (2026-06-28):** `HomeAgenda` — header dua kolom + CTA `/agenda`, `AgendaCarousel` (infinite horizontal, reuse rAF `CommissariatCarousel`: auto-scroll/pause-hover/drag/swipe). AgendaCard vertical (flyer 4:5 + badge status kanan-atas, judul/tanggal/lokasi/countdown + tombol "Lihat Detail"/"Lihat Dokumentasi") sesuai referensi gambar. Helper pure `shared/lib/agenda.ts` (status/badge/countdown/format tanggal dari tanggal otomatis) + self-check. Query `getUpcomingAgendas()` (PUBLISHED, start asc, `React.cache`) + fallback 4. Section tint (zebra).
+- **Homepage Section 05 Featured Articles (2026-06-28):** Implementasi `HomeArticles` — bento grid (1 featured besar `lg:col-span-2` image+overlay + 2 card sekunder kanan; varian image-overlay atau hijau solid bila tanpa gambar), header dua kolom (eyebrow/heading/sub + CTA "Jelajahi Artikel" `/artikel`), metadata `Kategori • Tanggal`, excerpt 2 baris, semua card → `/artikel/[slug]`. Query `getFeaturedArticles()` (3 artikel PUBLISHED terbaru, `React.cache`) + fallback 3 hardcoded. **Deviasi spec atas permintaan user (layout ikut referensi gambar):** tanpa carousel single-item/fade/auto-play 5s dan tanpa pagination dots; featured = artikel terbaru statis (tak ada flag `is_featured`).
+- **Homepage Section 04 About (2026-06-27):** Implementasi `HomeAbout` (split 50:50, eyebrow/heading/2 paragraf/core values Yakin·Usaha·Sampai/CTA `/profil` + featured image CMS `aspect-[4/3]` dengan fallback placeholder, background light gradient emerald). DB field baru `about_image_url` (`WebsiteSetting`, via `prisma db push`) + field upload di tab "Tampilan" SettingsForm. Wrapper reusable `FadeIn` (`shared/ui`, IntersectionObserver fade-up sekali saat masuk viewport) ditambahkan untuk dipakai ulang section homepage berikutnya.
+- **Homepage Commissariat Strip + Navbar & Hero Refinements (2026-06-27):** Section komisariat terpisah (`HomeCommissariats`, `CommissariatCard`) dibatalkan — diganti dengan infinite carousel strip langsung di bottom `HomeHero` (identitas visual, bukan section konten). `CommissariatCarousel` disederhanakan: tiap item hanya logo rounded square + nama komisariat bold putih, tanpa card background. `HomeHero` diubah menjadi `async` server component yang fetch `getPublicCommissariats()` langsung, merge DB + 8 fallback hardcoded via slug deduplication. Navbar scroll: `border-b bg-white shadow-sm` (sebelumnya `backdrop-blur`). Hero padding simetris `pt-24 pb-24`. `Section.tsx` reusable wrapper ditambahkan ke `shared/ui`.
+- **Dashboard Layout & Performance Refactoring (2026-06-22):** Refaktorisasi padding, margin, back button terpadu, dan rendering non-blocking dengan Suspense.
+- **Dashboard Loading Placeholder Removal (2026-06-22):** Menghapus placeholder kerangka dari fallback `Suspense` dan `loading.tsx` sambil mempertahankan pola App Shell.
+- **FSD Safe Refactoring & Codebase Cleanup (2026-06-22):** Penyelarasan arsitektur kode FSD (pemindahan widget & layout, penyelarasan nama file/folder actions.ts & schema.ts, pembersihan file usang).
 
 ## Backlog
 *(Area persemayaman seluruh antrean harapan dan daftar cita-cita (wishlist) pengembangan masa depan yang dikaji bernilai namun ditendang dari gerbong utama MVP untuk mempertahankan rentang fokus waktu tim).*

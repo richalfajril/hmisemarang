@@ -50,9 +50,12 @@ Sistem warna ini menggunakan format `oklch` bawaan dari inisialisasi awal (*pres
 
 ## 4. Typography
 
-CMS ini akan menggunakan satu *Font Family* utama untuk menjaga konsistensi.
+Menggunakan dua *Font Family*: satu untuk heading, satu untuk teks tubuh.
 
-* **Font Family:** `var(--font-sans)` (Akan ditentukan kemudian, misal Inter atau Plus Jakarta Sans di *Root Layout*).
+* **Heading:** **Bricolage Grotesque** — token `var(--font-heading)` / utilitas `font-heading`. Otomatis diterapkan ke `h1`–`h6` via base layer `globals.css`.
+* **Body / Subheading / Eyebrow / UI:** **Rubik** — token `var(--font-sans)` / utilitas `font-sans` (default `<html>`).
+* **Mono (kode):** **Geist Mono** — token `var(--font-mono)`.
+* Dimuat via `next/font/google` di `src/app/layout.tsx` (variabel CSS `--font-heading`, `--font-sans`, `--font-geist-mono`).
 * **Font Scale:** Mengandalkan utilitas `text-sm`, `text-base`, `text-lg`, `text-xl` dari Tailwind v4.
 
 **Hierarchy Rules:**
@@ -159,7 +162,7 @@ Berdasarkan *shadcn/ui* yang akan diinstal nanti:
 
 ## 12. Loading States
 
-* **Skeleton:** Tampilan *placeholder* kelabu beranimasi nafas lambat (*pulse*). Digunakan untuk pemuatan konten awal (misal: *Article Card* di dasbor).
+* **Route Streaming:** Rute dan widget dasbor boleh menggunakan `Suspense`/`loading.tsx`, tetapi fallback visual dibuat kosong (`null`) agar tidak menampilkan placeholder kerangka.
 * **Spinner:** Ikon putar (biasanya `lucide-react/Loader2`). Digunakan secara spesifik *di dalam tombol aksi* (saat form *submit* sedang berproses Server Action).
 * **Optimistic Updates:** Diatur via *React Query*. (Misal: menekan ikon *mark as read* pada notifikasi akan langsung memudarkan notifikasi meski proses API di latar belakang belum selesai).
 
@@ -197,7 +200,45 @@ Aplikasi ini menggunakan penegakan rasio ketat untuk gambar:
 
 ---
 
-## 16. Final Design Principles Summary
+## 16. Public Website Data States (Standar Global)
+
+Aturan global wajib untuk **seluruh** halaman publik, reusable component, card, carousel, grid, list, widget, dan section. Perilaku state ditentukan oleh **sumber data (Data Source)**.
+
+### Klasifikasi Sumber Data
+
+**Dynamic Data** — data dari CMS, Database, Prisma, Supabase, API, Server Action, atau External Service. **WAJIB** memiliki tiga state: **Loading**, **Success**, **Error**.
+
+**Static Data** — data sepenuhnya dari Hardcoded Constant, Static Configuration, Environment Variable, Static Asset, atau Manual Copywriting. **TIDAK WAJIB** Loading/Error — langsung dirender.
+
+### State Komponen Dynamic
+
+1. **Loading State** — gunakan **Skeleton UI** (dari Design System), mengikuti ukuran komponen sebenarnya, mempertahankan struktur layout, mencegah CLS. Hindari Spinner sebagai pengganti konten utama kecuali benar-benar perlu.
+2. **Success State** — prioritas data: (1) CMS/Database → (2) **Fallback Data** bila perlu. Fallback **bukan** Loading State; hanya dipakai saat request **berhasil** tetapi data belum tersedia/belum cukup untuk kebutuhan tampilan (mis. butuh 6 artikel, CMS punya 3 → 3 CMS + 3 fallback).
+3. **Error State** — **Graceful Fallback UI** (Empty Illustration / Placeholder / Friendly Message / Retry bila relevan). Wajib: pertahankan tinggi section, tanpa Layout Shift, **tanpa** pesan error teknis ke pengguna.
+
+### Perilaku Komponen Static
+
+Dirender langsung. Tanpa Skeleton, Retry, atau Error UI. Contoh: Opening Screen, CTA Banner, Footer, Hardcoded Metrics, Static Navigation, Copyright, Brand Assets.
+
+### Tanggung Jawab Komponen (FSD)
+
+Seluruh reusable component adalah **Presentation Component** — hanya menerima **Presentation Ready Data**. Komponen **dilarang**: fetching, filtering, sorting, pagination, menentukan fallback, atau business logic lain. Business logic hanya di **Server Component**, **Feature Layer**, **Server Action**, atau **Shared API** sesuai FSD.
+
+### State Flow
+
+```text
+Dynamic:  Loading → Skeleton UI → Success → (CMS Data → Fallback bila perlu)
+                                  └ atau → Error → Graceful Fallback UI
+Static:   Render → Completed
+```
+
+### Standar Dokumentasi
+
+Setiap dokumen section ber-**Dynamic Data** wajib memuat subbab: **Data Source**, **Loading State**, **Success State / Data Resolution Strategy**, **Error State**, **Acceptance Criteria**. Section statis tidak diwajibkan.
+
+---
+
+## 17. Final Design Principles Summary
 
 **The Golden Rules:**
 1. **Never Invent Outside the Tokens:** Jika membutuhkan warna abu-abu, gunakan `--muted` atau `--secondary`, jangan menulis kode `bg-[#d3d3d3]`.

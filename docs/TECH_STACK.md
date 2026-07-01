@@ -254,16 +254,24 @@ docs/ROLE_PERMISSION_MATRIX.md
 
 # Storage
 
-## Supabase Storage
+## Cloudinary
 
 Purpose:
 
+* Media Optimization Pipeline
 * Article images
 * Agenda flyers
 * Gallery photos
 * Logos
 * Favicon
-* PDF Documents
+* PDF Documents / Secure Verifications
+
+Reason:
+
+* Dedicated media CDN
+* Built-in on-the-fly image transformations (resize, webp/avif)
+* Avoids Next.js image proxy bottlenecks
+* Reduces Vercel/Supabase bandwidth usage
 
 ---
 
@@ -283,6 +291,21 @@ docs/PRD.md
 ---
 
 # Rich Text Editor
+
+## @google/model-viewer
+
+Purpose:
+
+* Render aset 3D `.glb` (logo HMI Cabang Semarang) di web melalui web component `<model-viewer>`.
+
+Penggunaan:
+
+* Homepage — card kanan section "Tentang HMI Cabang Semarang" (`widgets/home/ui/Logo3D.tsx`, client-only, lazy import di `useEffect`).
+* Aset di `public/models/logo-hmsmg3d.glb`. Auto-rotate + camera-controls, zoom dimatikan.
+
+Catatan: dependency disetujui (2026-06-29). Dipilih ketimbang `react-three-fiber`/`three` karena jauh lebih ringan (1 paket, lighting/kontrol bawaan).
+
+---
 
 ## Tiptap
 
@@ -421,7 +444,14 @@ Do not use:
 
 Purpose:
 
-* Consistent icon set
+* Primary/consistent icon set untuk UI umum (aksi, navigasi, status).
+
+## React Icons (Font Awesome 6 brands)
+
+Purpose:
+
+* Khusus **ikon brand media sosial** (Instagram, X/Twitter, LinkedIn, Facebook, YouTube, TikTok) yang tidak lagi tersedia di Lucide.
+* Hanya dipakai untuk merepresentasikan platform sosial (mis. kartu pengurus). Untuk ikon non-brand tetap gunakan Lucide React.
 
 ---
 

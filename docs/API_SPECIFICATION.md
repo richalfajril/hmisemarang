@@ -99,7 +99,7 @@ Beroperasi pada tabel `commissariats` dan `commissariat_profile_submissions`.
 ## 6. Cadre Verification APIs
 
 * **`uploadVerificationFile(formData)`**
-  * Mengunggah file ke *bucket* `secure-verifications` (melalui Supabase SDK).
+  * Mengunggah file ke folder Cloudinary `secure-verifications` (melalui Cloudinary SDK).
   * Memasukkan entri ke `cadre_verifications` dengan status `PENDING`.
 * **`approveVerification(id, rowCount)`**
   * **Permissions:** ADMIN_CABANG, SYSTEM_ADMIN.
@@ -116,7 +116,7 @@ Hanya dapat dikelola oleh ADMIN_CABANG dan SYSTEM_ADMIN.
 * **`createAlbum(data)`** / **`updateAlbum(id, data)`**
 * **`publishAlbum(id)`** / **`archiveAlbum(id)`**
 * **`uploadPhoto(albumId, formData)`**
-  * Mengunggah gambar beresolusi tinggi ke *bucket* `public-media`, lalu menyisipkan URL ke `gallery_photos`.
+  * Mengunggah gambar beresolusi tinggi ke folder Cloudinary `public-media`, lalu menyisipkan URL hasil optimasi `webp`/`avif` ke `gallery_photos`.
 * **`reorderPhotos(albumId, orderArray)`**
   * Memperbarui kolom `sort_order` pada kumpulan ID gambar secara massal.
 
@@ -127,10 +127,10 @@ Hanya dapat dikelola oleh ADMIN_CABANG dan SYSTEM_ADMIN.
 Hanya dikelola oleh ADMIN_CABANG dan SYSTEM_ADMIN.
 
 * **`createDocument(data, file)`** / **`updateDocument(id, data)`**
-  * Mengunggah PDF ke *bucket* `secure-documents`.
+  * Mengunggah PDF ke folder Cloudinary `secure-documents` menggunakan otentikasi privat.
 * **`publishDocument(id)`** / **`archiveDocument(id)`**
 * **`downloadDocument(id)`**
-  * Action ini memvalidasi permintaan, mencatat analitik jika diperlukan, dan mengembalikan *Signed URL* dari Supabase Storage.
+  * Action ini memvalidasi permintaan, mencatat analitik jika diperlukan, dan mengembalikan *Signed URL* dari Cloudinary.
 
 ---
 
@@ -176,7 +176,7 @@ Manajemen unggahan disentralisasi ke dalam fungsi pustaka (seperti `uploadFileTo
   * Verifikasi Kader: `.xlsx`, `.xls`, `.csv`. Maksimal: 5MB.
   * Dokumen: `.pdf`. Maksimal: 10MB.
 * **Media Optimization Pipeline:**
-  * Kompresi dan optimasi gambar akan dilayani *on-the-fly* oleh komponen `next/image` di sisi klien. Supabase Storage murni sebagai tempat penyimpanan file asli.
+  * Kompresi dan optimasi gambar akan dilayani secara otomatis oleh Cloudinary (menggunakan transformasi URL seperti f_auto dan q_auto). Cloudinary berfungsi sebagai penyimpan file asli.
 
 ---
 

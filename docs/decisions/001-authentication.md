@@ -77,7 +77,6 @@ Applies To:
 * Agenda
 * Album Galeri
 * Dokumen
-* Komisariat
 
 ### Database
 

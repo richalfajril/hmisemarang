@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { ShieldAlert } from 'lucide-react'
-import { EmptyState } from '@/shared/ui/ui/EmptyState'
-import { buttonVariants } from '@/shared/ui/ui/Button'
+import { EmptyState } from '@/shared/ui/EmptyState'
+import { buttonVariants } from '@/shared/ui/Button'
 
 export default function ForbiddenPage() {
   return (
@@ -11,7 +11,7 @@ export default function ForbiddenPage() {
         title="Akses Ditolak (403)"
         description="Kredensial atau wewenang Anda tidak mencukupi untuk menembus portal ini. Silakan hubungi Administrator."
         action={
-          <Link href="/dashboard" className={buttonVariants({ variant: 'default' })}>
+          <Link href="/dashboard" prefetch className={buttonVariants({ variant: 'default' })}>
             Kembali ke Dasbor
           </Link>
         }

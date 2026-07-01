@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react'
 import { AlertCircle } from 'lucide-react'
-import { EmptyState } from '@/shared/ui/ui/EmptyState'
-import { Button } from '@/shared/ui/ui/Button'
+import { EmptyState } from '@/shared/ui/EmptyState'
+import { Button } from '@/shared/ui/Button'
 
 export default function ErrorPage({
   error,

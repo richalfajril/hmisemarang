@@ -1,0 +1,6 @@
+{
+  "git.rebaseWhenSync": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "prisma.pinToPrisma6": true
+}
