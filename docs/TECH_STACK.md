@@ -307,6 +307,16 @@ Catatan: dependency disetujui (2026-06-29). Dipilih ketimbang `react-three-fiber
 
 ---
 
+## xlsx (SheetJS)
+
+Purpose:
+
+* Parsing berkas Excel `.xlsx`/`.xls` untuk **import massal akun Komisariat & LPP** (kolom No, Nama_Komisariat, Username) di modul `commissariat-accounts`.
+
+Catatan: dependency disetujui (2026-07-01). Dipilih karena tidak ada parser spreadsheet lain di project; kebutuhan spesifik import akun via Excel. Parsing dilakukan di server action.
+
+---
+
 ## Tiptap
 
 Purpose:

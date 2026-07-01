@@ -14,25 +14,12 @@ import {
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/Select'
 import { PlusCircle, Loader2, Copy, Check } from 'lucide-react'
 
-export function CreateUserModal({
-  commissariats,
-}: {
-  commissariats: { id: string; name: string }[]
-}) {
+export function CreateUserModal() {
   const [open, setOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const [state, formAction, isPending] = useActionState(createUserAction, initialActionState)
-
-  const [role, setRole] = useState('ADMIN_KOMISARIAT')
 
   // Set ulang salinan ketika dialog terbuka
   useEffect(() => {
@@ -96,6 +83,37 @@ export function CreateUserModal({
               </div>
             )}
 
+            <input type="hidden" name="role" value="ADMIN_CABANG" />
+
+            <div className="space-y-2">
+              <Label htmlFor="name">Nama Pengurus</Label>
+              <Input
+                id="name"
+                name="name"
+                disabled={isPending}
+                placeholder="Nama lengkap"
+                className={state?.fieldErrors?.name ? 'border-destructive' : ''}
+              />
+              {state?.fieldErrors?.name && (
+                <p className="text-xs text-destructive">{state.fieldErrors.name[0]}</p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                name="username"
+                required
+                disabled={isPending}
+                placeholder="username untuk login"
+                className={state?.fieldErrors?.username ? 'border-destructive' : ''}
+              />
+              {state?.fieldErrors?.username && (
+                <p className="text-xs text-destructive">{state.fieldErrors.username[0]}</p>
+              )}
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="email">Email Dinas Pengurus</Label>
               <Input
@@ -111,41 +129,6 @@ export function CreateUserModal({
                 <p className="text-xs text-destructive">{state.fieldErrors.email[0]}</p>
               )}
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="role">Tingkat Kewenangan (Role)</Label>
-              <input type="hidden" name="role" value={role} />
-              <Select value={role} onValueChange={setRole} disabled={isPending}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih kewenangan" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="ADMIN_CABANG">Admin Cabang (Pengurus Harian)</SelectItem>
-                  <SelectItem value="ADMIN_KOMISARIAT">Admin Komisariat</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {role === 'ADMIN_KOMISARIAT' && (
-              <div className="space-y-2 animate-in slide-in-from-top-2">
-                <Label htmlFor="commissariat_id">Instansi Komisariat</Label>
-                <Select name="commissariat_id" disabled={isPending} required>
-                  <SelectTrigger className={state?.fieldErrors?.commissariat_id ? 'border-destructive' : ''}>
-                    <SelectValue placeholder="Pilih asal komisariat" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {commissariats.map((comm) => (
-                      <SelectItem key={comm.id} value={comm.id}>
-                        {comm.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {state?.fieldErrors?.commissariat_id && (
-                  <p className="text-xs text-destructive">{state.fieldErrors.commissariat_id[0]}</p>
-                )}
-              </div>
-            )}
 
             <div className="pt-4 flex justify-end space-x-2">
               <Button type="button" variant="ghost" onClick={() => setOpen(false)} disabled={isPending}>

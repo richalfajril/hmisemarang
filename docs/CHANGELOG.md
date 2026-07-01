@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Auth Username + Modul Komisariat & LPP + Ganti Password (2026-07-01)
+* **Login berbasis Username** (semua akun): `User` tambah kolom `username @unique` + `name`. `loginAction` cari user by username → ambil email → `signInWithPassword` (Supabase Auth tetap berbasis email di balik layar). `loginSchema`/`LoginForm` field Email → **Username**. Backfill username user lama (= prefix email) via script one-time.
+* **Modul baru "Komisariat & LPP"** (`/dashboard/commissariat-accounts`, ADMIN_CABANG only): kelola akun `ADMIN_KOMISARIAT` (komisariat + LPP jadi satu role). **Impor Excel massal** (dep baru **`xlsx`/SheetJS**, dicatat di `TECH_STACK.md`) kolom `No`, `Nama_Komisariat`, `Username` → tiap baris buat akun (email sintetis `<username>@hmisemarang.local`, **password default `123456`**, `name`=Nama_Komisariat, link `commissariat_id` bila nama cocok). Dedup username (DB + intra-batch), lapor baris di-skip. Aksi: reset password ke default, hapus akun. Nav sidebar item baru.
+* **Ganti Password** (`features/auth`): `changePasswordAction` (`supabase.auth.updateUser`, min 6 + konfirmasi) + `ChangePasswordForm` ditaruh di `/dashboard/profile` (dashboard komisariat).
+* **Modul Pengguna → khusus akun tingkat cabang**: `dashboard/users` hanya tampil akun non-`ADMIN_KOMISARIAT`; `CreateUserModal` disederhanakan (role fixed ADMIN_CABANG, +Username +Nama, buang pemilih role/komisariat); `UserTable` +kolom Username & Nama.
+
 #### Logo 3D (.glb) di Section "Tentang HMI Cabang Semarang" (2026-06-29)
 * Dependency baru **`@google/model-viewer`** (disetujui; dicatat di `TECH_STACK.md`) — web component `<model-viewer>` untuk render aset 3D, jauh lebih ringan dari react-three-fiber.
 * **`Logo3D`** (client, `widgets/home/ui/Logo3D.tsx`): render `public/models/logo-hmsmg3d.glb` (auto-rotate, camera-controls, zoom off). Lazy import `@google/model-viewer` di `useEffect` (client-only WebGL); element di-cast FC agar ter-tipe tanpa augmentasi JSX global.

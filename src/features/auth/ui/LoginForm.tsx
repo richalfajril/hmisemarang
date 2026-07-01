@@ -31,19 +31,19 @@ export function LoginForm() {
         )}
 
         <Field>
-          <FieldLabel htmlFor="email">Alamat Email</FieldLabel>
+          <FieldLabel htmlFor="username">Username</FieldLabel>
           <Input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="admin@hmisemarang.com"
-            autoComplete="email"
+            id="username"
+            name="username"
+            type="text"
+            placeholder="username"
+            autoComplete="username"
             required
             disabled={isPending}
-            className={state?.fieldErrors?.email ? 'border-destructive focus-visible:ring-destructive' : ''}
+            className={state?.fieldErrors?.username ? 'border-destructive focus-visible:ring-destructive' : ''}
           />
-          {state?.fieldErrors?.email && (
-            <FieldError errors={state.fieldErrors.email.map(msg => ({ message: msg }))} />
+          {state?.fieldErrors?.username && (
+            <FieldError errors={state.fieldErrors.username.map(msg => ({ message: msg }))} />
           )}
         </Field>
 

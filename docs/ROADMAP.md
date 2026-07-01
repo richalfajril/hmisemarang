@@ -346,6 +346,7 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 - **Dashboard Layout & Performance Refactoring (2026-06-22):** Refaktorisasi padding, margin, back button terpadu, dan rendering non-blocking dengan Suspense.
 - **Dashboard Loading Placeholder Removal (2026-06-22):** Menghapus placeholder kerangka dari fallback `Suspense` dan `loading.tsx` sambil mempertahankan pola App Shell.
 - **FSD Safe Refactoring & Codebase Cleanup (2026-06-22):** Penyelarasan arsitektur kode FSD (pemindahan widget & layout, penyelarasan nama file/folder actions.ts & schema.ts, pembersihan file usang).
+- **Auth Username + Modul Komisariat & LPP (2026-07-01):** Login diubah ke basis username (semua akun; `User.username @unique`, backfill user lama). Modul Pengguna dipersempit ke akun tingkat cabang. Modul baru "Komisariat & LPP" (`/dashboard/commissariat-accounts`) dengan impor akun massal via Excel (dep `xlsx`, kolom No/Nama_Komisariat/Username, password default 123456). Ganti password mandiri di dashboard komisariat. Detail di CHANGELOG.
 
 ## Backlog
 *(Area persemayaman seluruh antrean harapan dan daftar cita-cita (wishlist) pengembangan masa depan yang dikaji bernilai namun ditendang dari gerbong utama MVP untuk mempertahankan rentang fokus waktu tim).*

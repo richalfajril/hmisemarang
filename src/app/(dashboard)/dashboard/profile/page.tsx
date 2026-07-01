@@ -2,6 +2,7 @@ import { prisma } from '@/shared/api/prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { ProfileForm } from '@/features/commissariat-profile/ui/ProfileForm'
+import { ChangePasswordForm } from '@/features/auth/ui/ChangePasswordForm'
 import { RevisionNotes } from '@/features/content-review/ui/RevisionNotes'
 import { Suspense } from 'react'
 
@@ -63,12 +64,14 @@ export default async function ProfilePage() {
         </Suspense>
       )}
 
-      <ProfileForm 
-        initialData={initialData} 
-        submissionId={submissionId} 
+      <ProfileForm
+        initialData={initialData}
+        submissionId={submissionId}
         status={status}
         universities={universities}
       />
+
+      <ChangePasswordForm />
     </div>
   )
 }

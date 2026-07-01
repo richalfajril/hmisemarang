@@ -26,22 +26,19 @@ export default async function UsersPage() {
     redirect('/dashboard') // Tolak akses jika bukan tingkat cabang
   }
 
-  // 2. Ambil Data
+  // 2. Ambil Data — modul ini khusus akun tingkat cabang (bukan komisariat/LPP)
   const rawUsers = await prisma.user.findMany({
+    where: { role: { not: 'ADMIN_KOMISARIAT' } },
     orderBy: { role: 'asc' },
     include: { commissariat: { select: { name: true } } }
-  })
-
-  const commissariats = await prisma.commissariat.findMany({
-    where: { is_active: true },
-    select: { id: true, name: true },
-    orderBy: { name: 'asc' }
   })
 
   // Format data untuk dikirim ke Client Component agar serialization aman
   const formattedUsers = rawUsers.map(u => ({
     id: u.id,
     email: u.email,
+    username: u.username,
+    name: u.name,
     role: u.role,
     commissariat_name: u.commissariat?.name || null,
     last_login_at: u.last_login_at
@@ -51,10 +48,10 @@ export default async function UsersPage() {
     <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Manajemen Pengguna"
-        description="Pusat kendali otoritas dan akses. Anda dapat menambahkan pengurus cabang baru atau membuka paksa kunci sandi akun komisariat."
+        description="Kelola akun pengurus tingkat cabang. Akun komisariat & LPP dikelola di modul terpisah."
         icon={UsersIcon}
       >
-        <CreateUserModal commissariats={commissariats} />
+        <CreateUserModal />
       </PageHeader>
 
       <UserTable users={formattedUsers} currentUserId={currentUser.id} />

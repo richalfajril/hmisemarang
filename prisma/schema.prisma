@@ -70,6 +70,8 @@ model User {
   id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   role            UserRole      @default(ADMIN_KOMISARIAT)
   email           String        @unique
+  username        String?       @unique
+  name            String?
   password_hash   String?
   commissariat_id String?       @db.Uuid
   last_login_at   DateTime?

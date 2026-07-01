@@ -47,6 +47,17 @@ export async function createUserAction(
     }
   }
 
+  // Username harus unik
+  const usernameTaken = await prisma.user.findUnique({ where: { username: parsed.data.username } })
+  if (usernameTaken) {
+    return {
+      success: false,
+      message: 'Username sudah digunakan.',
+      fieldErrors: { username: ['Username sudah dipakai'] },
+      errorCode: 'VALIDATION_ERROR',
+    }
+  }
+
   // Generate Kata Sandi Sementara Acak
   const randomStr = Math.random().toString(36).slice(-6)
   const tempPassword = `Hmi-${randomStr}!`
@@ -68,6 +79,8 @@ export async function createUserAction(
       data: {
         id: authData.user.id,
         email: parsed.data.email,
+        username: parsed.data.username,
+        name: parsed.data.name || null,
         role: parsed.data.role,
         commissariat_id: parsed.data.commissariat_id || null,
       },

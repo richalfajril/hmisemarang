@@ -27,6 +27,8 @@ import { SmartPagination } from '@/shared/ui/SmartPagination'
 export type UserData = {
   id: string
   email: string
+  username: string | null
+  name: string | null
   role: string
   commissariat_name: string | null
   last_login_at: Date | null
@@ -67,9 +69,9 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">No.</TableHead>
-              <TableHead>Email Fungsionaris</TableHead>
+              <TableHead>Fungsionaris</TableHead>
               <TableHead>Status Kewenangan</TableHead>
-              <TableHead>Unit / Instansi</TableHead>
+              <TableHead>Username</TableHead>
               <TableHead>Jejak Aktivitas</TableHead>
               <TableHead className="text-right">Aksi</TableHead>
             </TableRow>
@@ -87,14 +89,19 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
                 return (
                 <TableRow key={user.id}>
                   <TableCell>{rowIndex}</TableCell>
-                  <TableCell className="font-medium max-w-[150px] sm:max-w-[200px] md:max-w-[250px] truncate" title={user.email}>{user.email}</TableCell>
+                  <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[250px]">
+                    <div className="min-w-0">
+                      {user.name && <p className="truncate font-medium" title={user.name}>{user.name}</p>}
+                      <p className="truncate text-xs text-muted-foreground" title={user.email}>{user.email}</p>
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <Badge className="w-full" variant={user.role === 'SYSTEM_ADMIN' ? 'destructive' : user.role === 'ADMIN_CABANG' ? 'default' : 'secondary'}>
                       {user.role.replace('_', ' ')}
                     </Badge>
                   </TableCell>
-                  <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[250px] truncate" title={user.commissariat_name || 'Pusat Cabang'}>
-                    {user.commissariat_name ? user.commissariat_name : <span className="text-muted-foreground italic">Pusat Cabang</span>}
+                  <TableCell className="font-mono text-sm text-muted-foreground">
+                    {user.username || '-'}
                   </TableCell>
                   <TableCell className="text-muted-foreground text-sm">
                     {user.last_login_at ? new Date(user.last_login_at).toLocaleDateString('id-ID', { dateStyle: 'medium' }) : 'Belum Pernah'}
