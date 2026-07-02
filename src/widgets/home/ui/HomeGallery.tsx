@@ -6,58 +6,20 @@ import { getGalleryAlbums } from "../api/queries";
 import { CircularGallery, type GalleryAlbum } from "./CircularGallery";
 
 // Fallback (coverImageUrl "" → placeholder gradien) selama CMS belum cukup album.
+const U = (id: string) => `https://images.unsplash.com/photo-${id}?w=800&q=80`;
+
 const FALLBACK: GalleryAlbum[] = [
-  {
-    id: "gl1",
-    title: "Latihan Kader & Kaderisasi",
-    slug: "kaderisasi",
-    coverImageUrl: "",
-  },
-  {
-    id: "gl2",
-    title: "Diskusi & Kajian Ilmiah",
-    slug: "diskusi",
-    coverImageUrl: "",
-  },
-  {
-    id: "gl3",
-    title: "Pengabdian Masyarakat",
-    slug: "pengabdian",
-    coverImageUrl: "",
-  },
-  { id: "gl4", title: "Aksi & Advokasi", slug: "aksi", coverImageUrl: "" },
-  { id: "gl5", title: "Milad & Kebersamaan", slug: "milad", coverImageUrl: "" },
-  {
-    id: "gl6",
-    title: "Kolaborasi & Kemitraan",
-    slug: "kolaborasi",
-    coverImageUrl: "",
-  },
-  {
-    id: "gl7",
-    title: "Seminar & Lokakarya",
-    slug: "seminar",
-    coverImageUrl: "",
-  },
-  { id: "gl8", title: "Bakti Sosial", slug: "bakti-sosial", coverImageUrl: "" },
-  {
-    id: "gl9",
-    title: "Rapat Kerja Cabang",
-    slug: "rapat-kerja",
-    coverImageUrl: "",
-  },
-  {
-    id: "gl10",
-    title: "Pelantikan Pengurus",
-    slug: "pelantikan",
-    coverImageUrl: "",
-  },
-  {
-    id: "gl11",
-    title: "Olahraga & Keakraban",
-    slug: "olahraga",
-    coverImageUrl: "",
-  },
+  { id: "gl1", title: "Latihan Kader & Kaderisasi", slug: "kaderisasi", coverImageUrl: U("1511578314322-379afb476865") },
+  { id: "gl2", title: "Diskusi & Kajian Ilmiah", slug: "diskusi", coverImageUrl: U("1523240795612-9a054b0db644") },
+  { id: "gl3", title: "Pengabdian Masyarakat", slug: "pengabdian", coverImageUrl: U("1544928147-79a2dbc1f389") },
+  { id: "gl4", title: "Aksi & Advokasi", slug: "aksi", coverImageUrl: U("1540575467063-178a50c2df87") },
+  { id: "gl5", title: "Milad & Kebersamaan", slug: "milad", coverImageUrl: U("1475721027785-f74eccf877e2") },
+  { id: "gl6", title: "Kolaborasi & Kemitraan", slug: "kolaborasi", coverImageUrl: U("1552664730-d307ca884978") },
+  { id: "gl7", title: "Seminar & Lokakarya", slug: "seminar", coverImageUrl: U("1517486808906-6ca8b3f04846") },
+  { id: "gl8", title: "Bakti Sosial", slug: "bakti-sosial", coverImageUrl: U("1531482615713-2afd69097998") },
+  { id: "gl9", title: "Rapat Kerja Cabang", slug: "rapat-kerja", coverImageUrl: U("1486870591958-9b9d0d1dda99") },
+  { id: "gl10", title: "Pelantikan Pengurus", slug: "pelantikan", coverImageUrl: U("1507525428034-b723cf961d3e") },
+  { id: "gl11", title: "Olahraga & Keakraban", slug: "olahraga", coverImageUrl: U("1441974231531-c6227db76b6e") },
 ];
 
 const MIN_ALBUMS = 11; // banyak card → jarak antar card lebih rapat di lingkaran

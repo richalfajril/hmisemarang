@@ -194,6 +194,7 @@ model Article {
   author_name         String?
   author_image_url    String?
   author_commissariat String?
+  view_count          Int           @default(0)
   status              ArticleStatus @default(DRAFT)
 
   submitted_at DateTime?

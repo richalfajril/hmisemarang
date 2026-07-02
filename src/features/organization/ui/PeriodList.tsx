@@ -47,7 +47,8 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
   const pagination = useClientPagination(items, 15)
 
   return (
-    <div className="rounded-md border bg-card">
+    <div className="space-y-4">
+      <div className="rounded-md border bg-card">
       <Table>
         <TableHeader>
           <TableRow>
@@ -143,6 +144,7 @@ export function PeriodList({ items }: { items: PeriodData[] }) {
           )}
         </TableBody>
       </Table>
+      </div>
       <SmartPagination {...pagination} />
 
       {editItem && (

@@ -27,7 +27,7 @@ const FALLBACK: Article[] = [
     slug: "ndp-era-digital",
     excerpt:
       "Menelaah relevansi teks-teks ideologis HMI dalam menjawab tantangan disrupsi teknologi dan pergeseran paradigma sosial di kalangan generasi Z.",
-    featured_image_url: null,
+    featured_image_url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80",
     published_at: new Date("2026-06-15"),
     author_name: "Redaksi HMI",
     author_image_url: null,
@@ -40,7 +40,7 @@ const FALLBACK: Article[] = [
     slug: "gagasan-islam-progresif",
     excerpt:
       "Membangun narasi keislaman yang inklusif dan adaptif terhadap kemajuan zaman.",
-    featured_image_url: null,
+    featured_image_url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80",
     published_at: new Date("2026-06-10"),
     author_name: "Redaksi HMI",
     author_image_url: null,
@@ -53,7 +53,7 @@ const FALLBACK: Article[] = [
     slug: "kaderisasi-tantangan-zaman",
     excerpt:
       "Merefleksikan arah pengkaderan HMI di tengah perubahan lanskap sosial dan teknologi.",
-    featured_image_url: null,
+    featured_image_url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1200&q=80",
     published_at: new Date("2026-06-05"),
     author_name: "Redaksi HMI",
     author_image_url: null,
@@ -66,7 +66,7 @@ const FALLBACK: Article[] = [
     slug: "advokasi-kebijakan-publik",
     excerpt:
       "Menyoroti kontribusi gerakan mahasiswa dalam mengawal kebijakan publik yang berpihak pada rakyat.",
-    featured_image_url: null,
+    featured_image_url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1200&q=80",
     published_at: new Date("2026-05-28"),
     author_name: "Redaksi HMI",
     author_image_url: null,
@@ -79,7 +79,7 @@ const FALLBACK: Article[] = [
     slug: "refleksi-hari-lahir-hmi",
     excerpt:
       "Meneguhkan kembali komitmen kaderisasi dan pengabdian di momentum milad HMI.",
-    featured_image_url: null,
+    featured_image_url: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=1200&q=80",
     published_at: new Date("2026-05-20"),
     author_name: "Redaksi HMI",
     author_image_url: null,

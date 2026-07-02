@@ -66,7 +66,8 @@ export function AgendaList({ agendas }: AgendaListProps) {
   }
 
   return (
-    <div className="rounded-md border bg-card">
+    <div className="space-y-4">
+      <div className="rounded-md border bg-card">
       <Table>
         <TableHeader>
           <TableRow>
@@ -145,6 +146,7 @@ export function AgendaList({ agendas }: AgendaListProps) {
           )}
         </TableBody>
       </Table>
+      </div>
       <SmartPagination {...pagination} />
     </div>
   )

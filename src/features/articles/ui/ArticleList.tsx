@@ -71,7 +71,8 @@ export function ArticleList({ articles }: ArticleListProps) {
   }
 
   return (
-    <div className="rounded-md border bg-card">
+    <div className="space-y-4">
+      <div className="rounded-md border bg-card">
       <Table>
         <TableHeader>
           <TableRow>
@@ -153,6 +154,7 @@ export function ArticleList({ articles }: ArticleListProps) {
           )}
         </TableBody>
       </Table>
+      </div>
       <SmartPagination {...pagination} />
     </div>
   )

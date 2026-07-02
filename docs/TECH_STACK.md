@@ -307,6 +307,26 @@ Catatan: dependency disetujui (2026-06-29). Dipilih ketimbang `react-three-fiber
 
 ---
 
+## Framer Motion
+
+Purpose:
+
+* Animasi bento galeri interaktif di `/galeri` (`GalleryBento`): drag horizontal (`drag="x"` + `dragConstraints`), reveal saat scroll (`useScroll`/`useTransform`), stagger item, dan modal lightbox (`AnimatePresence`).
+
+Catatan: dependency disetujui (2026-07-02). Dipakai khusus komponen galeri interaktif; animasi ringan lain tetap pakai CSS/`FadeIn` bawaan.
+
+---
+
+## @tailwindcss/typography
+
+Purpose:
+
+* Kelas `prose` untuk render konten HTML artikel (Tiptap) di halaman baca publik `/artikel/[slug]` agar tipografi (heading, list, blockquote, gambar) rapi otomatis.
+
+Catatan: dev dependency disetujui (2026-07-02). Didaftarkan via `@plugin "@tailwindcss/typography";` di `globals.css` (Tailwind v4).
+
+---
+
 ## xlsx (SheetJS)
 
 Purpose:

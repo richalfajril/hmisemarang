@@ -42,7 +42,8 @@ export function TaxonomyTable({ items, type, label }: { items: TaxonomyData[], t
   const pagination = useClientPagination(items, 15)
 
   return (
-    <div className="rounded-md border bg-card">
+    <div className="space-y-4">
+      <div className="rounded-md border bg-card">
       <Table>
         <TableHeader>
           <TableRow>
@@ -117,6 +118,7 @@ export function TaxonomyTable({ items, type, label }: { items: TaxonomyData[], t
           )}
         </TableBody>
       </Table>
+      </div>
       <SmartPagination {...pagination} />
 
       {editItem && (

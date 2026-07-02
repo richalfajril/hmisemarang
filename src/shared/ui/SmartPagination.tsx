@@ -2,7 +2,7 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/shared/ui/Select'
 import { Button } from '@/shared/ui/Button'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
 
 interface SmartPaginationProps {
   currentPage: number
@@ -10,6 +10,20 @@ interface SmartPaginationProps {
   totalItems: number
   onPageChange: (page: number) => void
   onPageSizeChange: (size: number) => void
+  pageSizeOptions?: number[]
+}
+
+/** Deret nomor halaman dengan ellipsis (…) bila banyak. */
+function pageRange(current: number, total: number): (number | '...')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+  const out: (number | '...')[] = [1]
+  const start = Math.max(2, current - 1)
+  const end = Math.min(total - 1, current + 1)
+  if (start > 2) out.push('...')
+  for (let i = start; i <= end; i++) out.push(i)
+  if (end < total - 1) out.push('...')
+  out.push(total)
+  return out
 }
 
 export function SmartPagination({
@@ -17,60 +31,72 @@ export function SmartPagination({
   pageSize,
   totalItems,
   onPageChange,
-  onPageSizeChange
+  onPageSizeChange,
+  pageSizeOptions = [10, 25, 50, 100],
 }: SmartPaginationProps) {
-  const totalPages = Math.ceil(totalItems / pageSize)
+  const totalPages = Math.max(1, Math.ceil(totalItems / pageSize))
   const startItem = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1
   const endItem = Math.min(currentPage * pageSize, totalItems)
-
-  if (totalItems === 0) return null
+  // Selalu sertakan pageSize aktif di opsi (mis. 15 dari dashboard).
+  const options = Array.from(new Set([pageSize, ...pageSizeOptions])).sort((a, b) => a - b)
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-2 text-sm text-muted-foreground border-t mt-4">
-      <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-        <span>
-          Menampilkan {startItem}–{endItem} dari {totalItems} entitas
-        </span>
-        <div className="flex items-center justify-center gap-2">
-          <span>Tampilkan</span>
-          <Select 
-            value={pageSize.toString()} 
-            onValueChange={(v) => onPageSizeChange(Number(v))}
-          >
-            <SelectTrigger className="h-8 w-[70px]">
+    <div className="flex flex-col items-center justify-between gap-4 border-t pt-6 text-sm text-muted-foreground sm:flex-row">
+      {/* Kiri: pemilih jumlah + info */}
+      <div className="flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
+        <div className="flex items-center gap-2">
+          <span>Tampilkan:</span>
+          <Select value={pageSize.toString()} onValueChange={(v) => onPageSizeChange(Number(v))}>
+            <SelectTrigger className="h-9 w-[72px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {[15, 30, 60].map(size => (
-                <SelectItem key={size} value={size.toString()}>{size}</SelectItem>
+              {options.map((size) => (
+                <SelectItem key={size} value={size.toString()}>
+                  {size}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          <span>per halaman</span>
         </div>
+        <span>
+          Menampilkan <span className="font-semibold text-foreground">{startItem}</span> -{' '}
+          <span className="font-semibold text-foreground">{endItem}</span> dari{' '}
+          <span className="font-semibold text-foreground">{totalItems}</span>
+        </span>
       </div>
-      
-      <div className="flex items-center gap-4">
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage <= 1}
-        >
+
+      {/* Kanan: navigasi */}
+      <div className="flex items-center gap-2">
+        <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => onPageChange(1)} disabled={currentPage <= 1} aria-label="Halaman pertama">
+          <ChevronsLeft className="h-4 w-4" />
+        </Button>
+        <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => onPageChange(currentPage - 1)} disabled={currentPage <= 1} aria-label="Sebelumnya">
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <span className="font-medium text-foreground w-12 text-center">
-          {currentPage} / {Math.max(1, totalPages)}
-        </span>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages}
-        >
+
+        {pageRange(currentPage, totalPages).map((p, i) =>
+          p === '...' ? (
+            <span key={`e${i}`} className="w-9 text-center">…</span>
+          ) : (
+            <Button
+              key={p}
+              variant={p === currentPage ? 'default' : 'outline'}
+              size="icon"
+              className="h-9 w-9"
+              onClick={() => onPageChange(p)}
+              aria-current={p === currentPage ? 'page' : undefined}
+            >
+              {p}
+            </Button>
+          )
+        )}
+
+        <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => onPageChange(currentPage + 1)} disabled={currentPage >= totalPages} aria-label="Berikutnya">
           <ChevronRight className="h-4 w-4" />
+        </Button>
+        <Button variant="outline" size="icon" className="h-9 w-9" onClick={() => onPageChange(totalPages)} disabled={currentPage >= totalPages} aria-label="Halaman terakhir">
+          <ChevronsRight className="h-4 w-4" />
         </Button>
       </div>
     </div>

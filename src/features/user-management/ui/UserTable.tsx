@@ -143,8 +143,8 @@ export function UserTable({ users, currentUserId }: { users: UserData[], current
             )}
           </TableBody>
         </Table>
-        <SmartPagination {...pagination} />
       </div>
+      <SmartPagination {...pagination} />
     </div>
   )
 }

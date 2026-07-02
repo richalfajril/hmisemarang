@@ -1,7 +1,8 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { Search, Download, FileText, Loader2 } from 'lucide-react'
+import { useSearchParams } from 'next/navigation'
+import { Download, FileText, Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { id as idLocale } from 'date-fns/locale'
 import { toast } from 'sonner'
@@ -38,15 +39,11 @@ type SortKey = 'latest' | 'oldest' | 'az' | 'za'
 export function PublicDocumentTable({
   documents,
   categories,
-  title,
-  description,
 }: {
   documents: PublicDocument[]
   categories: string[]
-  title: string
-  description: string
 }) {
-  const [search, setSearch] = useState('')
+  const search = useSearchParams().get('q') ?? ''
   const [category, setCategory] = useState('all')
   const [sort, setSort] = useState<SortKey>('latest')
   const [downloadingId, setDownloadingId] = useState<string | null>(null)
@@ -89,32 +86,6 @@ export function PublicDocumentTable({
 
   return (
     <div className="space-y-6">
-      {/* Header: judul + search */}
-      <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            {title}
-          </h1>
-          <p className="mt-3 max-w-xl text-muted-foreground">{description}</p>
-        </div>
-        <div className="flex w-full items-center overflow-hidden rounded-full border bg-white shadow-sm lg:max-w-md">
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-              onPageChange(1)
-            }}
-            placeholder="Cari dokumen..."
-            className="flex-1 bg-transparent px-5 py-3.5 text-sm text-foreground outline-none placeholder:text-muted-foreground"
-          />
-          <span className="m-1.5 flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white">
-            <Search className="h-4 w-4" />
-            <span className="hidden sm:inline">Cari</span>
-          </span>
-        </div>
-      </div>
-
       {/* Filter + Urutkan */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">

@@ -35,20 +35,22 @@ function isActive(pathname: string, href: string) {
 export function PublicHeader({ siteName, logoUrl, darkLogoUrl }: Props) {
   const pathname = usePathname()
   const [open, setOpen] = useState(false)
-  const [scrolledHome, setScrolledHome] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
-  const isHome = pathname === '/'
+  // Halaman dengan hero band gelap di atas → navbar transparan sebelum scroll.
+  const HERO_ROUTES = ['/', '/struktur-organisasi', '/artikel', '/dokumen', '/komisariat', '/agenda', '/galeri']
+  const isHeroRoute = HERO_ROUTES.includes(pathname)
 
   useEffect(() => {
-    if (!isHome) return
-    const onScroll = () => setScrolledHome(window.scrollY > 80)
+    if (!isHeroRoute) return
+    const onScroll = () => setScrolled(window.scrollY > 80)
     window.addEventListener('scroll', onScroll, { passive: true })
     onScroll()
     return () => window.removeEventListener('scroll', onScroll)
-  }, [isHome])
+  }, [isHeroRoute])
 
-  // Solid kecuali di beranda sebelum scroll
-  const isTransparent = isHome && !scrolledHome
+  // Solid kecuali di halaman ber-hero gelap sebelum scroll
+  const isTransparent = isHeroRoute && !scrolled
 
   const name = siteName || DEFAULT_SITE_NAME
   const whiteLogo = logoUrl || DEFAULT_LOGO_URL

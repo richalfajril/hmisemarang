@@ -79,7 +79,8 @@ export function DocumentList({ documents }: DocumentListProps) {
   }
 
   return (
-    <div className="border rounded-lg bg-card overflow-hidden">
+    <div className="space-y-4">
+      <div className="border rounded-lg bg-card overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow>
@@ -158,6 +159,7 @@ export function DocumentList({ documents }: DocumentListProps) {
           })}
         </TableBody>
       </Table>
+      </div>
       <SmartPagination {...pagination} />
     </div>
   )

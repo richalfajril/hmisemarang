@@ -1,14 +1,8 @@
-import Link from "next/link";
+import { Suspense } from "react";
 import { prisma } from "@/shared/api/prisma/client";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/shared/ui/Breadcrumb";
+import { PageHero } from "@/shared/ui/PageHero";
 import { FadeIn } from "@/shared/ui/FadeIn";
+import { DocumentSearchBox } from "@/features/documents/ui/DocumentSearchBox";
 import {
   PublicDocumentTable,
   type PublicDocument,
@@ -48,28 +42,24 @@ export default async function Page() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-24 sm:pt-28">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href="/">Beranda</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage className="font-medium text-primary">Dokumen</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+      <PageHero
+        breadcrumb={[{ label: "Beranda", href: "/" }, { label: "Dokumen" }]}
+        eyebrow="Dokumen"
+        heading="Repositori Dokumen"
+        subheading="Akses dokumen administrasi, surat, dan berkas resmi HMI Cabang Semarang dalam satu tempat."
+        align="left"
+        action={
+          <Suspense fallback={null}>
+            <DocumentSearchBox />
+          </Suspense>
+        }
+      />
 
-        <FadeIn className="mt-8">
-          <PublicDocumentTable
-            documents={documents}
-            categories={categories}
-            title="Repositori Dokumen"
-            description="Akses dokumen administrasi, surat, dan berkas resmi HMI Cabang Semarang dalam satu tempat."
-          />
+      <div className="mx-auto max-w-7xl px-4 pb-16 pt-14">
+        <FadeIn>
+          <Suspense fallback={null}>
+            <PublicDocumentTable documents={documents} categories={categories} />
+          </Suspense>
         </FadeIn>
       </div>
     </div>

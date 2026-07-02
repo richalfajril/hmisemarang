@@ -130,8 +130,8 @@ export function CommissariatAccountTable({ accounts }: { accounts: AccountData[]
             )}
           </TableBody>
         </Table>
-        <SmartPagination {...pagination} />
       </div>
+      <SmartPagination {...pagination} />
     </div>
   )
 }

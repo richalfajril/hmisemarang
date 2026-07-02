@@ -10,6 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Halaman Baca Artikel `/artikel/[slug]` (gaya Medium) (2026-07-02)
+* Dari ComingSoon → halaman baca clean: kolom sempit `max-w-[720px]`, konten HTML Tiptap via `prose` (dep baru **`@tailwindcss/typography`**, didaftarkan di `globals.css`).
+* Header: kategori chip → judul → excerpt → baris penulis (avatar + nama · tanggal · waktu baca · view) + share. **Cover contained** (rounded, selebar kolom). Tags di bawah konten.
+* **Reading progress bar** (garis emerald atas, `ReadingProgressBar`).
+* **Share** (`ShareButtons`): WhatsApp, X, Facebook, Salin Link. (Instagram Story di-skip — tidak ada web-share resmi.)
+* **Artikel Terkait**: 3 kartu kategori sama (fallback terbaru) via `getRelatedArticles`, reuse `ArticleCard`.
+* **View count**: `incrementArticleView` dipanggil saat halaman dibuka → `view_count` naik → section "Terpopuler" jadi nyata. `generateMetadata` (title/description/OG) per artikel. `getArticleBySlug` (+notFound bila tidak ada/belum published).
+
+#### Komponen `PageHero` (band emerald) untuk halaman publik (2026-07-02)
+* **`shared/ui/PageHero.tsx`** (baru): hero band emerald gradient + diamond, berisi breadcrumb (putih) + section header `inverted` (prop `align: center|left`, `cta` opsional) + slot `children` per-halaman. Navbar-seam putih hilang; halaman jadi seragam & branded.
+* Diterapkan ke **`/struktur-organisasi`** (align center; period switcher dropdown+arrow masuk slot children), **`/artikel`** (center), **`/dokumen`** (center; title/desc dipindah dari `PublicDocumentTable` ke hero, search tetap di toolbar tabel). **`/kontak` dikecualikan** (punya layout split-card emerald sendiri).
+
+#### Halaman Publik Artikel (`/artikel`) (2026-07-02)
+* `Article.view_count Int @default(0)` (buat urut terpopuler; increment nanti saat detail artikel dibangun — sementara popular fallback ke terbaru).
+* Query publik `features/articles/api/public-queries.ts`: `getLatestArticles` (bento), `getPopularArticles` (order view_count desc), `getAllPublicArticles` (list) + `ARTICLE_FALLBACK` + `reading_time` (dari konten). Semua graceful `[]`.
+* Halaman `/artikel` (dari ComingSoon): **(1)** breadcrumb, **(2)** SectionHeaderCenter, **(3)** bento artikel terbaru (reuse `FeaturedCarousel` + secondary cards), **(4)** carousel infinite "Terpopuler", **(5)** daftar semua artikel (grid + pagination 10 client). ISR 300s. FadeIn stagger.
+* Komponen reusable `features/articles/ui`: `ArticleCard`, `PopularCarousel` (rAF marquee), `ArticleListGrid`, `ArticleBento`.
+
 #### Auth Username + Modul Komisariat & LPP + Ganti Password (2026-07-01)
 * **Login berbasis Username** (semua akun): `User` tambah kolom `username @unique` + `name`. `loginAction` cari user by username → ambil email → `signInWithPassword` (Supabase Auth tetap berbasis email di balik layar). `loginSchema`/`LoginForm` field Email → **Username**. Backfill username user lama (= prefix email) via script one-time.
 * **Modul baru "Komisariat & LPP"** (`/dashboard/commissariat-accounts`, ADMIN_CABANG only): kelola akun `ADMIN_KOMISARIAT` (komisariat + LPP jadi satu role). **Impor Excel massal** (dep baru **`xlsx`/SheetJS**, dicatat di `TECH_STACK.md`) kolom `No`, `Nama_Komisariat`, `Username` → tiap baris buat akun (email sintetis `<username>@hmisemarang.local`, **password default `123456`**, `name`=Nama_Komisariat, link `commissariat_id` bila nama cocok). Dedup username (DB + intra-batch), lapor baris di-skip. Aksi: reset password ke default, hapus akun. Nav sidebar item baru.
