@@ -19,6 +19,7 @@ import {
 import { ArticleCard } from '@/features/articles/ui/ArticleCard'
 import { ShareButtons } from '@/features/articles/ui/ShareButtons'
 import { ReadingProgressBar } from '@/features/articles/ui/ReadingProgressBar'
+import { SITE_URL } from '@/widgets/public-layout/config/site'
 
 const dateFmt = new Intl.DateTimeFormat('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
 
@@ -47,11 +48,35 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   const related = await getRelatedArticles(article.category?.name ?? null, article.id, 3)
 
+  const canonical = `${SITE_URL}/artikel/${slug}`
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Beranda', item: SITE_URL },
+        { '@type': 'ListItem', position: 2, name: 'Artikel', item: `${SITE_URL}/artikel` },
+        { '@type': 'ListItem', position: 3, name: article.title, item: canonical },
+      ],
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: article.title,
+      image: article.featured_image_url ? [article.featured_image_url] : undefined,
+      datePublished: article.published_at ?? undefined,
+      author: { '@type': 'Person', name: article.author_name ?? 'Redaksi HMI' },
+      publisher: { '@type': 'Organization', name: 'HMI Cabang Semarang' },
+      mainEntityOfPage: canonical,
+    },
+  ]
+
   return (
     <div className="min-h-screen bg-white">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ReadingProgressBar />
 
-      <article className="mx-auto max-w-[720px] px-4 pb-16 pt-28">
+      <article className="mx-auto max-w-[720px] px-5 pb-16 pt-24">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -82,9 +107,6 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
             {article.title}
           </h1>
-          {article.excerpt && (
-            <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{article.excerpt}</p>
-          )}
 
           {/* Author + meta */}
           <div className="mt-6 flex flex-wrap items-center gap-3 border-y py-4">
@@ -145,7 +167,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
       {/* Related */}
       {related.length > 0 && (
         <section className="border-t bg-muted/30 py-14">
-          <div className="mx-auto max-w-6xl px-4">
+          <div className="mx-auto max-w-6xl px-5">
             <h2 className="text-2xl font-bold text-foreground">Artikel Terkait</h2>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((a) => (

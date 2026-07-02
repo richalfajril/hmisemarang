@@ -140,7 +140,7 @@ export default async function Page({
         )}
       </PageHero>
 
-      <div className="mx-auto max-w-7xl px-4 py-14">
+      <div className="mx-auto max-w-7xl px-5 py-14">
         {!hasAny ? (
           <p className="rounded-lg border border-dashed py-16 text-center text-sm text-muted-foreground">
             Belum ada data kepengurusan.

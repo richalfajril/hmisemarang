@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Halaman Detail Agenda `/agenda/[slug]` (2026-07-02)
+* Dari 404 → halaman detail: flyer (4:5) + badge status, judul, komisariat, short_description, kartu info (tanggal `formatAgendaDate`, jam, lokasi, countdown), tombol "Lihat Lokasi" (`location_url`), deskripsi HTML (Tiptap) via `prose`, "Agenda Lainnya" (reuse `AgendaGridCard`, di-export). `getAgendaBySlug` + `generateMetadata` (title/desc/OG flyer) + `notFound()`.
+* `sitemap.ts` kini juga listing URL agenda published (`/agenda/[slug]`).
+
 #### SEO Teknis: sitemap, robots, OpenGraph, JSON-LD (2026-07-02)
 * **`app/sitemap.ts`** (ISR 1 jam): 9 halaman statis + semua artikel published (`/artikel/[slug]`). **`app/robots.ts`**: allow all, disallow `/dashboard/ /login /api/`, tunjuk sitemap + host.
 * **Metadata global** (`(website)/layout.tsx`): `metadataBase` (root, `SITE_URL`), judul kaya keyword ("HMI Cabang Semarang — Himpunan Mahasiswa Islam Cabang Semarang"), `keywords` (HMI Semarang dll), **OpenGraph** (type/locale id_ID/siteName/image hero-logo) + **Twitter card** + `robots index/follow` + favicon dari settings. `<html lang="id">`.

@@ -18,7 +18,7 @@ export default async function Page() {
         subheading="Daftar komisariat yang bernaung di bawah HMI Cabang Semarang."
       />
 
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-14">
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-14">
         <FadeIn>
           <KomisariatGrid items={commissariats} />
         </FadeIn>

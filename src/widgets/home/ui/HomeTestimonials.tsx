@@ -53,7 +53,7 @@ export async function HomeTestimonials() {
 
   return (
     <Section className="bg-white pb-28" pattern={false}>
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <FadeIn>
           <SectionHeaderCenter
             eyebrow="Kata Mereka"

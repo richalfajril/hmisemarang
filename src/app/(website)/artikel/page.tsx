@@ -47,7 +47,7 @@ export default async function Page() {
       />
 
       {/* Section 1 — Bento artikel terbaru */}
-      <div className="mx-auto max-w-7xl px-4 pt-14">
+      <div className="mx-auto max-w-7xl px-5 pt-14">
         <FadeIn>
           <SectionHeaderLeft eyebrow="Terbaru" heading="Artikel Terbaru" />
         </FadeIn>
@@ -58,7 +58,7 @@ export default async function Page() {
 
       {/* Section 2 — Terpopuler (full-width, bg emerald) */}
       <section className="mt-20 bg-gradient-to-br from-emerald-800 to-emerald-950 py-16">
-        <div className="mx-auto max-w-7xl px-4">
+        <div className="mx-auto max-w-7xl px-5">
           <FadeIn>
             <SectionHeaderLeft inverted eyebrow="Terpopuler" heading="Berita Paling Banyak Dibaca" />
           </FadeIn>
@@ -69,7 +69,7 @@ export default async function Page() {
       </section>
 
       {/* Section 3 — Daftar semua artikel */}
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-20">
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-20">
         <FadeIn>
           <SectionHeaderLeft eyebrow="Jelajah" heading="Semua Artikel" />
         </FadeIn>

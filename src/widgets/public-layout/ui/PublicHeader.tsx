@@ -38,7 +38,7 @@ export function PublicHeader({ siteName, logoUrl, darkLogoUrl }: Props) {
   const [scrolled, setScrolled] = useState(false)
 
   // Halaman dengan hero band gelap di atas → navbar transparan sebelum scroll.
-  const HERO_ROUTES = ['/', '/struktur-organisasi', '/artikel', '/dokumen', '/komisariat', '/agenda', '/galeri']
+  const HERO_ROUTES = ['/', '/profil', '/struktur-organisasi', '/artikel', '/dokumen', '/komisariat', '/agenda', '/galeri']
   const isHeroRoute = HERO_ROUTES.includes(pathname)
 
   useEffect(() => {

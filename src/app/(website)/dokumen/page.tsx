@@ -55,7 +55,7 @@ export default async function Page() {
         }
       />
 
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-14">
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-14">
         <FadeIn>
           <Suspense fallback={null}>
             <PublicDocumentTable documents={documents} categories={categories} />

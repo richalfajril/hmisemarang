@@ -13,7 +13,7 @@ import { SmartPagination } from '@/shared/ui/SmartPagination'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import type { AgendaItem } from '@/widgets/home/ui/AgendaCarousel'
 
-function AgendaGridCard({ agenda }: { agenda: AgendaItem }) {
+export function AgendaGridCard({ agenda }: { agenda: AgendaItem }) {
   const start = new Date(agenda.start_datetime)
   const end = agenda.end_datetime ? new Date(agenda.end_datetime) : null
   const status = getAgendaStatus(start, end)

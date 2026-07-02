@@ -4,7 +4,7 @@ import { cn } from "@/shared/lib/utils";
 type Props = {
   /** Kelas untuk elemen <section> (mis. background/tint). */
   className?: string;
-  /** Kelas untuk container dalam (default `mx-auto max-w-7xl px-4`). */
+  /** Kelas untuk container dalam (default `mx-auto max-w-7xl px-5`). */
   containerClassName?: string;
   /** Matikan diamond pattern Section bila perlu. */
   pattern?: boolean;
@@ -24,7 +24,7 @@ export function AnimatedSection({
 }: Props) {
   return (
     <Section className={className} pattern={pattern}>
-      <div className={cn("mx-auto max-w-7xl px-4", containerClassName)}>
+      <div className={cn("mx-auto max-w-7xl px-5", containerClassName)}>
         {children}
       </div>
     </Section>

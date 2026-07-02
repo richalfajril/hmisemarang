@@ -40,7 +40,7 @@ function HeaderSkeleton({ center }: { center?: boolean }) {
 export function AboutSkeleton() {
   return (
     <section className="overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 py-14">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <HeaderSkeleton center />
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <Skeleton className="h-80 rounded-3xl" />
@@ -54,7 +54,7 @@ export function AboutSkeleton() {
 export function ArticlesSkeleton() {
   return (
     <section className="overflow-hidden bg-white py-14">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <HeaderSkeleton />
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
           <Skeleton className="aspect-[4/3] rounded-3xl lg:col-span-2" />
@@ -71,7 +71,7 @@ export function ArticlesSkeleton() {
 export function AgendaSkeleton() {
   return (
     <section className="overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 py-14">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <HeaderSkeleton />
       </div>
       <div className="mt-10 flex gap-6 overflow-hidden px-4">
@@ -86,7 +86,7 @@ export function AgendaSkeleton() {
 export function TestimonialsSkeleton() {
   return (
     <section className="overflow-hidden bg-white py-14 pb-28">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <HeaderSkeleton center />
       </div>
       <div className="mt-10 flex gap-6 overflow-hidden px-4">
@@ -101,7 +101,7 @@ export function TestimonialsSkeleton() {
 export function GallerySkeleton() {
   return (
     <section className="overflow-hidden bg-white py-14">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <HeaderSkeleton center />
         <div className="mt-8 flex h-[460px] items-center justify-center sm:h-[520px]">
           <Skeleton className="h-[380px] w-[280px] rounded-2xl" />

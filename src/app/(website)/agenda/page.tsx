@@ -1,7 +1,6 @@
 import { PageHero } from '@/shared/ui/PageHero'
 import { FadeIn } from '@/shared/ui/FadeIn'
-import { getAllPublicAgendas } from '@/widgets/home/api/queries'
-import { AGENDA_FALLBACK } from '@/widgets/home/ui/HomeAgenda'
+import { getAllPublicAgendas, AGENDA_FALLBACK } from '@/widgets/home/api/queries'
 import { getAgendaStatus } from '@/shared/lib/agenda'
 import { AgendaGrid } from '@/features/agendas/ui/AgendaGrid'
 
@@ -38,7 +37,7 @@ export default async function Page() {
         subheading="Jadwal kegiatan, acara, dan dokumentasi agenda HMI Cabang Semarang."
       />
 
-      <div className="mx-auto max-w-7xl px-4 pb-16 pt-14">
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-14">
         <FadeIn>
           <AgendaGrid items={ordered} />
         </FadeIn>

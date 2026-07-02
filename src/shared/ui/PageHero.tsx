@@ -34,7 +34,7 @@ type Props = {
  */
 export function PageHero({ breadcrumb, eyebrow, heading, subheading, align = 'center', cta, action, children }: Props) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 pb-14 pt-24 sm:pt-28">
+    <section className="relative overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 pb-14 pt-20 sm:pt-24">
       <svg
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 h-full w-full text-white opacity-[0.05]"
@@ -49,7 +49,7 @@ export function PageHero({ breadcrumb, eyebrow, heading, subheading, align = 'ce
         <rect width="100%" height="100%" fill="url(#pagehero-geo)" />
       </svg>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4">
+      <div className="relative z-10 mx-auto max-w-7xl px-5">
         <Breadcrumb>
           <BreadcrumbList className="text-white/70">
             {breadcrumb.map((c, i) => {

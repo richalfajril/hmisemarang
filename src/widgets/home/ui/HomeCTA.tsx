@@ -7,7 +7,7 @@ import { FadeIn } from "@/shared/ui/FadeIn";
 export function HomeCTA() {
   return (
     <section className="overflow-hidden py-14">
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <FadeIn>
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-700 to-emerald-900 px-6 py-16 text-center sm:px-12">
             {/* Decorative pattern (kiri-atas & kanan-bawah) */}

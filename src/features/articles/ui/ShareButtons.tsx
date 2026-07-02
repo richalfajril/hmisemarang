@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link2, Check } from 'lucide-react'
 import { FaWhatsapp, FaXTwitter, FaFacebookF } from 'react-icons/fa6'
 import { toast } from 'sonner'
@@ -8,8 +8,12 @@ import { toast } from 'sonner'
 /** Tombol berbagi artikel: WhatsApp, X, Facebook, Salin Link. */
 export function ShareButtons({ title, className = '' }: { title: string; className?: string }) {
   const [copied, setCopied] = useState(false)
-
-  const url = typeof window !== 'undefined' ? window.location.href : ''
+  // URL dibaca setelah mount agar SSR & client cocok (cegah hydration mismatch).
+  const [url, setUrl] = useState('')
+  useEffect(() => {
+    const id = setTimeout(() => setUrl(window.location.href), 0)
+    return () => clearTimeout(id)
+  }, [])
   const text = encodeURIComponent(title)
   const u = encodeURIComponent(url)
 

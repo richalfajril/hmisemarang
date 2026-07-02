@@ -1,5 +1,18 @@
 import { cache } from 'react'
 import { prisma } from '@/shared/api/prisma/client'
+import type { AgendaItem } from '@/widgets/home/ui/AgendaCarousel'
+
+/** Fallback agenda (dipakai homepage + /agenda + detail). Server-safe. */
+export const AGENDA_FALLBACK: AgendaItem[] = [
+  { id: 'ag1', title: 'Latihan Kader II (Intermediate Training)', slug: 'lk2-intermediate-training', flyer_url: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80', start_datetime: new Date('2026-07-01'), end_datetime: new Date('2026-07-07'), location_name: 'Asrama Haji Semarang' },
+  { id: 'ag2', title: 'Diskusi Publik: Arah Baru Gerakan Mahasiswa', slug: 'diskusi-publik-gerakan-mahasiswa', flyer_url: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80', start_datetime: new Date('2026-07-20'), end_datetime: null, location_name: 'Gedung KNPI Jateng' },
+  { id: 'ag3', title: 'Malam Puncak Dies Natalis HMI ke-79', slug: 'dies-natalis-hmi-79', flyer_url: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80', start_datetime: new Date('2026-02-05'), end_datetime: null, location_name: 'Hotel Grasia Semarang' },
+  { id: 'ag4', title: 'Sekolah Pemikiran Islam & Keindonesiaan', slug: 'sekolah-pemikiran-islam', flyer_url: 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&q=80', start_datetime: new Date('2026-08-12'), end_datetime: new Date('2026-08-14'), location_name: 'Sekretariat HMI Cabang Semarang' },
+  { id: 'ag5', title: 'Pelantikan Pengurus HMI Cabang Semarang', slug: 'pelantikan-pengurus-cabang', flyer_url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80', start_datetime: new Date('2026-09-01'), end_datetime: null, location_name: 'Auditorium Kampus' },
+  { id: 'ag6', title: 'Bakti Sosial & Donor Darah', slug: 'bakti-sosial-donor-darah', flyer_url: 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=800&q=80', start_datetime: new Date('2026-06-10'), end_datetime: null, location_name: 'Balai Kota Semarang' },
+  { id: 'ag7', title: 'Seminar Nasional Kepemimpinan Mahasiswa', slug: 'seminar-nasional-kepemimpinan', flyer_url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80', start_datetime: new Date('2026-05-18'), end_datetime: null, location_name: 'Gedung Prof. Soedarto' },
+  { id: 'ag8', title: 'Follow Up Latihan Kader I', slug: 'follow-up-lk1', flyer_url: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=800&q=80', start_datetime: new Date('2026-04-22'), end_datetime: new Date('2026-04-24'), location_name: 'Wisma Diklat' },
+]
 
 // Error handling: query gagal → kembalikan [] (graceful). Section meng-handle
 // dengan merge fallback / empty state, sehingga DB error tidak men-crash halaman.
@@ -57,6 +70,44 @@ export const getFeaturedArticles = cache(async () => {
   } catch (e) {
     console.error('getFeaturedArticles failed:', e)
     return []
+  }
+})
+
+/** Detail agenda by slug (published). */
+export const getAgendaBySlug = cache(async (slug: string) => {
+  try {
+    const found = await prisma.agenda.findFirst({
+      where: { slug, status: 'PUBLISHED', deleted_at: null },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        flyer_url: true,
+        description: true,
+        short_description: true,
+        start_datetime: true,
+        end_datetime: true,
+        location_name: true,
+        location_url: true,
+        commissariat: { select: { name: true } },
+      },
+    })
+    if (found) return found
+
+    // Fallback: slug cocok data dummy → detail sintetis.
+    const fb = AGENDA_FALLBACK.find((f) => f.slug === slug)
+    if (fb) {
+      return {
+        ...fb,
+        description: `<p>Agenda ini merupakan bagian dari rangkaian kegiatan HMI Cabang Semarang. Informasi lengkap akan diperbarui melalui kanal resmi.</p>`,
+        short_description: null,
+        location_url: null,
+        commissariat: null,
+      }
+    }
+    return null
+  } catch {
+    return null
   }
 })
 

@@ -103,7 +103,7 @@ export async function HomeHero() {
       </svg>
 
       {/* Layer 3: Content */}
-      <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center px-4 pt-24 pb-24 text-center">
+      <div className="relative z-20 mx-auto flex w-full max-w-7xl flex-col items-center px-5 pt-24 pb-24 text-center">
         {/* Eyebrow */}
         <span className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-4 py-1 text-xs font-medium text-white backdrop-blur-sm sm:px-5 sm:py-1.5 sm:text-sm">
           Official Website HMI Cabang Semarang

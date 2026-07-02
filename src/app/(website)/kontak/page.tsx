@@ -76,8 +76,8 @@ export default async function Page() {
   return (
     <div>
       {/* Section 1 — Kontak (split card di bg putih) */}
-      <section className="bg-white pb-16 pt-24 sm:pt-28">
-        <div className="mx-auto max-w-7xl px-4">
+      <section className="bg-white pb-16 pt-20 sm:pt-24">
+        <div className="mx-auto max-w-7xl px-5">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -172,7 +172,7 @@ export default async function Page() {
 
       {/* Section 2 — Google Maps */}
       <section className="bg-white py-14">
-        <div className="mx-auto max-w-7xl px-4">
+        <div className="mx-auto max-w-7xl px-5">
           <FadeIn>
             <SectionHeaderCenter
               eyebrow="Lokasi"

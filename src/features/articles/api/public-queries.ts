@@ -21,6 +21,13 @@ function readingTimeMinutes(html: string): number {
   return Math.max(1, Math.round(words / 200))
 }
 
+/** Ambil teks paragraf pertama dari konten HTML (untuk excerpt). */
+function firstParagraph(html: string): string {
+  const m = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i)
+  const raw = m ? m[1] : html
+  return raw.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
+}
+
 const SELECT = {
   id: true,
   title: true,
@@ -43,6 +50,7 @@ type Row = {
 function toPublic(rows: Row[]): PublicArticle[] {
   return rows.map(({ content, ...a }) => ({
     ...(a as Omit<PublicArticle, 'reading_time'>),
+    excerpt: firstParagraph(content) || (a as { excerpt?: string | null }).excerpt || null,
     reading_time: readingTimeMinutes(content),
   }))
 }
@@ -89,7 +97,12 @@ export const getArticleBySlug = cache(async (slug: string): Promise<PublicArticl
       where: { slug, status: 'PUBLISHED', deleted_at: null },
       select: { ...SELECT, tags: { select: { name: true } } },
     })
-    if (!a) return null
+    if (!a) {
+      // Fallback: slug cocok dengan data dummy → detail sintetis (excerpt jadi konten).
+      const fb = ARTICLE_FALLBACK.find((f) => f.slug === slug)
+      if (fb) return { ...fb, content: `<p>${fb.excerpt ?? ''}</p>`, tags: [] }
+      return null
+    }
     const { content, tags, ...rest } = a as Row & { tags: { name: string }[] }
     return {
       ...(rest as Omit<PublicArticleDetail, 'reading_time' | 'content' | 'tags'>),

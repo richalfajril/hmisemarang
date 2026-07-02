@@ -45,7 +45,7 @@ export async function HomeGallery() {
 
   return (
     <Section className="bg-white" pattern={false}>
-      <div className="mx-auto max-w-7xl px-4">
+      <div className="mx-auto max-w-7xl px-5">
         <FadeIn>
           <SectionHeaderCenter
             eyebrow="Galeri"
