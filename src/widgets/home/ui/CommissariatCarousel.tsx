@@ -78,14 +78,14 @@ export function CommissariatCarousel({ items }: { items: Item[] }) {
           <Link
             key={`${c.id}-${i}`}
             href={`/komisariat/${c.slug}`}
-            className="flex w-64 items-center gap-3 opacity-90 hover:opacity-100"
+            className="flex shrink-0 items-center gap-3 pr-4 opacity-90 hover:opacity-100"
             onClick={(e) => { if (s.current.dragging) e.preventDefault() }}
           >
-            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-white/20">
+            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-white">
               {c.logo_url ? (
-                <Image src={c.logo_url} alt={c.name} fill className="object-cover" />
+                <Image src={c.logo_url} alt={c.name} fill className="object-contain p-1" />
               ) : (
-                <span className="flex h-full w-full items-center justify-center text-sm font-bold text-white">
+                <span className="flex h-full w-full items-center justify-center text-sm font-bold text-primary">
                   {c.name.charAt(0)}
                 </span>
               )}
