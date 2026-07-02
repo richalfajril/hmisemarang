@@ -38,7 +38,7 @@ export function ImportAccountsModal() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Impor Akun Komisariat & LPP</DialogTitle>
+          <DialogTitle>Impor Akun Komisariat</DialogTitle>
           <DialogDescription>
             Unggah berkas Excel (.xlsx/.xls) dengan kolom <strong>No</strong>,{' '}
             <strong>Nama_Komisariat</strong>, <strong>Username</strong>. Password default tiap akun:{' '}

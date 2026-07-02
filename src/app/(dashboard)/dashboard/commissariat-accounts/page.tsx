@@ -8,7 +8,7 @@ import { CreateAccountModal } from '@/features/commissariat-accounts/ui/CreateAc
 import { CommissariatAccountTable } from '@/features/commissariat-accounts/ui/CommissariatAccountTable'
 
 export const metadata = {
-  title: 'Komisariat & LPP - HMI Cabang Semarang',
+  title: 'Komisariat - HMI Cabang Semarang',
 }
 
 export default async function CommissariatAccountsPage() {
@@ -37,20 +37,14 @@ export default async function CommissariatAccountsPage() {
     last_login_at: u.last_login_at,
   }))
 
-  const commissariats = await prisma.commissariat.findMany({
-    where: { is_active: true },
-    select: { id: true, name: true },
-    orderBy: { name: 'asc' },
-  })
-
   return (
     <div className="w-full space-y-6 p-6">
       <PageHeader
-        title="Komisariat & LPP"
-        description="Kelola akun login komisariat dan Lembaga Pengembangan Profesi (LPP). Buat akun massal via impor Excel."
+        title="Komisariat"
+        description="Kelola akun login komisariat. Tambah satu per satu atau impor massal via Excel."
         icon={KeyRoundIcon}
       >
-        <CreateAccountModal commissariats={commissariats} />
+        <CreateAccountModal />
         <ImportAccountsModal />
       </PageHeader>
 

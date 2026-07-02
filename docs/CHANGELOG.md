@@ -16,6 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * **Ganti Password** (`features/auth`): `changePasswordAction` (`supabase.auth.updateUser`, min 6 + konfirmasi) + `ChangePasswordForm` ditaruh di `/dashboard/profile` (dashboard komisariat).
 * **Modul Pengguna → khusus akun tingkat cabang**: `dashboard/users` hanya tampil akun non-`ADMIN_KOMISARIAT`; `CreateUserModal` disederhanakan (role fixed ADMIN_CABANG, +Username +Nama, buang pemilih role/komisariat); `UserTable` +kolom Username & Nama.
 
+#### Akun Komisariat auto-tautkan entity Commissariat (2026-07-02)
+* **Keputusan: LPP dibatalkan** — modul "Komisariat & LPP" di-rename jadi **"Komisariat"** (nav sidebar, judul halaman, modal, header tabel). Akun LPP dihapus manual.
+* **Impor & Tambah Manual** kini **auto-create record `Commissariat`** (helper `ensureCommissariat`: cari by nama case-insensitive, else buat baru + slug unik) lalu tautkan ke `User.commissariat_id`. Jadi tiap akun komisariat punya entity data (buat Profil Komisariat + tampil di publik nanti). Modal manual: pemilih "tautkan komisariat" dihapus (otomatis dari nama).
+* **Backfill** 32 akun komisariat yang sudah ter-import (sebelum perubahan) → dibuatkan entity Commissariat + ditautkan.
+
 #### Logo 3D (.glb) di Section "Tentang HMI Cabang Semarang" (2026-06-29)
 * Dependency baru **`@google/model-viewer`** (disetujui; dicatat di `TECH_STACK.md`) — web component `<model-viewer>` untuk render aset 3D, jauh lebih ringan dari react-three-fiber.
 * **`Logo3D`** (client, `widgets/home/ui/Logo3D.tsx`): render `public/models/logo-hmsmg3d.glb` (auto-rotate, camera-controls, zoom off). Lazy import `@google/model-viewer` di `useEffect` (client-only WebGL); element di-cast FC agar ter-tipe tanpa augmentasi JSX global.

@@ -12,23 +12,12 @@ import {
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/Select'
 import { UserPlus, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { initialActionState } from '@/shared/lib/action-state'
 import { createCommissariatAccountAction } from '../api/actions'
 
-export function CreateAccountModal({
-  commissariats,
-}: {
-  commissariats: { id: string; name: string }[]
-}) {
+export function CreateAccountModal() {
   const [open, setOpen] = useState(false)
   const [state, formAction, isPending] = useActionState(
     createCommissariatAccountAction,
@@ -52,7 +41,7 @@ export function CreateAccountModal({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Tambah Akun Komisariat / LPP</DialogTitle>
+          <DialogTitle>Tambah Akun Komisariat</DialogTitle>
           <DialogDescription>
             Buat satu akun secara manual. Password default: <strong>123456</strong>.
           </DialogDescription>
@@ -64,13 +53,13 @@ export function CreateAccountModal({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="name">Nama Komisariat / LPP</Label>
+            <Label htmlFor="name">Nama Komisariat</Label>
             <Input
               id="name"
               name="name"
               required
               disabled={isPending}
-              placeholder="cth: Komisariat FH Undip / LPP ..."
+              placeholder="cth: Komisariat FH Undip"
               className={state?.fieldErrors?.name ? 'border-destructive' : ''}
             />
             {state?.fieldErrors?.name && (
@@ -91,22 +80,6 @@ export function CreateAccountModal({
             {state?.fieldErrors?.username && (
               <p className="text-xs text-destructive">{state.fieldErrors.username[0]}</p>
             )}
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="commissariat_id">Tautkan Komisariat (opsional)</Label>
-            <Select name="commissariat_id" disabled={isPending}>
-              <SelectTrigger>
-                <SelectValue placeholder="Tidak tertaut" />
-              </SelectTrigger>
-              <SelectContent>
-                {commissariats.map((c) => (
-                  <SelectItem key={c.id} value={c.id}>
-                    {c.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="flex justify-end gap-2 pt-2">

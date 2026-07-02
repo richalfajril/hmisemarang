@@ -59,7 +59,7 @@ export function CommissariatAccountTable({ accounts }: { accounts: AccountData[]
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">No.</TableHead>
-              <TableHead>Nama Komisariat / LPP</TableHead>
+              <TableHead>Nama Komisariat</TableHead>
               <TableHead>Username</TableHead>
               <TableHead>Komisariat Tertaut</TableHead>
               <TableHead>Login Terakhir</TableHead>

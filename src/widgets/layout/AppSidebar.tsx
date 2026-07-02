@@ -51,7 +51,7 @@ const navMain = [
 
 const navManagement = [
   { title: "Manajemen Pengguna", url: "/dashboard/users", icon: <UsersIcon />, roles: ADMIN_CABANG_ONLY },
-  { title: "Komisariat & LPP", url: "/dashboard/commissariat-accounts", icon: <KeyRoundIcon />, roles: ADMIN_CABANG_ONLY },
+  { title: "Komisariat", url: "/dashboard/commissariat-accounts", icon: <KeyRoundIcon />, roles: ADMIN_CABANG_ONLY },
   { title: "Verifikasi Kader", url: "/dashboard/cadre-verification", icon: <UserCheckIcon />, roles: ALL_ROLES },
   { title: "Organisasi", url: "/dashboard/organization", icon: <BuildingIcon />, roles: ADMIN_CABANG_ONLY },
   { title: "Taksonomi", url: "/dashboard/taxonomy", icon: <TagsIcon />, roles: ADMIN_CABANG_ONLY },

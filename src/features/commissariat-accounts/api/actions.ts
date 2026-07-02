@@ -28,6 +28,28 @@ async function authorize() {
   return currentUser
 }
 
+function slugify(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '')
+}
+
+/** Cari Commissariat by nama (case-insensitive); buat baru bila belum ada. Return id. */
+async function ensureCommissariat(name: string): Promise<string> {
+  const existing = await prisma.commissariat.findFirst({
+    where: { name: { equals: name, mode: 'insensitive' } },
+    select: { id: true },
+  })
+  if (existing) return existing.id
+
+  const base = slugify(name) || 'komisariat'
+  let slug = base
+  let i = 1
+  while (await prisma.commissariat.findUnique({ where: { slug }, select: { id: true } })) {
+    slug = `${base}-${i++}`
+  }
+  const created = await prisma.commissariat.create({ data: { name, slug }, select: { id: true } })
+  return created.id
+}
+
 /** Normalisasi header (lowercase, buang spasi/underscore) → cari nilai kolom. */
 function pick(row: Record<string, unknown>, ...keys: string[]): string {
   const norm = (s: string) => s.toLowerCase().replace(/[\s_]+/g, '')
@@ -65,13 +87,11 @@ export async function importCommissariatAccountsAction(
     return { success: false, message: 'Berkas kosong / tidak ada baris data.', errorCode: 'VALIDATION_ERROR' }
   }
 
-  // Preload untuk dedup & pencocokan komisariat
+  // Preload untuk dedup username
   const existingUsernames = new Set(
     (await prisma.user.findMany({ where: { username: { not: null } }, select: { username: true } }))
       .map((u) => (u.username as string).toLowerCase())
   )
-  const commissariats = await prisma.commissariat.findMany({ select: { id: true, name: true } })
-  const commByName = new Map(commissariats.map((c) => [c.name.trim().toLowerCase(), c.id]))
 
   const result: ImportResult = { created: 0, skipped: [] }
   const seenInBatch = new Set<string>()
@@ -95,9 +115,11 @@ export async function importCommissariatAccountsAction(
     }
 
     const email = `${username}@${SYNTHETIC_DOMAIN}`
-    const commissariat_id = name ? commByName.get(name.trim().toLowerCase()) ?? null : null
 
     try {
+      // Setiap akun komisariat punya entity Commissariat (buat/tautkan).
+      const commissariat_id = await ensureCommissariat(name || username)
+
       const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
         email,
         password: DEFAULT_PASSWORD,
@@ -142,7 +164,6 @@ export async function createCommissariatAccountAction(
 
   const name = String(formData.get('name') ?? '').trim()
   const username = String(formData.get('username') ?? '').trim().toLowerCase()
-  const commissariat_id = String(formData.get('commissariat_id') ?? '').trim() || null
 
   if (!name) {
     return { success: false, message: 'Nama wajib diisi.', fieldErrors: { name: ['Wajib diisi'] }, errorCode: 'VALIDATION_ERROR' }
@@ -158,6 +179,8 @@ export async function createCommissariatAccountAction(
 
   const email = `${username}@${SYNTHETIC_DOMAIN}`
   try {
+    const commissariat_id = await ensureCommissariat(name)
+
     const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password: DEFAULT_PASSWORD,
