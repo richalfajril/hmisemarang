@@ -6,7 +6,7 @@ export const revalidate = 3600
 
 const STATIC_PATHS = [
   '',
-  '/profil',
+  // '/profil' — noindex sementara (ComingSoon), dikeluarkan dari sitemap.
   '/struktur-organisasi',
   '/artikel',
   '/agenda',
