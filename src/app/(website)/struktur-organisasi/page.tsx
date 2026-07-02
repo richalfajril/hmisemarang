@@ -15,7 +15,7 @@ import {
 import { PageHero } from "@/shared/ui/PageHero";
 import { FadeIn } from "@/shared/ui/FadeIn";
 
-export const metadata = { title: "Struktur Organisasi" };
+export const metadata = { title: "Struktur Organisasi", description: "Susunan pengurus HMI Cabang Semarang (HMI Semarang) — pengemban amanah kepemimpinan dan kaderisasi." };
 
 function toSocialLinks(value: unknown): SocialLink[] {
   if (!Array.isArray(value)) return [];

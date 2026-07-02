@@ -3,7 +3,7 @@ import { FadeIn } from '@/shared/ui/FadeIn'
 import { getPublicGalleryPhotos, getPublicAlbumCount, GALLERY_FALLBACK } from '@/widgets/home/api/queries'
 import { GalleryBento } from '@/features/galleries/ui/GalleryBento'
 
-export const metadata = { title: 'Galeri' }
+export const metadata = { title: 'Galeri', description: 'Dokumentasi momen dan kegiatan HMI Cabang Semarang (HMI Semarang).' }
 export const revalidate = 300
 
 /** Ambang album asli: bila < ini, pakai fallback biar terlihat ramai. */

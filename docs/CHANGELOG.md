@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### SEO Teknis: sitemap, robots, OpenGraph, JSON-LD (2026-07-02)
+* **`app/sitemap.ts`** (ISR 1 jam): 9 halaman statis + semua artikel published (`/artikel/[slug]`). **`app/robots.ts`**: allow all, disallow `/dashboard/ /login /api/`, tunjuk sitemap + host.
+* **Metadata global** (`(website)/layout.tsx`): `metadataBase` (root, `SITE_URL`), judul kaya keyword ("HMI Cabang Semarang — Himpunan Mahasiswa Islam Cabang Semarang"), `keywords` (HMI Semarang dll), **OpenGraph** (type/locale id_ID/siteName/image hero-logo) + **Twitter card** + `robots index/follow` + favicon dari settings. `<html lang="id">`.
+* **JSON-LD `Organization`** (schema.org) di layout publik: name + alternateName "HMI Semarang", url, logo, email, address, sameAs (instagram) → sinyal brand/knowledge panel Google.
+* **Description per-halaman** (struktur, komisariat, dokumen, agenda, galeri, artikel, kontak, profil) ber-keyword "HMI Semarang".
+* Config baru `SITE_URL` + `SITE_KEYWORDS` (`widgets/public-layout/config/site.ts`, override via `NEXT_PUBLIC_SITE_URL`).
+
 #### Halaman Baca Artikel `/artikel/[slug]` (gaya Medium) (2026-07-02)
 * Dari ComingSoon → halaman baca clean: kolom sempit `max-w-[720px]`, konten HTML Tiptap via `prose` (dep baru **`@tailwindcss/typography`**, didaftarkan di `globals.css`).
 * Header: kategori chip → judul → excerpt → baris penulis (avatar + nama · tanggal · waktu baca · view) + share. **Cover contained** (rounded, selebar kolom). Tags di bawah konten.

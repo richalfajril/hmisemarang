@@ -3,7 +3,7 @@ import { FadeIn } from '@/shared/ui/FadeIn'
 import { getPublicCommissariats } from '@/widgets/home/api/queries'
 import { KomisariatGrid } from '@/features/commissariat-accounts/ui/KomisariatGrid'
 
-export const metadata = { title: 'Komisariat' }
+export const metadata = { title: 'Komisariat', description: 'Daftar komisariat HMI Cabang Semarang (HMI Semarang) di berbagai perguruan tinggi Kota Semarang.' }
 export const revalidate = 300
 
 export default async function Page() {

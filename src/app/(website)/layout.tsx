@@ -2,27 +2,72 @@ import type { Metadata } from 'next'
 import { getWebsiteSettings } from '@/features/website-settings/api/queries'
 import { PublicHeader } from '@/widgets/public-layout/ui/PublicHeader'
 import { PublicFooter } from '@/widgets/public-layout/ui/PublicFooter'
-import { DEFAULT_SITE_NAME } from '@/widgets/public-layout/config/site'
+import {
+  DEFAULT_SITE_NAME,
+  DEFAULT_LOGO_URL,
+  SITE_URL,
+  SITE_KEYWORDS,
+} from '@/widgets/public-layout/config/site'
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getWebsiteSettings()
   const name = settings?.site_name || DEFAULT_SITE_NAME
+  const title =
+    settings?.seo_title || `${name} — Himpunan Mahasiswa Islam Cabang Semarang`
+  const description =
+    settings?.seo_description ||
+    'HMI Cabang Semarang (HMI Semarang) — portal resmi Himpunan Mahasiswa Islam Cabang Semarang: kaderisasi, gagasan, artikel, agenda, dokumen, dan komisariat.'
+  const ogImage = settings?.hero_image_url || settings?.logo_url || DEFAULT_LOGO_URL
+
   return {
-    title: {
-      default: settings?.seo_title || name,
-      template: `%s - ${name}`,
+    title: { default: title, template: `%s - ${name}` },
+    description,
+    keywords: SITE_KEYWORDS,
+    applicationName: name,
+    robots: { index: true, follow: true },
+    icons: settings?.favicon_url ? { icon: settings.favicon_url } : undefined,
+    openGraph: {
+      type: 'website',
+      locale: 'id_ID',
+      url: SITE_URL,
+      siteName: name,
+      title,
+      description,
+      images: [{ url: ogImage }],
     },
-    description:
-      settings?.seo_description ||
-      'Portal resmi HMI Cabang Semarang — kaderisasi, gagasan, dan pengabdian.',
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
   }
 }
 
 export default async function WebsiteLayout({ children }: { children: React.ReactNode }) {
   const settings = await getWebsiteSettings()
+  const name = settings?.site_name || DEFAULT_SITE_NAME
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name,
+    alternateName: ['HMI Semarang', 'Himpunan Mahasiswa Islam Cabang Semarang'],
+    url: SITE_URL,
+    logo: settings?.logo_url || DEFAULT_LOGO_URL,
+    email: settings?.contact_email || undefined,
+    address: settings?.address
+      ? { '@type': 'PostalAddress', streetAddress: settings.address, addressLocality: 'Semarang', addressRegion: 'Jawa Tengah', addressCountry: 'ID' }
+      : undefined,
+    sameAs: [settings?.instagram_url].filter(Boolean),
+  }
 
   return (
     <div className="flex min-h-svh flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <PublicHeader
         siteName={settings?.site_name}
         logoUrl={settings?.logo_url}

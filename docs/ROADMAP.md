@@ -285,8 +285,8 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 ### Checklist
 * `[ ]` **UI Tasks:** Pembangunan komponen *Pagination* (*Infinite Scroll* atau Angka), panel *Filtering*, dan sakelar *Sorting* (Tanggal Terbit).
 * `[ ]` **UI Tasks:** Menginjeksi kelas *Tailwind v4* khusus dan desain visual ciamik (Glassmorphism, dsb).
-* `[ ]` **API Tasks:** Menyusun API Metadata dinamis untuk pratinjau sosial media (*OpenGraph* Facebook/WhatsApp).
-* `[ ]` **API Tasks:** Kompilasi fungsi `sitemap.ts` Next.js (*Dynamic Sitemap Metadata Route*).
+* `[x]` **API Tasks:** Menyusun API Metadata dinamis untuk pratinjau sosial media (*OpenGraph* Facebook/WhatsApp) — `metadataBase`, OpenGraph + Twitter card global, JSON-LD Organization, keyword & deskripsi per-halaman, `robots.ts`. (2026-07-02)
+* `[x]` **API Tasks:** Kompilasi fungsi `sitemap.ts` Next.js (*Dynamic Sitemap Metadata Route*) — statis + artikel published, ISR 1 jam. (2026-07-02)
 
 ### Deliverables
 * Tatanan perwajahan web HMI yang lengkap, cantik, dan diindeks secara otomatis oleh *Google*.

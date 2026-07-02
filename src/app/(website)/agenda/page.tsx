@@ -5,7 +5,7 @@ import { AGENDA_FALLBACK } from '@/widgets/home/ui/HomeAgenda'
 import { getAgendaStatus } from '@/shared/lib/agenda'
 import { AgendaGrid } from '@/features/agendas/ui/AgendaGrid'
 
-export const metadata = { title: 'Agenda' }
+export const metadata = { title: 'Agenda', description: 'Jadwal kegiatan, acara, dan dokumentasi agenda HMI Cabang Semarang (HMI Semarang).' }
 export const revalidate = 300
 
 /** Ambang agenda asli: bila total < ini, pakai fallback biar terlihat ramai. */

@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { Toaster } from 'sonner';
 import { Providers } from '@/shared/lib/QueryProvider';
+import { SITE_URL } from '@/widgets/public-layout/config/site';
 
 // Rubik: body, subheading, eyebrow, dll. Bricolage Grotesque: heading.
 const rubik = Rubik({ subsets: ["latin"], variable: "--font-sans" });
@@ -19,6 +20,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "HMI Cabang Semarang",
   description: "Portal resmi Himpunan Mahasiswa Islam Cabang Semarang.",
 };
@@ -30,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="id"
       className={cn("h-full", "antialiased", "font-sans", rubik.variable, bricolage.variable, geistMono.variable)}
       suppressHydrationWarning
     >

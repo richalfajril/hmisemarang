@@ -15,7 +15,7 @@ import { SectionHeaderLeft, SectionHeaderCenter } from "@/shared/ui/SectionHeade
 import { Separator } from "@/shared/ui/Separator";
 import { FadeIn } from "@/shared/ui/FadeIn";
 
-export const metadata = { title: "Kontak" };
+export const metadata = { title: "Kontak", description: "Hubungi HMI Cabang Semarang (HMI Semarang) — alamat sekretariat, email, dan media sosial." };
 export const revalidate = 300;
 
 // Fallback sementara — diisi via CMS bagian kontak nanti.

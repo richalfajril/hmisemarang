@@ -8,7 +8,7 @@ import {
   type PublicDocument,
 } from "@/features/documents/ui/PublicDocumentTable";
 
-export const metadata = { title: "Dokumen" };
+export const metadata = { title: "Dokumen", description: "Repositori dokumen resmi HMI Cabang Semarang (HMI Semarang) — surat, berkas administrasi, dan arsip." };
 export const revalidate = 300;
 
 async function getPublicDocuments(): Promise<PublicDocument[]> {

@@ -12,7 +12,7 @@ import { ArticleBento } from '@/features/articles/ui/ArticleBento'
 import { PopularCarousel } from '@/features/articles/ui/PopularCarousel'
 import { ArticleListGrid } from '@/features/articles/ui/ArticleListGrid'
 
-export const metadata = { title: 'Artikel' }
+export const metadata = { title: 'Artikel', description: 'Kajian, opini, berita, dan gagasan dari kader HMI Cabang Semarang (HMI Semarang).' }
 export const revalidate = 300
 
 /** Ambang artikel asli: bila total < ini, pakai fallback biar terlihat ramai. */
