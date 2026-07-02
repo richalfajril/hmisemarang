@@ -4,7 +4,7 @@ export const DEFAULT_SITE_NAME = 'HMI Cabang Semarang'
 
 /** URL kanonik situs (untuk metadata, sitemap, robots). Override via env. */
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://hmisemarang.org'
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.hmisemarang.org'
 ).replace(/\/$/, '')
 
 /** Kata kunci SEO utama. */
