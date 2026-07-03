@@ -64,5 +64,12 @@
   },
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
-  }
+  },
+  "browserslist": [
+    "Chrome >= 100",
+    "Firefox >= 100",
+    "Safari >= 16",
+    "Edge >= 100",
+    "not dead"
+  ]
 }
