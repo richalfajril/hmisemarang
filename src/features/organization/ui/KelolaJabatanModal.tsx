@@ -1,7 +1,7 @@
 'use client'
 
-import { useActionState, useState } from 'react'
-import { createPositionAction, deletePositionAction } from '../api/actions'
+import { useActionState, useState, useTransition } from 'react'
+import { createPositionAction, deletePositionAction, reorderPositionsAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
@@ -13,7 +13,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/Select'
-import { PlusCircle, Trash2, Pencil, Loader2, Settings2 } from 'lucide-react'
+import { PlusCircle, Trash2, Pencil, Loader2, Settings2, GripVertical } from 'lucide-react'
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+  arrayMove,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { toast } from 'sonner'
 import { EditPositionModal } from './EditPositionModal'
 import { POSITION_GROUPS, GROUP_LABELS, normalizeGroup, type PositionGroup } from './position-groups'
 import {
@@ -32,6 +48,30 @@ export function KelolaJabatanModal({ periodId, positions }: { periodId: string; 
   const [state, formAction, isPending] = useActionState(createPositionAction, initialActionState)
   const [group, setGroup] = useState<PositionGroup>('KETUA_BIDANG')
   const [editItem, setEditItem] = useState<PositionRow | null>(null)
+  const [items, setItems] = useState(positions)
+  const [prevPositions, setPrevPositions] = useState(positions)
+  const [, startReorder] = useTransition()
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
+
+  // Sinkronkan saat prop berubah (mis. setelah tambah/hapus) — pola render-time.
+  if (prevPositions !== positions) {
+    setPrevPositions(positions)
+    setItems(positions)
+  }
+
+  const onDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e
+    if (!over || active.id === over.id) return
+    const oldIndex = items.findIndex((i) => i.id === active.id)
+    const newIndex = items.findIndex((i) => i.id === over.id)
+    const next = arrayMove(items, oldIndex, newIndex)
+    setItems(next)
+    startReorder(async () => {
+      const res = await reorderPositionsAction(next.map((i) => i.id))
+      if (res.success) toast.success(res.message)
+      else toast.error(res.message)
+    })
+  }
 
   return (
     <Dialog>
@@ -76,37 +116,19 @@ export function KelolaJabatanModal({ periodId, positions }: { periodId: string; 
           )}
 
           <div className="divide-y rounded-md border max-h-[300px] overflow-y-auto">
-            {positions.length === 0 ? (
+            {items.length === 0 ? (
               <p className="py-6 text-center text-sm text-muted-foreground">Belum ada jabatan.</p>
             ) : (
-              positions.map((pos) => (
-                <div key={pos.id} className="flex items-center justify-between gap-2 px-3 py-2">
-                  <div className="flex min-w-0 items-center gap-2">
-                    <span className="truncate font-medium" title={pos.name}>{pos.name}</span>
-                    <Badge variant="secondary" className="shrink-0">{GROUP_LABELS[normalizeGroup(pos.layout_type)]}</Badge>
-                    <span className="shrink-0 text-xs text-muted-foreground">{pos.memberCount} pengurus</span>
-                  </div>
-                  <div className="flex shrink-0 items-center gap-1">
-                    <Button variant="ghost" size="icon" onClick={() => setEditItem(pos)}>
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <form action={async (formData) => { await deletePositionAction(null, formData) }}>
-                      <input type="hidden" name="id" value={pos.id} />
-                      <Button
-                        type="submit"
-                        variant="ghost"
-                        size="icon"
-                        className="text-destructive hover:bg-destructive/10"
-                        onClick={(e) => { if (!confirm(`Hapus jabatan "${pos.name}" beserta pengurusnya?`)) e.preventDefault() }}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </form>
-                  </div>
-                </div>
-              ))
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+                <SortableContext items={items.map((i) => i.id)} strategy={verticalListSortingStrategy}>
+                  {items.map((pos) => (
+                    <SortablePositionRow key={pos.id} pos={pos} onEdit={() => setEditItem(pos)} />
+                  ))}
+                </SortableContext>
+              </DndContext>
             )}
           </div>
+          <p className="text-xs text-muted-foreground">Seret ikon titik enam untuk mengubah urutan jabatan.</p>
         </div>
 
         <DialogFooter className="pt-2">
@@ -128,5 +150,50 @@ export function KelolaJabatanModal({ periodId, positions }: { periodId: string; 
         )}
       </DialogContent>
     </Dialog>
+  )
+}
+
+function SortablePositionRow({ pos, onEdit }: { pos: PositionRow; onEdit: () => void }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: pos.id })
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <div ref={setNodeRef} style={style} className="flex items-center justify-between gap-2 bg-card px-3 py-2">
+      <div className="flex min-w-0 items-center gap-2">
+        <button
+          type="button"
+          className="shrink-0 cursor-grab touch-none text-muted-foreground hover:text-foreground active:cursor-grabbing"
+          aria-label="Seret untuk mengubah urutan"
+          {...attributes}
+          {...listeners}
+        >
+          <GripVertical className="h-4 w-4" />
+        </button>
+        <span className="truncate font-medium" title={pos.name}>{pos.name}</span>
+        <Badge variant="secondary" className="shrink-0">{GROUP_LABELS[normalizeGroup(pos.layout_type)]}</Badge>
+        <span className="shrink-0 text-xs text-muted-foreground">{pos.memberCount} pengurus</span>
+      </div>
+      <div className="flex shrink-0 items-center gap-1">
+        <Button variant="ghost" size="icon" onClick={onEdit}>
+          <Pencil className="h-4 w-4" />
+        </Button>
+        <form action={async (formData) => { await deletePositionAction(null, formData) }}>
+          <input type="hidden" name="id" value={pos.id} />
+          <Button
+            type="submit"
+            variant="ghost"
+            size="icon"
+            className="text-destructive hover:bg-destructive/10"
+            onClick={(e) => { if (!confirm(`Hapus jabatan "${pos.name}" beserta pengurusnya?`)) e.preventDefault() }}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </form>
+      </div>
+    </div>
   )
 }

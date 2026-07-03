@@ -25,6 +25,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "HMI Cabang Semarang",
   description: "Portal resmi Himpunan Mahasiswa Islam Cabang Semarang.",
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export const viewport: Viewport = {

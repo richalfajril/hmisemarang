@@ -21,10 +21,29 @@ import {
 import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
-import { Loader2, CalendarPlus, Trash2, Plus } from 'lucide-react'
+import { Loader2, CalendarPlus, Trash2, Plus, GripVertical } from 'lucide-react'
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  useSortable,
+  arrayMove,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { POSITION_GROUPS, GROUP_LABELS, type PositionGroup } from './position-groups'
 
 type Row = { id?: string; name: string; layout: PositionGroup }
+type EditableRow = Row & { _key: string }
+
+const genKey = () =>
+  typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2)
 
 export type EditPeriodInitial = {
   id: string
@@ -49,15 +68,17 @@ export function CreatePeriodModal({
   const open = isEdit ? !!controlledOpen : internalOpen
   const setOpen = (o: boolean) => { if (isEdit) onOpenChange?.(o); else setInternalOpen(o) }
 
-  const [rows, setRows] = useState<Row[]>(
-    initial?.positions.length
+  const [rows, setRows] = useState<EditableRow[]>(() =>
+    (initial?.positions.length
       ? initial.positions
       : [
-          { name: '', layout: 'KSB' },
-          { name: '', layout: 'KSB' },
-          { name: '', layout: 'KSB' },
+          { name: '', layout: 'KSB' as PositionGroup },
+          { name: '', layout: 'KSB' as PositionGroup },
+          { name: '', layout: 'KSB' as PositionGroup },
         ]
+    ).map((r) => ({ ...r, _key: genKey() }))
   )
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
   const router = useRouter()
 
   const currentYear = new Date().getFullYear()
@@ -75,11 +96,21 @@ export function CreatePeriodModal({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, router])
 
-  const updateRow = (index: number, patch: Partial<Row>) => {
-    setRows((prev) => prev.map((r, i) => (i === index ? { ...r, ...patch } : r)))
+  const updateRow = (key: string, patch: Partial<Row>) => {
+    setRows((prev) => prev.map((r) => (r._key === key ? { ...r, ...patch } : r)))
   }
-  const addRow = () => setRows((prev) => [...prev, { name: '', layout: 'KETUA_BIDANG' }])
-  const removeRow = (index: number) => setRows((prev) => prev.filter((_, i) => i !== index))
+  const addRow = () => setRows((prev) => [...prev, { name: '', layout: 'KETUA_BIDANG', _key: genKey() }])
+  const removeRow = (key: string) => setRows((prev) => prev.filter((r) => r._key !== key))
+
+  const onDragEnd = (e: DragEndEvent) => {
+    const { active, over } = e
+    if (!over || active.id === over.id) return
+    setRows((prev) => {
+      const oldIndex = prev.findIndex((r) => r._key === active.id)
+      const newIndex = prev.findIndex((r) => r._key === over.id)
+      return arrayMove(prev, oldIndex, newIndex)
+    })
+  }
 
   const positionsJson = JSON.stringify(
     rows
@@ -130,39 +161,23 @@ export function CreatePeriodModal({
       <div className="space-y-2">
         <Label>Daftar Jabatan</Label>
         <div className="space-y-2 h-[min(360px,42vh)] overflow-y-auto pr-1">
-          {rows.map((row, index) => (
-            <div key={row.id ?? `new-${index}`} className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground w-5 text-right">{index + 1}.</span>
-              <Input
-                value={row.name}
-                onChange={(e) => updateRow(index, { name: e.target.value })}
-                placeholder="Cth: Ketua Umum, Ketua Bidang PTKP"
-                disabled={isPending}
-                className="flex-1"
-              />
-              <Select value={row.layout} onValueChange={(v) => updateRow(index, { layout: v as PositionGroup })} disabled={isPending}>
-                <SelectTrigger className="w-[150px] shrink-0">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {POSITION_GROUPS.map((g) => (
-                    <SelectItem key={g} value={g}>{GROUP_LABELS[g]}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => removeRow(index)}
-                disabled={isPending || rows.length === 1}
-                className="text-destructive hover:bg-destructive/10 shrink-0"
-              >
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-          ))}
+          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+            <SortableContext items={rows.map((r) => r._key)} strategy={verticalListSortingStrategy}>
+              {rows.map((row, index) => (
+                <SortablePeriodRow
+                  key={row._key}
+                  row={row}
+                  index={index}
+                  isPending={isPending}
+                  canRemove={rows.length > 1}
+                  onUpdate={updateRow}
+                  onRemove={removeRow}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
         </div>
+        <p className="text-xs text-muted-foreground">Seret ikon titik enam untuk mengubah urutan jabatan.</p>
         <Button type="button" variant="outline" size="sm" onClick={addRow} disabled={isPending} className="w-full">
           <Plus className="mr-2 h-4 w-4" />
           Tambah Baris Jabatan
@@ -211,5 +226,70 @@ export function CreatePeriodModal({
         {formBody}
       </DialogContent>
     </Dialog>
+  )
+}
+
+function SortablePeriodRow({
+  row,
+  index,
+  isPending,
+  canRemove,
+  onUpdate,
+  onRemove,
+}: {
+  row: EditableRow
+  index: number
+  isPending: boolean
+  canRemove: boolean
+  onUpdate: (key: string, patch: Partial<Row>) => void
+  onRemove: (key: string) => void
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: row._key })
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
+  return (
+    <div ref={setNodeRef} style={style} className="flex items-center gap-2 bg-card">
+      <button
+        type="button"
+        className="shrink-0 cursor-grab touch-none text-muted-foreground hover:text-foreground active:cursor-grabbing"
+        aria-label="Seret untuk mengubah urutan"
+        {...attributes}
+        {...listeners}
+      >
+        <GripVertical className="h-4 w-4" />
+      </button>
+      <span className="w-5 text-right text-xs text-muted-foreground">{index + 1}.</span>
+      <Input
+        value={row.name}
+        onChange={(e) => onUpdate(row._key, { name: e.target.value })}
+        placeholder="Cth: Ketua Umum, Ketua Bidang PTKP"
+        disabled={isPending}
+        className="flex-1"
+      />
+      <Select value={row.layout} onValueChange={(v) => onUpdate(row._key, { layout: v as PositionGroup })} disabled={isPending}>
+        <SelectTrigger className="w-[150px] shrink-0">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {POSITION_GROUPS.map((g) => (
+            <SelectItem key={g} value={g}>{GROUP_LABELS[g]}</SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        onClick={() => onRemove(row._key)}
+        disabled={isPending || !canRemove}
+        className="shrink-0 text-destructive hover:bg-destructive/10"
+      >
+        <Trash2 className="h-4 w-4" />
+      </Button>
+    </div>
   )
 }

@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### E2E Playwright + Perf fixes + fix h1 SEO (2026-07-03)
+* **Playwright E2E** (`@playwright/test`, dev dep — future scope TECH_STACK): `playwright.config.ts` (webServer auto-start dev, baseURL env), `e2e/public-smoke.spec.ts` (9 route publik → 200 + `<h1>` + detail 404), `e2e/auth.spec.ts` (unauth `/dashboard` → `/login`, login valid → dashboard, login salah → tetap login). Kredensial via env (`E2E_ADMIN_USER/PASS`, di `.env` gitignored). Script `npm run test:e2e`.
+* **Fix SEO/a11y — `<h1>` per halaman**: E2E menemukan halaman ber-`PageHero` (struktur, artikel, agenda, komisariat, galeri, dokumen, profil) + kontak **tidak punya `<h1>`** (heading = `<h2>` dari SectionHeader). `SectionHeader{Center,Left}` diberi prop `as` (default `h2`); `PageHero` & kontak render heading utama sebagai `h1`. Smoke 10/10 lolos.
+* **Perf (Lighthouse)**: `browserslist` modern (drop ~14 KiB legacy JS polyfill), preconnect + dns-prefetch `res.cloudinary.com`, `viewport`/`themeColor` di root layout.
+
 #### Bulk Archive + Orphan Media Scanner + Analytics (2026-07-03)
 * **Bulk Archive** (backlog): checkbox pilih massal + toolbar "Arsipkan (N)" di `ArticleList` & `AgendaList`. Action `bulkArchive{Articles,Agendas}Action(ids)` — soft-delete (`deleted_at`) via `updateMany`, scoped (KOMISARIAT hanya miliknya, CABANG semua), audit log + revalidate. Reversibel (bukan hard delete).
 * **Orphan Media Cleanup — scanner READ-ONLY** (backlog, best-practice): `/dashboard/media-cleanup` (ADMIN_CABANG). `scanOrphanMediaAction` — list aset Cloudinary (`listCloudinaryImages`, Admin API paginated) vs semua referensi DB (field `*_url` semua tabel + parse HTML `Article.content`/`Agenda.description` untuk gambar inline Tiptap). Diff → aset yatim. **Pengaman**: grace 7 hari (skip aset baru), read-only (tombol hapus sengaja belum ada), skip resource `raw`/dokumen. Panel: ringkasan + grid thumbnail orphan. Nav sidebar baru.

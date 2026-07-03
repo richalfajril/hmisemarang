@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: 'website',
       locale: 'id_ID',
       url: SITE_URL,
-      siteName: name,
+      siteName: 'Official Website HMI Cabang Semarang',
       title,
       description,
       images: [{ url: ogImage }],
@@ -46,21 +46,30 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function WebsiteLayout({ children }: { children: React.ReactNode }) {
   const settings = await getWebsiteSettings()
-  const name = settings?.site_name || DEFAULT_SITE_NAME
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name,
-    alternateName: ['HMI Semarang', 'Himpunan Mahasiswa Islam Cabang Semarang'],
-    url: SITE_URL,
-    logo: settings?.logo_url || DEFAULT_LOGO_URL,
-    email: settings?.contact_email || undefined,
-    address: settings?.address
-      ? { '@type': 'PostalAddress', streetAddress: settings.address, addressLocality: 'Semarang', addressRegion: 'Jawa Tengah', addressCountry: 'ID' }
-      : undefined,
-    sameAs: [settings?.instagram_url].filter(Boolean),
-  }
+  const SITE_NAME_SERP = 'Official Website HMI Cabang Semarang'
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: SITE_NAME_SERP,
+      alternateName: ['HMI Cabang Semarang', 'HMI Semarang'],
+      url: SITE_URL,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: SITE_NAME_SERP,
+      alternateName: ['HMI Cabang Semarang', 'HMI Semarang', 'Himpunan Mahasiswa Islam Cabang Semarang'],
+      url: SITE_URL,
+      logo: settings?.logo_url || DEFAULT_LOGO_URL,
+      email: settings?.contact_email || undefined,
+      address: settings?.address
+        ? { '@type': 'PostalAddress', streetAddress: settings.address, addressLocality: 'Semarang', addressRegion: 'Jawa Tengah', addressCountry: 'ID' }
+        : undefined,
+      sameAs: [settings?.instagram_url].filter(Boolean),
+    },
+  ]
 
   return (
     <div className="flex min-h-svh flex-col">

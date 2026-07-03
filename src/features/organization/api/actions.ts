@@ -199,6 +199,21 @@ export async function createPositionAction(
   }
 }
 
+/** Simpan urutan jabatan (drag reorder) → set sort_order sesuai indeks. */
+export async function reorderPositionsAction(orderedIds: string[]): Promise<ActionState> {
+  if (!(await checkAuth())) return { success: false, message: 'Akses ditolak.', errorCode: 'UNAUTHORIZED' }
+  if (!orderedIds.length) return { success: false, message: 'Tidak ada data.' }
+  try {
+    await prisma.$transaction(
+      orderedIds.map((id, i) => prisma.position.update({ where: { id }, data: { sort_order: i } }))
+    )
+    revalidatePath('/dashboard/organization/periods', 'layout')
+    return { success: true, message: 'Urutan jabatan disimpan.' }
+  } catch {
+    return { success: false, message: 'Gagal menyimpan urutan.', errorCode: 'SERVER_ERROR' }
+  }
+}
+
 export async function deletePositionAction(
   prevState: ActionState | null,
   formData: FormData

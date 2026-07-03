@@ -110,7 +110,7 @@ export default async function Page() {
               </svg>
 
               <div className="relative z-10">
-                <SectionHeaderLeft inverted eyebrow="Kontak Kami" heading={siteName} />
+                <SectionHeaderLeft as="h1" inverted eyebrow="Kontak Kami" heading={siteName} />
 
                 <Separator className="my-8 bg-white/20" />
 

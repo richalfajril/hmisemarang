@@ -76,9 +76,9 @@ export function PageHero({ breadcrumb, eyebrow, heading, subheading, align = 'ce
 
         <div className={cn('mt-8', action && 'flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between')}>
           {align === 'center' ? (
-            <SectionHeaderCenter inverted eyebrow={eyebrow} heading={heading} subheading={subheading} />
+            <SectionHeaderCenter as="h1" inverted eyebrow={eyebrow} heading={heading} subheading={subheading} />
           ) : (
-            <SectionHeaderLeft inverted eyebrow={eyebrow} heading={heading} subheading={subheading} cta={cta} />
+            <SectionHeaderLeft as="h1" inverted eyebrow={eyebrow} heading={heading} subheading={subheading} cta={cta} />
           )}
           {action && <div className="w-full lg:w-auto lg:shrink-0">{action}</div>}
         </div>

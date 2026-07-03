@@ -26,6 +26,8 @@ type BaseProps = {
   className?: string;
   /** Untuk section ber-bg gelap: teks header menjadi putih. */
   inverted?: boolean;
+  /** Tag heading — 'h1' untuk heading utama halaman, 'h2' (default) untuk section. */
+  as?: "h1" | "h2";
 };
 
 /** Centered section header (eyebrow → heading → subheading). */
@@ -35,12 +37,13 @@ export function SectionHeaderCenter({
   subheading,
   className,
   inverted,
+  as: Heading = "h2",
 }: BaseProps) {
   const t = tone(inverted);
   return (
     <div className={cn("text-center", className)}>
       <span className={cn(EYEBROW, t.eyebrow)}>{eyebrow}</span>
-      <h2 className={cn("mt-5", HEADING, t.heading)}>{heading}</h2>
+      <Heading className={cn("mt-5", HEADING, t.heading)}>{heading}</Heading>
       {subheading && (
         <p className={cn("mx-auto mt-4 max-w-2xl", SUBHEADING, t.subheading)}>
           {subheading}
@@ -62,6 +65,7 @@ export function SectionHeaderLeft({
   cta,
   className,
   inverted,
+  as: Heading = "h2",
 }: LeftProps) {
   const t = tone(inverted);
   return (
@@ -73,7 +77,7 @@ export function SectionHeaderLeft({
     >
       <div>
         <span className={cn(EYEBROW, t.eyebrow)}>{eyebrow}</span>
-        <h2 className={cn("mt-5", HEADING, t.heading)}>{heading}</h2>
+        <Heading className={cn("mt-5", HEADING, t.heading)}>{heading}</Heading>
         {subheading && (
           <p className={cn("mt-4 max-w-xl", SUBHEADING, t.subheading)}>
             {subheading}
