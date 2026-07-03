@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Rubik, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
@@ -25,6 +25,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "HMI Cabang Semarang",
   description: "Portal resmi Himpunan Mahasiswa Islam Cabang Semarang.",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#065f46",
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

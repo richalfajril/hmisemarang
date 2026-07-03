@@ -5,7 +5,8 @@ import { Button } from '@/shared/ui/Button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/Table'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
-import { Edit, MoreHorizontal, Trash, Send } from 'lucide-react'
+import { Edit, MoreHorizontal, Trash, Send, Archive } from 'lucide-react'
+import { Checkbox } from '@/shared/ui/Checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,8 +16,8 @@ import {
 } from '@/shared/ui/DropdownMenu'
 import Link from 'next/link'
 import { Badge } from '@/shared/ui/Badge'
-import { useTransition } from 'react'
-import { softDeleteAgendaAction, submitAgendaAction } from '../api/actions'
+import { useState, useTransition } from 'react'
+import { softDeleteAgendaAction, submitAgendaAction, bulkArchiveAgendasAction } from '../api/actions'
 import { toast } from 'sonner'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
@@ -36,8 +37,41 @@ const statusColorMap: Record<string, string> = {
 
 export function AgendaList({ agendas }: AgendaListProps) {
   const [isPending, startTransition] = useTransition()
-  
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+
   const pagination = useClientPagination(agendas, 15)
+
+  const pageIds = pagination.paginatedData.map((a) => a.id)
+  const allPageSelected = pageIds.length > 0 && pageIds.every((id) => selected.has(id))
+
+  const toggle = (id: string) =>
+    setSelected((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+
+  const togglePage = () =>
+    setSelected((prev) => {
+      const next = new Set(prev)
+      if (allPageSelected) pageIds.forEach((id) => next.delete(id))
+      else pageIds.forEach((id) => next.add(id))
+      return next
+    })
+
+  const handleBulkArchive = () => {
+    const ids = [...selected]
+    if (!ids.length) return
+    if (!window.confirm(`Arsipkan ${ids.length} agenda terpilih?`)) return
+    startTransition(async () => {
+      const res = await bulkArchiveAgendasAction(ids)
+      if (res.success) {
+        toast.success(res.message)
+        setSelected(new Set())
+      } else toast.error(res.message)
+    })
+  }
 
   const handleDelete = (agendaId: string) => {
     if (!window.confirm('Yakin ingin menghapus agenda ini?')) return
@@ -67,10 +101,26 @@ export function AgendaList({ agendas }: AgendaListProps) {
 
   return (
     <div className="space-y-4">
+      {selected.size > 0 && (
+        <div className="flex items-center justify-between rounded-lg border bg-muted/40 px-4 py-2.5">
+          <span className="text-sm font-medium">{selected.size} dipilih</span>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" onClick={() => setSelected(new Set())} disabled={isPending}>
+              Batal
+            </Button>
+            <Button variant="destructive" size="sm" onClick={handleBulkArchive} disabled={isPending}>
+              <Archive className="mr-2 h-4 w-4" /> Arsipkan
+            </Button>
+          </div>
+        </div>
+      )}
       <div className="rounded-md border bg-card">
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-[40px]">
+              <Checkbox checked={allPageSelected} onCheckedChange={togglePage} aria-label="Pilih semua" />
+            </TableHead>
             <TableHead className="w-[50px]">No.</TableHead>
             <TableHead>Nama Acara</TableHead>
             <TableHead>Waktu Pelaksanaan</TableHead>
@@ -82,7 +132,7 @@ export function AgendaList({ agendas }: AgendaListProps) {
         <TableBody>
           {agendas.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="h-24 text-center">
+              <TableCell colSpan={7} className="h-24 text-center">
                 Belum ada draf agenda.
               </TableCell>
             </TableRow>
@@ -90,7 +140,14 @@ export function AgendaList({ agendas }: AgendaListProps) {
             pagination.paginatedData.map((agenda, index) => {
               const rowIndex = (pagination.currentPage - 1) * 15 + index + 1
               return (
-              <TableRow key={agenda.id}>
+              <TableRow key={agenda.id} data-state={selected.has(agenda.id) ? 'selected' : undefined}>
+                <TableCell>
+                  <Checkbox
+                    checked={selected.has(agenda.id)}
+                    onCheckedChange={() => toggle(agenda.id)}
+                    aria-label={`Pilih ${agenda.title}`}
+                  />
+                </TableCell>
                 <TableCell>{rowIndex}</TableCell>
                 <TableCell className="font-medium max-w-[150px] sm:max-w-[200px] md:max-w-[250px] truncate" title={agenda.title}>{agenda.title}</TableCell>
                 <TableCell>

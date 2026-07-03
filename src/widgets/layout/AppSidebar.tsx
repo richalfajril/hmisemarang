@@ -32,6 +32,7 @@ import {
   BellIcon,
   QuoteIcon,
   KeyRoundIcon,
+  ScanSearchIcon,
 } from "lucide-react"
 
 const ALL_ROLES = ["SYSTEM_ADMIN", "ADMIN_CABANG", "ADMIN_KOMISARIAT"]
@@ -55,6 +56,7 @@ const navManagement = [
   { title: "Verifikasi Kader", url: "/dashboard/cadre-verification", icon: <UserCheckIcon />, roles: ALL_ROLES },
   { title: "Organisasi", url: "/dashboard/organization", icon: <BuildingIcon />, roles: ADMIN_CABANG_ONLY },
   { title: "Taksonomi", url: "/dashboard/taxonomy", icon: <TagsIcon />, roles: ADMIN_CABANG_ONLY },
+  { title: "Media Cleanup", url: "/dashboard/media-cleanup", icon: <ScanSearchIcon />, roles: ADMIN_CABANG_ONLY },
 ]
 
 const navSecondary = [

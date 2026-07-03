@@ -177,6 +177,39 @@ export async function submitAgendaAction(agendaId: string) {
   }
 }
 
+/** Arsip massal (soft-delete) agenda terpilih. Scoped: KOMISARIAT hanya miliknya. */
+export async function bulkArchiveAgendasAction(ids: string[]) {
+  try {
+    const session = await getUserSession()
+    if (!session) return { success: false, message: 'Unauthorized' }
+    if (!ids.length) return { success: false, message: 'Tidak ada item dipilih.' }
+
+    const where = {
+      id: { in: ids },
+      deleted_at: null,
+      ...(session.user.role === 'ADMIN_KOMISARIAT'
+        ? { commissariat_id: session.user.commissariatId ?? undefined }
+        : {}),
+    }
+    const res = await prisma.agenda.updateMany({
+      where,
+      data: { deleted_at: new Date(), deleted_by: session.user.id },
+    })
+
+    await logAuditAction({
+      actor_id: session.user.id,
+      entity_type: 'Agenda',
+      entity_id: 'BULK',
+      action: 'DELETED',
+      newData: { count: res.count },
+    })
+    revalidatePath('/dashboard/agendas')
+    return { success: true, message: `${res.count} agenda diarsipkan.` }
+  } catch (error) {
+    return { success: false, message: (error as Error).message || 'Terjadi kesalahan sistem.' }
+  }
+}
+
 export async function softDeleteAgendaAction(agendaId: string) {
   try {
     const session = await getUserSession()

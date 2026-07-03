@@ -15,8 +15,10 @@ import {
 } from '@/shared/ui/DropdownMenu'
 import Link from 'next/link'
 import { Badge } from '@/shared/ui/Badge'
-import { useTransition } from 'react'
-import { softDeleteArticleAction, submitArticleAction } from '../api/actions'
+import { Checkbox } from '@/shared/ui/Checkbox'
+import { Archive } from 'lucide-react'
+import { useState, useTransition } from 'react'
+import { softDeleteArticleAction, submitArticleAction, bulkArchiveArticlesAction } from '../api/actions'
 import { toast } from 'sonner'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
@@ -41,8 +43,41 @@ const statusColorMap: Record<string, string> = {
 
 export function ArticleList({ articles }: ArticleListProps) {
   const [isPending, startTransition] = useTransition()
-  
+  const [selected, setSelected] = useState<Set<string>>(new Set())
+
   const pagination = useClientPagination(articles, 15)
+
+  const pageIds = pagination.paginatedData.map((a) => a.id)
+  const allPageSelected = pageIds.length > 0 && pageIds.every((id) => selected.has(id))
+
+  const toggle = (id: string) =>
+    setSelected((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+
+  const togglePage = () =>
+    setSelected((prev) => {
+      const next = new Set(prev)
+      if (allPageSelected) pageIds.forEach((id) => next.delete(id))
+      else pageIds.forEach((id) => next.add(id))
+      return next
+    })
+
+  const handleBulkArchive = () => {
+    const ids = [...selected]
+    if (!ids.length) return
+    if (!window.confirm(`Arsipkan ${ids.length} artikel terpilih?`)) return
+    startTransition(async () => {
+      const res = await bulkArchiveArticlesAction(ids)
+      if (res.success) {
+        toast.success(res.message)
+        setSelected(new Set())
+      } else toast.error(res.message)
+    })
+  }
 
   const handleDelete = (id: string) => {
     if (!window.confirm('Yakin ingin menghapus artikel ini?')) return
@@ -72,10 +107,26 @@ export function ArticleList({ articles }: ArticleListProps) {
 
   return (
     <div className="space-y-4">
+      {selected.size > 0 && (
+        <div className="flex items-center justify-between rounded-lg border bg-muted/40 px-4 py-2.5">
+          <span className="text-sm font-medium">{selected.size} dipilih</span>
+          <div className="flex items-center gap-2">
+            <Button variant="ghost" size="sm" onClick={() => setSelected(new Set())} disabled={isPending}>
+              Batal
+            </Button>
+            <Button variant="destructive" size="sm" onClick={handleBulkArchive} disabled={isPending}>
+              <Archive className="mr-2 h-4 w-4" /> Arsipkan
+            </Button>
+          </div>
+        </div>
+      )}
       <div className="rounded-md border bg-card">
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-[40px]">
+              <Checkbox checked={allPageSelected} onCheckedChange={togglePage} aria-label="Pilih semua" />
+            </TableHead>
             <TableHead className="w-[50px]">No.</TableHead>
             <TableHead>Judul</TableHead>
             <TableHead>Kategori</TableHead>
@@ -87,7 +138,7 @@ export function ArticleList({ articles }: ArticleListProps) {
         <TableBody>
           {articles.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="h-24 text-center">
+              <TableCell colSpan={6} className="h-24 text-center">
                 Belum ada draf artikel.
               </TableCell>
             </TableRow>
@@ -95,7 +146,14 @@ export function ArticleList({ articles }: ArticleListProps) {
             pagination.paginatedData.map((article, index) => {
               const rowIndex = (pagination.currentPage - 1) * 15 + index + 1
               return (
-              <TableRow key={article.id}>
+              <TableRow key={article.id} data-state={selected.has(article.id) ? 'selected' : undefined}>
+                <TableCell>
+                  <Checkbox
+                    checked={selected.has(article.id)}
+                    onCheckedChange={() => toggle(article.id)}
+                    aria-label={`Pilih ${article.title}`}
+                  />
+                </TableCell>
                 <TableCell>{rowIndex}</TableCell>
                 <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[300px]">
                   <div className="font-bold text-base truncate" title={article.title}>{article.title}</div>

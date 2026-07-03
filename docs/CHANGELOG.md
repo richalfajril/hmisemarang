@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Bulk Archive + Orphan Media Scanner + Analytics (2026-07-03)
+* **Bulk Archive** (backlog): checkbox pilih massal + toolbar "Arsipkan (N)" di `ArticleList` & `AgendaList`. Action `bulkArchive{Articles,Agendas}Action(ids)` — soft-delete (`deleted_at`) via `updateMany`, scoped (KOMISARIAT hanya miliknya, CABANG semua), audit log + revalidate. Reversibel (bukan hard delete).
+* **Orphan Media Cleanup — scanner READ-ONLY** (backlog, best-practice): `/dashboard/media-cleanup` (ADMIN_CABANG). `scanOrphanMediaAction` — list aset Cloudinary (`listCloudinaryImages`, Admin API paginated) vs semua referensi DB (field `*_url` semua tabel + parse HTML `Article.content`/`Agenda.description` untuk gambar inline Tiptap). Diff → aset yatim. **Pengaman**: grace 7 hari (skip aset baru), read-only (tombol hapus sengaja belum ada), skip resource `raw`/dokumen. Panel: ringkasan + grid thumbnail orphan. Nav sidebar baru.
+* **Vercel Web Analytics + Speed Insights** (`@vercel/analytics`, `@vercel/speed-insights`) di `app/layout.tsx` — wajib di-enable di dashboard Vercel.
+* **`loading.tsx`** skeleton (streaming) di 9 route publik (list + detail) via `PageSkeleton` reusable → navigasi terasa instan (skeleton dulu, konten menyusul).
+
 #### Halaman Detail Agenda `/agenda/[slug]` (2026-07-02)
 * Dari 404 → halaman detail: flyer (4:5) + badge status, judul, komisariat, short_description, kartu info (tanggal `formatAgendaDate`, jam, lokasi, countdown), tombol "Lihat Lokasi" (`location_url`), deskripsi HTML (Tiptap) via `prose`, "Agenda Lainnya" (reuse `AgendaGridCard`, di-export). `getAgendaBySlug` + `generateMetadata` (title/desc/OG flyer) + `notFound()`.
 * `sitemap.ts` kini juga listing URL agenda published (`/agenda/[slug]`).

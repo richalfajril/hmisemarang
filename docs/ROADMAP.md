@@ -350,9 +350,9 @@ Peta jalan ini bertindak sebagai kemudi rekayasa (*Project Progress Tracker* dan
 
 ## Backlog
 *(Area persemayaman seluruh antrean harapan dan daftar cita-cita (wishlist) pengembangan masa depan yang dikaji bernilai namun ditendang dari gerbong utama MVP untuk mempertahankan rentang fokus waktu tim).*
-- **Bulk Archive Articles & Agenda:** Kapabilitas pengarsipan serentak (*mass action*).
-- **Orphan Media Cleanup:** Panel antarmuka penyapu arsip fail gambar/dokumen yang tidak lagi terikat pada satupun referensi data (menghindari kebocoran tagihan Supabase).
-- **Sistem Laporan Analitik Pengunjung Situs Web** (Integrasi *Google Analytics / Vercel Web Analytics*).
+- ~~**Bulk Archive Articles & Agenda**~~ ✅ (2026-07-03) — checkbox pilih massal + arsip (soft-delete) di ArticleList/AgendaList.
+- **Orphan Media Cleanup:** 🟡 sebagian (2026-07-03) — scanner READ-ONLY di `/dashboard/media-cleanup` (deteksi aset Cloudinary yatim, grace 7 hari). *Belum:* aksi hapus/quarantine (ditahan demi keamanan sampai akurasi scan terbukti).
+- ~~**Sistem Laporan Analitik Pengunjung Situs Web**~~ ✅ (2026-07-03) — Vercel Web Analytics + Speed Insights.
 - **Pendaftaran (*Login*) Otomatis Otentikasi Pihak Ketiga** (*Google SSO / OAuth*).
 
 ## Out of Scope

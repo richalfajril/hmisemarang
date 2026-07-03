@@ -202,6 +202,39 @@ export async function submitArticleAction(articleId: string) {
   }
 }
 
+/** Arsip massal (soft-delete) artikel terpilih. Scoped: KOMISARIAT hanya miliknya. */
+export async function bulkArchiveArticlesAction(ids: string[]) {
+  try {
+    const session = await getUserSession()
+    if (!session) return { success: false, message: 'Unauthorized' }
+    if (!ids.length) return { success: false, message: 'Tidak ada item dipilih.' }
+
+    const where = {
+      id: { in: ids },
+      deleted_at: null,
+      ...(session.user.role === 'ADMIN_KOMISARIAT'
+        ? { commissariat_id: session.user.commissariatId ?? undefined }
+        : {}),
+    }
+    const res = await prisma.article.updateMany({
+      where,
+      data: { deleted_at: new Date(), deleted_by: session.user.id },
+    })
+
+    await logAuditAction({
+      actor_id: session.user.id,
+      entity_type: 'Article',
+      entity_id: 'BULK',
+      action: 'DELETED',
+      newData: { count: res.count },
+    })
+    revalidatePath('/dashboard/articles')
+    return { success: true, message: `${res.count} artikel diarsipkan.` }
+  } catch (error) {
+    return { success: false, message: (error as Error).message || 'Terjadi kesalahan sistem.' }
+  }
+}
+
 export async function softDeleteArticleAction(articleId: string) {
   try {
     const session = await getUserSession()

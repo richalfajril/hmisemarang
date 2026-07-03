@@ -72,6 +72,31 @@ export async function deleteFromCloudinary(
  * 
  * @param publicId The public ID of the resource
  */
+/**
+ * List semua aset gambar (type upload) di Cloudinary, paginated.
+ * Dipakai untuk audit media orphan. ponytail: tanpa backoff rate-limit
+ * (asumsi jumlah aset moderat; Admin API limit ~500/req).
+ */
+export async function listCloudinaryImages(): Promise<
+  { public_id: string; secure_url: string; bytes: number; created_at: string }[]
+> {
+  const out: { public_id: string; secure_url: string; bytes: number; created_at: string }[] = []
+  let cursor: string | undefined
+  do {
+    const res = await cloudinary.api.resources({
+      resource_type: 'image',
+      type: 'upload',
+      max_results: 500,
+      next_cursor: cursor,
+    })
+    for (const r of res.resources) {
+      out.push({ public_id: r.public_id, secure_url: r.secure_url, bytes: r.bytes, created_at: r.created_at })
+    }
+    cursor = res.next_cursor
+  } while (cursor)
+  return out
+}
+
 export function getOptimizedUrl(publicId: string): string {
   return cloudinary.url(publicId, {
     fetch_format: 'auto',
