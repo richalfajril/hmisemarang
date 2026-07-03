@@ -212,6 +212,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
               maxDimension={512}
               disabled={isPending}
               shape="circle"
+              allowSvg
               className="max-w-[160px]"
             />
             {state?.fieldErrors?.favicon_url && (
@@ -221,9 +222,9 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
 
           <div className="space-y-3">
             <div>
-              <Label>Gambar Latar Hero</Label>
+              <Label>Latar Hero (Gambar / Video)</Label>
               <p className="text-[0.8rem] text-muted-foreground mt-1">
-                Gambar yang tampil sebagai latar belakang halaman utama (hero section). Ukuran rekomendasi: 1920×1080px atau lebih besar.
+                Gambar atau video MP4 yang tampil sebagai latar belakang halaman utama (hero section). Ukuran rekomendasi: 1920×1080px atau lebih besar. Video MP4 tidak dikompres — gunakan file yang sudah ringan.
               </p>
             </div>
             <ImageUploader
@@ -231,6 +232,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
               onChange={(url) => setHeroImageUrl(url)}
               folder="hero-images"
               disabled={isPending}
+              allowVideo
             />
             {state?.fieldErrors?.hero_image_url && (
               <p className="text-xs text-destructive">{state.fieldErrors.hero_image_url[0]}</p>
@@ -250,6 +252,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
               folder="logos"
               maxDimension={512}
               disabled={isPending}
+              allowSvg
             />
             {state?.fieldErrors?.dark_logo_url && (
               <p className="text-xs text-destructive">{state.fieldErrors.dark_logo_url[0]}</p>

@@ -17,7 +17,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const description =
     settings?.seo_description ||
     'HMI Cabang Semarang (HMI Semarang) — portal resmi Himpunan Mahasiswa Islam Cabang Semarang: kaderisasi, gagasan, artikel, agenda, dokumen, dan komisariat.'
-  const ogImage = settings?.hero_image_url || settings?.logo_url || DEFAULT_LOGO_URL
+  const heroForOg = /\.(mp4|webm|mov)(\?|$)/i.test(settings?.hero_image_url || '')
+    ? undefined
+    : settings?.hero_image_url
+  const ogImage = heroForOg || settings?.logo_url || DEFAULT_LOGO_URL
 
   return {
     title: { default: title, template: `%s - ${name}` },

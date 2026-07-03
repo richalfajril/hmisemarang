@@ -3,7 +3,9 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-/** Hero background image with a subtle scroll parallax. */
+const isVideo = (url: string) => /\.(mp4|webm|mov)(\?|$)/i.test(url);
+
+/** Hero background image/video with a subtle scroll parallax. */
 export function HeroBackground({ src }: { src: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -33,13 +35,24 @@ export function HeroBackground({ src }: { src: string }) {
         ref={ref}
         className="absolute inset-x-0 -top-[15%] h-[130%] will-change-transform"
       >
-        <Image
-          src={src}
-          alt="Hero background"
-          fill
-          className="object-cover object-center"
-          priority
-        />
+        {isVideo(src) ? (
+          <video
+            src={src}
+            className="absolute inset-0 h-full w-full object-cover object-center"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : (
+          <Image
+            src={src}
+            alt="Hero background"
+            fill
+            className="object-cover object-center"
+            priority
+          />
+        )}
       </div>
     </div>
   );

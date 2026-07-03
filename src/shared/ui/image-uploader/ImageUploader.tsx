@@ -17,16 +17,49 @@ interface ImageUploaderProps {
   maxDimension?: number
   /** Bentuk preview. 'circle' → bulat (mis. preview favicon seperti di Google). */
   shape?: 'square' | 'circle'
+  /** Izinkan SVG (untuk logo & favicon). Default false. */
+  allowSvg?: boolean
+  /** Izinkan video MP4 (untuk latar hero). Tidak dikonversi ke WebP. Default false. */
+  allowVideo?: boolean
 }
 
-export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920, shape = 'square' }: ImageUploaderProps) {
+const BASE_TYPES = ['image/png', 'image/jpeg', 'image/webp']
+
+function isVideoUrl(url: string) {
+  return /\.(mp4|webm|mov)(\?|$)/i.test(url)
+}
+
+export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920, shape = 'square', allowSvg = false, allowVideo = false }: ImageUploaderProps) {
+  const ALLOWED_TYPES = [
+    ...BASE_TYPES,
+    ...(allowSvg ? ['image/svg+xml'] : []),
+    ...(allowVideo ? ['video/mp4'] : []),
+  ]
+  const acceptAttr = [
+    'image/png', 'image/jpeg', 'image/webp',
+    ...(allowSvg ? ['image/svg+xml'] : []),
+    ...(allowVideo ? ['video/mp4'] : []),
+    '.png', '.jpg', '.jpeg', '.webp',
+    ...(allowSvg ? ['.svg'] : []),
+    ...(allowVideo ? ['.mp4'] : []),
+  ].join(',')
   const [isUploading, setIsUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const handleUpload = useCallback(async (file: File) => {
     if (!file) return
-    
+    const allowed = [
+      ...BASE_TYPES,
+      ...(allowSvg ? ['image/svg+xml'] : []),
+      ...(allowVideo ? ['video/mp4'] : []),
+    ]
+    if (!allowed.includes(file.type)) {
+      const extra = [allowSvg && 'SVG', allowVideo && 'MP4'].filter(Boolean).join(', ')
+      alert(`Format tidak didukung. Gunakan PNG, JPG, JPEG, WEBP${extra ? ', ' + extra : ''}.`)
+      return
+    }
+
     setIsUploading(true)
     try {
       // Optimize before upload: resize + convert to WebP, ≤2MB.
@@ -48,7 +81,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
     } finally {
       setIsUploading(false)
     }
-  }, [folder, onChange, maxDimension])
+  }, [folder, onChange, maxDimension, allowSvg, allowVideo])
 
   const onDragEnter = (e: React.DragEvent) => {
     e.preventDefault()
@@ -71,7 +104,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
 
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0]
-      if (file.type.startsWith('image/')) {
+      if (ALLOWED_TYPES.includes(file.type)) {
         await handleUpload(file)
       } else {
         alert('Please drop an image file.')
@@ -102,8 +135,8 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
       >
         <input 
           ref={inputRef}
-          type="file" 
-          accept="image/*" 
+          type="file"
+          accept={acceptAttr}
           className="hidden" 
           onChange={onFileChange}
           disabled={disabled || isUploading}
@@ -111,16 +144,27 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
 
         {value ? (
           <div className="relative w-full h-full flex items-center justify-center bg-black/5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={value}
-              alt="Uploaded media"
-              className={cn(
-                shape === 'circle'
-                  ? "h-full w-full object-cover rounded-full"
-                  : "max-h-[300px] object-contain rounded-md"
-              )}
-            />
+            {allowVideo && isVideoUrl(value) ? (
+              <video
+                src={value}
+                className="max-h-[300px] w-full object-contain rounded-md"
+                muted
+                loop
+                autoPlay
+                playsInline
+              />
+            ) : (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={value}
+                alt="Uploaded media"
+                className={cn(
+                  shape === 'circle'
+                    ? "h-full w-full object-cover rounded-full"
+                    : "max-h-[300px] object-contain rounded-md"
+                )}
+              />
+            )}
             {!disabled && (
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                 <Button 

@@ -26,6 +26,7 @@ export async function uploadFileToCloudinary(
   return new Promise((resolve, reject) => {
     const uploadOptions: UploadApiOptions = {
       folder,
+      resource_type: 'auto', // detect image vs video (mp4 hero) — overridable via options
       ...options,
     };
 
