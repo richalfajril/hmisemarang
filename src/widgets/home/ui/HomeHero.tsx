@@ -53,7 +53,7 @@ export async function HomeHero() {
         aria-hidden="true"
         className={`absolute inset-0 z-10 bg-gradient-to-b ${
           heroImageUrl
-            ? "from-emerald-950/70 via-emerald-900/60 to-emerald-950/80"
+            ? "from-black/75 via-black/65 to-black/85"
             : "from-emerald-950 via-emerald-800 to-emerald-900"
         }`}
       />

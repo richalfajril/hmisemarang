@@ -60,6 +60,7 @@ const navManagement = [
 ]
 
 const navSecondary = [
+  { title: "Ganti Password", url: "/dashboard/change-password", icon: <KeyRoundIcon />, roles: ALL_ROLES },
   { title: "Notifikasi", url: "/dashboard/notifications", icon: <BellIcon />, roles: ALL_ROLES },
   { title: "Pengaturan", url: "/dashboard/settings", icon: <Settings2Icon />, roles: ADMIN_CABANG_ONLY },
   { title: "Audit Log", url: "/dashboard/audit-logs", icon: <ScrollTextIcon />, roles: ADMIN_CABANG_ONLY },

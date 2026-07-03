@@ -19,6 +19,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
   const [darkLogoUrl, setDarkLogoUrl] = useState(initialData?.dark_logo_url ?? '')
   const [aboutImageUrl, setAboutImageUrl] = useState(initialData?.about_image_url ?? '')
   const [contactImageUrl, setContactImageUrl] = useState(initialData?.contact_image_url ?? '')
+  const [faviconUrl, setFaviconUrl] = useState(initialData?.favicon_url ?? '')
 
   return (
     <form action={formAction} className="space-y-6">
@@ -195,6 +196,28 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
           <input type="hidden" name="hero_image_url" value={heroImageUrl} />
           <input type="hidden" name="dark_logo_url" value={darkLogoUrl} />
           <input type="hidden" name="about_image_url" value={aboutImageUrl} />
+          <input type="hidden" name="favicon_url" value={faviconUrl} />
+
+          <div className="space-y-3">
+            <div>
+              <Label>Favicon (ikon tab & hasil Google)</Label>
+              <p className="text-[0.8rem] text-muted-foreground mt-1">
+                Ikon kecil di tab browser & samping nama situs di Google. Rekomendasi: gambar persegi (mis. 512×512px), format PNG/SVG. Kosong = pakai logo bawaan.
+              </p>
+            </div>
+            <ImageUploader
+              value={faviconUrl || null}
+              onChange={(url) => setFaviconUrl(url)}
+              folder="favicon"
+              maxDimension={512}
+              disabled={isPending}
+              shape="circle"
+              className="max-w-[160px]"
+            />
+            {state?.fieldErrors?.favicon_url && (
+              <p className="text-xs text-destructive">{state.fieldErrors.favicon_url[0]}</p>
+            )}
+          </div>
 
           <div className="space-y-3">
             <div>

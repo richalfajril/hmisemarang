@@ -15,9 +15,11 @@ interface ImageUploaderProps {
   disabled?: boolean
   /** Longest-edge cap (px) for client-side optimization. 1920 hero, 1280 content, 512 logo. */
   maxDimension?: number
+  /** Bentuk preview. 'circle' → bulat (mis. preview favicon seperti di Google). */
+  shape?: 'square' | 'circle'
 }
 
-export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920 }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920, shape = 'square' }: ImageUploaderProps) {
   const [isUploading, setIsUploading] = useState(false)
   const [dragActive, setDragActive] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -90,7 +92,8 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
           "relative flex flex-col items-center justify-center w-full h-full min-h-[200px] border-2 border-dashed rounded-lg transition-colors overflow-hidden group",
           dragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25 bg-muted/20 hover:bg-muted/50",
           disabled && "opacity-50 cursor-not-allowed",
-          value && "border-none"
+          value && "border-none",
+          shape === 'circle' && "aspect-square min-h-0 rounded-full"
         )}
         onDragEnter={onDragEnter}
         onDragOver={onDragEnter}
@@ -109,10 +112,14 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
         {value ? (
           <div className="relative w-full h-full flex items-center justify-center bg-black/5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src={value} 
-              alt="Uploaded media" 
-              className="max-h-[300px] object-contain rounded-md"
+            <img
+              src={value}
+              alt="Uploaded media"
+              className={cn(
+                shape === 'circle'
+                  ? "h-full w-full object-cover rounded-full"
+                  : "max-h-[300px] object-contain rounded-md"
+              )}
             />
             {!disabled && (
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">

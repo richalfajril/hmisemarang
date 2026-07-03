@@ -25,7 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: SITE_KEYWORDS,
     applicationName: name,
     robots: { index: true, follow: true },
-    icons: settings?.favicon_url ? { icon: settings.favicon_url } : undefined,
+    icons: settings?.favicon_url
+      ? { icon: settings.favicon_url, shortcut: settings.favicon_url, apple: settings.favicon_url }
+      : { icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }], shortcut: '/favicon.svg', apple: '/favicon.svg' },
     openGraph: {
       type: 'website',
       locale: 'id_ID',
