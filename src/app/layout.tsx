@@ -3,6 +3,8 @@ import { Bricolage_Grotesque, Rubik, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { Toaster } from 'sonner';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Providers } from '@/shared/lib/QueryProvider';
 import { SITE_URL } from '@/widgets/public-layout/config/site';
 
@@ -41,6 +43,8 @@ export default function RootLayout({
           {children}
           <Toaster position="top-right" richColors />
         </Providers>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

@@ -382,17 +382,21 @@ However authentication emails remain supported:
 
 # Analytics
 
-## Google Analytics
+## Vercel Web Analytics + Speed Insights
 
 Purpose:
 
-* Traffic monitoring
-* User behavior
+* Traffic monitoring (jumlah pengunjung, halaman populer, sumber) — privacy-friendly, tanpa cookie banner.
+* Speed Insights: monitoring Core Web Vitals dari data pengunjung nyata.
+
+Penggunaan:
+
+* `@vercel/analytics` + `@vercel/speed-insights` (disetujui 2026-07-03). `<Analytics/>` + `<SpeedInsights/>` di `app/layout.tsx`. Wajib di-*enable* di dashboard Vercel (project → Analytics / Speed Insights).
 
 Alternative:
 
-* Plausible
-* Umami
+* Google Analytics 4
+* Plausible / Umami
 
 ---
 
