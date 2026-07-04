@@ -56,9 +56,22 @@ export default async function Page() {
         </FadeIn>
       </div>
 
-      {/* Section 2 — Terpopuler (full-width, bg emerald) */}
-      <section className="mt-20 bg-gradient-to-br from-emerald-800 to-emerald-950 py-16">
-        <div className="mx-auto max-w-7xl px-5">
+      {/* Section 2 — Terpopuler (full-width, bg emerald + pola diamond) */}
+      <section className="relative mt-20 overflow-hidden bg-gradient-to-br from-emerald-800 to-emerald-950 py-16">
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full text-white opacity-[0.05]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern id="popular-geo" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M30 3 L57 30 L30 57 L3 30 Z" fill="none" stroke="currentColor" strokeWidth="1.2" />
+              <path d="M30 15 L45 30 L30 45 L15 30 Z" fill="none" stroke="currentColor" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#popular-geo)" />
+        </svg>
+        <div className="relative mx-auto max-w-7xl px-5">
           <FadeIn>
             <SectionHeaderLeft inverted eyebrow="Terpopuler" heading="Berita Paling Banyak Dibaca" />
           </FadeIn>

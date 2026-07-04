@@ -77,7 +77,14 @@ export default async function WebsiteLayout({ children }: { children: React.Reac
   ]
 
   return (
-    <div className="flex min-h-svh flex-col">
+    <div className="relative flex min-h-svh flex-col">
+      {/* Sentinel puncak: navbar transparan selama 80px teratas terlihat.
+          Dipantau IntersectionObserver di PublicHeader (kebal layout-shift). */}
+      <div
+        id="nav-sentinel"
+        aria-hidden="true"
+        className="pointer-events-none absolute top-0 left-0 h-20 w-px"
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

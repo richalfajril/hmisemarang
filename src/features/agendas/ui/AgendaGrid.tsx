@@ -24,7 +24,7 @@ export function AgendaGridCard({ agenda }: { agenda: AgendaItem }) {
   return (
     <Link
       href={`/agenda/${agenda.slug}`}
-      className="group flex flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      className="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
       <div className="relative aspect-[4/5] overflow-hidden bg-emerald-950">
         {agenda.flyer_url ? (

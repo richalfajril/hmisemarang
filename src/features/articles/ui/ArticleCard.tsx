@@ -9,7 +9,7 @@ export function ArticleCard({ article }: { article: PublicArticle }) {
   return (
     <Link
       href={`/artikel/${article.slug}`}
-      className="group flex h-full flex-col overflow-hidden rounded-3xl border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+      className="group flex h-full flex-col overflow-hidden rounded-3xl bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
     >
       {/* Cover */}
       <div className="relative aspect-[16/10] overflow-hidden bg-emerald-950">
@@ -27,7 +27,7 @@ export function ArticleCard({ article }: { article: PublicArticle }) {
           </div>
         )}
         {article.category?.name && (
-          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-primary backdrop-blur">
+          <span className="absolute left-3 top-3 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-white">
             {article.category.name}
           </span>
         )}

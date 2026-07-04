@@ -124,7 +124,7 @@ function AgendaCard({
       onClick={(e) => {
         if (dragRef.current.dragging) e.preventDefault();
       }}
-      className="group flex w-80 shrink-0 flex-col overflow-hidden rounded-3xl border bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+      className="group flex w-80 shrink-0 flex-col overflow-hidden rounded-3xl bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
     >
       {/* Flyer */}
       <div className="relative aspect-[4/5] overflow-hidden bg-emerald-950">
