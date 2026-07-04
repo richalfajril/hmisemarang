@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Button } from '@/shared/ui/Button'
 import { Pencil, Trash2, UserRound, MousePointerClick } from 'lucide-react'
 import { deleteBoardMemberAction } from '../api/actions'
-import { getSocialIcon, type SocialLink } from './social-config'
+import { getSocialIcon, FORM_SOCIAL_PLATFORMS, type SocialLink } from './social-config'
 
 // "Ketua Bidang X" → baris 1 "Ketua Bidang", baris 2 "X"
 function formatPosition(name: string): React.ReactNode {
@@ -46,12 +46,14 @@ export function PengurusCard({
   return (
     <div className="group h-full w-full transition-transform duration-300 ease-out [perspective:1000px] hover:-translate-y-2 hover:scale-[1.015]">
       <div
-        onClick={() => setFlipped((f) => !f)}
-        className={`relative w-full h-full cursor-pointer rounded-xl transition-transform duration-500 [transform-style:preserve-3d] ${flipped ? '[transform:rotateY(180deg)]' : ''}`}
+        className={`relative w-full h-full rounded-xl transition-transform duration-500 [transform-style:preserve-3d] ${flipped ? '[transform:rotateY(180deg)]' : ''}`}
       >
         {/* FRONT — alur normal, menentukan tinggi kartu */}
         <div className="relative flex flex-col h-full rounded-[10px] border bg-card p-3.5 shadow-[0_12px_28px_-10px_rgba(6,78,59,0.20)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_30px_50px_-14px_rgba(6,78,59,0.32)] [backface-visibility:hidden]">
-          <div className="relative aspect-square w-full shrink-0 overflow-hidden rounded-md bg-muted ring-1 ring-inset ring-black/5 dark:ring-white/10">
+          <div
+            onClick={() => setFlipped(true)}
+            className="group/photo relative aspect-square w-full shrink-0 cursor-pointer overflow-hidden rounded-md bg-muted ring-1 ring-inset ring-black/5 dark:ring-white/10"
+          >
             {member.photo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={member.photo_url} alt={member.full_name} className="h-full w-full object-cover" />
@@ -86,47 +88,61 @@ export function PengurusCard({
                 </form>
               </div>
             )}
+
+            {/* Hint flip — hanya di area gambar */}
+            <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-emerald-900/80 opacity-0 transition-opacity duration-300 group-hover/photo:opacity-100">
+              <span className="flex items-center gap-1.5 text-sm font-medium text-white">
+                <MousePointerClick className="h-4 w-4" />
+                Lihat biodata
+              </span>
+            </div>
           </div>
 
           <div className="flex flex-1 flex-col items-center pt-[21px] pb-[21px] text-center">
-            <p className="font-bold text-xl leading-tight text-primary dark:text-emerald-400 line-clamp-1" title={member.full_name}>
+            <p className="font-semibold text-base leading-tight text-primary dark:text-emerald-400 line-clamp-1" title={member.full_name}>
               {member.full_name}
             </p>
             <div className="mt-1 flex justify-center">
-              <p className="font-semibold text-base leading-snug text-foreground/80 line-clamp-2">
+              <p className="font-semibold text-xs leading-snug text-foreground/80 line-clamp-2">
                 {formatPosition(member.positionName)}
               </p>
             </div>
             <div className="mt-[21px] flex min-h-9 items-center justify-center gap-2.5">
-              {member.social_links.map((s, i) => {
-                const Icon = getSocialIcon(s.platform)
-                return (
+              {FORM_SOCIAL_PLATFORMS.map(({ value }) => {
+                const Icon = getSocialIcon(value)
+                const url = member.social_links.find((s) => s.platform === value)?.url
+                // Selalu tampil 4 ikon; yang tanpa link jadi non-aktif (muted).
+                return url ? (
                   <a
-                    key={i}
-                    href={s.url}
+                    key={value}
+                    href={url}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-opacity hover:opacity-80"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
                   >
                     <Icon className="h-4 w-4" />
                   </a>
+                ) : (
+                  <span
+                    key={value}
+                    aria-disabled="true"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary opacity-50"
+                  >
+                    <Icon className="h-4 w-4" />
+                  </span>
                 )
               })}
             </div>
           </div>
 
-          {/* Overlay hover */}
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-[10px] bg-emerald-900/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-            <span className="flex items-center gap-1.5 text-sm font-medium text-white">
-              <MousePointerClick className="h-4 w-4" />
-              Klik untuk melihat biodata
-            </span>
-          </div>
         </div>
 
-        {/* BACK — overlay menutupi tinggi front */}
-        <div className="absolute inset-0 flex flex-col justify-center gap-3 overflow-y-auto rounded-[10px] border bg-card p-3.5 text-center shadow-[0_12px_28px_-10px_rgba(6,78,59,0.20)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_30px_50px_-14px_rgba(6,78,59,0.32)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        {/* BACK — klik di mana saja untuk balik ke depan */}
+        <div
+          onClick={() => setFlipped(false)}
+          className="absolute inset-0 flex cursor-pointer flex-col justify-center gap-3 overflow-y-auto rounded-[10px] border bg-card p-3.5 text-center shadow-[0_12px_28px_-10px_rgba(6,78,59,0.20)] transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-[0_30px_50px_-14px_rgba(6,78,59,0.32)] [backface-visibility:hidden] [transform:rotateY(180deg)]"
+        >
           <p className="font-bold text-primary">{member.full_name}</p>
           {member.short_bio ? (
             <p className="text-xs text-muted-foreground italic">&ldquo;{member.short_bio}&rdquo;</p>

@@ -1,10 +1,12 @@
 'use server'
 import { prisma } from '@/shared/api/prisma/client'
 
+import * as XLSX from 'xlsx'
 import { z } from 'zod'
 import { createClient } from '@/shared/api/supabase/server'
 import { ActionState } from '@/shared/lib/action-state'
 import { revalidatePath } from 'next/cache'
+import { pickField, buildSocialLinks } from './import-helpers'
 
 // SCHEMA VALIDATION
 const periodSchema = z.object({
@@ -518,4 +520,118 @@ export async function deleteBoardMemberAction(
   } catch (_error) {
     return { success: false, message: 'Gagal menghapus anggota.', errorCode: 'SERVER_ERROR' }
   }
+}
+
+// IMPORT PENGURUS (Excel) — untuk satu periode.
+type BoardImportResult = {
+  created: number
+  skipped: { row: number; name: string; reason: string }[]
+}
+
+export async function importBoardMembersAction(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState<BoardImportResult>> {
+  if (!(await checkAuth())) return { success: false, message: 'Akses ditolak.', errorCode: 'UNAUTHORIZED' }
+
+  const periodId = formData.get('period_id') as string | null
+  const file = formData.get('file') as File | null
+  if (!periodId) return { success: false, message: 'Periode tidak valid.', errorCode: 'VALIDATION_ERROR' }
+  if (!file || file.size === 0) {
+    return { success: false, message: 'Berkas Excel wajib diunggah.', errorCode: 'VALIDATION_ERROR' }
+  }
+
+  const period = await prisma.period.findUnique({
+    where: { id: periodId },
+    include: { positions: { select: { id: true, name: true, sort_order: true } } },
+  })
+  if (!period) return { success: false, message: 'Periode tidak ditemukan.', errorCode: 'NOT_FOUND' }
+
+  let rows: Record<string, unknown>[]
+  try {
+    const buf = Buffer.from(await file.arrayBuffer())
+    const wb = XLSX.read(buf, { type: 'buffer' })
+    const sheet = wb.Sheets[wb.SheetNames[0]]
+    rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: '' })
+  } catch {
+    return { success: false, message: 'Gagal membaca berkas Excel. Pastikan format .xlsx/.xls valid.', errorCode: 'SERVER_ERROR' }
+  }
+  if (rows.length === 0) {
+    return { success: false, message: 'Berkas kosong / tidak ada baris data.', errorCode: 'VALIDATION_ERROR' }
+  }
+
+  // Preload map (case-insensitive) untuk resolve + dedup.
+  const positionByName = new Map(period.positions.map((p) => [p.name.toLowerCase(), p.id]))
+  let maxSort = period.positions.reduce((m, p) => Math.max(m, p.sort_order), -1)
+
+  const [universities, commissariats, existingMembers] = await Promise.all([
+    prisma.university.findMany({ select: { id: true, name: true } }),
+    prisma.commissariat.findMany({ select: { id: true, name: true } }),
+    prisma.boardMember.findMany({ where: { period_id: periodId }, select: { full_name: true, position_id: true } }),
+  ])
+  const uniByName = new Map(universities.map((u) => [u.name.toLowerCase(), u.id]))
+  const comByName = new Map(commissariats.map((c) => [c.name.toLowerCase(), c.id]))
+  const seen = new Set(existingMembers.map((m) => `${m.full_name.toLowerCase()}|${m.position_id}`))
+
+  const result: BoardImportResult = { created: 0, skipped: [] }
+
+  for (let i = 0; i < rows.length; i++) {
+    const rowNo = i + 2 // header di baris 1
+    const row = rows[i]
+    const name = pickField(row, 'nama_lengkap', 'nama', 'full_name')
+    const jabatan = pickField(row, 'jabatan', 'position')
+
+    if (!name) {
+      result.skipped.push({ row: rowNo, name: '-', reason: 'Nama kosong' })
+      continue
+    }
+    if (!jabatan) {
+      result.skipped.push({ row: rowNo, name, reason: 'Jabatan kosong' })
+      continue
+    }
+
+    try {
+      // Resolve jabatan → Position; auto-buat bila belum ada di periode ini.
+      let positionId = positionByName.get(jabatan.toLowerCase())
+      if (!positionId) {
+        const createdPos = await prisma.position.create({
+          data: { period_id: periodId, name: jabatan, sort_order: ++maxSort, layout_type: 'LAINNYA' },
+          select: { id: true },
+        })
+        positionId = createdPos.id
+        positionByName.set(jabatan.toLowerCase(), positionId)
+      }
+
+      const dedupKey = `${name.toLowerCase()}|${positionId}`
+      if (seen.has(dedupKey)) {
+        result.skipped.push({ row: rowNo, name, reason: 'Duplikat (nama + jabatan sudah ada)' })
+        continue
+      }
+
+      const kampus = pickField(row, 'asal_kampus', 'kampus', 'universitas')
+      const komisariat = pickField(row, 'asal_komisariat', 'komisariat')
+      const bio = pickField(row, 'bio', 'short_bio')
+
+      await prisma.boardMember.create({
+        data: {
+          period_id: periodId,
+          position_id: positionId,
+          full_name: name,
+          photo_url: pickField(row, 'foto_url', 'foto', 'photo_url') || null,
+          short_bio: bio ? bio.slice(0, 250) : null,
+          university_id: kampus ? (uniByName.get(kampus.toLowerCase()) ?? null) : null,
+          commissariat_id: komisariat ? (comByName.get(komisariat.toLowerCase()) ?? null) : null,
+          social_links: buildSocialLinks(row),
+        },
+      })
+      seen.add(dedupKey)
+      result.created++
+    } catch {
+      result.skipped.push({ row: rowNo, name, reason: 'Gagal menyimpan baris' })
+    }
+  }
+
+  revalidatePath('/dashboard/organization')
+  revalidatePath('/', 'layout')
+  return { success: true, message: `${result.created} pengurus berhasil diimpor.`, data: result }
 }

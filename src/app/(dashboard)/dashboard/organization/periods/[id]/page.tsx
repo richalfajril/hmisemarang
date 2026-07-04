@@ -4,6 +4,7 @@ import { createClient } from '@/shared/api/supabase/server'
 import { SusunanKepengurusan, type MemberItem } from '@/features/organization/ui/SusunanKepengurusan'
 import { KelolaJabatanModal } from '@/features/organization/ui/KelolaJabatanModal'
 import { TambahPengurusAction } from '@/features/organization/ui/TambahPengurusAction'
+import { ImportPengurusModal } from '@/features/organization/ui/ImportPengurusModal'
 import { normalizeGroup } from '@/features/organization/ui/position-groups'
 import type { SocialLink } from '@/features/organization/ui/social-config'
 import { PageHeader } from '@/shared/ui/PageHeader'
@@ -99,6 +100,7 @@ export default async function PeriodDetailPage(props: { params: Promise<{ id: st
         backLabel="Daftar Periode"
       >
         <KelolaJabatanModal periodId={period.id} positions={positionRows} />
+        <ImportPengurusModal periodId={period.id} />
         <TambahPengurusAction
           positions={positionOptions}
           universities={universityOptions}

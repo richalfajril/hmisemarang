@@ -10,6 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Edit Akun Komisariat (2026-07-04)
+* Aksi **Edit Nama & Username** di modul Komisariat (`CommissariatAccountTable` dropdown → `EditAccountModal`). `updateCommissariatAccountAction`: validasi + cek username unik (exclude self); username berubah → update email login sintetis di Supabase (`updateUserById`, `email_confirm`); nama disinkronkan ke `Commissariat` tertaut (slug tetap → URL publik stabil). Password tidak berubah.
+
+#### Modul Universitas + Impor Excel (2026-07-04)
+* **Universitas jadi modul sendiri** — dipindah dari tab Taksonomi ke `/dashboard/universities` (item sidebar baru, ADMIN_CABANG). CRUD reuse komponen taksonomi (`TaxonomyTable`/`CreateTaxonomyModal` `type="UNIVERSITY"`). Tab "Universitas" dihapus dari halaman Taksonomi.
+* **Impor Excel** kolom tunggal `Nama Kampus` (`importUniversitiesAction`) — slugify + dedup by slug (existing + dalam-batch), lewati yang sudah ada. Ringkasan created + skipped.
+* **Refactor**: helper parsing Excel murni (`normHeader`, `pickField`) dipindah ke `shared/lib/xlsx-helpers.ts` (dipakai import komisariat/pengurus/universitas). `organization/api/import-helpers.ts` re-export dari shared.
+
+#### Impor Pengurus via Excel (2026-07-04)
+* **Import Excel per periode** di `/dashboard/organization/periods/[id]` (tombol "Impor Pengurus (Excel)" samping "Tambah Pengurus"). Action `importBoardMembersAction(period_id, file)` — baca `.xlsx/.xls` (SheetJS), buat `BoardMember` massal. Kolom: `Foto_URL`, `Nama_Lengkap`*, `Jabatan`*, `Asal_Komisariat`, `Asal_Kampus`, `Bio`, `URL_Instagram`, `URL_TikTok`, `URL_X`, `URL_Linkedin` (header dinormalisasi — spasi/underscore/titik diabaikan).
+* **Aturan**: Jabatan tidak dikenal → **Position baru auto-dibuat** (`layout_type: LAINNYA`, `sort_order` di akhir). Kampus/Komisariat **dicocokkan case-insensitive** ke master; tidak ketemu → dikosongkan (universitas tak pernah auto-dibuat). **Duplikat** (nama + jabatan sama di periode) → dilewati (aman untuk import ulang). Foto via URL (bukan unggah file). Social links dari 4 kolom URL (`X` → platform `twitter`).
+* Helper murni `import-helpers.ts` (`pickField`, `buildSocialLinks`) + self-check `import-helpers.check.ts` (`npx tsx`). Ringkasan hasil: jumlah dibuat + daftar baris dilewati beserta alasan.
+
 #### E2E Playwright + Perf fixes + fix h1 SEO (2026-07-03)
 * **Playwright E2E** (`@playwright/test`, dev dep — future scope TECH_STACK): `playwright.config.ts` (webServer auto-start dev, baseURL env), `e2e/public-smoke.spec.ts` (9 route publik → 200 + `<h1>` + detail 404), `e2e/auth.spec.ts` (unauth `/dashboard` → `/login`, login valid → dashboard, login salah → tetap login). Kredensial via env (`E2E_ADMIN_USER/PASS`, di `.env` gitignored). Script `npm run test:e2e`.
 * **Fix SEO/a11y — `<h1>` per halaman**: E2E menemukan halaman ber-`PageHero` (struktur, artikel, agenda, komisariat, galeri, dokumen, profil) + kontak **tidak punya `<h1>`** (heading = `<h2>` dari SectionHeader). `SectionHeader{Center,Left}` diberi prop `as` (default `h2`); `PageHero` & kontak render heading utama sebagai `h1`. Smoke 10/10 lolos.

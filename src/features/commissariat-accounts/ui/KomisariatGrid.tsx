@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Building2, GraduationCap, Users } from 'lucide-react'
+import { Building2, GraduationCap } from 'lucide-react'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 
@@ -18,7 +18,7 @@ export type PublicCommissariat = {
 
 export function KomisariatGrid({ items }: { items: PublicCommissariat[] }) {
   const { paginatedData, currentPage, pageSize, totalItems, onPageChange, onPageSizeChange } =
-    useClientPagination(items, 8)
+    useClientPagination(items, 9)
 
   if (items.length === 0) {
     return (
@@ -30,12 +30,12 @@ export function KomisariatGrid({ items }: { items: PublicCommissariat[] }) {
 
   return (
     <div className="space-y-8">
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {paginatedData.map((c) => (
           <Link
             key={c.id}
             href={`/komisariat/${c.slug}`}
-            className="group flex overflow-hidden rounded-3xl border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+            className="group flex h-36 overflow-hidden rounded-3xl border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           >
             {/* Foto / logo kiri */}
             <div className="relative w-28 shrink-0 overflow-hidden bg-white sm:w-36">
@@ -56,10 +56,6 @@ export function KomisariatGrid({ items }: { items: PublicCommissariat[] }) {
               <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
                 <GraduationCap className="h-4 w-4 shrink-0" />
                 <span className="truncate">{c.university?.name ?? c.campus_name ?? '-'}</span>
-              </p>
-              <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Users className="h-4 w-4 shrink-0" />
-                {c.cadre_count} kader
               </p>
             </div>
           </Link>

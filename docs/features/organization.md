@@ -50,6 +50,12 @@ Log aktivitas untuk aksi:
 * Add Position
 * Add Board Member
 * Remove Board Member
+* Import Board Members (Excel, per periode)
+
+## Impor Pengurus (Excel)
+* Tombol "Impor Pengurus (Excel)" di halaman detail periode. Target = periode tersebut (tanpa kolom periode).
+* Kolom: `Foto_URL`, `Nama_Lengkap` (wajib), `Jabatan` (wajib), `Asal_Komisariat`, `Asal_Kampus`, `Bio`, `URL_Instagram`, `URL_TikTok`, `URL_X`, `URL_Linkedin`.
+* Jabatan baru → Position auto-dibuat (`layout_type: LAINNYA`). Kampus/Komisariat dicocokkan case-insensitive ke master; tidak cocok → kosong. Duplikat (nama + jabatan) di periode → dilewati. Foto via URL. `URL_X` → platform `twitter`.
 
 ## Edge Cases
 * Saat sebuah periode sedang aktif, pengguna lain mencoba mengaktifkan periode lawas. Sistem memunculkan dialog peringatan: "Mengaktifkan periode ini akan menonaktifkan periode 2024-2025 secara otomatis."

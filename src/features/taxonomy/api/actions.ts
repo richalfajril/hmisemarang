@@ -1,11 +1,13 @@
 'use server'
 import { prisma } from '@/shared/api/prisma/client'
 
+import * as XLSX from 'xlsx'
 import { z } from 'zod'
 import { createClient } from '@/shared/api/supabase/server'
 import { ActionState } from '@/shared/lib/action-state'
 import { revalidatePath } from 'next/cache'
 import { slugify } from '@/shared/lib/utils'
+import { pickField } from '@/shared/lib/xlsx-helpers'
 import { logAuditAction } from '@/shared/lib/audit-logger'
 
 const taxonomySchema = z.object({
@@ -82,6 +84,7 @@ export async function createTaxonomyAction(
     })
 
     revalidatePath('/dashboard/taxonomy')
+    revalidatePath('/dashboard/universities')
 
     return {
       success: true,
@@ -149,6 +152,7 @@ export async function updateTaxonomyAction(
     })
 
     revalidatePath('/dashboard/taxonomy')
+    revalidatePath('/dashboard/universities')
 
     return { success: true, message: `${name} berhasil diperbarui.` }
   } catch (_error) {
@@ -193,8 +197,80 @@ export async function toggleTaxonomyStatusAction(
     }
 
     revalidatePath('/dashboard/taxonomy')
+    revalidatePath('/dashboard/universities')
     return { success: true, message: `Status berhasil diubah menjadi ${newStatus ? 'Aktif' : 'Nonaktif'}.` }
   } catch (_error) {
     return { success: false, message: 'Gagal mengubah status.', errorCode: 'SERVER_ERROR' }
   }
+}
+
+// IMPORT UNIVERSITAS (Excel) — kolom "Nama Kampus".
+type UniversityImportResult = {
+  created: number
+  skipped: { row: number; name: string; reason: string }[]
+}
+
+export async function importUniversitiesAction(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState<UniversityImportResult>> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { success: false, message: 'Belum masuk sistem.', errorCode: 'UNAUTHORIZED' }
+  const currentUser = await prisma.user.findUnique({ where: { email: user.email } })
+  if (!currentUser || (currentUser.role !== 'SYSTEM_ADMIN' && currentUser.role !== 'ADMIN_CABANG')) {
+    return { success: false, message: 'Akses ditolak.', errorCode: 'UNAUTHORIZED' }
+  }
+
+  const file = formData.get('file') as File | null
+  if (!file || file.size === 0) {
+    return { success: false, message: 'Berkas Excel wajib diunggah.', errorCode: 'VALIDATION_ERROR' }
+  }
+
+  let rows: Record<string, unknown>[]
+  try {
+    const buf = Buffer.from(await file.arrayBuffer())
+    const wb = XLSX.read(buf, { type: 'buffer' })
+    const sheet = wb.Sheets[wb.SheetNames[0]]
+    rows = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: '' })
+  } catch {
+    return { success: false, message: 'Gagal membaca berkas Excel. Pastikan format .xlsx/.xls valid.', errorCode: 'SERVER_ERROR' }
+  }
+  if (rows.length === 0) {
+    return { success: false, message: 'Berkas kosong / tidak ada baris data.', errorCode: 'VALIDATION_ERROR' }
+  }
+
+  // Preload slug yang sudah ada untuk dedup (nama unik lewat slug).
+  const existingSlugs = new Set((await prisma.university.findMany({ select: { slug: true } })).map((u) => u.slug))
+  const result: UniversityImportResult = { created: 0, skipped: [] }
+  const seenInBatch = new Set<string>()
+
+  for (let i = 0; i < rows.length; i++) {
+    const rowNo = i + 2 // header di baris 1
+    const name = pickField(rows[i], 'nama_kampus', 'namakampus', 'nama', 'kampus', 'universitas', 'name')
+    if (!name) {
+      result.skipped.push({ row: rowNo, name: '-', reason: 'Nama Kampus kosong' })
+      continue
+    }
+    const slug = slugify(name)
+    if (!slug) {
+      result.skipped.push({ row: rowNo, name, reason: 'Nama tidak valid' })
+      continue
+    }
+    if (existingSlugs.has(slug) || seenInBatch.has(slug)) {
+      result.skipped.push({ row: rowNo, name, reason: 'Sudah ada' })
+      continue
+    }
+    try {
+      await prisma.university.create({ data: { name, slug } })
+      seenInBatch.add(slug)
+      result.created++
+    } catch {
+      result.skipped.push({ row: rowNo, name, reason: 'Gagal menyimpan baris' })
+    }
+  }
+
+  revalidatePath('/dashboard/universities')
+  revalidatePath('/dashboard/taxonomy')
+  return { success: true, message: `${result.created} universitas berhasil diimpor.`, data: result }
 }

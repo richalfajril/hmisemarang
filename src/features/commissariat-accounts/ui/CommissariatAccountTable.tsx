@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState, useEffect } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -18,12 +18,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/ui/DropdownMenu'
-import { MoreHorizontal, KeyRound, Trash2 } from 'lucide-react'
+import { MoreHorizontal, KeyRound, Trash2, Pencil } from 'lucide-react'
 import { toast } from 'sonner'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
 import { initialActionState } from '@/shared/lib/action-state'
 import { resetCommissariatPasswordAction, deleteCommissariatAccountAction } from '../api/actions'
+import { EditAccountModal } from './EditAccountModal'
 
 export type AccountData = {
   id: string
@@ -36,6 +37,7 @@ export type AccountData = {
 export function CommissariatAccountTable({ accounts }: { accounts: AccountData[] }) {
   const [resetState, resetAction] = useActionState(resetCommissariatPasswordAction, initialActionState)
   const [deleteState, deleteAction] = useActionState(deleteCommissariatAccountAction, initialActionState)
+  const [editing, setEditing] = useState<AccountData | null>(null)
   const pagination = useClientPagination(accounts, 10)
 
   useEffect(() => {
@@ -98,6 +100,14 @@ export function CommissariatAccountTable({ accounts }: { accounts: AccountData[]
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onSelect={() => setEditing(a)}
+                        >
+                          <Pencil className="mr-2 h-4 w-4" />
+                          Edit Nama & Username
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
                         <form action={resetAction}>
                           <input type="hidden" name="id" value={a.id} />
                           <DropdownMenuItem asChild>
@@ -132,6 +142,10 @@ export function CommissariatAccountTable({ accounts }: { accounts: AccountData[]
         </Table>
       </div>
       <SmartPagination {...pagination} />
+
+      {editing && (
+        <EditAccountModal key={editing.id} account={editing} onClose={() => setEditing(null)} />
+      )}
     </div>
   )
 }

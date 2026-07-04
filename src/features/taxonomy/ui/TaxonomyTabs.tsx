@@ -16,12 +16,10 @@ export function TaxonomyTabs({
   articleCategories,
   documentCategories,
   tags,
-  universities = [],
 }: {
   articleCategories: Array<TaxonomyData>,
   documentCategories: Array<TaxonomyData>,
   tags: Array<TaxonomyData>,
-  universities?: Array<TaxonomyData>,
 }) {
   return (
     <Tabs defaultValue="article-categories" className="w-full">
@@ -30,7 +28,6 @@ export function TaxonomyTabs({
           <TabsTrigger value="article-categories">Kategori Artikel</TabsTrigger>
           <TabsTrigger value="document-categories">Kategori Dokumen</TabsTrigger>
           <TabsTrigger value="tags">Tag Label</TabsTrigger>
-          <TabsTrigger value="universities">Universitas</TabsTrigger>
         </TabsList>
       </div>
 
@@ -56,14 +53,6 @@ export function TaxonomyTabs({
           <CreateTaxonomyModal type="TAG" label="Tag" />
         </div>
         <TaxonomyTable items={tags} type="TAG" label="Tag" />
-      </TabsContent>
-
-      <TabsContent value="universities" className="space-y-4">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Daftar Universitas / Perguruan Tinggi</h2>
-          <CreateTaxonomyModal type="UNIVERSITY" label="Universitas" />
-        </div>
-        <TaxonomyTable items={universities} type="UNIVERSITY" label="Universitas" />
       </TabsContent>
     </Tabs>
   )

@@ -206,6 +206,61 @@ export async function createCommissariatAccountAction(
   }
 }
 
+/** Edit nama & username akun komisariat. Username → email sintetis Supabase; nama sinkron ke Commissariat tertaut. */
+export async function updateCommissariatAccountAction(
+  prevState: ActionState | null,
+  formData: FormData
+): Promise<ActionState> {
+  const actor = await authorize()
+  if (!actor) return { success: false, message: 'Akses ditolak.', errorCode: 'UNAUTHORIZED' }
+
+  const id = String(formData.get('id') ?? '')
+  const name = String(formData.get('name') ?? '').trim()
+  const username = String(formData.get('username') ?? '').trim().toLowerCase()
+
+  if (!id) return { success: false, message: 'ID tidak valid.', errorCode: 'VALIDATION_ERROR' }
+  if (!name) {
+    return { success: false, message: 'Nama wajib diisi.', fieldErrors: { name: ['Wajib diisi'] }, errorCode: 'VALIDATION_ERROR' }
+  }
+  if (!/^[a-z0-9._-]{3,50}$/.test(username)) {
+    return { success: false, message: 'Username tidak valid (3-50, huruf/angka/._-).', fieldErrors: { username: ['Format tidak valid'] }, errorCode: 'VALIDATION_ERROR' }
+  }
+
+  const target = await prisma.user.findUnique({ where: { id }, select: { role: true, username: true, commissariat_id: true } })
+  if (!target || target.role !== 'ADMIN_KOMISARIAT') {
+    return { success: false, message: 'Akun tidak ditemukan / bukan akun komisariat.', errorCode: 'VALIDATION_ERROR' }
+  }
+
+  const usernameChanged = username !== (target.username ?? '')
+  if (usernameChanged) {
+    const taken = await prisma.user.findFirst({ where: { username, id: { not: id } }, select: { id: true } })
+    if (taken) {
+      return { success: false, message: 'Username sudah dipakai.', fieldErrors: { username: ['Sudah dipakai'] }, errorCode: 'VALIDATION_ERROR' }
+    }
+  }
+
+  const email = `${username}@${SYNTHETIC_DOMAIN}`
+  try {
+    if (usernameChanged) {
+      const { error } = await supabaseAdmin.auth.admin.updateUserById(id, { email, email_confirm: true })
+      if (error) return { success: false, message: `Gagal mengubah email auth: ${error.message}`, errorCode: 'SERVER_ERROR' }
+    }
+    await prisma.user.update({
+      where: { id },
+      data: { name, username, ...(usernameChanged ? { email } : {}) },
+    })
+    // Sinkronkan nama Commissariat tertaut (slug tetap → URL publik stabil).
+    if (target.commissariat_id) {
+      await prisma.commissariat.update({ where: { id: target.commissariat_id }, data: { name } })
+    }
+    revalidatePath('/dashboard/commissariat-accounts')
+    revalidatePath('/', 'layout')
+    return { success: true, message: 'Akun berhasil diperbarui.' }
+  } catch {
+    return { success: false, message: 'Gagal memperbarui akun.', errorCode: 'SERVER_ERROR' }
+  }
+}
+
 /** Reset password akun komisariat/LPP kembali ke default (123456). */
 export async function resetCommissariatPasswordAction(
   prevState: ActionState | null,
