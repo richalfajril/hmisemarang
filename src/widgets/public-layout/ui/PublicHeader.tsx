@@ -43,17 +43,19 @@ export function PublicHeader({ siteName, logoUrl, darkLogoUrl }: Props) {
 
   useEffect(() => {
     if (!isHeroRoute) return
-    // Sentinel-based: transparan selama 80px teratas halaman masih terlihat.
-    // Lebih andal dari snapshot scrollY (kebal layout-shift streaming Suspense &
-    // scroll restoration yang bisa membuat state 'scrolled' nyangkut true).
-    const sentinel = document.getElementById('nav-sentinel')
-    if (!sentinel) return
-    const io = new IntersectionObserver(
-      ([entry]) => setScrolled(!entry.isIntersecting),
-      { threshold: 0 }
-    )
-    io.observe(sentinel)
-    return () => io.disconnect()
+    // Transparan selama < 80px dari puncak. Baca scrollY langsung (bukan
+    // IntersectionObserver — initial-callback-nya sempat latch 'solid' saat
+    // splash/streaming menggeser scroll sesaat, lalu nyangkut).
+    const check = () => setScrolled(window.scrollY > 80)
+    window.addEventListener('scroll', check, { passive: true })
+    // Rekonsiliasi melewati durasi OpeningSplash + streaming Suspense: geseran
+    // layout tak memicu event 'scroll', jadi baca ulang berkala hingga settle.
+    // (timer 0 = cek awal; hindari setState sinkron di body effect.)
+    const timers = [0, 100, 500, 1000, 2000, 3000].map((ms) => setTimeout(check, ms))
+    return () => {
+      window.removeEventListener('scroll', check)
+      timers.forEach(clearTimeout)
+    }
   }, [isHeroRoute, pathname])
 
   // Solid kecuali di halaman ber-hero gelap sebelum scroll
