@@ -43,6 +43,7 @@ export function HeroBackground({ src }: { src: string }) {
             muted
             loop
             playsInline
+            preload="auto"
           />
         ) : (
           <Image
