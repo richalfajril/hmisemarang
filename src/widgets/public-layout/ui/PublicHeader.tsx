@@ -90,7 +90,7 @@ export function PublicHeader({ siteName, logoUrl, darkLogoUrl }: Props) {
       className={cn(
         'fixed top-0 z-50 w-full transition-all duration-300',
         isTransparent
-          ? 'bg-transparent'
+          ? 'border-b border-white/15 bg-white/10 backdrop-blur-md'
           : 'border-b bg-white shadow-sm'
       )}
     >
