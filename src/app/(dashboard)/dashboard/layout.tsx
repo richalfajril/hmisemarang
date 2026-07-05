@@ -49,7 +49,13 @@ export default async function DashboardLayout({
     }
   }
 
-  const setting = await prisma.websiteSetting.findFirst({ select: { dashboard_logo_url: true } })
+  let dashboardLogoUrl: string | null = null
+  try {
+    const setting = await prisma.websiteSetting.findFirst({ select: { dashboard_logo_url: true } })
+    dashboardLogoUrl = setting?.dashboard_logo_url ?? null
+  } catch {
+    // kolom belum ada / DB tak terjangkau → pakai logo default
+  }
 
   return (
     <SidebarProvider>
@@ -60,7 +66,7 @@ export default async function DashboardLayout({
           avatar,
         }}
         role={role}
-        logoUrl={setting?.dashboard_logo_url}
+        logoUrl={dashboardLogoUrl}
       />
       <SidebarInset>
         <SiteHeader />

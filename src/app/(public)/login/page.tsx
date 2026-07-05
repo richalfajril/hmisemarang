@@ -10,9 +10,17 @@ export const metadata: Metadata = {
 
 const DEFAULT_LIGHT_LOGO = 'https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png'
 
+async function getDashboardLogo(): Promise<string | null> {
+  try {
+    const setting = await prisma.websiteSetting.findFirst({ select: { dashboard_logo_url: true } })
+    return setting?.dashboard_logo_url ?? null
+  } catch {
+    return null // kolom belum ada / DB tak terjangkau → pakai default
+  }
+}
+
 export default async function LoginPage() {
-  const setting = await prisma.websiteSetting.findFirst({ select: { dashboard_logo_url: true } })
-  const logoSrc = setting?.dashboard_logo_url || DEFAULT_LIGHT_LOGO
+  const logoSrc = (await getDashboardLogo()) || DEFAULT_LIGHT_LOGO
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
