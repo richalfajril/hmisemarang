@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import Link from 'next/link'
 import { LoginForm } from '@/features/auth/ui/LoginForm'
 import Image from 'next/image'
 import { prisma } from '@/shared/api/prisma/client'
@@ -27,7 +28,7 @@ export default async function LoginPage() {
       <div className="flex flex-col gap-4 p-6 md:p-10">
         {/* Logo pojok kiri atas — desktop saja (mobile pindah ke atas form) */}
         <div className="hidden lg:flex">
-          <div className="relative h-14 w-48 flex-shrink-0">
+          <Link href="/" aria-label="Beranda" className="relative h-14 w-48 flex-shrink-0">
             <Image
               src={logoSrc}
               alt="Logo HMI Cabang Semarang"
@@ -36,14 +37,14 @@ export default async function LoginPage() {
               className="object-contain object-left"
               priority
             />
-          </div>
+          </Link>
         </div>
 
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
             {/* Logo di atas heading — mobile saja, center */}
             <div className="mb-8 flex justify-center lg:hidden">
-              <div className="relative h-14 w-48 flex-shrink-0">
+              <Link href="/" aria-label="Beranda" className="relative h-14 w-48 flex-shrink-0">
                 <Image
                   src={logoSrc}
                   alt="Logo HMI Cabang Semarang"
@@ -52,7 +53,7 @@ export default async function LoginPage() {
                   className="object-contain"
                   priority
                 />
-              </div>
+              </Link>
             </div>
             <LoginForm />
           </div>
