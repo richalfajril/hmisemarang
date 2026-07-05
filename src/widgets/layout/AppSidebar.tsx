@@ -11,9 +11,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/shared/ui/Sidebar"
 import {
   LayoutDashboardIcon,
@@ -87,26 +84,17 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader className="px-3">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:p-1.5! h-14"
-            >
-              <Link href="/dashboard" prefetch className="flex items-center justify-start px-2">
-                <div className="relative h-10 w-40 flex-shrink-0">
-                  <Image
-                    src={logoUrl || DEFAULT_LIGHT_LOGO}
-                    alt="Logo HMI Cabang Semarang"
-                    fill
-                    sizes="160px"
-                    className="object-contain object-left"
-                  />
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <Link href="/dashboard" prefetch className="block px-1 py-2">
+          <div className="relative h-12 w-full">
+            <Image
+              src={logoUrl || DEFAULT_LIGHT_LOGO}
+              alt="Logo HMI Cabang Semarang"
+              fill
+              sizes="240px"
+              className="object-contain object-left"
+            />
+          </div>
+        </Link>
       </SidebarHeader>
       <SidebarContent className="px-1">
         <NavMain items={filteredNavMain} label="Konten" />

@@ -25,7 +25,8 @@ export default async function LoginPage() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center md:justify-start">
+        {/* Logo pojok kiri atas — desktop saja (mobile pindah ke atas form) */}
+        <div className="hidden lg:flex">
           <div className="relative h-14 w-48 flex-shrink-0">
             <Image
               src={logoSrc}
@@ -37,13 +38,28 @@ export default async function LoginPage() {
             />
           </div>
         </div>
+
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-sm">
+            {/* Logo di atas heading — mobile saja, center */}
+            <div className="mb-8 flex justify-center lg:hidden">
+              <div className="relative h-14 w-48 flex-shrink-0">
+                <Image
+                  src={logoSrc}
+                  alt="Logo HMI Cabang Semarang"
+                  fill
+                  sizes="200px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </div>
             <LoginForm />
           </div>
         </div>
-        <div className="text-center md:text-left text-xs text-muted-foreground mt-auto">
-          &copy; {new Date().getFullYear()} HMI Cabang Semarang. Hak Cipta Dilindungi.
+
+        <div className="mt-auto text-center text-xs text-muted-foreground lg:text-left">
+          &copy; {new Date().getFullYear()} Bidang Komunikasi &amp; Digital HMI Cabang Semarang 2026-2027. Hak Cipta Dilindungi.
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">

@@ -92,7 +92,7 @@ export default function Page() {
       <section className="mx-auto max-w-5xl px-5 py-16">
         <FadeIn>
           <SectionHeaderCenter
-            eyebrow="Nilai Dasar"
+            eyebrow="Semboyan"
             heading="Yakin · Usaha · Sampai"
             subheading="Semboyan yang menjiwai setiap langkah kader HMI."
           />
