@@ -9,6 +9,8 @@ import {
   getCountdownLabel,
   formatAgendaDate,
 } from '@/shared/lib/agenda'
+import { useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import type { AgendaItem } from '@/widgets/home/ui/AgendaCarousel'
@@ -82,13 +84,19 @@ export function AgendaGridCard({ agenda }: { agenda: AgendaItem }) {
 }
 
 export function AgendaGrid({ items }: { items: AgendaItem[] }) {
-  const { paginatedData, currentPage, pageSize, totalItems, onPageChange, onPageSizeChange } =
-    useClientPagination(items, 8)
+  const q = (useSearchParams().get('q') ?? '').trim().toLowerCase()
+  const filtered = useMemo(() => {
+    if (!q) return items
+    return items.filter((a) => [a.title, a.location_name].some((v) => v?.toLowerCase().includes(q)))
+  }, [items, q])
 
-  if (items.length === 0) {
+  const { paginatedData, currentPage, pageSize, totalItems, onPageChange, onPageSizeChange } =
+    useClientPagination(filtered, 8)
+
+  if (filtered.length === 0) {
     return (
       <p className="rounded-2xl border border-dashed py-16 text-center text-sm text-muted-foreground">
-        Belum ada agenda.
+        {q ? 'Tidak ada agenda yang cocok.' : 'Belum ada agenda.'}
       </p>
     )
   }
@@ -100,7 +108,6 @@ export function AgendaGrid({ items }: { items: AgendaItem[] }) {
           <AgendaGridCard key={a.id} agenda={a} />
         ))}
       </div>
-
       <SmartPagination
         currentPage={currentPage}
         totalItems={totalItems}

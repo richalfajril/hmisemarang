@@ -2,12 +2,14 @@
 
 import { useRef, useEffect, useCallback } from 'react'
 import { ArticleCard } from './ArticleCard'
+import { useHorizontalWheel } from '@/shared/lib/hooks/useHorizontalWheel'
 import type { PublicArticle } from '../api/public-queries'
 
 const SPEED = 0.4
 
 export function PopularCarousel({ articles }: { articles: PublicArticle[] }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const s = useRef({ x: 0, paused: false, dragging: false, moved: false, startX: 0, startOffset: 0 })
   const rafRef = useRef(0)
 
@@ -47,12 +49,23 @@ export function PopularCarousel({ articles }: { articles: PublicArticle[] }) {
     while (s.current.x < -half) s.current.x += half
     while (s.current.x > 0) s.current.x -= half
   }, [])
+  const wheelMove = useCallback((dx: number) => {
+    const track = trackRef.current
+    if (!track) return
+    s.current.x -= dx
+    const half = track.scrollWidth / 2
+    while (s.current.x < -half) s.current.x += half
+    while (s.current.x > 0) s.current.x -= half
+    track.style.transform = `translateX(${s.current.x}px)`
+  }, [])
+  useHorizontalWheel(containerRef, wheelMove)
 
   if (articles.length === 0) return null
   const doubled = [...articles, ...articles]
 
   return (
     <div
+      ref={containerRef}
       className="cursor-grab overflow-hidden active:cursor-grabbing"
       onMouseEnter={() => { s.current.paused = true }}
       onMouseLeave={() => { s.current.paused = false; endDrag() }}

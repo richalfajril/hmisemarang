@@ -1,4 +1,6 @@
+import { Suspense } from 'react'
 import { PageHero } from '@/shared/ui/PageHero'
+import { HeroSearchBox } from '@/shared/ui/HeroSearchBox'
 import { FadeIn } from '@/shared/ui/FadeIn'
 import { getPublicGalleryPhotos, getPublicAlbumCount, GALLERY_FALLBACK } from '@/widgets/home/api/queries'
 import { GalleryBento } from '@/features/galleries/ui/GalleryBento'
@@ -26,11 +28,19 @@ export default async function Page() {
         eyebrow="Galeri"
         heading="Galeri Kegiatan"
         subheading="Dokumentasi momen dan kegiatan HMI Cabang Semarang. Seret untuk menjelajah, klik untuk memperbesar."
+        align="left"
+        action={
+          <Suspense fallback={null}>
+            <HeroSearchBox placeholder="Cari album..." />
+          </Suspense>
+        }
       />
 
       <div className="pb-16 pt-14">
         <FadeIn>
-          <GalleryBento photos={photos} />
+          <Suspense fallback={null}>
+            <GalleryBento photos={photos} />
+          </Suspense>
         </FadeIn>
       </div>
     </div>

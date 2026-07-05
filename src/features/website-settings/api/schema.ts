@@ -12,5 +12,6 @@ export const websiteSettingsSchema = z.object({
   favicon_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
   hero_image_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
   dark_logo_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
+  dashboard_logo_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
   about_image_url: z.string().url('Format URL tidak valid').optional().or(z.literal('')),
 })

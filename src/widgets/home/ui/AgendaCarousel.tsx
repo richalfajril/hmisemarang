@@ -4,6 +4,7 @@ import { useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, MapPin, ArrowRight, Clock } from "lucide-react";
+import { useHorizontalWheel } from "@/shared/lib/hooks/useHorizontalWheel";
 import {
   getAgendaStatus,
   getAgendaBadge,
@@ -25,6 +26,7 @@ const SPEED = 0.5;
 
 export function AgendaCarousel({ items }: { items: AgendaItem[] }) {
   const trackRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const s = useRef({
     x: 0,
     paused: false,
@@ -71,10 +73,22 @@ export function AgendaCarousel({ items }: { items: AgendaItem[] }) {
     while (s.current.x > 0) s.current.x -= half;
   }, []);
 
+  const wheelMove = useCallback((dx: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    s.current.x -= dx;
+    const half = track.scrollWidth / 2;
+    while (s.current.x < -half) s.current.x += half;
+    while (s.current.x > 0) s.current.x -= half;
+    track.style.transform = `translateX(${s.current.x}px)`;
+  }, []);
+  useHorizontalWheel(containerRef, wheelMove);
+
   const doubled = [...items, ...items];
 
   return (
     <div
+      ref={containerRef}
       className="cursor-grab overflow-hidden active:cursor-grabbing"
       onMouseEnter={() => {
         s.current.paused = true;

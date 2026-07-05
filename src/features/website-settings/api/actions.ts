@@ -60,6 +60,7 @@ export async function updateSettingsAction(
           favicon_url: parsed.data.favicon_url || null,
           hero_image_url: parsed.data.hero_image_url || null,
           dark_logo_url: parsed.data.dark_logo_url || null,
+          dashboard_logo_url: parsed.data.dashboard_logo_url || null,
           about_image_url: parsed.data.about_image_url || null,
         },
       })
@@ -77,6 +78,7 @@ export async function updateSettingsAction(
           favicon_url: parsed.data.favicon_url || null,
           hero_image_url: parsed.data.hero_image_url || null,
           dark_logo_url: parsed.data.dark_logo_url || null,
+          dashboard_logo_url: parsed.data.dashboard_logo_url || null,
           about_image_url: parsed.data.about_image_url || null,
         },
       })

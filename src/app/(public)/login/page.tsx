@@ -1,32 +1,30 @@
 import { Metadata } from 'next'
 import { LoginForm } from '@/features/auth/ui/LoginForm'
 import Image from 'next/image'
+import { prisma } from '@/shared/api/prisma/client'
 
 export const metadata: Metadata = {
   title: 'Log Masuk - HMI Cabang Semarang',
   description: 'Masuk ke sistem manajemen konten Himpunan Mahasiswa Islam Cabang Semarang.',
 }
 
-export default function LoginPage() {
+const DEFAULT_LIGHT_LOGO = 'https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png'
+
+export default async function LoginPage() {
+  const setting = await prisma.websiteSetting.findFirst({ select: { dashboard_logo_url: true } })
+  const logoSrc = setting?.dashboard_logo_url || DEFAULT_LIGHT_LOGO
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex justify-center md:justify-start">
           <div className="relative h-14 w-48 flex-shrink-0">
             <Image
-              src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png"
-              alt="Logo"
+              src={logoSrc}
+              alt="Logo HMI Cabang Semarang"
               fill
               sizes="200px"
-              className="object-contain object-left dark:hidden"
-              priority
-            />
-            <Image
-              src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097476/Logo_Dark_Theme_q1sfhq.png"
-              alt="Logo"
-              fill
-              sizes="200px"
-              className="object-contain object-left hidden dark:block"
+              className="object-contain object-left"
               priority
             />
           </div>

@@ -1,10 +1,12 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, useScroll, useTransform, useMotionValue, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
+import { useHorizontalWheel } from '@/shared/lib/hooks/useHorizontalWheel'
 
 export type GalleryPhoto = {
   id: string
@@ -25,13 +27,25 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, scale: 1, transition: { type: 'spring' as const, stiffness: 100, damping: 15 } },
 }
 
-export function GalleryBento({ photos }: { photos: GalleryPhoto[] }) {
+export function GalleryBento({ photos: allPhotos }: { photos: GalleryPhoto[] }) {
+  const q = (useSearchParams().get('q') ?? '').trim().toLowerCase()
+  const photos = useMemo(() => {
+    if (!q) return allPhotos
+    return allPhotos.filter((p) => [p.album?.title, p.caption].some((v) => v?.toLowerCase().includes(q)))
+  }, [allPhotos, q])
+
   const containerRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const targetRef = useRef<HTMLDivElement>(null)
   const dragged = useRef(false)
+  const x = useMotionValue(0)
   const [dragConstraint, setDragConstraint] = useState(0)
   const [selected, setSelected] = useState<number | null>(null)
+
+  const wheelMove = useCallback((dx: number) => {
+    x.set(Math.max(dragConstraint, Math.min(0, x.get() - dx)))
+  }, [x, dragConstraint])
+  useHorizontalWheel(containerRef, wheelMove)
 
   // Batas area drag horizontal.
   useEffect(() => {
@@ -64,21 +78,29 @@ export function GalleryBento({ photos }: { photos: GalleryPhoto[] }) {
     return () => window.removeEventListener('keydown', onKey)
   }, [selected, photos.length])
 
-  if (photos.length === 0) {
+  if (allPhotos.length === 0) {
     return (
       <p className="mx-auto max-w-7xl rounded-2xl border border-dashed px-4 py-16 text-center text-sm text-muted-foreground">
         Belum ada foto galeri.
       </p>
     )
   }
+  if (photos.length === 0) {
+    return (
+      <p className="mx-auto max-w-7xl rounded-2xl border border-dashed px-4 py-16 text-center text-sm text-muted-foreground">
+        Tidak ada album yang cocok.
+      </p>
+    )
+  }
 
-  const current = selected !== null ? photos[selected] : null
+  const current = selected !== null && selected < photos.length ? photos[selected] : null
 
   return (
     <div ref={targetRef}>
-      <motion.div ref={containerRef} style={{ opacity, y }} className="relative w-full cursor-grab active:cursor-grabbing">
+      <motion.div ref={containerRef} style={{ opacity, y }} className="relative w-full overflow-hidden cursor-grab active:cursor-grabbing">
         <motion.div
           className="w-max"
+          style={{ x }}
           drag="x"
           dragConstraints={{ left: dragConstraint, right: 0 }}
           dragElastic={0.05}
@@ -155,7 +177,7 @@ export function GalleryBento({ photos }: { photos: GalleryPhoto[] }) {
               onClick={(e) => e.stopPropagation()}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={current.image_url} alt={current.caption ?? 'Foto'} className="max-h-[85vh] w-full rounded-lg object-contain" />
+              <img src={current.image_url} alt={current.caption ?? current.album?.title ?? 'Foto galeri HMI Cabang Semarang'} className="max-h-[85vh] w-full rounded-lg object-contain" />
               {(current.caption || current.album?.title) && (
                 <figcaption className="mt-3 text-center text-sm text-white/80">
                   {current.album?.title}

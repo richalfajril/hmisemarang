@@ -32,7 +32,7 @@ export function PeriodSelect({
       value={selectedId}
       onValueChange={(id) => router.push(`${pathname}?period=${id}`)}
     >
-      <SelectTrigger className="w-[200px] bg-white">
+      <SelectTrigger className="h-11 w-[220px] justify-between rounded-full border bg-white px-5 font-semibold shadow-sm">
         <SelectValue placeholder="Pilih periode" />
       </SelectTrigger>
       <SelectContent>
@@ -64,7 +64,7 @@ export function PeriodArrow({
       disabled={!targetId}
       onClick={() => targetId && router.push(`${pathname}?period=${targetId}`)}
       aria-label={direction === 'prev' ? 'Periode sebelumnya' : 'Periode berikutnya'}
-      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border bg-white text-foreground shadow-sm transition-colors hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
+      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border bg-white text-foreground shadow-sm transition-colors hover:bg-primary hover:text-primary-foreground disabled:cursor-not-allowed disabled:opacity-40"
     >
       <Icon className="h-5 w-5" />
     </button>

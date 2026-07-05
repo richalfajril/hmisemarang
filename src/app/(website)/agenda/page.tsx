@@ -1,4 +1,6 @@
+import { Suspense } from 'react'
 import { PageHero } from '@/shared/ui/PageHero'
+import { HeroSearchBox } from '@/shared/ui/HeroSearchBox'
 import { FadeIn } from '@/shared/ui/FadeIn'
 import { getAllPublicAgendas, AGENDA_FALLBACK } from '@/widgets/home/api/queries'
 import { getAgendaStatus } from '@/shared/lib/agenda'
@@ -35,11 +37,19 @@ export default async function Page() {
         eyebrow="Agenda"
         heading="Agenda & Kegiatan"
         subheading="Jadwal kegiatan, acara, dan dokumentasi agenda HMI Cabang Semarang."
+        align="left"
+        action={
+          <Suspense fallback={null}>
+            <HeroSearchBox placeholder="Cari agenda..." />
+          </Suspense>
+        }
       />
 
       <div className="mx-auto max-w-7xl px-5 pb-16 pt-14">
         <FadeIn>
-          <AgendaGrid items={ordered} />
+          <Suspense fallback={null}>
+            <AgendaGrid items={ordered} />
+          </Suspense>
         </FadeIn>
       </div>
     </div>

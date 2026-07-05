@@ -68,13 +68,17 @@ const navSecondary = [
   { title: "Audit Log", url: "/dashboard/audit-logs", icon: <ScrollTextIcon />, roles: ADMIN_CABANG_ONLY },
 ]
 
+const DEFAULT_LIGHT_LOGO = "https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png"
+
 export function AppSidebar({
   user,
   role,
+  logoUrl,
   ...props
 }: React.ComponentProps<typeof Sidebar> & {
   user: { name: string; email: string; avatar: string }
   role: string
+  logoUrl?: string | null
 }) {
   const filteredNavMain = navMain.filter((item) => item.roles.includes(role))
   const filteredNavManagement = navManagement.filter((item) => item.roles.includes(role))
@@ -92,18 +96,11 @@ export function AppSidebar({
               <Link href="/dashboard" prefetch className="flex items-center justify-start px-2">
                 <div className="relative h-10 w-40 flex-shrink-0">
                   <Image
-                    src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097475/Logo_White_Theme_dieii8.png"
-                    alt="Logo"
+                    src={logoUrl || DEFAULT_LIGHT_LOGO}
+                    alt="Logo HMI Cabang Semarang"
                     fill
                     sizes="160px"
-                    className="object-contain object-left dark:hidden"
-                  />
-                  <Image
-                    src="https://res.cloudinary.com/dbndgotx4/image/upload/v1782097476/Logo_Dark_Theme_q1sfhq.png"
-                    alt="Logo"
-                    fill
-                    sizes="160px"
-                    className="object-contain object-left hidden dark:block"
+                    className="object-contain object-left"
                   />
                 </div>
               </Link>

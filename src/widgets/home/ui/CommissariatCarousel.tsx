@@ -3,6 +3,7 @@
 import { useRef, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useHorizontalWheel } from '@/shared/lib/hooks/useHorizontalWheel'
 
 type Item = {
   id: string
@@ -15,6 +16,7 @@ const SPEED = 0.5
 
 export function CommissariatCarousel({ items }: { items: Item[] }) {
   const trackRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const s = useRef({ x: 0, paused: false, dragging: false, startX: 0, startOffset: 0 })
   const rafRef = useRef(0)
 
@@ -55,10 +57,22 @@ export function CommissariatCarousel({ items }: { items: Item[] }) {
     while (s.current.x > 0) s.current.x -= half
   }, [])
 
+  const wheelMove = useCallback((dx: number) => {
+    const track = trackRef.current
+    if (!track) return
+    s.current.x -= dx
+    const half = track.scrollWidth / 2
+    while (s.current.x < -half) s.current.x += half
+    while (s.current.x > 0) s.current.x -= half
+    track.style.transform = `translateX(${s.current.x}px)`
+  }, [])
+  useHorizontalWheel(containerRef, wheelMove)
+
   const doubled = [...items, ...items]
 
   return (
     <div
+      ref={containerRef}
       className="overflow-hidden cursor-grab active:cursor-grabbing"
       onMouseEnter={() => { s.current.paused = true }}
       onMouseLeave={() => { s.current.paused = false; endDrag() }}

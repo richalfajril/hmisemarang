@@ -1,5 +1,7 @@
 'use client'
 
+import { useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Building2, GraduationCap } from 'lucide-react'
@@ -17,13 +19,21 @@ export type PublicCommissariat = {
 }
 
 export function KomisariatGrid({ items }: { items: PublicCommissariat[] }) {
-  const { paginatedData, currentPage, pageSize, totalItems, onPageChange, onPageSizeChange } =
-    useClientPagination(items, 9)
+  const q = (useSearchParams().get('q') ?? '').trim().toLowerCase()
+  const filtered = useMemo(() => {
+    if (!q) return items
+    return items.filter((c) =>
+      [c.name, c.university?.name, c.campus_name].some((v) => v?.toLowerCase().includes(q))
+    )
+  }, [items, q])
 
-  if (items.length === 0) {
+  const { paginatedData, currentPage, pageSize, totalItems, onPageChange, onPageSizeChange } =
+    useClientPagination(filtered, 9)
+
+  if (filtered.length === 0) {
     return (
       <p className="rounded-2xl border border-dashed py-16 text-center text-sm text-muted-foreground">
-        Belum ada data komisariat.
+        {q ? 'Tidak ada komisariat yang cocok.' : 'Belum ada data komisariat.'}
       </p>
     )
   }

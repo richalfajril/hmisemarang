@@ -17,6 +17,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
   const [state, formAction, isPending] = useActionState(updateSettingsAction, initialActionState)
   const [heroImageUrl, setHeroImageUrl] = useState(initialData?.hero_image_url ?? '')
   const [darkLogoUrl, setDarkLogoUrl] = useState(initialData?.dark_logo_url ?? '')
+  const [dashboardLogoUrl, setDashboardLogoUrl] = useState(initialData?.dashboard_logo_url ?? '')
   const [aboutImageUrl, setAboutImageUrl] = useState(initialData?.about_image_url ?? '')
   const [contactImageUrl, setContactImageUrl] = useState(initialData?.contact_image_url ?? '')
   const [faviconUrl, setFaviconUrl] = useState(initialData?.favicon_url ?? '')
@@ -195,6 +196,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
         <TabsContent value="visual" forceMount className="space-y-8 data-[state=inactive]:hidden">
           <input type="hidden" name="hero_image_url" value={heroImageUrl} />
           <input type="hidden" name="dark_logo_url" value={darkLogoUrl} />
+          <input type="hidden" name="dashboard_logo_url" value={dashboardLogoUrl} />
           <input type="hidden" name="about_image_url" value={aboutImageUrl} />
           <input type="hidden" name="favicon_url" value={faviconUrl} />
 
@@ -256,6 +258,26 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
             />
             {state?.fieldErrors?.dark_logo_url && (
               <p className="text-xs text-destructive">{state.fieldErrors.dark_logo_url[0]}</p>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <Label>Logo Dashboard (Login &amp; Sidebar CMS)</Label>
+              <p className="text-[0.8rem] text-muted-foreground mt-1">
+                Logo yang tampil di halaman login dan sidebar dashboard CMS. Sebaiknya versi berwarna/gelap agar terbaca di latar terang. Jika kosong, memakai logo bawaan.
+              </p>
+            </div>
+            <ImageUploader
+              value={dashboardLogoUrl || null}
+              onChange={(url) => setDashboardLogoUrl(url)}
+              folder="logos"
+              maxDimension={512}
+              disabled={isPending}
+              allowSvg
+            />
+            {state?.fieldErrors?.dashboard_logo_url && (
+              <p className="text-xs text-destructive">{state.fieldErrors.dashboard_logo_url[0]}</p>
             )}
           </div>
 

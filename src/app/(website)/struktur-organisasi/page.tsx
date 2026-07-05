@@ -132,7 +132,7 @@ export default async function Page({
         subheading="Pengemban amanah kepemimpinan dan kaderisasi cabang."
       >
         {selectedId && periods.length > 0 && (
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center gap-2">
             <PeriodArrow targetId={olderId} direction="prev" />
             <PeriodSelect periods={periods} selectedId={selectedId} />
             <PeriodArrow targetId={newerId} direction="next" />

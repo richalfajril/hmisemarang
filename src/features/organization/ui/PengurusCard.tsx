@@ -56,7 +56,7 @@ export function PengurusCard({
           >
             {member.photo_url ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={member.photo_url} alt={member.full_name} className="h-full w-full object-cover" />
+              <img src={member.photo_url} alt={`${member.full_name} — ${member.positionName}`} className="h-full w-full object-cover" />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-muted-foreground">
                 <UserRound className="h-12 w-12" />
@@ -103,7 +103,7 @@ export function PengurusCard({
               {member.full_name}
             </p>
             <div className="mt-1 flex justify-center">
-              <p className="font-semibold text-xs leading-snug text-foreground/80 line-clamp-2">
+              <p className="min-h-[4.125em] font-semibold text-sm leading-snug text-foreground/80 line-clamp-3">
                 {formatPosition(member.positionName)}
               </p>
             </div>

@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, Target, Compass, Sparkles, BookOpen, Users, HeartHandshake } from 'lucide-react'
+import { ArrowRight, Target, Compass, Sparkles, BookOpen, HeartHandshake, UserCheck, Lightbulb, Rocket, Globe, GraduationCap, MoreHorizontal } from 'lucide-react'
 import { PageHero } from '@/shared/ui/PageHero'
 import { FadeIn } from '@/shared/ui/FadeIn'
 import { SectionHeaderCenter } from '@/shared/ui/SectionHeader'
@@ -17,9 +17,15 @@ const VALUES = [
 ]
 
 const MISI = [
-  { icon: BookOpen, text: 'Membina kader yang berlandaskan keislaman, keindonesiaan, dan intelektualitas.' },
-  { icon: Users, text: 'Menguatkan jejaring komisariat di berbagai perguruan tinggi Kota Semarang.' },
-  { icon: HeartHandshake, text: 'Mendorong kontribusi nyata kader bagi umat, bangsa, dan negara.' },
+  { icon: Sparkles, text: 'Membina pribadi muslim untuk mencapai akhlaqul karimah.' },
+  { icon: UserCheck, text: 'Membina pribadi muslim yang mandiri.' },
+  { icon: Lightbulb, text: 'Mengembangkan potensi kreatif, keilmuan, sosial dan budaya.' },
+  { icon: Rocket, text: 'Mempelopori pengembangan ilmu pengetahuan dan teknologi bagi kemaslahatan masa depan umat manusia.' },
+  { icon: BookOpen, text: 'Memajukan kehidupan umat dalam mengamalkan Dienul Islam dalam kehidupan pribadi, bermasyarakat, berbangsa dan bernegara.' },
+  { icon: Globe, text: 'Memperkuat Ukhuwah Islamiyah sesama umat Islam sedunia.' },
+  { icon: GraduationCap, text: 'Berperan aktif dalam dunia kemahasiswaan, perguruan tinggi dan kepemudaan untuk menopang pembangunan nasional.' },
+  { icon: HeartHandshake, text: 'Ikut terlibat aktif dalam penyelesaian persoalan sosial kemasyarakatan dan kebangsaan.' },
+  { icon: MoreHorizontal, text: 'Usaha-usaha lain yang tidak bertentangan dengan huruf (a) s.d. (e) dan sesuai dengan azas, fungsi, dan peran organisasi serta berguna untuk mencapai tujuan organisasi.' },
 ]
 
 export default function Page() {
@@ -63,8 +69,9 @@ export default function Page() {
           <FadeIn delay={150} className="mt-10 rounded-3xl border bg-card p-8 text-center shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-widest text-primary">Visi</p>
             <p className="mt-3 text-lg font-semibold leading-relaxed text-foreground sm:text-xl">
-              &ldquo;Terbinanya kader HMI yang berkualitas insan cita — beriman, berilmu, dan
-              berkontribusi bagi umat dan bangsa dari Kota Semarang.&rdquo;
+              &ldquo;Terbinanya insan akademis, pencipta, pengabdi yang bernafaskan Islam dan
+              bertanggung jawab atas terwujudnya masyarakat adil makmur yang diridhoi Allah
+              Subhanahu wata&rsquo;ala.&rdquo;
             </p>
           </FadeIn>
 

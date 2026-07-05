@@ -49,6 +49,8 @@ export default async function DashboardLayout({
     }
   }
 
+  const setting = await prisma.websiteSetting.findFirst({ select: { dashboard_logo_url: true } })
+
   return (
     <SidebarProvider>
       <AppSidebar
@@ -58,6 +60,7 @@ export default async function DashboardLayout({
           avatar,
         }}
         role={role}
+        logoUrl={setting?.dashboard_logo_url}
       />
       <SidebarInset>
         <SiteHeader />

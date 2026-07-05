@@ -1,5 +1,7 @@
+import { Suspense } from 'react'
 import { SectionHeaderLeft } from '@/shared/ui/SectionHeader'
 import { PageHero } from '@/shared/ui/PageHero'
+import { HeroSearchBox } from '@/shared/ui/HeroSearchBox'
 import { FadeIn } from '@/shared/ui/FadeIn'
 import {
   getLatestArticles,
@@ -44,6 +46,12 @@ export default async function Page() {
         eyebrow="Artikel"
         heading="Artikel & Gagasan"
         subheading="Kajian, opini, berita, dan gagasan dari kader HMI Cabang Semarang."
+        align="left"
+        action={
+          <Suspense fallback={null}>
+            <HeroSearchBox placeholder="Cari artikel..." />
+          </Suspense>
+        }
       />
 
       {/* Section 1 — Bento artikel terbaru */}
@@ -81,13 +89,15 @@ export default async function Page() {
         </FadeIn>
       </section>
 
-      {/* Section 3 — Daftar semua artikel */}
+      {/* Section 3 — Daftar semua artikel (difilter oleh ?q= dari hero) */}
       <div className="mx-auto max-w-7xl px-5 pb-16 pt-20">
         <FadeIn>
           <SectionHeaderLeft eyebrow="Jelajah" heading="Semua Artikel" />
         </FadeIn>
         <FadeIn delay={150} className="mt-8">
-          <ArticleListGrid articles={listItems} />
+          <Suspense fallback={null}>
+            <ArticleListGrid articles={listItems} />
+          </Suspense>
         </FadeIn>
       </div>
     </div>

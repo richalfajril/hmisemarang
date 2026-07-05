@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useHorizontalWheel } from "@/shared/lib/hooks/useHorizontalWheel";
 import Link from "next/link";
 
 export interface GalleryAlbum {
@@ -115,11 +116,18 @@ export function CircularGallery({
     setDragging(false);
   };
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const wheelMove = useCallback((dx: number) => {
+    setRotation((r) => r + dx * 0.3);
+  }, []);
+  useHorizontalWheel(containerRef, wheelMove);
+
   if (albums.length === 0) return null;
   const anglePerAlbum = 360 / albums.length;
 
   return (
     <div
+      ref={containerRef}
       role="region"
       aria-label="Galeri kegiatan"
       onMouseEnter={() => setHovered(true)}
