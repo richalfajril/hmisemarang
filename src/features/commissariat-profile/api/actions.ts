@@ -21,11 +21,8 @@ export async function saveProfileDraftAction(
 
     const rawData = {
       name: formData.get('name') as string,
-      campus_name: formData.get('campus_name') as string,
+      university_id: formData.get('university_id') as string,
       about: formData.get('about') as string,
-      chairman_name: formData.get('chairman_name') as string,
-      chairman_period: formData.get('chairman_period') as string,
-      chairman_about: formData.get('chairman_about') as string,
       address: formData.get('address') as string,
       map_url: formData.get('map_url') as string,
       instagram_url: formData.get('instagram_url') as string,
@@ -43,7 +40,12 @@ export async function saveProfileDraftAction(
       }
     }
 
-    const data = validatedFields.data
+    // campus_name diturunkan dari nama universitas terpilih (untuk tampilan publik).
+    const university = await prisma.university.findUnique({
+      where: { id: validatedFields.data.university_id },
+      select: { name: true },
+    })
+    const data = { ...validatedFields.data, campus_name: university?.name ?? null }
     const commissariatId = session.user.commissariatId
 
     // Cek apakah ada submission existing

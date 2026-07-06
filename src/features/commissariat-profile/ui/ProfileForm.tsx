@@ -7,7 +7,6 @@ import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/Tabs'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
 import { Combobox, type ComboboxOption } from '@/shared/ui/Combobox'
 import { Loader2, Save, Send, AlertCircle } from 'lucide-react'
@@ -30,9 +29,6 @@ interface ProfileFormProps {
     campus_name?: string | null
     university_id?: string | null
     about?: string | null
-    chairman_name?: string | null
-    chairman_period?: string | null
-    chairman_about?: string | null
     cadre_count?: number | null
     map_url?: string | null
   } | null
@@ -71,15 +67,14 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Edit Profil Komisariat</h2>
-          {isReadOnly && (
-            <p className="text-amber-600 dark:text-amber-400 mt-1">
-              Profil sedang dalam peninjauan Cabang. Anda tidak dapat melakukan perubahan.
-            </p>
-          )}
-        </div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        {isReadOnly ? (
+          <p className="text-sm text-amber-600 dark:text-amber-400">
+            Profil sedang dalam peninjauan Cabang. Anda tidak dapat melakukan perubahan.
+          </p>
+        ) : (
+          <span />
+        )}
         <div className="flex gap-2">
           <Button 
             type="submit" 
@@ -114,14 +109,9 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
         <input type="hidden" name="logo_url" value={logo} />
         <input type="hidden" name="secretariat_photo_url" value={photo} />
 
-        <Tabs defaultValue="branding" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="branding">Identitas & Branding</TabsTrigger>
-            <TabsTrigger value="leadership">Kepemimpinan</TabsTrigger>
-            <TabsTrigger value="contact">Kontak & Lokasi</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="branding" className="space-y-6 mt-6 border p-6 rounded-lg bg-card">
+        <div className="space-y-8">
+          <section className="space-y-6 border p-6 rounded-lg bg-card">
+            <h3 className="text-lg font-semibold">Identitas &amp; Branding</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div className="space-y-2">
@@ -148,7 +138,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     emptyMessage="Universitas tidak ditemukan."
                     disabled={isPending || isReadOnly}
                   />
-                  {state?.fieldErrors?.campus_name && <p className="text-xs text-destructive">{state.fieldErrors.campus_name[0]}</p>}
+                  {state?.fieldErrors?.university_id && <p className="text-xs text-destructive">{state.fieldErrors.university_id[0]}</p>}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="about">Tentang Komisariat (Sejarah Singkat)</Label>
@@ -173,46 +163,10 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                 />
               </div>
             </div>
-          </TabsContent>
+          </section>
 
-          <TabsContent value="leadership" className="space-y-6 mt-6 border p-6 rounded-lg bg-card">
-            <div className="space-y-6 max-w-xl">
-              <div className="space-y-2">
-                <Label htmlFor="chairman_name">Nama Ketua Umum *</Label>
-                <Input
-                  id="chairman_name"
-                  name="chairman_name"
-                  defaultValue={initialData?.chairman_name || ''}
-                  disabled={isPending || isReadOnly}
-                  className={state?.fieldErrors?.chairman_name ? 'border-destructive' : ''}
-                  required
-                />
-                {state?.fieldErrors?.chairman_name && <p className="text-xs text-destructive">{state.fieldErrors.chairman_name[0]}</p>}
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="chairman_period">Periode Kepengurusan</Label>
-                <Input
-                  id="chairman_period"
-                  name="chairman_period"
-                  defaultValue={initialData?.chairman_period || ''}
-                  disabled={isPending || isReadOnly}
-                  placeholder="Contoh: 2023-2024"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="chairman_about">Pesan / Visi Misi Ketua Umum</Label>
-                <Textarea
-                  id="chairman_about"
-                  name="chairman_about"
-                  defaultValue={initialData?.chairman_about || ''}
-                  disabled={isPending || isReadOnly}
-                  rows={4}
-                />
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="contact" className="space-y-6 mt-6 border p-6 rounded-lg bg-card">
+          <section className="space-y-6 border p-6 rounded-lg bg-card">
+            <h3 className="text-lg font-semibold">Kontak &amp; Lokasi</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-6">
                 <div className="space-y-2">
@@ -264,8 +218,8 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                 />
               </div>
             </div>
-          </TabsContent>
-        </Tabs>
+          </section>
+        </div>
       </form>
     </div>
   )
