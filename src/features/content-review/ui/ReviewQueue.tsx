@@ -8,25 +8,22 @@ import { Article, Agenda, Commissariat } from '@prisma/client'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 import Link from 'next/link'
-import { FileText, CalendarRange, Building2, UserCheck, ArrowRight } from 'lucide-react'
+import { FileText, CalendarRange, UserCheck, ArrowRight } from 'lucide-react'
 
 type PendingArticle = Article & { commissariat: Commissariat }
 type PendingAgenda = Agenda & { commissariat: Commissariat | null }
-
-type PendingProfile = { id: string; submitted_at?: Date | null; created_at: Date; commissariat?: { name: string } | null }
 type PendingVerification = { id: string; created_at: Date; commissariat?: { name: string } | null }
 
 interface ReviewQueueProps {
   articles: Array<PendingArticle>
   agendas: Array<PendingAgenda>
-  profiles: Array<PendingProfile>
   verifications: Array<PendingVerification>
 }
 
-export function ReviewQueue({ articles, agendas, profiles = [], verifications = [] }: ReviewQueueProps) {
+export function ReviewQueue({ articles, agendas, verifications = [] }: ReviewQueueProps) {
   return (
     <Tabs defaultValue="articles" className="w-full">
-      <TabsList className="grid w-full grid-cols-4 max-w-2xl">
+      <TabsList className="grid w-full grid-cols-3 max-w-xl">
         <TabsTrigger value="articles" className="flex gap-2">
           <FileText className="h-4 w-4" />
           Artikel ({articles.length})
@@ -34,10 +31,6 @@ export function ReviewQueue({ articles, agendas, profiles = [], verifications = 
         <TabsTrigger value="agendas" className="flex gap-2">
           <CalendarRange className="h-4 w-4" />
           Agenda ({agendas.length})
-        </TabsTrigger>
-        <TabsTrigger value="profiles" className="flex gap-2">
-          <Building2 className="h-4 w-4" />
-          Profil ({profiles.length})
         </TabsTrigger>
         <TabsTrigger value="kader" className="flex gap-2">
           <UserCheck className="h-4 w-4" />
@@ -99,39 +92,6 @@ export function ReviewQueue({ articles, agendas, profiles = [], verifications = 
                 </CardHeader>
                 <CardContent className="mt-auto pt-4 flex justify-end">
                   <Link href={`/dashboard/review-center/AGENDA/${agenda.id}`} prefetch>
-                    <Button size="sm">
-                      Tinjau
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        )}
-      </TabsContent>
-
-      <TabsContent value="profiles" className="mt-6 space-y-4">
-        {profiles.length === 0 ? (
-          <div className="text-center py-12 bg-muted/20 border rounded-lg border-dashed">
-            <p className="text-muted-foreground">Tidak ada profil yang menunggu persetujuan.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {profiles.map((p) => (
-              <Card key={p.id} className="flex flex-col">
-                <CardHeader className="pb-3">
-                  <div className="flex justify-between items-start mb-2">
-                    <Badge variant="secondary">SUBMITTED</Badge>
-                    <span className="text-xs text-muted-foreground">
-                      {format(new Date(p.submitted_at || p.created_at), 'dd MMM, HH:mm', { locale: id })}
-                    </span>
-                  </div>
-                  <CardTitle className="text-lg line-clamp-2">{p.commissariat?.name || 'Komisariat'}</CardTitle>
-                  <CardDescription>Pembaruan Profil Organisasi</CardDescription>
-                </CardHeader>
-                <CardContent className="mt-auto pt-4 flex justify-end">
-                  <Link href={`/dashboard/review-center/COMMISSARIAT_PROFILE/${p.id}`} prefetch>
                     <Button size="sm">
                       Tinjau
                       <ArrowRight className="ml-2 h-4 w-4" />

@@ -21,6 +21,8 @@ interface ImageUploaderProps {
   allowSvg?: boolean
   /** Izinkan video MP4 (untuk latar hero). Tidak dikonversi ke WebP. Default false. */
   allowVideo?: boolean
+  /** Jangan konversi ke WebP (unggah format asli). Untuk favicon — Google tak dukung WebP. */
+  noConvert?: boolean
 }
 
 const BASE_TYPES = ['image/png', 'image/jpeg', 'image/webp']
@@ -29,7 +31,7 @@ function isVideoUrl(url: string) {
   return /\.(mp4|webm|mov)(\?|$)/i.test(url)
 }
 
-export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920, shape = 'square', allowSvg = false, allowVideo = false }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920, shape = 'square', allowSvg = false, allowVideo = false, noConvert = false }: ImageUploaderProps) {
   const ALLOWED_TYPES = [
     ...BASE_TYPES,
     ...(allowSvg ? ['image/svg+xml'] : []),
@@ -63,7 +65,8 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
     setIsUploading(true)
     try {
       // Optimize before upload: resize + convert to WebP, ≤2MB.
-      const optimized = await compressImageToWebp(file, maxDimension)
+      // noConvert → unggah format asli (favicon: Google tak dukung WebP).
+      const optimized = noConvert ? file : await compressImageToWebp(file, maxDimension)
 
       const formData = new FormData()
       formData.append('file', optimized)
@@ -81,7 +84,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
     } finally {
       setIsUploading(false)
     }
-  }, [folder, onChange, maxDimension, allowSvg, allowVideo])
+  }, [folder, onChange, maxDimension, allowSvg, allowVideo, noConvert])
 
   const onDragEnter = (e: React.DragEvent) => {
     e.preventDefault()

@@ -71,12 +71,18 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     },
   ]
 
+  // Dateline gaya berita: "SEMARANG, hmisemarang.org — " (bold, emerald) di awal paragraf pertama.
+  const dateline = '<strong style="color:#047857">SEMARANG, hmisemarang.org</strong> — '
+  const contentHtml = /<p[\s>]/i.test(article.content)
+    ? article.content.replace(/<p(\s[^>]*)?>/i, (m) => m + dateline)
+    : dateline + article.content
+
   return (
     <div className="min-h-screen bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ReadingProgressBar />
 
-      <article className="mx-auto max-w-[720px] px-5 pb-16 pt-24">
+      <article className="mx-auto max-w-3xl px-5 pb-16 pt-24">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -125,17 +131,17 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
                 <span className="flex items-center gap-1"><Eye className="h-3.5 w-3.5" />{article.view_count}</span>
               </p>
             </div>
-            <ShareButtons title={article.title} />
+            <ShareButtons title={article.title} collapsible />
           </div>
         </header>
 
         {/* Cover */}
         {article.featured_image_url ? (
-          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden rounded-2xl bg-emerald-950">
+          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden bg-emerald-950">
             <Image src={article.featured_image_url} alt={article.title} fill className="object-cover" sizes="720px" priority />
           </div>
         ) : (
-          <div className="mt-8 flex aspect-[16/9] w-full items-center justify-center rounded-2xl bg-emerald-950 text-white/30">
+          <div className="mt-8 flex aspect-[16/9] w-full items-center justify-center bg-emerald-950 text-white/30">
             <Newspaper className="h-12 w-12" />
           </div>
         )}
@@ -143,7 +149,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         {/* Konten */}
         <div
           className="prose prose-lg prose-emerald mt-10 max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-xl"
-          dangerouslySetInnerHTML={{ __html: article.content }}
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
         {/* Tags */}

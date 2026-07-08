@@ -215,6 +215,7 @@ export function SettingsForm({ initialData }: { initialData: WebsiteSetting | nu
               disabled={isPending}
               shape="circle"
               allowSvg
+              noConvert
               className="max-w-[160px]"
             />
             {state?.fieldErrors?.favicon_url && (

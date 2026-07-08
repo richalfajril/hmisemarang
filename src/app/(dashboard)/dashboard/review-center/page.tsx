@@ -33,13 +33,6 @@ export default async function ReviewCenterPage() {
     orderBy: { submitted_at: 'asc' },
   })
 
-  // Fetch pending profiles
-  const profiles = await prisma.commissariatProfileSubmission.findMany({
-    where: { status: 'SUBMITTED' },
-    include: { commissariat: true },
-    orderBy: { submitted_at: 'asc' },
-  })
-
   // Fetch pending cadre verifications
   const verifications = await prisma.cadreVerification.findMany({
     where: { status: 'PENDING' },
@@ -55,10 +48,9 @@ export default async function ReviewCenterPage() {
         icon={ClipboardCheck}
       />
 
-      <ReviewQueue 
-        articles={articles} 
-        agendas={agendas} 
-        profiles={profiles}
+      <ReviewQueue
+        articles={articles}
+        agendas={agendas}
         verifications={verifications}
       />
     </div>
