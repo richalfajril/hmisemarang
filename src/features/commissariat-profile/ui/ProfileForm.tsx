@@ -113,6 +113,17 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
           <section className="space-y-6 border p-6 rounded-lg bg-card">
             <h3 className="text-lg font-semibold">Identitas &amp; Branding</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <Label>Logo Komisariat (rasio 1:1)</Label>
+                <ImageUploader
+                  value={logo}
+                  onChange={setLogo}
+                  folder="public-media"
+                  disabled={isPending || isReadOnly}
+                  maxDimension={512}
+                  className="aspect-square max-w-[240px] w-full"
+                />
+              </div>
               <div className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="name">Nama Komisariat *</Label>
@@ -151,23 +162,23 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label>Logo Komisariat (rasio 1:1)</Label>
-                <ImageUploader
-                  value={logo}
-                  onChange={setLogo}
-                  folder="public-media"
-                  disabled={isPending || isReadOnly}
-                  maxDimension={512}
-                  className="aspect-square max-w-[240px] w-full"
-                />
-              </div>
             </div>
           </section>
 
           <section className="space-y-6 border p-6 rounded-lg bg-card">
             <h3 className="text-lg font-semibold">Kontak &amp; Lokasi</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <Label>Foto Depan Sekretariat (rasio 16:9) (Opsional)</Label>
+                <ImageUploader
+                  value={photo}
+                  onChange={setPhoto}
+                  folder="public-media"
+                  disabled={isPending || isReadOnly}
+                  maxDimension={1280}
+                  className="aspect-video w-full"
+                />
+              </div>
               <div className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="instagram_url">Link Instagram</Label>
@@ -205,17 +216,6 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     rows={3}
                   />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label>Foto Depan Sekretariat (rasio 16:9) (Opsional)</Label>
-                <ImageUploader
-                  value={photo}
-                  onChange={setPhoto}
-                  folder="public-media"
-                  disabled={isPending || isReadOnly}
-                  maxDimension={1280}
-                  className="aspect-video w-full"
-                />
               </div>
             </div>
           </section>
