@@ -1,103 +1,48 @@
 'use client'
 
-import { useActionState, useState } from 'react'
-import { saveProfileDraftAction, submitProfileAction } from '../api/actions'
+import { useActionState, useEffect, useState } from 'react'
+import { saveProfileDraftAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
-import { Button } from '@/shared/ui/Button'
 import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
 import { Combobox, type ComboboxOption } from '@/shared/ui/Combobox'
-import { Loader2, Save, Send, AlertCircle } from 'lucide-react'
+import { AlertCircle } from 'lucide-react'
 import { toast } from 'sonner'
-import { useTransition } from 'react'
 
 interface ProfileFormProps {
   initialData?: {
     name?: string | null
     address?: string | null
-    established_date?: string | Date | null
-    contact_email?: string | null
-    contact_phone?: string | null
     instagram_url?: string | null
-    twitter_url?: string | null
-    facebook_url?: string | null
-    website_url?: string | null
     logo_url?: string | null
     secretariat_photo_url?: string | null
     campus_name?: string | null
     university_id?: string | null
     about?: string | null
-    cadre_count?: number | null
     map_url?: string | null
   } | null
-  submissionId?: string
-  status?: string // 'DRAFT' | 'SUBMITTED' | 'REJECTED' | 'APPROVED'
   universities?: Array<{ id: string; name: string }>
 }
 
-export function ProfileForm({ initialData, submissionId, status, universities = [] }: ProfileFormProps) {
+export function ProfileForm({ initialData, universities = [] }: ProfileFormProps) {
   const [state, formAction, isPending] = useActionState(saveProfileDraftAction, initialActionState)
   const [logo, setLogo] = useState<string>((initialData?.logo_url as string) || '')
   const [photo, setPhoto] = useState<string>((initialData?.secretariat_photo_url as string) || '')
   const [universityId, setUniversityId] = useState<string>(initialData?.university_id || '')
-  const [isSubmitPending, startTransition] = useTransition()
 
   const universityOptions: ComboboxOption[] = universities.map(u => ({
     value: u.id,
     label: u.name,
   }))
 
-  const isReadOnly = status === 'SUBMITTED'
-
-  const handleSubmit = () => {
-    if (!submissionId) return
-    if (!window.confirm('Ajukan profil ini ke Cabang untuk direview? Anda tidak bisa mengedit lagi sampai direview.')) return
-
-    startTransition(async () => {
-      const result = await submitProfileAction(submissionId)
-      if (result.success) {
-        toast.success(result.message)
-      } else {
-        toast.error(result.message)
-      }
-    })
-  }
+  useEffect(() => {
+    if (state?.success && state.message) toast.success(state.message)
+  }, [state])
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        {isReadOnly ? (
-          <p className="text-sm text-amber-600 dark:text-amber-400">
-            Profil sedang dalam peninjauan Cabang. Anda tidak dapat melakukan perubahan.
-          </p>
-        ) : (
-          <span />
-        )}
-        <div className="flex gap-2">
-          <Button 
-            type="submit" 
-            form="profile-form" 
-            disabled={isPending || isReadOnly || isSubmitPending}
-            variant="outline"
-          >
-            {isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-            Simpan Draf
-          </Button>
-          {(status === 'DRAFT' || status === 'REJECTED') && submissionId && (
-            <Button 
-              type="button" 
-              onClick={handleSubmit}
-              disabled={isPending || isReadOnly || isSubmitPending}
-            >
-              {isSubmitPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
-              Ajukan Review
-            </Button>
-          )}
-        </div>
-      </div>
-
       {!state?.success && state?.message && (
         <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive">
           <AlertCircle className="h-4 w-4 shrink-0" />
@@ -119,7 +64,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                   value={logo}
                   onChange={setLogo}
                   folder="public-media"
-                  disabled={isPending || isReadOnly}
+                  disabled={isPending}
                   maxDimension={512}
                   className="aspect-square max-w-[240px] w-full"
                 />
@@ -131,7 +76,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     id="name"
                     name="name"
                     defaultValue={initialData?.name || ''}
-                    disabled={isPending || isReadOnly}
+                    disabled={isPending}
                     className={state?.fieldErrors?.name ? 'border-destructive' : ''}
                     required
                   />
@@ -147,7 +92,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     placeholder="Pilih universitas..."
                     searchPlaceholder="Ketik untuk mencari..."
                     emptyMessage="Universitas tidak ditemukan."
-                    disabled={isPending || isReadOnly}
+                    disabled={isPending}
                   />
                   {state?.fieldErrors?.university_id && <p className="text-xs text-destructive">{state.fieldErrors.university_id[0]}</p>}
                 </div>
@@ -157,7 +102,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     id="about"
                     name="about"
                     defaultValue={initialData?.about || ''}
-                    disabled={isPending || isReadOnly}
+                    disabled={isPending}
                     rows={6}
                   />
                 </div>
@@ -174,7 +119,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                   value={photo}
                   onChange={setPhoto}
                   folder="public-media"
-                  disabled={isPending || isReadOnly}
+                  disabled={isPending}
                   maxDimension={1280}
                   className="aspect-video w-full"
                 />
@@ -188,7 +133,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     type="url"
                     placeholder="https://instagram.com/..."
                     defaultValue={initialData?.instagram_url || ''}
-                    disabled={isPending || isReadOnly}
+                    disabled={isPending}
                     className={state?.fieldErrors?.instagram_url ? 'border-destructive' : ''}
                   />
                   {state?.fieldErrors?.instagram_url && <p className="text-xs text-destructive">{state.fieldErrors.instagram_url[0]}</p>}
@@ -201,7 +146,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     type="url"
                     placeholder="https://maps.google.com/..."
                     defaultValue={initialData?.map_url || ''}
-                    disabled={isPending || isReadOnly}
+                    disabled={isPending}
                     className={state?.fieldErrors?.map_url ? 'border-destructive' : ''}
                   />
                   {state?.fieldErrors?.map_url && <p className="text-xs text-destructive">{state.fieldErrors.map_url[0]}</p>}
@@ -212,7 +157,7 @@ export function ProfileForm({ initialData, submissionId, status, universities = 
                     id="address"
                     name="address"
                     defaultValue={initialData?.address || ''}
-                    disabled={isPending || isReadOnly}
+                    disabled={isPending}
                     rows={3}
                   />
                 </div>

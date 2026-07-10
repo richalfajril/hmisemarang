@@ -23,6 +23,8 @@ interface ImageUploaderProps {
   allowVideo?: boolean
   /** Jangan konversi ke WebP (unggah format asli). Untuk favicon — Google tak dukung WebP. */
   noConvert?: boolean
+  /** Buang min-height 200px → kotak mengikuti rasio wrapper (mis. aspect-square 1:1 kecil). */
+  tight?: boolean
 }
 
 const BASE_TYPES = ['image/png', 'image/jpeg', 'image/webp']
@@ -31,7 +33,7 @@ function isVideoUrl(url: string) {
   return /\.(mp4|webm|mov)(\?|$)/i.test(url)
 }
 
-export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920, shape = 'square', allowSvg = false, allowVideo = false, noConvert = false }: ImageUploaderProps) {
+export function ImageUploader({ value, onChange, folder = 'public-media', className, disabled, maxDimension = 1920, shape = 'square', allowSvg = false, allowVideo = false, noConvert = false, tight = false }: ImageUploaderProps) {
   const ALLOWED_TYPES = [
     ...BASE_TYPES,
     ...(allowSvg ? ['image/svg+xml'] : []),
@@ -129,6 +131,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
           dragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25 bg-muted/20 hover:bg-muted/50",
           disabled && "opacity-50 cursor-not-allowed",
           value && "border-none",
+          tight && "min-h-0",
           shape === 'circle' && "aspect-square min-h-0 rounded-full"
         )}
         onDragEnter={onDragEnter}
@@ -194,7 +197,7 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center p-6 text-center space-y-3">
+          <div className={cn("flex flex-col items-center justify-center text-center", tight ? "p-3 space-y-1.5" : "p-6 space-y-3")}>
             {isUploading ? (
               <>
                 <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
@@ -207,18 +210,20 @@ export function ImageUploader({ value, onChange, folder = 'public-media', classN
               </>
             ) : (
               <>
-                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
-                  <ImageIcon className="h-6 w-6 text-muted-foreground" />
+                <div className={cn("rounded-full bg-muted flex items-center justify-center", tight ? "h-9 w-9" : "h-12 w-12")}>
+                  <ImageIcon className={cn("text-muted-foreground", tight ? "h-4 w-4" : "h-6 w-6")} />
                 </div>
-                <div className="space-y-1">
-                  <p className="text-sm font-medium">Tarik & letakkan gambar di sini</p>
-                  <p className="text-xs text-muted-foreground">atau klik tombol di bawah</p>
-                </div>
-                <Button 
+                {!tight && (
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">Tarik & letakkan gambar di sini</p>
+                    <p className="text-xs text-muted-foreground">atau klik tombol di bawah</p>
+                  </div>
+                )}
+                <Button
                   type="button"
-                  variant="secondary" 
+                  variant="secondary"
                   size="sm"
-                  className="mt-2"
+                  className={tight ? "" : "mt-2"}
                   onClick={() => inputRef.current?.click()}
                   disabled={disabled}
                 >

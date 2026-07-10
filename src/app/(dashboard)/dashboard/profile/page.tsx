@@ -2,13 +2,9 @@ import { prisma } from '@/shared/api/prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { redirect } from 'next/navigation'
 import { ProfileForm } from '@/features/commissariat-profile/ui/ProfileForm'
-import { RevisionNotes } from '@/features/content-review/ui/RevisionNotes'
-import { Suspense } from 'react'
-
-
-
 import { PageHeader } from '@/shared/ui/PageHeader'
-import { Building2 } from 'lucide-react'
+import { Button } from '@/shared/ui/Button'
+import { Building2, Save } from 'lucide-react'
 
 export default async function ProfilePage() {
   const session = await getUserSession()
@@ -24,23 +20,10 @@ export default async function ProfilePage() {
 
   const commissariatId = session.user.commissariatId
 
-  // Ambil profil asli (Jika belum ada submission)
-  const actualProfile = await prisma.commissariat.findUnique({
-    where: { id: commissariatId }
+  // Profil langsung dari entity Commissariat (tanpa alur draft/review).
+  const initialData = await prisma.commissariat.findUnique({
+    where: { id: commissariatId },
   })
-
-  // Ambil draf terbaru
-  const latestSubmission = await prisma.commissariatProfileSubmission.findFirst({
-    where: { commissariat_id: commissariatId },
-    orderBy: { created_at: 'desc' }
-  })
-
-  // Data yang akan dipopulasikan ke dalam form
-  // Prioritas: Draf/Revisi > Profil Asli
-  const initialData = latestSubmission || actualProfile
-  
-  const status = latestSubmission ? latestSubmission.status : 'DRAFT'
-  const submissionId = latestSubmission?.id
 
   // Ambil daftar universitas aktif untuk dropdown
   const universities = await prisma.university.findMany({
@@ -53,22 +36,16 @@ export default async function ProfilePage() {
     <div className="p-6 space-y-6 w-full">
       <PageHeader
         title="Profil Komisariat"
-        description="Kelola informasi dan detail kepengurusan. Perubahan memerlukan persetujuan Cabang."
+        description="Kelola informasi dan detail komisariat. Perubahan langsung tayang di halaman publik."
         icon={Building2}
-      />
+      >
+        <Button type="submit" form="profile-form">
+          <Save className="mr-2 h-4 w-4" />
+          Simpan
+        </Button>
+      </PageHeader>
 
-      {latestSubmission?.id && (
-        <Suspense fallback={<div>Memuat Catatan...</div>}>
-          <RevisionNotes entityId={latestSubmission.id} entityType="COMMISSARIAT_PROFILE" />
-        </Suspense>
-      )}
-
-      <ProfileForm
-        initialData={initialData}
-        submissionId={submissionId}
-        status={status}
-        universities={universities}
-      />
+      <ProfileForm initialData={initialData} universities={universities} />
     </div>
   )
 }

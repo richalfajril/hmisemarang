@@ -55,7 +55,16 @@ export async function saveArticleDraftAction(
     const data = validatedFields.data
     const isEdit = !!formData.get('id')
     const articleId = formData.get('id') as string
-    
+
+    // Tanggal publikasi manual — hanya untuk Cabang/Sistem Admin (late post).
+    const canSchedule = session.user.role === 'ADMIN_CABANG' || session.user.role === 'SYSTEM_ADMIN'
+    const pubRaw = ((formData.get('published_at') as string | null) ?? '').trim()
+    let scheduledAt: Date | null = null
+    if (canSchedule && pubRaw) {
+      const d = new Date(pubRaw)
+      if (!isNaN(d.getTime())) scheduledAt = d
+    }
+
     const finalSlug = data.slug || generateSlug(data.title)
 
     // Check if slug already exists (excluding current article if editing)
@@ -108,6 +117,7 @@ export async function saveArticleDraftAction(
           author_image_url: data.author_image_url || null,
           author_commissariat: data.author_commissariat,
           updated_by: session.user.id,
+          ...(scheduledAt ? { published_at: scheduledAt } : {}),
           // Reset & connect tag kata kunci hasil upsert.
           tags: {
             set: [],
@@ -137,6 +147,7 @@ export async function saveArticleDraftAction(
           author_image_url: data.author_image_url || null,
           author_commissariat: data.author_commissariat,
           status: ArticleStatus.DRAFT,
+          published_at: scheduledAt ?? new Date(),
           created_by: session.user.id,
           updated_by: session.user.id,
           tags: {

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { Building2, GraduationCap, Users, MapPin, ArrowLeft, ExternalLink } from 'lucide-react'
+import { Building2, GraduationCap, MapPin, ArrowLeft, ExternalLink } from 'lucide-react'
 import { FaInstagram } from 'react-icons/fa6'
 import { prisma } from '@/shared/api/prisma/client'
 import {
@@ -62,7 +62,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <div className="min-h-screen bg-white">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      <div className="mx-auto max-w-5xl px-5 pb-16 pt-24">
+      <div className="mx-auto max-w-7xl px-5 pb-16 pt-24">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -83,30 +83,26 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
           </BreadcrumbList>
         </Breadcrumb>
 
-        {/* Header */}
-        <div className="mt-8 flex flex-col gap-6 sm:flex-row sm:items-center">
-          <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-3xl border bg-white shadow-sm">
+        {/* Section 1: logo (1/3) | nama, kampus, tentang (2/3) */}
+        <div className="mt-8 grid gap-8 lg:grid-cols-3">
+          <div className="relative aspect-square w-full overflow-hidden rounded-3xl border bg-white shadow-sm lg:col-span-1">
             {c.logo_url ? (
-              <Image src={c.logo_url} alt={c.name} fill className="object-contain p-3" sizes="112px" />
+              <Image src={c.logo_url} alt={c.name} fill className="object-contain p-6" sizes="(min-width:1024px) 33vw, 100vw" />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-emerald-200">
-                <Building2 className="h-12 w-12" />
+                <Building2 className="h-20 w-20" />
               </div>
             )}
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 lg:col-span-2">
             <h1 className="text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">{c.name}</h1>
-            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground">
-              {(c.university?.name || c.campus_name) && (
-                <span className="flex items-center gap-1.5">
-                  <GraduationCap className="h-4 w-4 text-primary" />
-                  {c.university?.name ?? c.campus_name}
-                </span>
-              )}
-              <span className="flex items-center gap-1.5">
-                <Users className="h-4 w-4 text-primary" />
-                {c.cadre_count} kader
-              </span>
+            <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
+              <GraduationCap className="h-4 w-4 text-primary" />
+              {c.university?.name || c.campus_name || '-'}
+            </p>
+            <div className="mt-6">
+              <h2 className="text-xl font-bold text-foreground">Tentang Komisariat</h2>
+              <p className="mt-3 whitespace-pre-line leading-relaxed text-muted-foreground">{c.about || '-'}</p>
             </div>
           </div>
         </div>
@@ -115,13 +111,6 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
         <div className="mt-10 grid gap-8 lg:grid-cols-3">
           {/* Main */}
           <div className="space-y-10 lg:col-span-2">
-            {c.about && (
-              <section>
-                <h2 className="text-xl font-bold text-foreground">Tentang</h2>
-                <p className="mt-3 whitespace-pre-line leading-relaxed text-muted-foreground">{c.about}</p>
-              </section>
-            )}
-
             {c.chairman_name && (
               <section className="rounded-3xl border bg-muted/30 p-6">
                 <p className="text-xs font-semibold uppercase tracking-widest text-primary">Ketua Umum</p>

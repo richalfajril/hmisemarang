@@ -25,6 +25,15 @@ interface ArticleFormProps {
   commissariats?: { id: string; name: string }[]
 }
 
+/** Format Date → nilai input datetime-local ('YYYY-MM-DDTHH:mm', waktu lokal). */
+function toLocalInput(d?: Date | string | null): string {
+  if (!d) return ''
+  const dt = new Date(d)
+  if (isNaN(dt.getTime())) return ''
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`
+}
+
 export function ArticleForm({ initialData, categories, userRole, userCommissariatId, commissariats = [] }: ArticleFormProps) {
   const [state, formAction, isPending] = useActionState(saveArticleDraftAction, initialActionState)
   const [content, setContent] = useState(initialData?.content || '')
@@ -32,6 +41,9 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
   const [categoryId, setCategoryId] = useState(initialData?.category_id || '')
   const [authorCommissariat, setAuthorCommissariat] = useState(initialData?.author_commissariat || '')
   const [authorImage, setAuthorImage] = useState(initialData?.author_image_url || '')
+  const canSchedule = userRole === 'ADMIN_CABANG' || userRole === 'SYSTEM_ADMIN'
+  const [manualDate, setManualDate] = useState(false)
+  const [pubDate, setPubDate] = useState(toLocalInput(initialData?.published_at))
   const router = useRouter()
 
   useEffect(() => {
@@ -181,7 +193,8 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
                   folder="author-avatars"
                   maxDimension={400}
                   disabled={isPending}
-                  className="aspect-square max-w-[140px]"
+                  tight
+                  className="aspect-square max-w-[180px]"
                 />
               </div>
 
@@ -254,6 +267,38 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
                   <p className="text-xs text-destructive">{state.fieldErrors.excerpt[0]}</p>
                 )}
               </div>
+
+              {canSchedule && (
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="published_at">Tanggal Publikasi</Label>
+                    <label className="flex cursor-pointer items-center gap-2 text-xs text-muted-foreground">
+                      <input
+                        type="checkbox"
+                        checked={manualDate}
+                        onChange={(e) => setManualDate(e.target.checked)}
+                        disabled={isPending}
+                        className="h-4 w-4 accent-primary"
+                      />
+                      Atur manual
+                    </label>
+                  </div>
+                  {manualDate ? (
+                    <Input
+                      id="published_at"
+                      type="datetime-local"
+                      name="published_at"
+                      value={pubDate}
+                      onChange={(e) => setPubDate(e.target.value)}
+                      disabled={isPending}
+                      required
+                      className="bg-background"
+                    />
+                  ) : (
+                    <p className="text-xs text-muted-foreground">Otomatis — tanggal saat artikel disimpan.</p>
+                  )}
+                </div>
+              )}
 
             </div>
           </div>
