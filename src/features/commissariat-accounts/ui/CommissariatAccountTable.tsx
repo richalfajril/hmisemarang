@@ -25,6 +25,7 @@ import { SmartPagination } from '@/shared/ui/SmartPagination'
 import { initialActionState } from '@/shared/lib/action-state'
 import { resetCommissariatPasswordAction, deleteCommissariatAccountAction } from '../api/actions'
 import { EditAccountModal } from './EditAccountModal'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 export type AccountData = {
   id: string
@@ -39,6 +40,7 @@ export function CommissariatAccountTable({ accounts }: { accounts: AccountData[]
   const [deleteState, deleteAction] = useActionState(deleteCommissariatAccountAction, initialActionState)
   const [editing, setEditing] = useState<AccountData | null>(null)
   const pagination = useClientPagination(accounts, 10)
+  const confirm = useConfirm()
 
   useEffect(() => {
     if (resetState?.message) {
@@ -118,15 +120,20 @@ export function CommissariatAccountTable({ accounts }: { accounts: AccountData[]
                           </DropdownMenuItem>
                         </form>
                         <DropdownMenuSeparator />
-                        <form
-                          action={deleteAction}
-                          onSubmit={(e) => {
-                            if (!confirm(`Hapus akun "${a.name || a.username}"?`)) e.preventDefault()
-                          }}
-                        >
+                        <form action={deleteAction}>
                           <input type="hidden" name="id" value={a.id} />
-                          <DropdownMenuItem asChild>
-                            <button type="submit" className="flex w-full cursor-pointer items-center text-destructive focus:bg-destructive/10 focus:text-destructive">
+                          <DropdownMenuItem asChild onSelect={(e) => e.preventDefault()}>
+                            <button
+                              type="button"
+                              className="flex w-full cursor-pointer items-center text-destructive focus:bg-destructive/10 focus:text-destructive"
+                              onClick={async (e) => {
+                                const form = e.currentTarget.closest('form')
+                                if (await confirm({
+                                  title: 'Hapus akun ini?',
+                                  description: `Akun "${a.name || a.username}" akan dihapus. Tindakan ini tidak dapat dibatalkan.`,
+                                })) form?.requestSubmit()
+                              }}
+                            >
                               <Trash2 className="mr-2 h-4 w-4" />
                               Hapus Akun
                             </button>

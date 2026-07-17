@@ -13,6 +13,7 @@ import { softDeleteDocumentAction, getSignedDocumentUrlAction } from '../api/act
 import { toast } from 'sonner'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 type DocumentEntry = {
   id: string
@@ -41,9 +42,13 @@ export function DocumentList({ documents }: DocumentListProps) {
   const [isPending, startTransition] = useTransition()
   
   const pagination = useClientPagination(documents, 15)
+  const confirm = useConfirm()
 
-  const handleDelete = (id: string, title: string) => {
-    if (window.confirm(`Hapus dokumen "${title}"?`)) {
+  const handleDelete = async (id: string, title: string) => {
+    if (await confirm({
+      title: 'Hapus dokumen ini?',
+      description: `Dokumen "${title}" akan dihapus. Tindakan ini tidak dapat dibatalkan.`,
+    })) {
       startTransition(async () => {
         const result = await softDeleteDocumentAction(id)
         if (result.success) {

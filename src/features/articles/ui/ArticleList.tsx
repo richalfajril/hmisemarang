@@ -22,6 +22,7 @@ import { softDeleteArticleAction, submitArticleAction, bulkArchiveArticlesAction
 import { toast } from 'sonner'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 type ArticleWithRelations = Article & {
   category: ArticleCategory
@@ -66,10 +67,17 @@ export function ArticleList({ articles }: ArticleListProps) {
       return next
     })
 
-  const handleBulkArchive = () => {
+  const confirm = useConfirm()
+
+  const handleBulkArchive = async () => {
     const ids = [...selected]
     if (!ids.length) return
-    if (!window.confirm(`Arsipkan ${ids.length} artikel terpilih?`)) return
+    if (!(await confirm({
+      title: `Arsipkan ${ids.length} artikel?`,
+      description: 'Artikel yang dipilih akan dipindahkan ke arsip.',
+      confirmText: 'Arsipkan',
+      variant: 'default',
+    }))) return
     startTransition(async () => {
       const res = await bulkArchiveArticlesAction(ids)
       if (res.success) {
@@ -79,8 +87,11 @@ export function ArticleList({ articles }: ArticleListProps) {
     })
   }
 
-  const handleDelete = (id: string) => {
-    if (!window.confirm('Yakin ingin menghapus artikel ini?')) return
+  const handleDelete = async (id: string) => {
+    if (!(await confirm({
+      title: 'Hapus artikel ini?',
+      description: 'Artikel akan dihapus dari daftar. Tindakan ini tidak dapat dibatalkan.',
+    }))) return
 
     startTransition(async () => {
       const result = await softDeleteArticleAction(id)
@@ -92,8 +103,13 @@ export function ArticleList({ articles }: ArticleListProps) {
     })
   }
 
-  const handleSubmit = (id: string) => {
-    if (!window.confirm('Yakin ingin mengajukan artikel ini untuk di-review Cabang?')) return
+  const handleSubmit = async (id: string) => {
+    if (!(await confirm({
+      title: 'Ajukan artikel untuk review?',
+      description: 'Artikel akan dikirim ke Cabang untuk di-review.',
+      confirmText: 'Ajukan',
+      variant: 'default',
+    }))) return
 
     startTransition(async () => {
       const result = await submitArticleAction(id)

@@ -132,3 +132,53 @@
     @apply font-heading;
   }
 }
+
+/* Konten artikel (Tiptap → HTML) di dalam .prose: iframe YouTube responsif.
+   Tabel & hr sudah ditangani plugin @tailwindcss/typography. */
+.prose iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+/* Placeholder editor artikel (Tiptap extension-placeholder) — teks bantuan di baris kosong. */
+.tiptap p.is-editor-empty:first-child::before,
+.tiptap p.is-empty::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Sembunyikan placeholder saat menu sisip (+) terbuka agar tak tumpang-tindih dengan ikon. */
+.me-menu-open .tiptap p.is-editor-empty:first-child::before,
+.me-menu-open .tiptap p.is-empty::before {
+  content: none;
+}
+
+/* Caption gambar/video: placeholder saat kosong. Absolut agar kursor sebaris dgn
+   placeholder (bukan turun ke bawahnya). */
+.tiptap figcaption {
+  position: relative;
+}
+.tiptap figcaption.is-caption-empty::before {
+  content: attr(data-placeholder);
+  color: var(--muted-foreground);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+.prose figure figcaption {
+  text-align: center;
+}
+/* Gambar figure tidak dibulatkan (editor + halaman baca). */
+.prose figure[data-type='figure-image'] img {
+  border-radius: 0;
+}
+/* Caption kosong (tak diisi) tak perlu menyisakan ruang di halaman baca. */
+.prose figure figcaption:empty {
+  display: none;
+}

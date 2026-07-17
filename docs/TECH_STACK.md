@@ -351,9 +351,17 @@ Extensions:
 * Underline
 * Link
 * Image
-* Table
 * Code Block
 * YouTube Embed
+
+Paket terpasang (pinned `3.27.1`, cocok peer `@tiptap/core`):
+
+* `@tiptap/starter-kit` — Heading, Bold, Italic, **Underline**, **Link**, **Code Block**, **Horizontal Rule** (sudah terbundel v3)
+* `@tiptap/extension-image` — Image
+* `@tiptap/extension-youtube` — YouTube Embed (`setYoutubeVideo`, mem-parse URL penuh)
+* `@tiptap/extension-placeholder` — Placeholder teks di baris kosong editor
+
+Catatan: editor artikel memakai komponen `MediumEditor` (bubble menu + floating `+` menu, gaya Medium); editor agenda memakai `TiptapEditor` (toolbar statis).
 
 ---
 

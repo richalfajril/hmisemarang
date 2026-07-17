@@ -9,7 +9,7 @@ import { Input } from '@/shared/ui/Input'
 import { Label } from '@/shared/ui/Label'
 import { Textarea } from '@/shared/ui/Textarea'
 import { Combobox } from '@/shared/ui/Combobox'
-import { TiptapEditor } from '@/shared/ui/editor/TiptapEditor'
+import { MediumEditor } from '@/shared/ui/editor/MediumEditor'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
 import { Article, ArticleCategory, Tag } from '@prisma/client'
 import { Loader2, Save, AlertCircle } from 'lucide-react'
@@ -118,9 +118,25 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
           {/* Left Column: Tiptap Editor */}
           <div className="flex-1 overflow-y-auto p-6 lg:border-r border-border">
             <div className="h-full flex flex-col max-w-4xl mx-auto w-full">
+              <Label htmlFor="title" className="sr-only">Judul Artikel *</Label>
+              <div className="max-w-3xl mx-auto w-full">
+                <Input
+                  id="title"
+                  name="title"
+                  autoFocus
+                  defaultValue={state?.payload?.title || initialData?.title || ''}
+                  disabled={isPending}
+                  placeholder="Judul Artikel"
+                  required
+                  className={`h-auto border-0 bg-transparent px-0 py-2 font-heading text-[1.75rem] sm:text-[2rem] md:text-[2rem] font-bold shadow-none placeholder:text-muted-foreground/40 focus-visible:ring-0 ${state?.fieldErrors?.title ? 'text-destructive' : ''}`}
+                />
+                {state?.fieldErrors?.title && (
+                  <p className="text-xs text-destructive">{state.fieldErrors.title[0]}</p>
+                )}
+              </div>
               <Label className="sr-only">Isi Artikel *</Label>
               <div className={`flex-1 flex flex-col ${state?.fieldErrors?.content ? 'border border-destructive rounded-md' : ''}`}>
-                <TiptapEditor
+                <MediumEditor
                   value={content}
                   onChange={setContent}
                   disabled={isPending}
@@ -136,23 +152,7 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
           <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0 overflow-y-auto p-6 bg-muted/10 lg:bg-muted/30 border-t lg:border-t-0 border-border">
             <div className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="title">Judul Artikel *</Label>
-                <Input
-                  id="title"
-                  name="title"
-                  defaultValue={state?.payload?.title || initialData?.title || ''}
-                  disabled={isPending}
-                  placeholder="Contoh: Diskusi Publik Peran Mahasiswa"
-                  className={state?.fieldErrors?.title ? 'border-destructive' : 'bg-background'}
-                  required
-                />
-                {state?.fieldErrors?.title && (
-                  <p className="text-xs text-destructive">{state.fieldErrors.title[0]}</p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label>Gambar Fitur (rasio 16:9) *</Label>
+                <Label>Gambar Artikel (rasio 16:9) *</Label>
                 <div className="bg-background rounded-md overflow-hidden">
                   <ImageUploader
                     value={featuredImage}

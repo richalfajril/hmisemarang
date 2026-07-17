@@ -10,6 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Modal Konfirmasi Hapus (Global) (2026-07-18)
+* **`ConfirmProvider` + `useConfirm()`** (`shared/ui/ConfirmDialog.tsx`) — pengganti `window.confirm` bawaan browser berbasis Promise (`await confirm({ title, description, confirmText?, cancelText?, variant? })` → `boolean`). Reuse `Dialog` yang ada; varian `destructive` (default, tombol merah + ikon Trash2) & `default` (tombol primer + ikon peringatan). Provider dipasang sekali di `Providers` (`shared/lib/QueryProvider.tsx`) → tersedia di seluruh CMS.
+* **Semua 13 konfirmasi native diganti** modal UI: hapus artikel/agenda/testimoni/dokumen/album/foto/akun komisariat/jabatan/pengurus, plus arsip massal artikel & agenda dan ajukan-review artikel & agenda. Situs berbasis `<form action>` (akun komisariat, jabatan, pengurus) diubah ke tombol `type="button"` → `await confirm()` lalu `form.requestSubmit()` (menangkap `closest('form')` sebelum `await`). `DeletePeriodModal` yang sudah ada dibiarkan (pola modal per-item tersendiri).
+
+#### Editor Artikel Gaya Medium (2026-07-12)
+* **Editor baru khusus artikel** `MediumEditor` (`shared/ui/editor/MediumEditor.tsx`) menggantikan toolbar statis di halaman tulis artikel. `ArticleForm` beralih dari `TiptapEditor` → `MediumEditor` (interface `value`/`onChange`/`disabled` sama, kontrak submit tak berubah). **Editor agenda tetap `TiptapEditor`** (tak disentuh).
+* **BubbleMenu** (pill gelap saat seleksi teks): Bold, Italic, Underline, Link (input inline — Enter apply, Esc batal), Heading H2 (T besar), H3 (T kecil), Blockquote. Heading dibatasi H2/H3 (judul artikel sudah H1 — aturan 1 h1/halaman).
+* **FloatingMenu** (tombol `+` di baris kosong, data-driven agar mudah ditambah): sisip **Gambar** (upload Cloudinary via `compressImageToWebp` + `uploadMediaAction`, folder `article-content`, overlay loading), **Video/YouTube** (embed, `Youtube.setYoutubeVideo` mem-parse URL penuh), **Code block**, **Divider** (horizontal rule). Tombol toggle `+ ↔ ×`; saat menu terbuka, placeholder disembunyikan (class `me-menu-open`) agar tak tumpang-tindih ikon.
+* **Placeholder** "Tulis di sini…" (`@tiptap/extension-placeholder`) di baris kosong + CSS `.tiptap .is-empty::before` (globals.css). Kolom tulis `max-w-3xl` (= lebar kolom baca `/artikel/[slug]`, WYSIWYG). Tombol `+` placement `left` (sejajar baris teks) dan toggle `+ ↔ ×`.
+* **Judul artikel gaya Medium**: field `title` dipindah dari panel metadata → **di atas editor** (kolom tulis), besar `text-4xl font-heading` borderless, placeholder "Judul Artikel". Satu field `name="title"` (submit tak berubah).
+* **Caption gambar & video** (`FigureImage` + `FigureVideo`, custom Tiptap node): media disisip sebagai `<figure>…<figcaption/></figure>` dengan keterangan yang bisa diketik + placeholder ("Ketik keterangan gambar/video (opsional)") via React NodeView (CSS `.is-caption-empty::before`). Video: URL YouTube → embed via `getEmbedUrlFromYoutubeUrl`, iframe 16:9. Rendering publik via `prose` (figcaption rata tengah; kosong → disembunyikan). Konten `<img>`/youtube lama tetap didukung.
+* **Modal embed YouTube**: `window.prompt` diganti komponen `Dialog` (input URL + Batal/Sisipkan).
+* **Skala tipografi konsisten editor ↔ baca** (WYSIWYG): H1 28/32px, H2 24/26px, H3 20/22px, body 18px (mobile/desktop); margin heading H2/H3 = 0 (tanpa gap "enter", hanya body yang berspasi).
+* **Dependency baru**: `@tiptap/extension-youtube@^3.27.1`, `@tiptap/extension-placeholder@^3.27.1`. Underline/Link/CodeBlock/HorizontalRule sudah dari StarterKit v3. Pin ke 3.27.1 agar cocok peer `@tiptap/core`. (Table tidak dipakai — dihapus atas permintaan.)
+* **Rendering publik**: `.prose iframe` (globals.css) → embed YouTube responsif 16:9 di `/artikel/[slug]`.
+* Unsplash: **fase 2** (struktur menu `+` sudah data-driven, tinggal tambah 1 entri saat API key siap).
+
 #### Edit Akun Komisariat (2026-07-04)
 * Aksi **Edit Nama & Username** di modul Komisariat (`CommissariatAccountTable` dropdown → `EditAccountModal`). `updateCommissariatAccountAction`: validasi + cek username unik (exclude self); username berubah → update email login sintetis di Supabase (`updateUserById`, `email_confirm`); nama disinkronkan ke `Commissariat` tertaut (slug tetap → URL publik stabil). Password tidak berubah.
 

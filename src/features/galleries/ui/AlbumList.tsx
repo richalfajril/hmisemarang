@@ -13,6 +13,7 @@ import { softDeleteAlbumAction } from '../api/actions'
 import { toast } from 'sonner'
 import Image from 'next/image'
 import { getOptimizedUrl } from '@/shared/lib/cloudinary-upload'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 type AlbumEntry = {
   id: string
@@ -30,9 +31,13 @@ interface AlbumListProps {
 
 export function AlbumList({ albums }: AlbumListProps) {
   const [isPending, startTransition] = useTransition()
+  const confirm = useConfirm()
 
-  const handleDelete = (id: string, title: string) => {
-    if (window.confirm(`Hapus album "${title}" beserta isinya?`)) {
+  const handleDelete = async (id: string, title: string) => {
+    if (await confirm({
+      title: 'Hapus album ini?',
+      description: `Album "${title}" beserta seluruh isinya akan dihapus. Tindakan ini tidak dapat dibatalkan.`,
+    })) {
       startTransition(async () => {
         const result = await softDeleteAlbumAction(id)
         if (result.success) {

@@ -32,6 +32,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'sonner'
 import { EditPositionModal } from './EditPositionModal'
 import { POSITION_GROUPS, GROUP_LABELS, normalizeGroup, type PositionGroup } from './position-groups'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 import {
   Dialog,
   DialogContent,
@@ -161,6 +162,8 @@ function SortablePositionRow({ pos, onEdit }: { pos: PositionRow; onEdit: () => 
     opacity: isDragging ? 0.5 : 1,
   }
 
+  const confirm = useConfirm()
+
   return (
     <div ref={setNodeRef} style={style} className="flex items-center justify-between gap-2 bg-card px-3 py-2">
       <div className="flex min-w-0 items-center gap-2">
@@ -184,11 +187,17 @@ function SortablePositionRow({ pos, onEdit }: { pos: PositionRow; onEdit: () => 
         <form action={async (formData) => { await deletePositionAction(null, formData) }}>
           <input type="hidden" name="id" value={pos.id} />
           <Button
-            type="submit"
+            type="button"
             variant="ghost"
             size="icon"
             className="text-destructive hover:bg-destructive/10"
-            onClick={(e) => { if (!confirm(`Hapus jabatan "${pos.name}" beserta pengurusnya?`)) e.preventDefault() }}
+            onClick={async (e) => {
+              const form = e.currentTarget.closest('form')
+              if (await confirm({
+                title: 'Hapus jabatan ini?',
+                description: `Jabatan "${pos.name}" beserta seluruh pengurus di dalamnya akan dihapus. Tindakan ini tidak dapat dibatalkan.`,
+              })) form?.requestSubmit()
+            }}
           >
             <Trash2 className="h-4 w-4" />
           </Button>

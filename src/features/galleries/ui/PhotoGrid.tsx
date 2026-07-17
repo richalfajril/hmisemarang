@@ -9,6 +9,7 @@ import { getOptimizedUrl } from '@/shared/lib/cloudinary-upload'
 import { uploadSinglePhotoAction, deletePhotoAction, setAlbumCoverAction } from '../api/actions'
 import { toast } from 'sonner'
 import { Progress } from '@/shared/ui/Progress'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 type PhotoEntry = {
   id: string
@@ -26,6 +27,7 @@ export function PhotoGrid({ albumId, photos, coverImageUrl }: PhotoGridProps) {
   const [uploadProgress, setUploadProgress] = useState({ current: 0, total: 0 })
   const [loadingPhotoId, setLoadingPhotoId] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const confirm = useConfirm()
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return
@@ -62,7 +64,10 @@ export function PhotoGrid({ albumId, photos, coverImageUrl }: PhotoGridProps) {
   }
 
   const handleDelete = async (photoId: string) => {
-    if (!window.confirm('Hapus foto ini?')) return
+    if (!(await confirm({
+      title: 'Hapus foto ini?',
+      description: 'Foto akan dihapus dari album. Tindakan ini tidak dapat dibatalkan.',
+    }))) return
     setLoadingPhotoId(photoId)
     const result = await deletePhotoAction(photoId)
     setLoadingPhotoId(null)

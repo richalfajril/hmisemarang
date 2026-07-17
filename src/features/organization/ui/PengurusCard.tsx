@@ -5,6 +5,7 @@ import { Button } from '@/shared/ui/Button'
 import { Pencil, Trash2, UserRound, MousePointerClick } from 'lucide-react'
 import { deleteBoardMemberAction } from '../api/actions'
 import { getSocialIcon, FORM_SOCIAL_PLATFORMS, type SocialLink } from './social-config'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 // "Ketua Bidang X" → baris 1 "Ketua Bidang", baris 2 "X"
 function formatPosition(name: string): React.ReactNode {
@@ -42,6 +43,7 @@ export function PengurusCard({
   onEdit?: (member: PengurusCardData) => void
 }) {
   const [flipped, setFlipped] = useState(false)
+  const confirm = useConfirm()
 
   return (
     <div className="group h-full w-full transition-transform duration-300 ease-out [perspective:1000px] hover:-translate-y-2 hover:scale-[1.015]">
@@ -77,11 +79,18 @@ export function PengurusCard({
                 <form action={async (formData) => { await deleteBoardMemberAction(null, formData) }}>
                   <input type="hidden" name="id" value={member.id} />
                   <Button
-                    type="submit"
+                    type="button"
                     size="icon"
                     variant="destructive"
                     className="h-7 w-7 shadow"
-                    onClick={(e) => { e.stopPropagation(); if (!confirm(`Hapus pengurus "${member.full_name}"?`)) e.preventDefault() }}
+                    onClick={async (e) => {
+                      e.stopPropagation()
+                      const form = e.currentTarget.closest('form')
+                      if (await confirm({
+                        title: 'Hapus pengurus ini?',
+                        description: `${member.full_name} akan dihapus dari daftar pengurus. Tindakan ini tidak dapat dibatalkan.`,
+                      })) form?.requestSubmit()
+                    }}
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                   </Button>

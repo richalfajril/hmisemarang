@@ -21,6 +21,7 @@ import { MoreHorizontal, Edit, Trash2, Eye, EyeOff, Star, Quote } from 'lucide-r
 import { getOptimizedUrl } from '@/shared/lib/cloudinary-upload'
 import { deleteTestimonialAction, togglePublishTestimonialAction } from '../api/actions'
 import { EmptyState } from '@/shared/ui/EmptyState'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 type TestimonialEntry = {
   id: string
@@ -41,8 +42,13 @@ export function TestimonialList({ testimonials }: { testimonials: TestimonialEnt
     t.name.toLowerCase().includes(query.toLowerCase())
   )
 
-  const handleDelete = (id: string) => {
-    if (!window.confirm('Hapus testimoni ini? Tindakan tidak dapat dibatalkan.')) return
+  const confirm = useConfirm()
+
+  const handleDelete = async (id: string) => {
+    if (!(await confirm({
+      title: 'Hapus testimoni ini?',
+      description: 'Tindakan ini tidak dapat dibatalkan.',
+    }))) return
     startTransition(async () => {
       const res = await deleteTestimonialAction(id)
       if (res.success) toast.success(res.message)

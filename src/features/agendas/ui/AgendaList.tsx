@@ -21,6 +21,7 @@ import { softDeleteAgendaAction, submitAgendaAction, bulkArchiveAgendasAction } 
 import { toast } from 'sonner'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
+import { useConfirm } from '@/shared/ui/ConfirmDialog'
 
 interface AgendaListProps {
   agendas: Agenda[]
@@ -60,10 +61,17 @@ export function AgendaList({ agendas }: AgendaListProps) {
       return next
     })
 
-  const handleBulkArchive = () => {
+  const confirm = useConfirm()
+
+  const handleBulkArchive = async () => {
     const ids = [...selected]
     if (!ids.length) return
-    if (!window.confirm(`Arsipkan ${ids.length} agenda terpilih?`)) return
+    if (!(await confirm({
+      title: `Arsipkan ${ids.length} agenda?`,
+      description: 'Agenda yang dipilih akan dipindahkan ke arsip.',
+      confirmText: 'Arsipkan',
+      variant: 'default',
+    }))) return
     startTransition(async () => {
       const res = await bulkArchiveAgendasAction(ids)
       if (res.success) {
@@ -73,8 +81,11 @@ export function AgendaList({ agendas }: AgendaListProps) {
     })
   }
 
-  const handleDelete = (agendaId: string) => {
-    if (!window.confirm('Yakin ingin menghapus agenda ini?')) return
+  const handleDelete = async (agendaId: string) => {
+    if (!(await confirm({
+      title: 'Hapus agenda ini?',
+      description: 'Agenda akan dihapus dari daftar. Tindakan ini tidak dapat dibatalkan.',
+    }))) return
 
     startTransition(async () => {
       const result = await softDeleteAgendaAction(agendaId)
@@ -86,8 +97,13 @@ export function AgendaList({ agendas }: AgendaListProps) {
     })
   }
 
-  const handleSubmit = (agendaId: string) => {
-    if (!window.confirm('Yakin ingin mengajukan agenda ini untuk di-review Cabang?')) return
+  const handleSubmit = async (agendaId: string) => {
+    if (!(await confirm({
+      title: 'Ajukan agenda untuk review?',
+      description: 'Agenda akan dikirim ke Cabang untuk di-review.',
+      confirmText: 'Ajukan',
+      variant: 'default',
+    }))) return
 
     startTransition(async () => {
       const result = await submitAgendaAction(agendaId)

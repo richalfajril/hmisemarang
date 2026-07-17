@@ -110,7 +110,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
               {article.category.name}
             </span>
           )}
-          <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl">
+          <h1 className="mt-4 text-[1.75rem] font-bold leading-tight tracking-tight text-foreground sm:text-[2rem]">
             {article.title}
           </h1>
 
@@ -148,7 +148,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
         {/* Konten */}
         <div
-          className="prose prose-lg prose-emerald mt-10 max-w-none prose-headings:font-bold prose-a:text-primary prose-img:rounded-xl"
+          className="prose prose-lg prose-emerald mt-10 max-w-none prose-headings:font-bold prose-h2:text-2xl sm:prose-h2:text-[1.625rem] prose-h2:mt-0 prose-h2:mb-0 prose-h3:text-xl sm:prose-h3:text-[1.375rem] prose-h3:mt-0 prose-h3:mb-0 prose-a:text-primary prose-img:rounded-xl"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
