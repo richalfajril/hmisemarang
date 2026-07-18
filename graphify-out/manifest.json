@@ -385,8 +385,8 @@
     "semantic_hash": "3764db7f2dbd35f3ae3bd881459b12da"
   },
   "src/entities/article/model/schema.ts": {
-    "mtime": 1784353269.5677671,
-    "ast_hash": "f32c2cc9f1f46f79d4a84ce1401c3277",
+    "mtime": 1784355287.767952,
+    "ast_hash": "6b9457f4eb17b4facffd50d58788b384",
     "semantic_hash": ""
   },
   "src/entities/commissariat/model/cadre-verification-schema.ts": {
@@ -1460,8 +1460,8 @@
     "semantic_hash": "96ec12575ad2d74613ef3765c9abf4a7"
   },
   "docs/CHANGELOG.md": {
-    "mtime": 1784353419.6312582,
-    "ast_hash": "64f3d835b6178140ab47ff9940b6c9a4",
+    "mtime": 1784355310.6543305,
+    "ast_hash": "28e312bd281428f37efbcd9742efdbf5",
     "semantic_hash": ""
   },
   "docs/DATABASE_SCHEMA.md": {

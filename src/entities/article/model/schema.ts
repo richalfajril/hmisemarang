@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const articleSchema = z.object({
   title: z.string().min(1, 'Judul wajib diisi.').max(120, 'Judul maksimal 120 karakter.'),
-  slug: z.string().optional(), // Server will generate if empty
+  slug: z.string().optional().nullable(), // Form tak punya input slug → kirim null; server generate dari judul
   excerpt: z.string().max(255, 'Excerpt maksimal 255 karakter.').optional().nullable(),
   content: z.string().min(50, 'Konten artikel minimal 50 karakter.'),
   featured_image_url: z.string().min(1, 'Gambar fitur wajib diunggah.'),

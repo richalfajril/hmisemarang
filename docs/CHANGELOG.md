@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Fixed
+
+#### Simpan Artikel Selalu Gagal Validasi "Slug" (2026-07-18)
+* **Akar penyebab** "Gagal memvalidasi form" saat simpan artikel: `articleSchema.slug` = `z.string().optional()` menolak `null`, sedangkan `ArticleForm` (tak punya input slug — slug di-generate dari judul) mengirim `null` via `formData.get('slug')`. Diperbaiki jadi `.optional().nullable()`. Action tetap `finalSlug = data.slug || generateSlug(data.title)`. (Reproduksi awal keliru lolos karena memakai `slug: ''` alih-alih `null`; banner "Periksa: Slug" yang baru mengungkap field sebenarnya.)
+
 ### Added
 
 #### Keterangan (Caption) Gambar Utama Artikel (2026-07-18)
