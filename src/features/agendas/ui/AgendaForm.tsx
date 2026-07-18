@@ -25,6 +25,19 @@ function formatDatetimeForInput(date?: Date | null) {
   return format(new Date(date), "yyyy-MM-dd'T'HH:mm")
 }
 
+/** Label ramah-pengguna per field agar banner error menyebut field yang gagal, bukan hanya pesan umum. */
+const FIELD_LABELS: Record<string, string> = {
+  title: 'Judul',
+  slug: 'Slug',
+  start_datetime: 'Waktu Mulai',
+  end_datetime: 'Waktu Berakhir',
+  short_description: 'Deskripsi Singkat',
+  description: 'Deskripsi Lengkap',
+  location_name: 'Nama Lokasi',
+  location_url: 'URL Lokasi',
+  flyer_url: 'Flyer Acara',
+}
+
 export function AgendaForm({ initialData }: AgendaFormProps) {
   const [state, formAction, isPending] = useActionState(saveAgendaDraftAction, initialActionState)
   const [description, setDescription] = useState(initialData?.description || '')
@@ -47,9 +60,16 @@ export function AgendaForm({ initialData }: AgendaFormProps) {
       </PageHeader>
 
       {!state?.success && state?.message && (
-        <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive animate-in slide-in-from-top-2">
-          <AlertCircle className="h-4 w-4 shrink-0" />
-          <p>{state.message}</p>
+        <div className="flex items-start gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive animate-in slide-in-from-top-2">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+          <div>
+            <p>{state.message}</p>
+            {state.fieldErrors && Object.keys(state.fieldErrors).length > 0 && (
+              <p className="mt-1">
+                Periksa: <span className="font-semibold">{Object.keys(state.fieldErrors).map((k) => FIELD_LABELS[k] ?? k).join(', ')}</span>
+              </p>
+            )}
+          </div>
         </div>
       )}
 

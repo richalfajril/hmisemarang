@@ -191,6 +191,7 @@ model Article {
   excerpt             String?       @db.Text
   content             String        @db.Text
   featured_image_url  String?
+  featured_image_caption String?
   author_name         String?
   author_image_url    String?
   author_commissariat String?

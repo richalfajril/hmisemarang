@@ -137,9 +137,14 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
         {/* Cover */}
         {article.featured_image_url ? (
-          <div className="relative mt-8 aspect-[16/9] w-full overflow-hidden bg-emerald-950">
-            <Image src={article.featured_image_url} alt={article.title} fill className="object-cover" sizes="720px" priority />
-          </div>
+          <figure className="mt-8">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-emerald-950">
+              <Image src={article.featured_image_url} alt={article.featured_image_caption || article.title} fill className="object-cover" sizes="720px" priority />
+            </div>
+            {article.featured_image_caption && (
+              <figcaption className="mt-2 text-center text-sm italic text-muted-foreground">{article.featured_image_caption}</figcaption>
+            )}
+          </figure>
         ) : (
           <div className="mt-8 flex aspect-[16/9] w-full items-center justify-center bg-emerald-950 text-white/30">
             <Newspaper className="h-12 w-12" />

@@ -1,7 +1,8 @@
 'use client'
 
-import { useActionState, useState, useEffect } from 'react'
+import { useActionState, useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { saveArticleDraftAction } from '../api/actions'
 import { initialActionState } from '@/shared/lib/action-state'
 import { Button } from '@/shared/ui/Button'
@@ -34,10 +35,25 @@ function toLocalInput(d?: Date | string | null): string {
   return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}T${pad(dt.getHours())}:${pad(dt.getMinutes())}`
 }
 
+/** Label ramah-pengguna per field agar banner error menyebut field yang gagal, bukan hanya pesan umum. */
+const FIELD_LABELS: Record<string, string> = {
+  title: 'Judul',
+  slug: 'Slug',
+  excerpt: 'Ringkasan',
+  content: 'Isi Artikel',
+  featured_image_url: 'Gambar Artikel',
+  category_id: 'Kategori',
+  author_name: 'Nama Penulis',
+  author_image_url: 'Foto Penulis',
+  author_commissariat: 'Asal Komisariat',
+  tag_ids: 'Tag',
+}
+
 export function ArticleForm({ initialData, categories, userRole, userCommissariatId, commissariats = [] }: ArticleFormProps) {
   const [state, formAction, isPending] = useActionState(saveArticleDraftAction, initialActionState)
   const [content, setContent] = useState(initialData?.content || '')
   const [featuredImage, setFeaturedImage] = useState(initialData?.featured_image_url || '')
+  const [imageCaption, setImageCaption] = useState(initialData?.featured_image_caption || '')
   const [categoryId, setCategoryId] = useState(initialData?.category_id || '')
   const [authorCommissariat, setAuthorCommissariat] = useState(initialData?.author_commissariat || '')
   const [authorImage, setAuthorImage] = useState(initialData?.author_image_url || '')
@@ -45,6 +61,19 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
   const [manualDate, setManualDate] = useState(false)
   const [pubDate, setPubDate] = useState(toLocalInput(initialData?.published_at))
   const router = useRouter()
+  const titleRef = useRef<HTMLTextAreaElement>(null)
+
+  // Judul auto-tinggi: teks panjang menambah baris ke bawah, bukan scroll horizontal.
+  const autoGrowTitle = useCallback(() => {
+    const el = titleRef.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  }, [])
+
+  useEffect(() => {
+    autoGrowTitle()
+  }, [autoGrowTitle, state])
 
   useEffect(() => {
     if (state?.success) {
@@ -93,9 +122,16 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
           </PageHeader>
 
           {!state?.success && state?.message && (
-            <div className="mt-4 flex items-center gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive animate-in slide-in-from-top-2">
-              <AlertCircle className="h-4 w-4 shrink-0" />
-              <p>{state.message}</p>
+            <div className="mt-4 flex items-start gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive animate-in slide-in-from-top-2">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <div>
+                <p>{state.message}</p>
+                {state.fieldErrors && Object.keys(state.fieldErrors).length > 0 && (
+                  <p className="mt-1">
+                    Periksa: <span className="font-semibold">{Object.keys(state.fieldErrors).map((k) => FIELD_LABELS[k] ?? k).join(', ')}</span>
+                  </p>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -120,20 +156,46 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
             <div className="h-full flex flex-col max-w-4xl mx-auto w-full">
               <Label htmlFor="title" className="sr-only">Judul Artikel *</Label>
               <div className="max-w-3xl mx-auto w-full">
-                <Input
+                <textarea
+                  ref={titleRef}
                   id="title"
                   name="title"
+                  rows={1}
                   autoFocus
                   defaultValue={state?.payload?.title || initialData?.title || ''}
                   disabled={isPending}
                   placeholder="Judul Artikel"
                   required
-                  className={`h-auto border-0 bg-transparent px-0 py-2 font-heading text-[1.75rem] sm:text-[2rem] md:text-[2rem] font-bold shadow-none placeholder:text-muted-foreground/40 focus-visible:ring-0 ${state?.fieldErrors?.title ? 'text-destructive' : ''}`}
+                  onInput={autoGrowTitle}
+                  className={`w-full resize-none overflow-hidden border-0 bg-transparent px-0 py-2 font-heading text-[1.75rem] leading-tight font-bold shadow-none outline-none placeholder:text-muted-foreground/40 focus-visible:ring-0 sm:text-[2rem] ${state?.fieldErrors?.title ? 'text-destructive' : ''}`}
                 />
                 {state?.fieldErrors?.title && (
                   <p className="text-xs text-destructive">{state.fieldErrors.title[0]}</p>
                 )}
               </div>
+              {featuredImage && (
+                <div className="mx-auto mt-2 w-full max-w-3xl">
+                  <div className="relative aspect-video w-full overflow-hidden border border-border">
+                    <Image
+                      src={featuredImage}
+                      alt={imageCaption || 'Pratinjau gambar artikel'}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 768px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    name="featured_image_caption"
+                    value={imageCaption}
+                    onChange={(e) => setImageCaption(e.target.value)}
+                    disabled={isPending}
+                    maxLength={255}
+                    placeholder="Tambahkan keterangan gambar (opsional)"
+                    className="mt-2 w-full border-0 bg-transparent text-center text-sm italic text-muted-foreground shadow-none outline-none placeholder:text-muted-foreground/50 focus-visible:ring-0"
+                  />
+                </div>
+              )}
               <Label className="sr-only">Isi Artikel *</Label>
               <div className={`flex-1 flex flex-col ${state?.fieldErrors?.content ? 'border border-destructive rounded-md' : ''}`}>
                 <MediumEditor

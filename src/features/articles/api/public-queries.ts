@@ -88,6 +88,7 @@ export const getPopularArticles = cache(async (take = 8): Promise<PublicArticle[
 export type PublicArticleDetail = PublicArticle & {
   content: string
   tags: string[]
+  featured_image_caption?: string | null
 }
 
 /** Detail artikel by slug (published). */
@@ -95,7 +96,7 @@ export const getArticleBySlug = cache(async (slug: string): Promise<PublicArticl
   try {
     const a = await prisma.article.findFirst({
       where: { slug, status: 'PUBLISHED', deleted_at: null },
-      select: { ...SELECT, tags: { select: { name: true } } },
+      select: { ...SELECT, featured_image_caption: true, tags: { select: { name: true } } },
     })
     if (!a) {
       // Fallback: slug cocok dengan data dummy → detail sintetis (excerpt jadi konten).

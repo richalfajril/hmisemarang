@@ -430,9 +430,9 @@
     "semantic_hash": "38a2fa8c415fabc7b1d24b961cb85f20"
   },
   "src/features/agendas/ui/AgendaForm.tsx": {
-    "mtime": 1782608670.4051409,
-    "ast_hash": "d726414dbcc03bd5770eb16a1480d849",
-    "semantic_hash": "d726414dbcc03bd5770eb16a1480d849"
+    "mtime": 1784352306.635072,
+    "ast_hash": "c5d36c6abe5b04785d7376ebe86a4015",
+    "semantic_hash": ""
   },
   "src/features/agendas/ui/AgendaGrid.tsx": {
     "mtime": 1783218712.6331167,
@@ -440,9 +440,9 @@
     "semantic_hash": "2e733bd4847c7bd83b904693e4482859"
   },
   "src/features/agendas/ui/AgendaList.tsx": {
-    "mtime": 1783045357.886454,
-    "ast_hash": "6569c883b7ea02a3caf19a4d67ca44e1",
-    "semantic_hash": "6569c883b7ea02a3caf19a4d67ca44e1"
+    "mtime": 1784331099.6791782,
+    "ast_hash": "c8dca7e327b0596c7834390bb8c37eda",
+    "semantic_hash": ""
   },
   "src/features/articles/api/actions.ts": {
     "mtime": 1783687207.5705569,
@@ -465,14 +465,14 @@
     "semantic_hash": "f5c92712a3a06709f08f768936c4ccd5"
   },
   "src/features/articles/ui/ArticleForm.tsx": {
-    "mtime": 1784307024.4913352,
-    "ast_hash": "9035159ab2a02468bd99247e74ef9e35",
-    "semantic_hash": "9035159ab2a02468bd99247e74ef9e35"
+    "mtime": 1784352547.7825422,
+    "ast_hash": "080d44ab33175a8edbb0aecad199f00f",
+    "semantic_hash": ""
   },
   "src/features/articles/ui/ArticleList.tsx": {
-    "mtime": 1783045216.2371788,
-    "ast_hash": "b9d61fc230b7ed03df09b6fb858cf433",
-    "semantic_hash": "b9d61fc230b7ed03df09b6fb858cf433"
+    "mtime": 1784331078.3124008,
+    "ast_hash": "fbfe6cb77377470bea9f1f8ca52b8b1b",
+    "semantic_hash": ""
   },
   "src/features/articles/ui/ArticleListGrid.tsx": {
     "mtime": 1783218498.2086847,
@@ -535,9 +535,9 @@
     "semantic_hash": "e7c82c450daa74dccefa880750473ca5"
   },
   "src/features/commissariat-accounts/ui/CommissariatAccountTable.tsx": {
-    "mtime": 1783170875.024316,
-    "ast_hash": "75298a5597a4a60e6fa116fba8b98d54",
-    "semantic_hash": "75298a5597a4a60e6fa116fba8b98d54"
+    "mtime": 1784331195.2103689,
+    "ast_hash": "282d9c500bc450f0332554f4c9218e3a",
+    "semantic_hash": ""
   },
   "src/features/commissariat-accounts/ui/CreateAccountModal.tsx": {
     "mtime": 1782956689.8170478,
@@ -600,9 +600,9 @@
     "semantic_hash": "975af79c1789d8eb69fd4eb9c5c5108e"
   },
   "src/features/documents/ui/DocumentList.tsx": {
-    "mtime": 1782966004.9836605,
-    "ast_hash": "bb896aced05d9c9af3683b67e5c034b1",
-    "semantic_hash": "bb896aced05d9c9af3683b67e5c034b1"
+    "mtime": 1784331127.6713722,
+    "ast_hash": "ad2a35e0e2b04b1ea7c0c03126b5be83",
+    "semantic_hash": ""
   },
   "src/features/documents/ui/DocumentSearchBox.tsx": {
     "mtime": 1782963987.6146278,
@@ -625,9 +625,9 @@
     "semantic_hash": "e8bb37a0b018f764dd0bab5d7381bf0a"
   },
   "src/features/galleries/ui/AlbumList.tsx": {
-    "mtime": 1782076944.2808006,
-    "ast_hash": "680fe48048ca8c63193457086fc177bd",
-    "semantic_hash": "680fe48048ca8c63193457086fc177bd"
+    "mtime": 1784331141.121314,
+    "ast_hash": "53372d9a8c0f10cf7dea5c3223620388",
+    "semantic_hash": ""
   },
   "src/features/galleries/ui/GalleryBento.tsx": {
     "mtime": 1783221162.211331,
@@ -635,9 +635,9 @@
     "semantic_hash": "6b0e7ad60c79705c20d2dcc183f17b7e"
   },
   "src/features/galleries/ui/PhotoGrid.tsx": {
-    "mtime": 1782625862.9634216,
-    "ast_hash": "83387f92e51eb036608151b0ff8e28f3",
-    "semantic_hash": "83387f92e51eb036608151b0ff8e28f3"
+    "mtime": 1784331164.8699112,
+    "ast_hash": "bbb74096945d5199bea5ecf882b32d15",
+    "semantic_hash": ""
   },
   "src/features/media-cleanup/api/actions.ts": {
     "mtime": 1783045553.315046,
@@ -695,14 +695,14 @@
     "semantic_hash": "2b08673e1ad581ec3a9793619d179777"
   },
   "src/features/organization/ui/KelolaJabatanModal.tsx": {
-    "mtime": 1783098009.0233006,
-    "ast_hash": "d4db014658647a25cc37bb52a51b9d3b",
-    "semantic_hash": "d4db014658647a25cc37bb52a51b9d3b"
+    "mtime": 1784331224.9656925,
+    "ast_hash": "3f6328ad9f6287e0e2cbe1b6f449aa66",
+    "semantic_hash": ""
   },
   "src/features/organization/ui/PengurusCard.tsx": {
-    "mtime": 1783220333.9308984,
-    "ast_hash": "d80ad30fa62d87aa3459086c73daab66",
-    "semantic_hash": "d80ad30fa62d87aa3459086c73daab66"
+    "mtime": 1784331250.8957696,
+    "ast_hash": "0011b6e75016cca21cf3d208c5258765",
+    "semantic_hash": ""
   },
   "src/features/organization/ui/PeriodList.tsx": {
     "mtime": 1782966054.4829857,
@@ -790,9 +790,9 @@
     "semantic_hash": "04ca76b51811fb2a4c070a74ef891e54"
   },
   "src/features/testimonial-management/ui/TestimonialList.tsx": {
-    "mtime": 1782635394.3859565,
-    "ast_hash": "a196359cf79f198866ebeb511d4407b9",
-    "semantic_hash": "a196359cf79f198866ebeb511d4407b9"
+    "mtime": 1784331114.1901224,
+    "ast_hash": "96b8f20706eb6c9a55bbdde3b081b61c",
+    "semantic_hash": ""
   },
   "src/features/user-management/api/actions.ts": {
     "mtime": 1782911275.3631682,
@@ -880,9 +880,9 @@
     "semantic_hash": "daad5e65508a51f138bf1265335d6e43"
   },
   "src/shared/lib/QueryProvider.tsx": {
-    "mtime": 1782971497.2848911,
-    "ast_hash": "f292c9e304b5bf9df0cf68bc15c58c1b",
-    "semantic_hash": "f292c9e304b5bf9df0cf68bc15c58c1b"
+    "mtime": 1784331059.0178993,
+    "ast_hash": "a287830c567a56e0cba94e24c8b5c57d",
+    "semantic_hash": ""
   },
   "src/shared/lib/action-state.ts": {
     "mtime": 1782151279.5536718,
@@ -1460,9 +1460,9 @@
     "semantic_hash": "96ec12575ad2d74613ef3765c9abf4a7"
   },
   "docs/CHANGELOG.md": {
-    "mtime": 1784080604.6567068,
-    "ast_hash": "7e4d30944cdc12dbb06f80ed1d586dbc",
-    "semantic_hash": "7e4d30944cdc12dbb06f80ed1d586dbc"
+    "mtime": 1784352580.9498315,
+    "ast_hash": "a637f987fbc61529ca7c82219c0bc356",
+    "semantic_hash": ""
   },
   "docs/DATABASE_SCHEMA.md": {
     "mtime": 1782165082.453412,
@@ -1793,5 +1793,10 @@
     "mtime": 1782012903.3673666,
     "ast_hash": "a2760511c65806022ad20adf74370ff3",
     "semantic_hash": "a2760511c65806022ad20adf74370ff3"
+  },
+  "src/shared/ui/ConfirmDialog.tsx": {
+    "mtime": 1784331047.7568493,
+    "ast_hash": "1b8e8fd2cbd95190cb0565a12c74e63a",
+    "semantic_hash": ""
   }
 }

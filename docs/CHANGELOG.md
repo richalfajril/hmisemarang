@@ -10,6 +10,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+#### Keterangan (Caption) Gambar Utama Artikel (2026-07-18)
+* Kolom baru **`featured_image_caption String?`** di tabel `articles` (via `prisma db push`, DATABASE_SCHEMA.md diperbarui) + `featured_image_caption` di `articleSchema` (`z.string().max(255).optional().nullable()`), dibaca & disimpan `saveArticleDraftAction` (create & update).
+* **Input caption inline gaya Medium** di `ArticleForm` — muncul tepat di bawah preview gambar utama (rata tengah, italic, placeholder "Tambahkan keterangan gambar (opsional)"), reaktif ke state, opsional.
+* **Render publik**: `<figcaption>` di bawah cover artikel (`/artikel/[slug]`) bila caption terisi; juga dipakai sebagai `alt` gambar. `PublicArticleDetail` + select `getArticleBySlug` menambah field ini (opsional agar fallback dummy tak berubah).
+
+### Changed
+
+#### Kutipan Artikel Pakai Times New Roman Italic (2026-07-18)
+* CSS `.prose blockquote` (+ turunannya) di globals.css — kutipan/blockquote konten artikel dirender **Times New Roman, regular (400), italic** di editor & halaman baca. Selector ke turunan memaksa bold penulis di dalam kutipan ikut regular.
+
+#### Warna Body + Heading Konten Artikel Jadi Hitam Pekat (2026-07-18)
+* CSS `html:not(.dark) .prose { --tw-prose-body: #000000; --tw-prose-headings: #000000 }` (globals.css) — teks body & heading konten artikel di editor & halaman baca (`/artikel/[slug]`) jadi hitam pekat pada mode terang. Mode gelap tetap pakai `prose-invert` (tidak disentuh). Link tak diubah.
+
+#### Jarak Antar Item Daftar Artikel Dirapatkan (2026-07-18)
+* CSS `.prose :is(ol,ul) > li` & `.prose li > p` (globals.css) — jarak antar item daftar bernomor/bullet di konten artikel dikurangi jadi ≈ sepertiga default typography (li 0.5em→0.167em, paragraf dalam li 0.75em→0.25em). Berlaku di editor & halaman baca (`/artikel/[slug]`).
+
+#### Editor Artikel: Judul Auto-Tinggi + Preview Gambar (2026-07-18)
+* **Judul artikel** di `ArticleForm` diubah dari `<Input>` (satu baris, scroll horizontal) → `<textarea>` auto-tinggi (`rows=1` + `resize-none overflow-hidden`, tinggi menyesuaikan `scrollHeight` saat mount & `onInput`). Teks judul panjang kini menambah baris ke bawah, bukan scroll ke samping. `name="title"` & kontrak submit tak berubah.
+* **Gambar Artikel** (featured image) yang berhasil diunggah via uploader (panel kanan) kini juga tampil sebagai **pratinjau di editor, tepat di bawah judul** (aspect-video, `next/image`, gaya cover Medium). Reaktif terhadap state `featuredImage` — unggah/ganti/hapus langsung terlihat.
+
+#### Banner Error Form Menyebut Field yang Gagal (2026-07-18)
+* Banner error di `ArticleForm` & `AgendaForm` kini menampilkan baris **"Periksa: <field>"** (mis. "Periksa: Isi Artikel, Kategori") dari `state.fieldErrors`, dipetakan ke label ramah-pengguna. Sebelumnya hanya pesan umum "Gagal memvalidasi form…" sehingga user tak tahu field mana yang salah padahal terasa "sudah terisi semua" (penyebab tersering: isi artikel < 50 karakter atau kategori belum dipilih). Pesan inline per-field tetap ada.
+
+### Added
+
 #### Modal Konfirmasi Hapus (Global) (2026-07-18)
 * **`ConfirmProvider` + `useConfirm()`** (`shared/ui/ConfirmDialog.tsx`) — pengganti `window.confirm` bawaan browser berbasis Promise (`await confirm({ title, description, confirmText?, cancelText?, variant? })` → `boolean`). Reuse `Dialog` yang ada; varian `destructive` (default, tombol merah + ikon Trash2) & `default` (tombol primer + ikon peringatan). Provider dipasang sekali di `Providers` (`shared/lib/QueryProvider.tsx`) → tersedia di seluruh CMS.
 * **Semua 13 konfirmasi native diganti** modal UI: hapus artikel/agenda/testimoni/dokumen/album/foto/akun komisariat/jabatan/pengurus, plus arsip massal artikel & agenda dan ajukan-review artikel & agenda. Situs berbasis `<form action>` (akun komisariat, jabatan, pengurus) diubah ke tombol `type="button"` → `await confirm()` lalu `form.requestSubmit()` (menangkap `closest('form')` sebelum `await`). `DeletePeriodModal` yang sudah ada dibiarkan (pola modal per-item tersendiri).

@@ -299,6 +299,8 @@ Fields:
 
 * featured_image_url
 
+* featured_image_caption
+
 * author_name
 
 * author_commissariat

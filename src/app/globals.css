@@ -182,3 +182,31 @@
 .prose figure figcaption:empty {
   display: none;
 }
+
+/* Rapatkan jarak antar item daftar (bernomor/bullet) ≈ sepertiga default typography.
+   Default prose-lg: li 0.5em, paragraf dalam li 0.75em → dibuat sepertiganya. */
+.prose :is(ol, ul) > li {
+  margin-top: 0.167em;
+  margin-bottom: 0.167em;
+}
+.prose li > p {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+}
+
+/* Warna teks body + heading konten artikel = hitam pekat (#000) di editor & halaman baca.
+   Hanya mode terang; mode gelap dibiarkan pakai prose-invert agar tetap terbaca. */
+html:not(.dark) .prose {
+  --tw-prose-body: #000000;
+  --tw-prose-headings: #000000;
+}
+
+/* Kutipan (blockquote) konten artikel: Times New Roman, regular, italic (editor + baca).
+   !important untuk menang atas font-weight/style bawaan plugin typography (@tailwindcss/typography,
+   di cascade layer) dan bold yang diterapkan penulis di dalam kutipan. */
+.prose blockquote,
+.prose blockquote * {
+  font-family: "Times New Roman", Times, serif !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+}
