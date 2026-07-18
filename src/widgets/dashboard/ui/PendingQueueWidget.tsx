@@ -31,10 +31,6 @@ export async function PendingQueueWidget() {
           <span className="text-muted-foreground">Kader</span>
           <span className="font-medium">{stats.verifications}</span>
         </div>
-        <div className="flex justify-between items-center bg-background/50 p-2 rounded text-sm">
-          <span className="text-muted-foreground">Profil</span>
-          <span className="font-medium">{stats.profiles}</span>
-        </div>
       </div>
       <Link href="/dashboard/review-center" prefetch>
         <Button className="w-full" variant="outline">

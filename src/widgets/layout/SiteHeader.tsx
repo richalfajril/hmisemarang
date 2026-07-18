@@ -15,7 +15,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/dashboard/review-center': 'Review Center',
   '/dashboard/users': 'Manajemen Pengguna',
   '/dashboard/cadre-verification': 'Verifikasi Kader',
-  '/dashboard/organization': 'Organisasi',
+  '/dashboard/organization': 'Struktur Organisasi',
   '/dashboard/taxonomy': 'Taksonomi',
   '/dashboard/notifications': 'Notifikasi',
   '/dashboard/settings': 'Pengaturan',

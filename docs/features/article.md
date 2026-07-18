@@ -12,7 +12,11 @@ Menyediakan modul pengelolaan publikasi artikel berita, opini, dan kajian untuk 
 1. Pengguna membuka `/dashboard/articles`.
 2. Klik "Buat Artikel" untuk masuk ke Tiptap Editor.
 3. Isi judul, konten, unggah *thumbnail* (16:9), dan pilih kategori.
-4. Simpan sebagai Draf atau ajukan peninjauan (*Submit for Review*).
+4. Klik **"Simpan Draf"** → validasi field wajib di klien → **pratinjau full-screen** (memakai `ArticleReadingView`, tampilan identik halaman baca).
+5. Di pratinjau: **Edit** (tutup, kembali ke form, data utuh — belum tersimpan) atau aksi final per peran:
+   * `ADMIN_CABANG` / `SYSTEM_ADMIN` → **Publish**: langsung berstatus `PUBLISHED` (tampil di web depan, `approved_at/by` = diri sendiri).
+   * `ADMIN_KOMISARIAT` → **Ajukan Draf**: berstatus `SUBMITTED`, masuk antre review Cabang.
+   * Persistensi ke DB **hanya** saat aksi final (tak ada draf perantara).
 
 ## Requirements
 * Artikel wajib memiliki Judul, Konten Tiptap, Kategori, dan *Featured Image*.
@@ -28,11 +32,11 @@ Menyediakan modul pengelolaan publikasi artikel berita, opini, dan kajian untuk 
 
 ## Permissions
 * `ADMIN_KOMISARIAT` dapat Membuat, Mengedit, Soft Delete, dan Submit artikel milik komisariat mereka sendiri (Scoped Access).
-* `ADMIN_CABANG` dapat Mengedit dan melakukan *Soft Delete* seluruh artikel.
-* `ADMIN_KOMISARIAT` dilarang melakukan *Direct Publish*.
+* `ADMIN_CABANG` dan `SYSTEM_ADMIN` dapat Mengedit, *Soft Delete*, dan **Direct Publish** (dari pratinjau, tanpa antre review).
+* `ADMIN_KOMISARIAT` dilarang melakukan *Direct Publish* (dipaksa `SUBMITTED` di server meski `target_status` di-*tamper*).
 
 ## Workflow
-`Draft` → `Submitted` → `Revision` → `Approved` → `Published` (Alur transisi status dan pencatatan riwayat peninjauan ditangani oleh modul `content-review`).
+`Draft` → `Submitted` → `Revision` → `Approved` → `Published` (transisi status & riwayat peninjauan ditangani modul `content-review`). **Jalur cepat Cabang/System Admin:** dari pratinjau tulis artikel langsung ke `Published` tanpa antre review.
 
 ## Data Dependencies
 * `article` entity.
@@ -58,6 +62,6 @@ Log aktivitas untuk aksi:
 * Pratinjau rasio *Featured Image* sebelum diunggah.
 
 ## Acceptance Criteria
-* Artikel yang baru dibuat secara *default* berstatus `DRAFT`.
+* Artikel baru disimpan lewat pratinjau: `PUBLISHED` (Cabang/System Admin) atau `SUBMITTED` (Komisariat) — bukan `DRAFT` perantara. Status `DRAFT` hanya muncul dari hasil revisi/penolakan di `content-review`.
 * Artikel yang telah di-*publish* muncul di *Website Public* (`/artikel/[slug]`) dengan URL ramah-SEO.
 * *Soft deleted* artikel hilang seketika dari visibilitas *Website Public*.

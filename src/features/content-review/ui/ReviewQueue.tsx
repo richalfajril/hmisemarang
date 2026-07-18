@@ -55,7 +55,7 @@ export function ReviewQueue({ articles, agendas, verifications = [] }: ReviewQue
                     </span>
                   </div>
                   <CardTitle className="text-lg line-clamp-2">{article.title}</CardTitle>
-                  <CardDescription>{article.commissariat.name}</CardDescription>
+                  <CardDescription>{[article.author_name, article.commissariat.name].filter(Boolean).join(' - ')}</CardDescription>
                 </CardHeader>
                 <CardContent className="mt-auto pt-4 flex justify-end">
                   <Link href={`/dashboard/review-center/ARTICLE/${article.id}`} prefetch>

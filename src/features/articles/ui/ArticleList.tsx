@@ -173,7 +173,7 @@ export function ArticleList({ articles }: ArticleListProps) {
                 <TableCell>{rowIndex}</TableCell>
                 <TableCell className="max-w-[150px] sm:max-w-[200px] md:max-w-[300px]">
                   <div className="font-bold text-base truncate" title={article.title}>{article.title}</div>
-                  <div className="text-xs text-muted-foreground truncate" title={article.commissariat.name}>{article.commissariat.name}</div>
+                  <div className="text-xs text-muted-foreground truncate" title={[article.author_name, article.commissariat.name].filter(Boolean).join(' - ')}>{[article.author_name, article.commissariat.name].filter(Boolean).join(' - ')}</div>
                 </TableCell>
                 <TableCell>{article.category.name}</TableCell>
                 <TableCell>

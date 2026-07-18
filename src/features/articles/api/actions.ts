@@ -66,6 +66,14 @@ export async function saveArticleDraftAction(
       if (!isNaN(d.getTime())) scheduledAt = d
     }
 
+    // Status target dari tombol pratinjau: Cabang/Admin → PUBLISHED (publish langsung),
+    // Komisariat → SUBMITTED (diajukan ke Cabang). Nilai lain dipaksa aman per peran.
+    const now = new Date()
+    const targetStatus: ArticleStatus =
+      canSchedule && formData.get('target_status') === 'PUBLISHED'
+        ? ArticleStatus.PUBLISHED
+        : ArticleStatus.SUBMITTED
+
     const finalSlug = data.slug || generateSlug(data.title)
 
     // Check if slug already exists (excluding current article if editing)
@@ -119,7 +127,10 @@ export async function saveArticleDraftAction(
           author_image_url: data.author_image_url || null,
           author_commissariat: data.author_commissariat,
           updated_by: session.user.id,
-          ...(scheduledAt ? { published_at: scheduledAt } : {}),
+          status: targetStatus,
+          ...(targetStatus === ArticleStatus.PUBLISHED
+            ? { approved_at: now, approved_by: session.user.id, published_at: scheduledAt ?? now }
+            : { submitted_at: now }),
           // Reset & connect tag kata kunci hasil upsert.
           tags: {
             set: [],
@@ -149,8 +160,10 @@ export async function saveArticleDraftAction(
           author_name: data.author_name,
           author_image_url: data.author_image_url || null,
           author_commissariat: data.author_commissariat,
-          status: ArticleStatus.DRAFT,
-          published_at: scheduledAt ?? new Date(),
+          status: targetStatus,
+          submitted_at: now,
+          published_at: scheduledAt ?? now,
+          ...(targetStatus === ArticleStatus.PUBLISHED ? { approved_at: now, approved_by: session.user.id } : {}),
           created_by: session.user.id,
           updated_by: session.user.id,
           tags: {
@@ -169,7 +182,10 @@ export async function saveArticleDraftAction(
     }
 
     revalidatePath('/dashboard/articles')
-    return { success: true, message: isEdit ? 'Draf berhasil diperbarui.' : 'Draf artikel baru berhasil disimpan.' }
+    const okMsg = targetStatus === ArticleStatus.PUBLISHED
+      ? 'Artikel berhasil dipublikasikan.'
+      : 'Artikel berhasil diajukan untuk peninjauan.'
+    return { success: true, message: okMsg }
 
   } catch (error) {
     console.error('Save article draft error:', error)

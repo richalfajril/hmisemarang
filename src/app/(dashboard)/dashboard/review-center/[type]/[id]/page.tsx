@@ -1,7 +1,9 @@
 import { prisma } from '@/shared/api/prisma/client'
 import { getUserSession } from '@/shared/api/supabase/server'
 import { notFound, redirect } from 'next/navigation'
+import type { ReactNode } from 'react'
 import { ReviewSplitScreen } from '@/features/content-review/ui/ReviewSplitScreen'
+import { ArticleReadingView } from '@/features/articles/ui/ArticleReadingView'
 import { ReviewEntityType } from '@/entities/review-history/model/schema'
 import { getOptimizedUrl, generateSecureDownloadUrl } from '@/shared/lib/cloudinary'
 
@@ -36,25 +38,32 @@ export default async function ReviewDetailPage({
     fileDownloadUrl?: string
     metadata?: Array<{ label: string; value: string }>
   } | null = null
+  // Slot pratinjau khusus (ARTICLE memakai ArticleReadingView agar identik dgn halaman publik).
+  let previewSlot: ReactNode = undefined
 
   if (type === 'ARTICLE') {
     const article = await prisma.article.findUnique({
       where: { id },
-      include: { commissariat: true, category: true }
+      include: { commissariat: true, category: true, tags: true }
     })
-    
+
     if (!article || article.status !== 'SUBMITTED') notFound()
 
-    previewData = {
-      title: article.title,
-      subtitle: `Oleh: ${article.commissariat.name}`,
-      contentHtml: article.content,
-      imageUrl: article.featured_image_url ? getOptimizedUrl(article.featured_image_url) : undefined,
-      metadata: [
-        { label: 'Kategori', value: article.category.name },
-        { label: 'Penulis / Slug', value: article.slug },
-      ]
-    }
+    previewData = { title: article.title }
+    previewSlot = (
+      <ArticleReadingView
+        title={article.title}
+        content={article.content}
+        categoryName={article.category.name}
+        authorName={article.author_name}
+        authorImageUrl={article.author_image_url}
+        publishedAt={article.published_at}
+        viewCount={article.view_count}
+        featuredImageUrl={article.featured_image_url}
+        featuredImageCaption={article.featured_image_caption}
+        tags={article.tags.map((t) => t.name)}
+      />
+    )
   } else if (type === 'AGENDA') {
     const agenda = await prisma.agenda.findUnique({
       where: { id },
@@ -113,11 +122,12 @@ export default async function ReviewDetailPage({
   }
 
   return (
-    <div className="p-6 space-y-6 w-full">
-      <ReviewSplitScreen 
+    <div className="w-full space-y-6 lg:p-6">
+      <ReviewSplitScreen
         entityType={type as ReviewEntityType}
         entityId={id}
         previewData={previewData!}
+        previewSlot={previewSlot}
       />
     </div>
   )

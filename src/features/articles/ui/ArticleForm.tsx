@@ -13,10 +13,12 @@ import { Combobox } from '@/shared/ui/Combobox'
 import { MediumEditor } from '@/shared/ui/editor/MediumEditor'
 import { ImageUploader } from '@/shared/ui/image-uploader/ImageUploader'
 import { Article, ArticleCategory, Tag } from '@prisma/client'
-import { Loader2, Save, AlertCircle } from 'lucide-react'
+import { Loader2, Save, AlertCircle, Send, Pencil, Rocket } from 'lucide-react'
 import Link from 'next/link'
 import { PageHeader } from '@/shared/ui/PageHeader'
 import { TagInput } from '@/shared/ui/TagInput'
+import { ArticleReadingView } from '@/features/articles/ui/ArticleReadingView'
+import { toast } from 'sonner'
 
 interface ArticleFormProps {
   initialData?: Article & { tags?: Tag[] }
@@ -49,6 +51,18 @@ const FIELD_LABELS: Record<string, string> = {
   tag_ids: 'Tag',
 }
 
+/** Snapshot data form untuk pratinjau (dibangun saat klik "Simpan Draf"). */
+type PreviewSnap = {
+  title: string
+  content: string
+  categoryName: string | null
+  authorName: string | null
+  authorImageUrl: string | null
+  featuredImageUrl: string | null
+  featuredImageCaption: string | null
+  tags: string[]
+}
+
 export function ArticleForm({ initialData, categories, userRole, userCommissariatId, commissariats = [] }: ArticleFormProps) {
   const [state, formAction, isPending] = useActionState(saveArticleDraftAction, initialActionState)
   const [content, setContent] = useState(initialData?.content || '')
@@ -62,6 +76,11 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
   const [pubDate, setPubDate] = useState(toLocalInput(initialData?.published_at))
   const router = useRouter()
   const titleRef = useRef<HTMLTextAreaElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
+  const [previewOpen, setPreviewOpen] = useState(false)
+  const [preview, setPreview] = useState<PreviewSnap | null>(null)
+  const [clientMissing, setClientMissing] = useState<string[]>([])
+  const [preparing, setPreparing] = useState(false)
 
   // Judul auto-tinggi: teks panjang menambah baris ke bawah, bukan scroll horizontal.
   const autoGrowTitle = useCallback(() => {
@@ -77,33 +96,73 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
 
   useEffect(() => {
     if (state?.success) {
+      toast.success(state.message)
       router.push('/dashboard/articles')
       return
     }
-    if (state?.payload && !state.success) {
+    if (state?.message && !state.success) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (state.payload.content) setContent(state.payload.content as string)
-      if (state.payload.featured_image_url) setFeaturedImage(state.payload.featured_image_url as string)
+      setPreviewOpen(false) // buka banner error di belakang modal pratinjau
+      if (state.payload?.content) setContent(state.payload.content as string)
+      if (state.payload?.featured_image_url) setFeaturedImage(state.payload.featured_image_url as string)
     }
   }, [state, router])
 
   const isCommissariatAdmin = userRole === 'ADMIN_KOMISARIAT'
   const autoCommissariatName = commissariats.find(c => c.id === userCommissariatId)?.name || ''
-  
+
+  // Klik "Simpan Draf": validasi field wajib di klien, lalu buka pratinjau (belum simpan ke DB).
+  const handleOpenPreview = () => {
+    const form = formRef.current
+    if (!form) return
+    const fd = new FormData(form)
+    const val = (n: string) => ((fd.get(n) as string) || '').trim()
+    const missing: string[] = []
+    if (!val('title')) missing.push('Judul')
+    if (val('content').length < 50) missing.push('Isi Artikel (min 50 karakter)')
+    if (!val('featured_image_url')) missing.push('Gambar Artikel')
+    if (!val('author_name')) missing.push('Nama Penulis')
+    if (!val('author_commissariat')) missing.push('Asal Komisariat')
+    if (!val('category_id')) missing.push('Kategori')
+    if (missing.length) {
+      setClientMissing(missing)
+      return
+    }
+    setClientMissing([])
+    const snap: PreviewSnap = {
+      title: val('title'),
+      content,
+      categoryName: categories.find((c) => c.id === categoryId)?.name ?? null,
+      authorName: val('author_name') || null,
+      authorImageUrl: authorImage || null,
+      featuredImageUrl: featuredImage || null,
+      featuredImageCaption: imageCaption || null,
+      tags: ((fd.get('tag_labels') as string) || '').split(',').map((s) => s.trim()).filter(Boolean),
+    }
+    // Spinner dulu, baru modal (sesuai UX spec). ponytail: jeda fixed 450ms — cukup, tak perlu async nyata.
+    setPreparing(true)
+    setTimeout(() => {
+      setPreview(snap)
+      setPreviewOpen(true)
+      setPreparing(false)
+    }, 450)
+  }
+
+
 
 
   return (
     <>
-      {isPending && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+      {(isPending || preparing) && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-background/80 backdrop-blur-sm">
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
-            <p className="text-lg font-medium animate-pulse">Menyimpan Artikel...</p>
+            <p className="text-lg font-medium animate-pulse">{preparing ? 'Menyiapkan pratinjau…' : 'Menyimpan Artikel…'}</p>
           </div>
         </div>
       )}
 
-      <form action={formAction} className="flex flex-col h-full w-full overflow-hidden">
+      <form ref={formRef} action={formAction} className="flex flex-col h-full w-full overflow-hidden">
         {/* Header - Fixed */}
         <div className="shrink-0 px-6 pt-6 pb-4 border-b">
           <PageHeader
@@ -115,11 +174,18 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
             <Link href="/dashboard/articles" prefetch>
               <Button variant="outline" type="button" disabled={isPending}>Batal</Button>
             </Link>
-            <Button type="submit" disabled={isPending}>
+            <Button type="button" onClick={handleOpenPreview} disabled={isPending}>
               <Save className="mr-2 h-4 w-4" />
               Simpan Draf
             </Button>
           </PageHeader>
+
+          {clientMissing.length > 0 && (
+            <div className="mt-4 flex items-start gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive animate-in slide-in-from-top-2">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+              <p>Lengkapi dulu sebelum pratinjau — <span className="font-semibold">Periksa: {clientMissing.join(', ')}</span></p>
+            </div>
+          )}
 
           {!state?.success && state?.message && (
             <div className="mt-4 flex items-start gap-2 rounded-md bg-destructive/15 p-4 text-sm text-destructive animate-in slide-in-from-top-2">
@@ -155,7 +221,7 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
           <div className="flex-1 overflow-y-auto p-6 lg:border-r border-border">
             <div className="h-full flex flex-col max-w-4xl mx-auto w-full">
               <Label htmlFor="title" className="sr-only">Judul Artikel *</Label>
-              <div className="max-w-3xl mx-auto w-full">
+              <div className="max-w-4xl mx-auto w-full">
                 <textarea
                   ref={titleRef}
                   id="title"
@@ -174,13 +240,13 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
                 )}
               </div>
               {featuredImage && (
-                <div className="mx-auto mt-2 w-full max-w-3xl">
+                <div className="mx-auto mt-2 w-full max-w-4xl">
                   <div className="relative aspect-video w-full overflow-hidden border border-border">
                     <Image
                       src={featuredImage}
                       alt={imageCaption || 'Pratinjau gambar artikel'}
                       fill
-                      sizes="(max-width: 1024px) 100vw, 768px"
+                      sizes="(max-width: 1024px) 100vw, 896px"
                       className="object-cover"
                     />
                   </div>
@@ -211,7 +277,7 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
           </div>
 
           {/* Right Column: Metadata */}
-          <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0 overflow-y-auto p-6 bg-muted/10 lg:bg-muted/30 border-t lg:border-t-0 border-border">
+          <div className="w-full lg:w-[320px] xl:w-[360px] shrink-0 overflow-y-auto p-6 bg-muted/10 lg:bg-muted/30 border-t lg:border-t-0 border-border">
             <div className="space-y-6">
               <div className="space-y-2">
                 <Label>Gambar Artikel (rasio 16:9) *</Label>
@@ -366,6 +432,51 @@ export function ArticleForm({ initialData, categories, userRole, userCommissaria
           </div>
 
         </div>
+
+        {/* Pratinjau full-screen — tombol final men-submit form (di dalam <form>) dgn target_status. */}
+        {previewOpen && preview && (
+          <div className="fixed inset-0 z-50 flex flex-col bg-background">
+            <div className="flex shrink-0 items-center justify-between gap-4 border-b px-6 py-4">
+              <div>
+                <h2 className="font-heading text-lg font-bold">Pratinjau Artikel</h2>
+                <p className="text-sm text-muted-foreground">
+                  {canSchedule ? 'Tinjau tampilan sebelum dipublikasikan.' : 'Tinjau tampilan sebelum diajukan ke Cabang.'}
+                </p>
+              </div>
+              <div className="flex shrink-0 gap-2">
+                <Button type="button" variant="outline" onClick={() => setPreviewOpen(false)} disabled={isPending}>
+                  <Pencil className="mr-2 h-4 w-4" />
+                  Edit
+                </Button>
+                <Button type="submit" name="target_status" value={canSchedule ? 'PUBLISHED' : 'SUBMITTED'} disabled={isPending}>
+                  {isPending ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : canSchedule ? (
+                    <Rocket className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Send className="mr-2 h-4 w-4" />
+                  )}
+                  {canSchedule ? 'Publish' : 'Ajukan Draf'}
+                </Button>
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <div className="mx-auto max-w-4xl px-5 py-8">
+                <ArticleReadingView
+                  showBreadcrumb={false}
+                  title={preview.title}
+                  content={preview.content}
+                  categoryName={preview.categoryName}
+                  authorName={preview.authorName}
+                  authorImageUrl={preview.authorImageUrl}
+                  featuredImageUrl={preview.featuredImageUrl}
+                  featuredImageCaption={preview.featuredImageCaption}
+                  tags={preview.tags}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </form>
     </>
   )

@@ -100,7 +100,7 @@ export function MediumEditor({ value, onChange, disabled }: MediumEditorProps) {
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
       attributes: {
-        class: 'prose prose-lg dark:prose-invert prose-h2:text-2xl sm:prose-h2:text-[1.625rem] prose-h2:mt-0 prose-h2:mb-0 prose-h3:text-xl sm:prose-h3:text-[1.375rem] prose-h3:mt-0 prose-h3:mb-0 max-w-3xl mx-auto min-h-[400px] py-4 focus:outline-none',
+        class: 'prose prose-lg dark:prose-invert prose-h2:text-2xl sm:prose-h2:text-[1.625rem] prose-h2:mt-0 prose-h2:mb-0 prose-h3:text-xl sm:prose-h3:text-[1.375rem] prose-h3:mt-0 prose-h3:mb-0 max-w-4xl mx-auto min-h-[400px] py-4 focus:outline-none',
       },
     },
   })

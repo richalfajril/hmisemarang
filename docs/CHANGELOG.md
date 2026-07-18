@@ -8,6 +8,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Changed
+
+#### Review Center Mobile: Pratinjau Full + Drawer Keputusan (2026-07-18)
+* **Pratinjau borderless di mobile** — panel baca artikel tampil penuh tanpa kartu/border (`lg:rounded-xl lg:border lg:bg-card`), seperti baca artikel di web depan HP. Desktop tetap kartu.
+* **Panel keputusan diekstrak jadi `DecisionPanel`** (self-contained: `useActionState` + state + submit di dalam `<form>`), dipakai di **dua tempat**: kolom kanan menetap (desktop) & **drawer dari bawah** (mobile, via `Drawer`/vaul + tombol menetap "Beri Keputusan"). `useId` untuk id note/row_count agar dua instance tak bentrok.
+* **Flow sukses diseragamkan** (mobile & desktop): kirim keputusan → spinner → **redirect ke `/dashboard/review-center` + toast**, menggantikan layar sukses perantara. Status di tabel ikut berubah (revalidate di `processReviewAction`).
+* **Fix padding dobel** — wrapper halaman review-center jadi `lg:p-6` (tanpa padding di mobile) agar pratinjau tak ter-inset ganda (padding halaman + `px-5` konten); di mobile kini hanya `px-5` konten, full-bleed seperti web depan.
+
+#### Alur Tulis Artikel: Pratinjau Modal → Publish/Ajukan per Peran (2026-07-18)
+* **"Simpan Draf" kini membuka pratinjau full-screen** (bukan langsung simpan). Validasi field wajib di klien (judul, isi ≥50, gambar, penulis, asal komisariat, kategori) → gagal tampil banner "Periksa: …"; lolos → modal pratinjau memakai `ArticleReadingView` (`showBreadcrumb=false`).
+* **Tombol per peran di pratinjau**: `Edit` (tutup modal, data utuh, belum tersimpan) + aksi final:
+  * **ADMIN_CABANG / SYSTEM_ADMIN** → **Publish**: artikel disimpan **status PUBLISHED** langsung (approved_at/approved_by = diri sendiri, published_at = jadwal/now), tampil di web depan, redirect `/dashboard/articles` + toast.
+  * **ADMIN_KOMISARIAT** → **Ajukan Draf**: disimpan **status SUBMITTED** (submitted_at = now), masuk antre review Cabang, redirect + toast.
+* **Persistensi hanya saat aksi final** (tak ada draf perantara → tak ada duplikat). Data tersimpan lewat submitter button (`name="target_status"`) di dalam `<form>`.
+* **Action** `saveArticleDraftAction` diperluas: baca `target_status`; **guard peran** — hanya CABANG/SYSTEM_ADMIN boleh `PUBLISHED`, selain itu dipaksa `SUBMITTED` (komisariat tak bisa publish walau di-tamper). Berlaku untuk create & edit. Self-check resolver status disertakan.
+
+#### Subtitle Artikel: Nama Penulis - Komisariat (2026-07-18)
+* Tabel artikel (`ArticleList`) & card antrean review (`ReviewQueue`, khusus ARTICLE) menampilkan **"Nama Penulis - Komisariat"** (`[author_name, commissariat.name].filter(Boolean).join(' - ')`) sebagai subtitle, dari sebelumnya hanya nama komisariat. Fallback ke nama komisariat saja bila penulis kosong.
+
+#### Lebar Kolom Baca/Tulis Artikel → max-w-4xl (2026-07-18)
+* Kolom konten artikel dilebarkan dari `max-w-3xl` (768px) → **`max-w-4xl` (896px)** di: detail publik `/artikel/[slug]`, editor tulis artikel (judul, preview gambar, area MediumEditor), dan pratinjau review (`ArticleReadingView` via wrapper ReviewSplitScreen). `sizes` next/image cover disesuaikan (720/768 → 896px). Tetap WYSIWYG di ketiga tempat.
+
+#### Pratinjau Review Artikel = Layout Halaman Publik (2026-07-18)
+* Komponen presentasional baru **`ArticleReadingView`** (`features/articles/ui/`) — badge kategori, judul rata kiri, baris penulis (avatar + tanggal + waktu baca + views + share), cover 16:9 + caption, konten `prose-emerald` (dengan dateline "SEMARANG, hmisemarang.org —"), tags, share bawah, breadcrumb (opsional). Server-safe (tanpa `use client`).
+* **Halaman publik** `/artikel/[slug]` di-refactor memakai komponen ini (breadcrumb/konten/share pindah ke komponen; dateline & reading-time ikut). Layout tak berubah.
+* **Pratinjau review** artikel (`ReviewSplitScreen`) kini identik dengan halaman publik: `ReviewSplitScreen` dapat prop opsional `previewSlot`; halaman review (server) me-render `ArticleReadingView` dan mengopernya sebagai slot → tidak ada import lintas-feature, boundary RSC tetap bersih. Query review ARTICLE menambah `tags`. Pratinjau AGENDA/PROFIL/KADER tetap layout generic lama.
+
 ### Fixed
 
 #### Simpan Artikel Selalu Gagal Validasi "Slug" (2026-07-18)
