@@ -447,6 +447,7 @@ model WebsiteSetting {
   dark_logo_url   String?
   dashboard_logo_url String?
   about_image_url String?
+  carousel_header_url String? // Header IG (1080×240) global untuk slide cover Generate Carousel.
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
 

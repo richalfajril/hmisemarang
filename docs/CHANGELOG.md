@@ -8,7 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 ## [Unreleased]
 
+### Added
+
+#### Generate Carousel — Artikel → Carousel Instagram (2026-07-19)
+* **Fitur baru** `features/carousel-generator`: mengubah artikel **PUBLISHED** menjadi carousel Instagram (1080×1350, ZIP `{slug}.zip`) langsung dari menu Aksi di tabel artikel. Hanya **ADMIN_CABANG / SYSTEM_ADMIN**, hanya artikel PUBLISHED.
+* **Rendering client-side** (bukan Playwright server-side — tak cocok Vercel serverless): slide disusun & dirender jadi PNG di browser via `html-to-image`, QR (`qrcode`) menuju `/artikel/{slug}`, ZIP via `jszip`, unduh langsung. **Tanpa** halaman export, endpoint `/api`, maupun temporary asset Cloudinary.
+* **Pixel-slice dimaksimalkan** (`lib/paginate.ts::planSlices`, dengan self-check): isi dipotong tiap ±1350px agar tiap slide penuh (teks boleh terpotong), **kecuali gambar** — batas potong dinaikkan ke atas gambar agar utuh. Cap 20 slide (cover + body + CTA).
+* **Cover meniru detail artikel**: avatar penulis + tanggal + menit baca + jumlah dilihat + ikon share, dateline "SEMARANG, hmisemarang.org —", caption gambar sampul, band header di slide CTA (tinggi tetap 1350px).
+* **Tuning tata letak**: body font 24px + heading H2 32px/H3 28px; heading rapat ke body (tanpa jarak, `.carousel-prose` di globals.css); padding cover 0/60 dengan jarak figcaption→body ½ (30px); slide biasa padding 60px semua sisi.
+* **Potong di batas baris** (`planSlices` + `cutPoints`): batas potong di-*snap* ke bawah ke line-box terdekat (via `Range.getClientRects`) sehingga **tidak ada baris teks terbelah** — menggantikan potong pixel mentah. Gambar tetap tak terpotong.
+* **Modal 3 fase** (`GenerateCarouselModal`): Config (info artikel + upload/ganti header + info output) → Loading (progress "Slide N of M", close dinonaktifkan) → Preview (navigasi slide + Download ZIP).
+* **Header IG global** disimpan di `website_settings.carousel_header_url` (kolom baru) via `saveCarouselHeaderAction` (Server Action, sesuai ADR-003); upload memakai `ImageUploader`/`uploadMediaAction` yang sudah ada.
+* Dep baru (client-only, disetujui 2026-07-19): `html-to-image`, `qrcode`, `jszip`. Detail deviasi vs draft di `docs/FEATURE_GENERATE_CAROUSEL.md` §0.
+
 ### Changed
+
+#### Review Center: Kirim Keputusan Tak Lagi 404 (2026-07-19)
+* Halaman pratinjau review (`review-center/[type]/[id]`) kini **redirect ke `/dashboard/review-center`** saat entitas sudah tak berstatus reviewable (mis. setelah disetujui/revisi/tolak, implicit refresh Server Action me-render ulang halaman) — sebelumnya memicu `notFound()`/404. `notFound()` hanya untuk ID yang benar-benar tidak ada. Berlaku untuk Artikel, Agenda, Profil, Verifikasi Kader.
 
 #### Review Center Mobile: Pratinjau Full + Drawer Keputusan (2026-07-18)
 * **Pratinjau borderless di mobile** — panel baca artikel tampil penuh tanpa kartu/border (`lg:rounded-xl lg:border lg:bg-card`), seperti baca artikel di web depan HP. Desktop tetap kartu.

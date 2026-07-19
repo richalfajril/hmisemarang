@@ -1,11 +1,11 @@
 # Graph Report - hmisemarang  (2026-07-19)
 
 ## Corpus Check
-- 357 files · ~148,612 words
+- 357 files · ~148,538 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1643 nodes · 3995 edges · 141 communities (88 shown, 53 thin omitted)
+- 1643 nodes · 3995 edges · 142 communities (89 shown, 53 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 67 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
@@ -139,6 +139,7 @@
 - tailwind-merge
 - @tanstack/react-query
 - zod
+- InputGroup.tsx
 - shadcn
 - @tanstack/react-query
 - jszip
@@ -188,7 +189,7 @@
 - **Medium Editor Menu System** — docs_superpowers_plans_2026_07_12_medium_style_article_editor_medium_editor_component, docs_superpowers_plans_2026_07_12_medium_style_article_editor_bubble_menu, docs_superpowers_plans_2026_07_12_medium_style_article_editor_floating_menu, docs_superpowers_plans_2026_07_12_medium_style_article_editor_insert_items [EXTRACTED 1.00]
 - **Medium Editor Image Insert Flow** — docs_superpowers_plans_2026_07_12_medium_style_article_editor_image_upload_cloudinary, docs_superpowers_specs_2026_07_12_medium_style_article_editor_design_compress_image, docs_superpowers_specs_2026_07_12_medium_style_article_editor_design_upload_media_action [EXTRACTED 1.00]
 
-## Communities (141 total, 53 thin omitted)
+## Communities (142 total, 53 thin omitted)
 
 ### Community 0 - "Cabang Dashboard Sections"
 Cohesion: 0.08
@@ -239,8 +240,8 @@ Cohesion: 0.10
 Nodes (30): metadata, Page(), generateMetadata(), Page(), ARTICLE_FALLBACK, firstParagraph(), getAllPublicArticles, getArticleBySlug (+22 more)
 
 ### Community 12 - "Homepage Sections"
-Cohesion: 0.32
-Nodes (6): getPublicDocuments(), metadata, Page(), DocumentSearchBox(), PublicDocument, PublicDocumentTable()
+Cohesion: 0.14
+Nodes (12): getPublicDocuments(), metadata, Page(), metadata, MISI, VALUES, DocumentSearchBox(), PublicDocument (+4 more)
 
 ### Community 13 - "Route Handlers & CMS Pages"
 Cohesion: 0.14
@@ -255,8 +256,8 @@ Cohesion: 0.19
 Nodes (17): CommissariatAccountsPage(), metadata, authorize(), createCommissariatAccountAction(), deleteCommissariatAccountAction(), ensureCommissariat(), importCommissariatAccountsAction(), ImportResult (+9 more)
 
 ### Community 16 - "Global Search & Command Palette"
-Cohesion: 0.09
-Nodes (27): SearchResult, useDebounce(), ComboboxOption, ComboboxProps, Command(), CommandDialog(), CommandEmpty(), CommandGroup() (+19 more)
+Cohesion: 0.13
+Nodes (19): SearchResult, useDebounce(), ComboboxOption, ComboboxProps, Command(), CommandDialog(), CommandEmpty(), CommandGroup() (+11 more)
 
 ### Community 17 - "Organization Actions"
 Cohesion: 0.12
@@ -279,8 +280,8 @@ Cohesion: 0.21
 Nodes (20): metadata, Page(), generateMetadata(), Page(), timeFmt, AgendaGrid(), AgendaGridCard(), AgendaStatus (+12 more)
 
 ### Community 22 - "Public Landing & Search Box"
-Cohesion: 0.12
-Nodes (19): metadata, Page(), metadata, metadata, MISI, VALUES, FadeIn(), Props (+11 more)
+Cohesion: 0.16
+Nodes (16): metadata, Page(), metadata, Page(), HeroSearchBox(), PageHero(), AGENDA_FALLBACK, GALLERY_FALLBACK (+8 more)
 
 ### Community 23 - "Website Layout & Hero"
 Cohesion: 0.22
@@ -467,8 +468,8 @@ Cohesion: 0.27
 Nodes (9): KomisariatGrid(), PublicCommissariat, activatePeriodAction(), archivePeriodAction(), PeriodData, PeriodList(), useClientPagination(), pageRange() (+1 more)
 
 ### Community 85 - "lucide-react"
-Cohesion: 0.22
-Nodes (9): Page(), getPublicCommissariats, CountUp(), HeroBackground(), isVideo(), HeroSearchBar(), FALLBACK, HomeHero() (+1 more)
+Cohesion: 0.29
+Nodes (6): CountUp(), HeroBackground(), isVideo(), HeroSearchBar(), FALLBACK, METRICS
 
 ### Community 86 - "next"
 Cohesion: 0.50
@@ -502,6 +503,10 @@ Nodes (3): 3. Scope, Excluded, Included
 Cohesion: 0.47
 Nodes (5): getSignedDocumentUrlAction(), DocumentEntry, DocumentList(), DocumentListProps, formatBytes()
 
+### Community 134 - "InputGroup.tsx"
+Cohesion: 0.28
+Nodes (8): InputGroup(), InputGroupAddon(), inputGroupAddonVariants, InputGroupButton(), inputGroupButtonVariants, InputGroupInput(), InputGroupText(), InputGroupTextarea()
+
 ## Knowledge Gaps
 - **487 isolated node(s):** `$schema`, `style`, `rsc`, `tsx`, `config` (+482 more)
   These have ≤1 connection - possible missing edges or undocumented components.
@@ -510,7 +515,7 @@ Nodes (5): getSignedDocumentUrlAction(), DocumentEntry, DocumentList(), Document
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `UI Primitives (cn/Drawer)` to `Cabang Dashboard Sections`, `Public Listing Pages`, `CMS Create/Edit Pages`, `SEO & Public Detail Pages`, `CMS Admin Settings Pages`, `Route Handlers & CMS Pages`, `Global Search & Command Palette`, `Chart Components`, `Public Landing & Search Box`, `Website Layout & Hero`, `Homepage Carousels`, `Login & Auth Form`, `Review Queue & Taxonomy Tabs`, `Sheet & Public Header`, `Error/Empty States & Search`, `Supabase Client & Avatar`, `Review Schema & Split Screen`, `Profile & Settings Schemas`, `actions.ts`?**
+- **Why does `cn()` connect `UI Primitives (cn/Drawer)` to `Cabang Dashboard Sections`, `Public Listing Pages`, `CMS Create/Edit Pages`, `SEO & Public Detail Pages`, `InputGroup.tsx`, `CMS Admin Settings Pages`, `Homepage Sections`, `Route Handlers & CMS Pages`, `Global Search & Command Palette`, `Chart Components`, `Public Landing & Search Box`, `Website Layout & Hero`, `Homepage Carousels`, `Login & Auth Form`, `Review Queue & Taxonomy Tabs`, `Sheet & Public Header`, `Error/Empty States & Search`, `Supabase Client & Avatar`, `Review Schema & Split Screen`, `Profile & Settings Schemas`, `actions.ts`?**
   _High betweenness centrality (0.170) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `Core Runtime Dependencies` to `@dnd-kit/sortable`, `html-to-image`, `tailwind-merge`, `Dev Dependencies & Tooling`, `zod`, `shadcn`, `@tanstack/react-query`, `jszip`, `next`, `qrcode`, `CMS Admin Settings Pages`, `@tiptap/extension-youtube`, `@tiptap/react`, `Board Member Card & Socials`, `Excel Import Helpers`, `page.tsx`, `clsx`, `cmdk`, `@dnd-kit/core`, `@dnd-kit/modifiers`, `@dnd-kit/utilities`, `radix-ui`, `react-dom`, `react-icons`, `recharts`, `sonner`, `@supabase/ssr`, `@supabase/supabase-js`, `@tanstack/react-table`, `@tiptap/extension-image`, `@tiptap/extension-link`, `@tiptap/extension-placeholder`, `@tiptap/pm`, `@tiptap/starter-kit`, `tw-animate-css`, `vaul`, `@vercel/analytics`, `@vercel/speed-insights`, `zustand`?**
   _High betweenness centrality (0.113) - this node is a cross-community bridge._

@@ -1820,13 +1820,13 @@
     "semantic_hash": ""
   },
   "src/features/carousel-generator/lib/render.ts": {
-    "mtime": 1784425455.9497018,
-    "ast_hash": "57ca03918ed36c113c05902a44a9d59f",
+    "mtime": 1784424921.7011163,
+    "ast_hash": "00c4951bc3533caab7090b8f12dca424",
     "semantic_hash": ""
   },
   "src/features/carousel-generator/lib/slides.ts": {
-    "mtime": 1784425469.8898559,
-    "ast_hash": "56d549410069f8da3968ac0a06b51399",
+    "mtime": 1784423434.292681,
+    "ast_hash": "2118ff3c6f7d6b73ebcd20e26486f1f7",
     "semantic_hash": ""
   },
   "src/features/carousel-generator/ui/GenerateCarouselModal.tsx": {

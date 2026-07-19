@@ -201,6 +201,36 @@ html:not(.dark) .prose {
   --tw-prose-headings: #000000;
 }
 
+/* Generate Carousel: rapatkan heading ke body (tanpa jarak H2/H3 → elemen berikutnya) + ukuran font.
+   Scoped ke `.carousel-prose` (kolom render carousel) agar tak memengaruhi editor/halaman baca.
+   Selector eksplisit (bukan :is) + !important agar pasti menang atas @tailwindcss/typography. */
+.carousel-prose h1,
+.carousel-prose h2,
+.carousel-prose h3,
+.carousel-prose h4,
+.carousel-prose h5,
+.carousel-prose h6 {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 1.2 !important;
+}
+.carousel-prose h1 + *,
+.carousel-prose h2 + *,
+.carousel-prose h3 + *,
+.carousel-prose h4 + *,
+.carousel-prose h5 + *,
+.carousel-prose h6 + * {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+/* Ukuran heading (v1.2 +4px semua): H2 = 32px, H3 = 28px. */
+.carousel-prose h2 {
+  font-size: 32px !important;
+}
+.carousel-prose h3 {
+  font-size: 28px !important;
+}
+
 /* Kutipan (blockquote) konten artikel: Times New Roman, regular, italic (editor + baca).
    !important untuk menang atas font-weight/style bawaan plugin typography (@tailwindcss/typography,
    di cascade layer) dan bold yang diterapkan penulis di dalam kutipan. */

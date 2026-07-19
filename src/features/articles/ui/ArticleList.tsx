@@ -5,7 +5,7 @@ import { Button } from '@/shared/ui/Button'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/shared/ui/Table'
 import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
-import { Edit, MoreHorizontal, Trash, Send } from 'lucide-react'
+import { Edit, MoreHorizontal, Trash, Send, Images } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,7 @@ import { toast } from 'sonner'
 import { useClientPagination } from '@/shared/lib/hooks/useClientPagination'
 import { SmartPagination } from '@/shared/ui/SmartPagination'
 import { useConfirm } from '@/shared/ui/ConfirmDialog'
+import { GenerateCarouselModal } from '@/features/carousel-generator/ui/GenerateCarouselModal'
 
 type ArticleWithRelations = Article & {
   category: ArticleCategory
@@ -31,7 +32,11 @@ type ArticleWithRelations = Article & {
 
 interface ArticleListProps {
   articles: ArticleWithRelations[]
+  userRole?: string
+  carouselHeaderUrl?: string | null
 }
+
+const CAN_GENERATE_CAROUSEL = new Set(['SYSTEM_ADMIN', 'ADMIN_CABANG'])
 
 const statusColorMap: Record<string, string> = {
   DRAFT: 'bg-slate-200 text-slate-700',
@@ -42,9 +47,11 @@ const statusColorMap: Record<string, string> = {
   ARCHIVED: 'bg-red-200 text-red-800',
 }
 
-export function ArticleList({ articles }: ArticleListProps) {
+export function ArticleList({ articles, userRole, carouselHeaderUrl }: ArticleListProps) {
   const [isPending, startTransition] = useTransition()
   const [selected, setSelected] = useState<Set<string>>(new Set())
+  const [carouselFor, setCarouselFor] = useState<ArticleWithRelations | null>(null)
+  const canCarousel = CAN_GENERATE_CAROUSEL.has(userRole ?? '')
 
   const pagination = useClientPagination(articles, 15)
 
@@ -203,12 +210,22 @@ export function ArticleList({ articles }: ArticleListProps) {
                       </Link>
 
                       {article.status === 'DRAFT' && (
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           className="cursor-pointer text-blue-600 focus:text-blue-600"
                           onClick={() => handleSubmit(article.id)}
                         >
                           <Send className="mr-2 h-4 w-4" />
                           Ajukan Review
+                        </DropdownMenuItem>
+                      )}
+
+                      {canCarousel && article.status === 'PUBLISHED' && (
+                        <DropdownMenuItem
+                          className="cursor-pointer text-emerald-600 focus:text-emerald-600"
+                          onClick={() => setCarouselFor(article)}
+                        >
+                          <Images className="mr-2 h-4 w-4" />
+                          Generate Carousel
                         </DropdownMenuItem>
                       )}
 
@@ -230,6 +247,26 @@ export function ArticleList({ articles }: ArticleListProps) {
       </Table>
       </div>
       <SmartPagination {...pagination} />
+
+      {carouselFor && (
+        <GenerateCarouselModal
+          open={!!carouselFor}
+          onOpenChange={(o) => !o && setCarouselFor(null)}
+          initialHeaderUrl={carouselHeaderUrl}
+          article={{
+            title: carouselFor.title,
+            slug: carouselFor.slug,
+            content: carouselFor.content,
+            categoryName: carouselFor.category.name,
+            authorName: carouselFor.author_name,
+            authorImageUrl: carouselFor.author_image_url,
+            publishedAt: carouselFor.published_at,
+            viewCount: carouselFor.view_count,
+            featuredImageUrl: carouselFor.featured_image_url,
+            featuredImageCaption: carouselFor.featured_image_caption,
+          }}
+        />
+      )}
     </div>
   )
 }

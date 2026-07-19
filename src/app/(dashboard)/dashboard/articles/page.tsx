@@ -25,16 +25,19 @@ export default async function ArticlesPage() {
     ? { commissariat_id: session.user.commissariatId || undefined, deleted_at: null }
     : { deleted_at: null }
 
-  const articles = await prisma.article.findMany({
-    where: whereClause,
-    include: {
-      category: true,
-      commissariat: true,
-    },
-    orderBy: {
-      updated_at: 'desc',
-    },
-  })
+  const [articles, settings] = await Promise.all([
+    prisma.article.findMany({
+      where: whereClause,
+      include: {
+        category: true,
+        commissariat: true,
+      },
+      orderBy: {
+        updated_at: 'desc',
+      },
+    }),
+    prisma.websiteSetting.findFirst({ select: { carousel_header_url: true } }),
+  ])
 
   return (
     <div className="p-6 space-y-6 w-full">
@@ -51,7 +54,11 @@ export default async function ArticlesPage() {
         </Link>
       </PageHeader>
 
-      <ArticleList articles={articles} />
+      <ArticleList
+        articles={articles}
+        userRole={session.user.role}
+        carouselHeaderUrl={settings?.carousel_header_url}
+      />
     </div>
   )
 }

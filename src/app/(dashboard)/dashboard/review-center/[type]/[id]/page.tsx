@@ -47,7 +47,9 @@ export default async function ReviewDetailPage({
       include: { commissariat: true, category: true, tags: true }
     })
 
-    if (!article || article.status !== 'SUBMITTED') notFound()
+    if (!article) notFound()
+    // Sudah diproses (implicit refresh setelah kirim keputusan) → kembali ke antrean, bukan 404.
+    if (article.status !== 'SUBMITTED') redirect('/dashboard/review-center')
 
     previewData = { title: article.title }
     previewSlot = (
@@ -70,7 +72,8 @@ export default async function ReviewDetailPage({
       include: { commissariat: true }
     })
     
-    if (!agenda || agenda.status !== 'SUBMITTED') notFound()
+    if (!agenda) notFound()
+    if (agenda.status !== 'SUBMITTED') redirect('/dashboard/review-center')
 
     previewData = {
       title: agenda.title,
@@ -88,7 +91,8 @@ export default async function ReviewDetailPage({
       include: { commissariat: true }
     })
     
-    if (!profile || profile.status !== 'SUBMITTED') notFound()
+    if (!profile) notFound()
+    if (profile.status !== 'SUBMITTED') redirect('/dashboard/review-center')
 
     previewData = {
       title: profile.commissariat.name,
@@ -107,7 +111,8 @@ export default async function ReviewDetailPage({
       include: { commissariat: true }
     })
     
-    if (!cv || cv.status !== 'PENDING') notFound()
+    if (!cv) notFound()
+    if (cv.status !== 'PENDING') redirect('/dashboard/review-center')
 
     previewData = {
       title: 'Pangkalan Data Kader',

@@ -337,6 +337,18 @@ Catatan: dependency disetujui (2026-07-01). Dipilih karena tidak ada parser spre
 
 ---
 
+## html-to-image · qrcode · jszip (Generate Carousel)
+
+Purpose:
+
+* **html-to-image** — merender node DOM slide (1080×1350) menjadi PNG **di browser admin** untuk fitur Generate Carousel (`features/carousel-generator`). Menggantikan rencana awal Playwright/Chromium server-side yang tidak cocok dengan Vercel serverless (limit 250MB, butuh `maxDuration`/bundling khusus).
+* **qrcode** — men-generate QR Code (menuju `/artikel/{slug}`) sebagai data URL untuk slide CTA.
+* **jszip** — mengemas seluruh PNG menjadi `{slug}.zip` di sisi klien untuk diunduh langsung (tanpa upload/temporary asset di Cloudinary).
+
+Catatan: dependency disetujui (2026-07-19). Ketiganya berjalan **client-side only** — tidak menambah beban runtime server maupun ukuran fungsi Vercel. Pendekatan ini menghapus kebutuhan Playwright, halaman export, endpoint `/api`, dan siklus temporary Cloudinary yang tertulis di draft spec. Catatan lockfile: `TECH_STACK` menyebut pnpm sebagai package manager, namun repo saat ini melacak `package-lock.json` (npm); instalasi mengikuti lockfile npm yang aktif.
+
+---
+
 ## Tiptap
 
 Purpose:

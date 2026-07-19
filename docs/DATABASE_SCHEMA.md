@@ -804,6 +804,8 @@ Fields:
 
 * footer_text
 
+* carousel_header_url — URL Header Instagram (1080×240) global untuk slide cover fitur Generate Carousel. Nullable.
+
 * created_at
 
 * updated_at

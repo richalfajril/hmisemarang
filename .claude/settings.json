@@ -11,11 +11,9 @@
       "Bash(claude plugin *)",
       "Bash(grep -i \"link\\\\|href=\\\\`/\\\\|href=\\\\\"/\")",
       "Bash(npx tsx *)",
-      "Bash(grep -E \"Compiled|\u2713 Generating|Failed to compile|error TS|/$|^\u25cb|^\u0192\")"
+      "Bash(grep -E \"Compiled|✓ Generating|Failed to compile|error TS|/$|^○|^ƒ\")",
+      "Bash(graphify update *)"
     ]
-  },
-  "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true
   },
   "hooks": {
     "PreToolUse": [
@@ -38,5 +36,8 @@
         ]
       }
     ]
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
   }
 }
