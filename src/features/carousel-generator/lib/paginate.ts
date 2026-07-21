@@ -12,8 +12,11 @@ export const SLIDE_W = 1080
 export const SLIDE_H = 1350
 /** IG header band height on the cover & CTA slides (spec §10). */
 export const HEADER_H = 240
-/** Hard cap on total slides: content slides + CTA (spec BR-007). */
-export const MAX_SLIDES = 20
+/**
+ * Hard cap on total slides = 10: cover (1) + body (2–9, max 8) + CTA/QR (10). If the body needs more
+ * than 8 slides it is truncated and closed with the QR slide (user decision, overrides spec BR-007=20).
+ */
+export const MAX_SLIDES = 10
 
 export interface Slice {
   start: number

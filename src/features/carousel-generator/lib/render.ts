@@ -139,7 +139,7 @@ export async function generateCarousel(
 
     // Assets: QR + header/cover/author images as data URLs (parallel).
     const [qrDataUrl, headerDataUrl, coverDataUrl, authorDataUrl] = await Promise.all([
-      QRCode.toDataURL(`${SITE_ORIGIN}/artikel/${input.slug}`, { width: 420, margin: 1 }),
+      QRCode.toDataURL(`${SITE_ORIGIN}/artikel/${input.slug}`, { width: 520, margin: 1 }),
       toDataUrl(input.headerUrl),
       input.featuredImageUrl ? toDataUrl(input.featuredImageUrl) : Promise.resolve(null),
       input.authorImageUrl ? toDataUrl(input.authorImageUrl).catch(() => null) : Promise.resolve(null),
@@ -189,7 +189,8 @@ export async function generateCarousel(
           : buildBody(cloneCol, s.start, height, i + 1, total),
       )
     })
-    nodes.push(buildCta(headerDataUrl, input.title, qrDataUrl, total, total))
+    const articleUrl = `${SITE_ORIGIN.replace(/^https?:\/\//, '')}/artikel/${input.slug}`
+    nodes.push(buildCta(headerDataUrl, input.title, qrDataUrl, articleUrl, total, total))
 
     // Rasterize sequentially (progress + lower peak memory).
     const out: GeneratedSlide[] = []

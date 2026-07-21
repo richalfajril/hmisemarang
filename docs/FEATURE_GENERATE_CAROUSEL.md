@@ -22,7 +22,8 @@ serverless: limit 250MB, tanpa `maxDuration`/bundling Chromium). Keputusan diamb
   tengah blok/baris (termasuk numbering). **Pengecualian: gambar tidak boleh terpotong** — bila batas
   potong jatuh di dalam sebuah gambar, potongan dinaikkan ke atas gambar sehingga gambar utuh di slide
   berikutnya (`lib/paginate.ts::planSlices`, `noCutZones`). Ceiling: gambar yang lebih tinggi dari satu
-  slide di-clip.
+  slide di-clip. **Batas total 10 slide**: cover (1) + body (2–9, maks 8) + QR (10); bila body melebihi
+  8 slide, sisanya dipotong dan langsung ditutup slide QR (override spec BR-007 = 20).
 - **Cover meniru detail artikel**: di bawah judul ada avatar penulis, tanggal, menit baca, jumlah
   dilihat, dan ikon share (WhatsApp/X/Facebook/Link, statis). Body memakai font 20px + dateline
   "SEMARANG, hmisemarang.org —" seperti halaman baca.

@@ -26,9 +26,14 @@ export const metadata: Metadata = {
   title: "HMI Cabang Semarang",
   description: "Portal resmi Himpunan Mahasiswa Islam Cabang Semarang.",
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    // .ico pertama: Google Search mengambil & meng-cache /favicon.ico di root; SVG untuk tab modern.
+    icon: [
+      { url: "/favicon.ico", sizes: "48x48", type: "image/x-icon" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon-96.png", sizes: "96x96", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-icon.png",
   },
 };
 

@@ -218,6 +218,7 @@ export function buildCta(
   headerDataUrl: string,
   title: string,
   qrDataUrl: string,
+  articleUrl: string,
   index: number,
   total: number,
 ): HTMLDivElement {
@@ -228,33 +229,37 @@ export function buildCta(
   header.style.cssText = `width:${SLIDE_W}px;height:${HEADER_H}px;object-fit:cover;display:block;`
   root.appendChild(header)
 
+  // Below the header: fill the rest (1110px), everything centered, three groups evenly spaced
+  // (judul / QR / caption+situs) via space-evenly.
   const center = div(
-    `height:${SLIDE_H - HEADER_H}px;display:flex;flex-direction:column;align-items:center;justify-content:center;` +
-      `text-align:center;padding:56px ${SLIDE_PAD}px;gap:26px;box-sizing:border-box;`,
+    `height:${SLIDE_H - HEADER_H}px;display:flex;flex-direction:column;align-items:center;` +
+      `justify-content:space-evenly;text-align:center;padding:0 ${SLIDE_PAD}px;box-sizing:border-box;`,
   )
 
+  // Group A: kicker + title
+  const groupA = div('display:flex;flex-direction:column;align-items:center;gap:16px;')
   const kicker = div(`font-size:24px;font-weight:800;letter-spacing:0.12em;color:${BRAND};`)
   kicker.textContent = 'BACA SELENGKAPNYA'
-  center.appendChild(kicker)
-
   const h2 = document.createElement('h2')
   h2.style.cssText = 'font-size:38px;line-height:1.25;font-weight:700;margin:0;color:#0a0a0a;'
   h2.textContent = title
-  center.appendChild(h2)
+  groupA.append(kicker, h2)
 
+  // Group B: QR (+100px → 520)
   const qr = document.createElement('img')
   qr.src = qrDataUrl
-  qr.style.cssText = 'width:420px;height:420px;display:block;margin:8px 0;'
-  center.appendChild(qr)
+  qr.style.cssText = 'width:520px;height:520px;display:block;'
 
+  // Group C: caption + site
+  const groupC = div('display:flex;flex-direction:column;align-items:center;gap:12px;')
   const caption = div('font-size:26px;color:#64748b;line-height:1.4;')
   caption.textContent = 'Scan QR Code untuk membaca artikel lengkap.'
-  center.appendChild(caption)
+  // URL artikel penuh (sama dengan tujuan QR); word-break agar slug panjang membungkus rapi.
+  const site = div(`font-size:24px;font-weight:800;color:${BRAND};word-break:break-word;line-height:1.3;`)
+  site.textContent = articleUrl
+  groupC.append(caption, site)
 
-  const site = div(`font-size:30px;font-weight:800;color:${BRAND};`)
-  site.textContent = 'hmisemarang.org'
-  center.appendChild(site)
-
+  center.append(groupA, qr, groupC)
   root.appendChild(center)
   addIndicator(root, index, total)
   return root
