@@ -1,7 +1,7 @@
 # Graph Report - hmisemarang  (2026-07-21)
 
 ## Corpus Check
-- 357 files · ~149,257 words
+- 357 files · ~149,279 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -279,16 +279,16 @@ Cohesion: 0.21
 Nodes (20): metadata, Page(), generateMetadata(), Page(), timeFmt, AgendaGrid(), AgendaGridCard(), AgendaStatus (+12 more)
 
 ### Community 22 - "Public Landing & Search Box"
-Cohesion: 0.32
-Nodes (6): getPublicDocuments(), metadata, Page(), DocumentSearchBox(), PublicDocument, PublicDocumentTable()
+Cohesion: 0.14
+Nodes (12): getPublicDocuments(), metadata, Page(), metadata, MISI, VALUES, DocumentSearchBox(), PublicDocument (+4 more)
 
 ### Community 23 - "Website Layout & Hero"
 Cohesion: 0.22
 Nodes (8): bricolage, geistMono, metadata, RootLayout(), rubik, viewport, Providers(), ConfirmProvider()
 
 ### Community 24 - "Homepage Carousels"
-Cohesion: 0.12
-Nodes (19): metadata, Page(), metadata, metadata, MISI, VALUES, FadeIn(), Props (+11 more)
+Cohesion: 0.16
+Nodes (16): metadata, Page(), metadata, Page(), HeroSearchBox(), PageHero(), AGENDA_FALLBACK, GALLERY_FALLBACK (+8 more)
 
 ### Community 25 - "About/Gallery Sections"
 Cohesion: 0.12
@@ -467,8 +467,8 @@ Cohesion: 0.27
 Nodes (9): KomisariatGrid(), PublicCommissariat, activatePeriodAction(), archivePeriodAction(), PeriodData, PeriodList(), useClientPagination(), pageRange() (+1 more)
 
 ### Community 85 - "lucide-react"
-Cohesion: 0.22
-Nodes (9): Page(), getPublicCommissariats, CountUp(), HeroBackground(), isVideo(), HeroSearchBar(), FALLBACK, HomeHero() (+1 more)
+Cohesion: 0.29
+Nodes (6): CountUp(), HeroBackground(), isVideo(), HeroSearchBar(), FALLBACK, METRICS
 
 ### Community 86 - "next"
 Cohesion: 0.50
@@ -510,7 +510,7 @@ Nodes (5): getSignedDocumentUrlAction(), DocumentEntry, DocumentList(), Document
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `UI Primitives (cn/Drawer)` to `Cabang Dashboard Sections`, `Public Listing Pages`, `CMS Create/Edit Pages`, `SEO & Public Detail Pages`, `CMS Admin Settings Pages`, `Homepage Sections`, `Route Handlers & CMS Pages`, `Global Search & Command Palette`, `Chart Components`, `Website Layout & Hero`, `Homepage Carousels`, `Login & Auth Form`, `Review Queue & Taxonomy Tabs`, `Sheet & Public Header`, `Error/Empty States & Search`, `Supabase Client & Avatar`, `Review Schema & Split Screen`, `Profile & Settings Schemas`, `InputGroup Component`, `actions.ts`?**
+- **Why does `cn()` connect `UI Primitives (cn/Drawer)` to `Cabang Dashboard Sections`, `Public Listing Pages`, `CMS Create/Edit Pages`, `SEO & Public Detail Pages`, `CMS Admin Settings Pages`, `Homepage Sections`, `Route Handlers & CMS Pages`, `Global Search & Command Palette`, `Chart Components`, `Public Landing & Search Box`, `Website Layout & Hero`, `Homepage Carousels`, `Login & Auth Form`, `Review Queue & Taxonomy Tabs`, `Sheet & Public Header`, `Error/Empty States & Search`, `Supabase Client & Avatar`, `Review Schema & Split Screen`, `Profile & Settings Schemas`, `InputGroup Component`, `actions.ts`?**
   _High betweenness centrality (0.170) - this node is a cross-community bridge._
 - **Why does `dependencies` connect `Core Runtime Dependencies` to `@dnd-kit/sortable`, `html-to-image`, `tailwind-merge`, `Dev Dependencies & Tooling`, `zod`, `shadcn`, `@tanstack/react-query`, `jszip`, `next`, `qrcode`, `CMS Admin Settings Pages`, `@tiptap/extension-youtube`, `@tiptap/react`, `Board Member Card & Socials`, `Excel Import Helpers`, `page.tsx`, `clsx`, `cmdk`, `@dnd-kit/core`, `@dnd-kit/modifiers`, `@dnd-kit/utilities`, `radix-ui`, `react-dom`, `react-icons`, `recharts`, `sonner`, `@supabase/ssr`, `@supabase/supabase-js`, `@tanstack/react-table`, `@tiptap/extension-image`, `@tiptap/extension-link`, `@tiptap/extension-placeholder`, `@tiptap/pm`, `@tiptap/starter-kit`, `tw-animate-css`, `vaul`, `@vercel/analytics`, `@vercel/speed-insights`, `zustand`?**
   _High betweenness centrality (0.113) - this node is a cross-community bridge._

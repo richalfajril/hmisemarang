@@ -637,8 +637,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "package_dependencies_base_ui_react",
-      "community": 40,
-      "community_name": "Core Runtime Dependencies",
+      "community": 12,
+      "community_name": "Homepage Sections",
       "norm_label": "@base-ui/react"
     },
     {
@@ -648,8 +648,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "base_ui_react",
-      "community": 40,
-      "community_name": "Core Runtime Dependencies",
+      "community": 12,
+      "community_name": "Homepage Sections",
       "norm_label": "@base-ui/react"
     },
     {
@@ -1187,8 +1187,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "package_dependencies_html_to_image",
-      "community": 130,
-      "community_name": "html-to-image",
+      "community": 40,
+      "community_name": "Core Runtime Dependencies",
       "norm_label": "html-to-image"
     },
     {
@@ -1198,8 +1198,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "html_to_image",
-      "community": 130,
-      "community_name": "html-to-image",
+      "community": 40,
+      "community_name": "Core Runtime Dependencies",
       "norm_label": "html-to-image"
     },
     {
@@ -3387,8 +3387,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_website_galeri_page",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "page.tsx"
     },
     {
@@ -3398,8 +3398,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_app_website_galeri_page_metadata",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "metadata"
     },
     {
@@ -3409,8 +3409,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_app_website_galeri_page_page",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "page()"
     },
     {
@@ -3464,8 +3464,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_app_website_komisariat_page",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "page.tsx"
     },
     {
@@ -3475,8 +3475,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_app_website_komisariat_page_metadata",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "metadata"
     },
     {
@@ -3486,8 +3486,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_app_website_komisariat_page_page",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 85,
+      "community_name": "lucide-react",
       "norm_label": "page()"
     },
     {
@@ -9184,8 +9184,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_ui_animatedsection",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "animatedsection.tsx"
     },
     {
@@ -9195,8 +9195,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "src_shared_ui_animatedsection_props",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "props"
     },
     {
@@ -9206,8 +9206,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "src_shared_ui_animatedsection_animatedsection",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "animatedsection()"
     },
     {
@@ -10592,8 +10592,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_ui_herosearchbox",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "herosearchbox.tsx"
     },
     {
@@ -10603,8 +10603,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "src_shared_ui_herosearchbox_herosearchbox",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "herosearchbox()"
     },
     {
@@ -10636,8 +10636,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgroup.tsx"
     },
     {
@@ -10647,8 +10647,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgroup",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgroup()"
     },
     {
@@ -10658,8 +10658,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgroupaddonvariants",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgroupaddonvariants"
     },
     {
@@ -10669,8 +10669,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgroupaddon",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgroupaddon()"
     },
     {
@@ -10680,8 +10680,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgroupbuttonvariants",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgroupbuttonvariants"
     },
     {
@@ -10691,8 +10691,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgroupbutton",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgroupbutton()"
     },
     {
@@ -10702,8 +10702,8 @@
       "source_location": "L105",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgrouptext",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgrouptext()"
     },
     {
@@ -10713,8 +10713,8 @@
       "source_location": "L117",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgroupinput",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgroupinput()"
     },
     {
@@ -10724,8 +10724,8 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "src_shared_ui_inputgroup_inputgrouptextarea",
-      "community": 53,
-      "community_name": "InputGroup Component",
+      "community": 16,
+      "community_name": "Global Search & Command Palette",
       "norm_label": "inputgrouptextarea()"
     },
     {
@@ -10823,8 +10823,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "src_shared_ui_pagehero_pagehero",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "pagehero()"
     },
     {
@@ -11076,8 +11076,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_shared_ui_section",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "section.tsx"
     },
     {
@@ -11087,8 +11087,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "src_shared_ui_section_props",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "props"
     },
     {
@@ -11098,8 +11098,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_shared_ui_section_section",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "section()"
     },
     {
@@ -12561,8 +12561,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "src_widgets_home_api_queries_getpubliccommissariats",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 85,
+      "community_name": "lucide-react",
       "norm_label": "getpubliccommissariats"
     },
     {
@@ -12583,8 +12583,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "src_widgets_home_api_queries_getfeaturedarticles",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "getfeaturedarticles"
     },
     {
@@ -12649,8 +12649,8 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "src_widgets_home_api_queries_gallery_fallback",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "gallery_fallback"
     },
     {
@@ -12660,8 +12660,8 @@
       "source_location": "L200",
       "_origin": "ast",
       "id": "src_widgets_home_api_queries_getpublicalbumcount",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "getpublicalbumcount"
     },
     {
@@ -12671,8 +12671,8 @@
       "source_location": "L209",
       "_origin": "ast",
       "id": "src_widgets_home_api_queries_getpublicgalleryphotos",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 22,
+      "community_name": "Public Landing & Search Box",
       "norm_label": "getpublicgalleryphotos"
     },
     {
@@ -12682,8 +12682,8 @@
       "source_location": "L227",
       "_origin": "ast",
       "id": "src_widgets_home_api_queries_getgalleryalbums",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "getgalleryalbums"
     },
     {
@@ -12737,8 +12737,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_widgets_home_ui_circulargallery",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "circulargallery.tsx"
     },
     {
@@ -12748,8 +12748,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "src_widgets_home_ui_circulargallery_galleryalbum",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "galleryalbum"
     },
     {
@@ -12759,8 +12759,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "src_widgets_home_ui_circulargallery_circulargalleryprops",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "circulargalleryprops"
     },
     {
@@ -12770,8 +12770,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "src_widgets_home_ui_circulargallery_circulargallery",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "circulargallery()"
     },
     {
@@ -13001,8 +13001,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homearticles",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "homearticles.tsx"
     },
     {
@@ -13012,8 +13012,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homearticles_article",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "article"
     },
     {
@@ -13023,8 +13023,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homearticles_fallback",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "fallback"
     },
     {
@@ -13034,8 +13034,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homearticles_datefmt",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "datefmt"
     },
     {
@@ -13045,8 +13045,8 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homearticles_formatmeta",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "formatmeta()"
     },
     {
@@ -13056,8 +13056,8 @@
       "source_location": "L109",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homearticles_secondarycard",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "secondarycard()"
     },
     {
@@ -13067,8 +13067,8 @@
       "source_location": "L161",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homearticles_homearticles",
-      "community": 37,
-      "community_name": "Supabase Client & Avatar",
+      "community": 24,
+      "community_name": "Homepage Carousels",
       "norm_label": "homearticles()"
     },
     {
@@ -13100,8 +13100,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homegallery",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "homegallery.tsx"
     },
     {
@@ -13111,8 +13111,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homegallery_u",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "u()"
     },
     {
@@ -13122,8 +13122,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homegallery_fallback",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "fallback"
     },
     {
@@ -13133,8 +13133,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homegallery_homegallery",
-      "community": 12,
-      "community_name": "Homepage Sections",
+      "community": 37,
+      "community_name": "Supabase Client & Avatar",
       "norm_label": "homegallery()"
     },
     {
@@ -13177,8 +13177,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "src_widgets_home_ui_homehero_homehero",
-      "community": 24,
-      "community_name": "Homepage Carousels",
+      "community": 85,
+      "community_name": "lucide-react",
       "norm_label": "homehero()"
     },
     {
@@ -35010,7 +35010,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/features/carousel-generator/lib/slides.ts",
-      "source_location": "L234",
+      "source_location": "L238",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_carousel_generator_lib_slides_buildcta",
@@ -35082,7 +35082,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/features/carousel-generator/lib/slides.ts",
-      "source_location": "L225",
+      "source_location": "L228",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_carousel_generator_lib_slides_buildcta",
@@ -35118,7 +35118,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/features/carousel-generator/lib/slides.ts",
-      "source_location": "L264",
+      "source_location": "L268",
       "weight": 1.0,
       "_origin": "ast",
       "source": "src_features_carousel_generator_lib_slides_buildcta",
@@ -65539,5 +65539,5 @@
       "source_file": "docs/superpowers/plans/2026-07-12-medium-style-article-editor.md"
     }
   ],
-  "built_at_commit": "da0d0c4c117c3f74bb8d86497eb68d93f0746f6e"
+  "built_at_commit": "7eb8336d80fe760f6d03848b93ba385e2fd3136b"
 }

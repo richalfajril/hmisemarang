@@ -1825,8 +1825,8 @@
     "semantic_hash": ""
   },
   "src/features/carousel-generator/lib/slides.ts": {
-    "mtime": 1784595874.2204106,
-    "ast_hash": "c576054a49843c1a82aa96cbf3e0ae42",
+    "mtime": 1784596599.2984507,
+    "ast_hash": "893f027662e59069ca9b91dc04bfeab5",
     "semantic_hash": ""
   },
   "src/features/carousel-generator/ui/GenerateCarouselModal.tsx": {

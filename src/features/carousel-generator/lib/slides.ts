@@ -222,17 +222,21 @@ export function buildCta(
   index: number,
   total: number,
 ): HTMLDivElement {
+  // Root is the flex column (like buildCover): header fixed, content area flex:1 fills the rest.
+  // Relying on flex:1 (not an explicit child height) survives html-to-image, which collapses
+  // explicit-height children and would kill the space-evenly distribution.
   const root = newRoot()
+  root.style.display = 'flex'
+  root.style.flexDirection = 'column'
 
   const header = document.createElement('img')
   header.src = headerDataUrl
-  header.style.cssText = `width:${SLIDE_W}px;height:${HEADER_H}px;object-fit:cover;display:block;`
+  header.style.cssText = `width:${SLIDE_W}px;height:${HEADER_H}px;object-fit:cover;display:block;flex:0 0 auto;`
   root.appendChild(header)
 
-  // Below the header: fill the rest (1110px), everything centered, three groups evenly spaced
-  // (judul / QR / caption+situs) via space-evenly.
+  // Content area fills the remaining height; three groups evenly spaced (judul / QR / caption+URL).
   const center = div(
-    `height:${SLIDE_H - HEADER_H}px;display:flex;flex-direction:column;align-items:center;` +
+    `flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;` +
       `justify-content:space-evenly;text-align:center;padding:0 ${SLIDE_PAD}px;box-sizing:border-box;`,
   )
 

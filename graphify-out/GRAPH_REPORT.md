@@ -1,16 +1,16 @@
 # Graph Report - hmisemarang  (2026-07-21)
 
 ## Corpus Check
-- 357 files · ~149,279 words
+- 357 files · ~149,319 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1643 nodes · 3995 edges · 141 communities (88 shown, 53 thin omitted)
+- 1643 nodes · 3995 edges · 139 communities (86 shown, 53 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 67 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `da0d0c4c`
+- Built from commit: `7eb8336d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -68,7 +68,6 @@
 - Excel Import Helpers
 - Root Layout & Providers
 - NotificationBell.tsx
-- InputGroup Component
 - Database Schema Concepts
 - Cadre Verification & Storage
 - Testimonial & Gallery Concepts
@@ -135,7 +134,6 @@
 - class-variance-authority
 - 3. Scope
 - @dnd-kit/sortable
-- html-to-image
 - tailwind-merge
 - @tanstack/react-query
 - zod
@@ -188,7 +186,7 @@
 - **Medium Editor Menu System** — docs_superpowers_plans_2026_07_12_medium_style_article_editor_medium_editor_component, docs_superpowers_plans_2026_07_12_medium_style_article_editor_bubble_menu, docs_superpowers_plans_2026_07_12_medium_style_article_editor_floating_menu, docs_superpowers_plans_2026_07_12_medium_style_article_editor_insert_items [EXTRACTED 1.00]
 - **Medium Editor Image Insert Flow** — docs_superpowers_plans_2026_07_12_medium_style_article_editor_image_upload_cloudinary, docs_superpowers_specs_2026_07_12_medium_style_article_editor_design_compress_image, docs_superpowers_specs_2026_07_12_medium_style_article_editor_design_upload_media_action [EXTRACTED 1.00]
 
-## Communities (141 total, 53 thin omitted)
+## Communities (139 total, 53 thin omitted)
 
 ### Community 0 - "Cabang Dashboard Sections"
 Cohesion: 0.08
@@ -238,10 +236,6 @@ Nodes (19): ArticleFormValues, articleSchema, ACCEPTED_FILE_TYPES, cadreVerifica
 Cohesion: 0.10
 Nodes (30): metadata, Page(), generateMetadata(), Page(), ARTICLE_FALLBACK, firstParagraph(), getAllPublicArticles, getArticleBySlug (+22 more)
 
-### Community 12 - "Homepage Sections"
-Cohesion: 0.20
-Nodes (9): Props, Props, Section(), getGalleryAlbums, CircularGallery(), CircularGalleryProps, GalleryAlbum, FALLBACK (+1 more)
-
 ### Community 13 - "Route Handlers & CMS Pages"
 Cohesion: 0.14
 Nodes (15): PopularCarousel(), containerVariants, GalleryBento(), GalleryPhoto, itemVariants, SPANS, useHorizontalWheel(), getTestimonials (+7 more)
@@ -255,8 +249,8 @@ Cohesion: 0.19
 Nodes (17): CommissariatAccountsPage(), metadata, authorize(), createCommissariatAccountAction(), deleteCommissariatAccountAction(), ensureCommissariat(), importCommissariatAccountsAction(), ImportResult (+9 more)
 
 ### Community 16 - "Global Search & Command Palette"
-Cohesion: 0.13
-Nodes (19): SearchResult, useDebounce(), ComboboxOption, ComboboxProps, Command(), CommandDialog(), CommandEmpty(), CommandGroup() (+11 more)
+Cohesion: 0.09
+Nodes (27): SearchResult, useDebounce(), ComboboxOption, ComboboxProps, Command(), CommandDialog(), CommandEmpty(), CommandGroup() (+19 more)
 
 ### Community 17 - "Organization Actions"
 Cohesion: 0.12
@@ -279,16 +273,16 @@ Cohesion: 0.21
 Nodes (20): metadata, Page(), generateMetadata(), Page(), timeFmt, AgendaGrid(), AgendaGridCard(), AgendaStatus (+12 more)
 
 ### Community 22 - "Public Landing & Search Box"
-Cohesion: 0.14
-Nodes (12): getPublicDocuments(), metadata, Page(), metadata, MISI, VALUES, DocumentSearchBox(), PublicDocument (+4 more)
+Cohesion: 0.11
+Nodes (20): getPublicDocuments(), metadata, Page(), metadata, Page(), metadata, metadata, MISI (+12 more)
 
 ### Community 23 - "Website Layout & Hero"
 Cohesion: 0.22
 Nodes (8): bricolage, geistMono, metadata, RootLayout(), rubik, viewport, Providers(), ConfirmProvider()
 
 ### Community 24 - "Homepage Carousels"
-Cohesion: 0.16
-Nodes (16): metadata, Page(), metadata, Page(), HeroSearchBox(), PageHero(), AGENDA_FALLBACK, GALLERY_FALLBACK (+8 more)
+Cohesion: 0.14
+Nodes (16): AnimatedSection(), Props, Props, Section(), AGENDA_FALLBACK, getFeaturedArticles, getUpcomingAgendas, PublicTestimonial (+8 more)
 
 ### Community 25 - "About/Gallery Sections"
 Cohesion: 0.12
@@ -340,7 +334,7 @@ Nodes (6): ForbiddenPage(), NotFoundPage(), metadata, buttonVariants, EmptyState
 
 ### Community 37 - "Supabase Client & Avatar"
 Cohesion: 0.15
-Nodes (15): AnimatedSection(), getFeaturedArticles, HomeAbout(), Article, dateFmt, FALLBACK, formatMeta(), HomeArticles() (+7 more)
+Nodes (13): getGalleryAlbums, CircularGallery(), CircularGalleryProps, GalleryAlbum, HomeAbout(), FALLBACK, HomeGallery(), AboutSkeleton() (+5 more)
 
 ### Community 38 - "Media Cleanup"
 Cohesion: 0.44
@@ -352,7 +346,7 @@ Nodes (11): CSS Variable Tokens, Adding Custom Colors, Customization & Theming, 
 
 ### Community 40 - "Core Runtime Dependencies"
 Cohesion: 0.18
-Nodes (11): @base-ui/react, class-variance-authority, cloudinary, @google/model-viewer, lucide-react, dependencies, @base-ui/react, class-variance-authority (+3 more)
+Nodes (11): class-variance-authority, cloudinary, @google/model-viewer, html-to-image, lucide-react, dependencies, class-variance-authority, cloudinary (+3 more)
 
 ### Community 41 - "Dashboard Layout & Header"
 Cohesion: 0.14
@@ -397,10 +391,6 @@ Nodes (9): 23. API Specification, Authorization, Endpoint, Error Response, Previ
 ### Community 52 - "NotificationBell.tsx"
 Cohesion: 0.16
 Nodes (11): STATIC_PATHS, Page(), generateMetadata(), WebsiteLayout(), getWebsiteSettings, NavLink, PUBLIC_NAV_LINKS, SITE_KEYWORDS (+3 more)
-
-### Community 53 - "InputGroup Component"
-Cohesion: 0.28
-Nodes (8): InputGroup(), InputGroupAddon(), inputGroupAddonVariants, InputGroupButton(), inputGroupButtonVariants, InputGroupInput(), InputGroupText(), InputGroupTextarea()
 
 ### Community 54 - "Database Schema Concepts"
 Cohesion: 0.17
@@ -467,8 +457,8 @@ Cohesion: 0.27
 Nodes (9): KomisariatGrid(), PublicCommissariat, activatePeriodAction(), archivePeriodAction(), PeriodData, PeriodList(), useClientPagination(), pageRange() (+1 more)
 
 ### Community 85 - "lucide-react"
-Cohesion: 0.29
-Nodes (6): CountUp(), HeroBackground(), isVideo(), HeroSearchBar(), FALLBACK, METRICS
+Cohesion: 0.22
+Nodes (9): Page(), getPublicCommissariats, CountUp(), HeroBackground(), isVideo(), HeroSearchBar(), FALLBACK, HomeHero() (+1 more)
 
 ### Community 86 - "next"
 Cohesion: 0.50
@@ -510,9 +500,9 @@ Nodes (5): getSignedDocumentUrlAction(), DocumentEntry, DocumentList(), Document
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `cn()` connect `UI Primitives (cn/Drawer)` to `Cabang Dashboard Sections`, `Public Listing Pages`, `CMS Create/Edit Pages`, `SEO & Public Detail Pages`, `CMS Admin Settings Pages`, `Homepage Sections`, `Route Handlers & CMS Pages`, `Global Search & Command Palette`, `Chart Components`, `Public Landing & Search Box`, `Website Layout & Hero`, `Homepage Carousels`, `Login & Auth Form`, `Review Queue & Taxonomy Tabs`, `Sheet & Public Header`, `Error/Empty States & Search`, `Supabase Client & Avatar`, `Review Schema & Split Screen`, `Profile & Settings Schemas`, `InputGroup Component`, `actions.ts`?**
+- **Why does `cn()` connect `UI Primitives (cn/Drawer)` to `Cabang Dashboard Sections`, `Public Listing Pages`, `actions.ts`, `Error/Empty States & Search`, `CMS Create/Edit Pages`, `SEO & Public Detail Pages`, `CMS Admin Settings Pages`, `Review Schema & Split Screen`, `Route Handlers & CMS Pages`, `Global Search & Command Palette`, `Profile & Settings Schemas`, `Chart Components`, `Public Landing & Search Box`, `Website Layout & Hero`, `Homepage Carousels`, `Login & Auth Form`, `Review Queue & Taxonomy Tabs`, `Sheet & Public Header`?**
   _High betweenness centrality (0.170) - this node is a cross-community bridge._
-- **Why does `dependencies` connect `Core Runtime Dependencies` to `@dnd-kit/sortable`, `html-to-image`, `tailwind-merge`, `Dev Dependencies & Tooling`, `zod`, `shadcn`, `@tanstack/react-query`, `jszip`, `next`, `qrcode`, `CMS Admin Settings Pages`, `@tiptap/extension-youtube`, `@tiptap/react`, `Board Member Card & Socials`, `Excel Import Helpers`, `page.tsx`, `clsx`, `cmdk`, `@dnd-kit/core`, `@dnd-kit/modifiers`, `@dnd-kit/utilities`, `radix-ui`, `react-dom`, `react-icons`, `recharts`, `sonner`, `@supabase/ssr`, `@supabase/supabase-js`, `@tanstack/react-table`, `@tiptap/extension-image`, `@tiptap/extension-link`, `@tiptap/extension-placeholder`, `@tiptap/pm`, `@tiptap/starter-kit`, `tw-animate-css`, `vaul`, `@vercel/analytics`, `@vercel/speed-insights`, `zustand`?**
+- **Why does `dependencies` connect `Core Runtime Dependencies` to `@dnd-kit/sortable`, `tailwind-merge`, `Dev Dependencies & Tooling`, `zod`, `shadcn`, `@tanstack/react-query`, `jszip`, `next`, `qrcode`, `Homepage Sections`, `CMS Admin Settings Pages`, `@tiptap/extension-youtube`, `@tiptap/react`, `Board Member Card & Socials`, `Excel Import Helpers`, `page.tsx`, `clsx`, `cmdk`, `@dnd-kit/core`, `@dnd-kit/modifiers`, `@dnd-kit/utilities`, `radix-ui`, `react-dom`, `react-icons`, `recharts`, `sonner`, `@supabase/ssr`, `@supabase/supabase-js`, `@tanstack/react-table`, `@tiptap/extension-image`, `@tiptap/extension-link`, `@tiptap/extension-placeholder`, `@tiptap/pm`, `@tiptap/starter-kit`, `tw-animate-css`, `vaul`, `@vercel/analytics`, `@vercel/speed-insights`, `zustand`?**
   _High betweenness centrality (0.113) - this node is a cross-community bridge._
 - **Why does `react` connect `CMS Admin Settings Pages` to `Core Runtime Dependencies`, `Cabang Dashboard Sections`, `UI Primitives (cn/Drawer)`, `Chart Components`?**
   _High betweenness centrality (0.074) - this node is a cross-community bridge._
